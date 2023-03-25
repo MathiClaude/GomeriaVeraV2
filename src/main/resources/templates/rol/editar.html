@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-4">Editar Rol</h1>
+
+  <form method="POST" th:action="@{/roles/{id}(id=${rol.idRol})}" th:object="${rol}">
+    <th:block th:include="fragment/error-message.html"></th:block>
+
+    <fieldset>
+      <legend>Información del Rol</legend>
+      <div class="mb-3"> <!-- margen button -->
+        <label class="form-label">Id Rol: [[${rol.idRol}]]</label>
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputNombre2" class="form-label">Nombre Rol</label>
+        <input type="text" class="form-control" id="inputNombre2" name="nombre" th:value="${rol.nombre}">
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputNombre2" class="form-label">Descripcion Rol</label>
+        <input type="text" class="form-control" id="inputNombre2" name="descripcion" th:value="${rol.descripcion}">
+      </div>
+    </fieldset>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <a th:href="@{/roles}" class="btn btn-outline-secondary w-100">
+          Atrás
+        </a>
+      </div>
+      <div class="col-sm-6">
+        <button type="submit" class="btn btn-warning w-100">Modificar Rol</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

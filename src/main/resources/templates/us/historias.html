@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-4" th:text="${project.titulo}">Proyecto #1</h1>
+
+  <th:block th:include="fragment/success-message.html"></th:block>
+
+  <div class="table-responsive">
+    <h2 th:text="${objSprint.titulo}">User Stories</h2>
+    <a th:if="${permisoCrear eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/nuevo(id1=${project.idProyecto},id2=${objSprint.idSprint})}" class="btn btn-outline-success mb-3">
+      <i class="fa-solid fa-user-plus"></i> Nuevo US
+    </a>
+    <a th:if="${permisoVerKanban eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/kanban(id1=${project.idProyecto},id2=${objSprint.idSprint})}" class="btn btn-outline-success mb-3">
+      <i class="fa-solid fa-clipboard"></i> Kanban
+    </a>
+
+    <div th:if="${permisoVer eq false}">
+      <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+    </div>
+    <table th:if="${permisoVer eq true}" class="table table-sm table-bordered">
+      <thead>
+      <tr class="text-center">
+        <th>Descripción</th>
+        <th>Observación</th>
+        <th>Estado</th>
+        <th>Prioridad</th>
+        <th>Asignado a</th>
+        <th>Acción</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:if="${#lists.isEmpty(objSprint.userStories)}">
+        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td>
+      </tr>
+      <tr class="text-center" th:each="item: ${objSprint.userStories}">
+        <td th:text="${item.descripcion}">ninguno</td>
+        <td th:text="${item.observacion}">ninguno</td>
+        <td th:text="${item.estado}">en proceso</td>
+        <td th:text="${item.prioridad}">alta</td>
+        <td th:text="${item.usuario != null}?${item.usuario.username}:'Sin asignar'">usuario</td>
+        <td>
+          <div class="btn-group">
+            <a th:if="${permisoActualizar eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
+              <button type="button" class="btn btn-sm btn-outline-primary">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+            </a>
+            <a th:if="${permisoEliminar eq true}" th:href="@{/proyectos/{id1}/sprints/{id2}/historias/{id3}/delete(id1=${project.idProyecto},id2=${objSprint.idSprint},id3=${item.idHistoria})}">
+              <button type="button" class="btn btn-sm btn-outline-danger">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

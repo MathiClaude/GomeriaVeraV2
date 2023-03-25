@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+    <h1 class="text-center mb-4">Nuevo Rol</h1>
+
+    <form method="post" th:action="@{/roles/crear}" th:object="${rol}">
+        <fieldset>
+            <legend>Información del Rol</legend>
+            <div class="mb-3"> <!-- margen button -->
+                <label for="input1" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="input1" name="nombre" placeholder="Introduzca un nombre" autofocus>
+            </div>
+            <div class="mb-3"> <!-- margen button -->
+                <label for="input2" class="form-label">Descripcion</label>
+                <input type="text" class="form-control" id="input2" name="descripcion" placeholder="Introduzca una descripcion" autofocus>
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="col-sm-6">
+                <a th:href="@{/roles}" class="btn btn-outline-secondary w-100">
+                    Atrás
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <button type="submit" class="btn btn-success w-100">Guardar Rol</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

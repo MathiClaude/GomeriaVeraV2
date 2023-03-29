@@ -1,22 +1,29 @@
 <!DOCTYPE html>
-<script src="D:\Codes\Proyecto Final FPUNA\GomeriaVera\Frontend\Controller\login.js"></script>
-<script src="ejemplo/njsjs.js"></script>
+<!--script src="D:\Codes\Proyecto Final FPUNA\GomeriaVera\Frontend\Controller\login.js"></script>
+<script src="ejemplo/njsjs.js"></script-->
 
 <html lang="en">
+  
   <head>
+    <!--icono de app web-->
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
+    
     <meta charset="UTF-8" />
-    <link rel="icon" type="image" href="D:\Codes\Proyecto Final FPUNA\GomeriaVera\Frontend\Vistas\assets\logo.svg" />
+    <link rel="icon" type="image" href="@{/img/logo.svg" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Iniciar Sesión</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
+      rel="stylesheet" 
       integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
       crossorigin="anonymous"
     />
+    
   </head>
   <body class="bg-info d-flex justify-content-center align-items-center vh-100">
+    
     <form id="formX" th:action="@{/login}" method="post" class="formulario">
     <div
       class="bg-white p-5 rounded-5 text-secondary shadow"
@@ -25,14 +32,13 @@
     <div>
       <img th:src="@{/img/logo.png}" class="wp-image-4532" width="110" height="110"/> <!--falta centrar img-->
     </div>
-      <div class="text-center fs-1 fw-bold">Iniciar Sesión</div>
+      <div class="text-center fs-1 fw-bold text-black">Iniciar Sesión</div>
       <div class="input-group mt-4">
         <div class="input-group-text bg-info">
-          <img
-            src="D:\Codes\Proyecto Final FPUNA\GomeriaVera\Frontend\Vistas\assets\username-icon.svg"
+          <img th:src="@{/img/username-icon.svg}"
             alt="username-icon"
             style="height: 1rem"
-          />
+          />  
         </div>
         <input
           class="form-control bg-light"
@@ -44,8 +50,7 @@
       </div>
       <div class="input-group mt-1">
         <div class="input-group-text bg-info">
-          <img
-            src="D:\Codes\Proyecto Final FPUNA\GomeriaVera\Frontend\Vistas\assets\password-icon.svg"
+          <img th:src="@{/img/password-icon.svg}"
             alt="password-icon"
             style="height: 1rem"
           />

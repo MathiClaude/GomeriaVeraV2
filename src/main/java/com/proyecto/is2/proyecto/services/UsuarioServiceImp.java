@@ -37,7 +37,7 @@ public class UsuarioServiceImp implements UsuarioService {
     public void convertirDTO(Usuario usuario, UsuarioDTO objetoDTO) {
         usuario.setUsername(objetoDTO.getUser());
         usuario.setEmail(objetoDTO.getEmail());
-        usuario.setPassword(passwordEncoder.encode(objetoDTO.getPassword()));
+        usuario.setPassword(passwordEncoder.encode(objetoDTO.getPassword()));//codificamos el passoword
         return;
     }
 
@@ -139,7 +139,7 @@ public class UsuarioServiceImp implements UsuarioService {
         return;
     }
 
-    private Collection<? extends GrantedAuthority> mapearPermisos(Set<Permiso> permisos) {
+    private Collection<? extends GrantedAuthority> mapearPermisos(Set<Permiso> permisos) {//este no entiendo bien aun
         /* Mapea cada permiso del usuario a una lista para que Spring security reconozca como
          * permiso en el sistema.
          * */

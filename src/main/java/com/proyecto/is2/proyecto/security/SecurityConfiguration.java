@@ -18,10 +18,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UsuarioService usuarioService;
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+    public BCryptPasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }//como se va a codificar la contrasena
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider authenticationProvider() {//como se van obtener o extraer los datos de los usuarios
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(usuarioService);
         auth.setPasswordEncoder(passwordEncoder());
@@ -29,14 +29,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {//valida los request
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/**",
-                        "/css/**","/js/**","/img/**", "/assets/**", "/usuarios/")
+                        "/css/**","/js/**","/img/**", "/assets/**", "/usuarios/")//se da permiso a las rutas
                 .permitAll()
                 .anyRequest()
-                .hasAuthority("conectarse")
+                .hasAuthority("conectarse")//consultar
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -47,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/login")//mensaje de logout
                 .permitAll();
     }
 }

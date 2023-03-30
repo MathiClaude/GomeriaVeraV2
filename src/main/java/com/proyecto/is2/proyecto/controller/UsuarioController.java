@@ -38,7 +38,7 @@ public class UsuarioController {
     private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
 
     @Autowired
-    private RolServiceImp rolService;
+    private RolServiceImp rolService;//llamada a servicios de roles
 
     /**
      * Instancia un UsuarioDTO para rellenar con datos
@@ -64,7 +64,7 @@ public class UsuarioController {
         //        }
 
         if(consultar) {
-            model.addAttribute("listUser", usuarioService.listarUsuarios());
+            model.addAttribute("listUser", usuarioService.listarUsuarios());//lista los usuarios
         } else {
             return FALTA_PERMISO_VIEW;
         }

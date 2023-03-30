@@ -34,11 +34,10 @@
     </div>
       <div class="text-center fs-1 fw-bold text-black">Iniciar Sesión</div>
       <div class="input-group mt-4">
-        <div class="input-group-text bg-info">
+        <div class="input-group-text bg-info bg-black">
           <img th:src="@{/img/username-icon.svg}"
             alt="username-icon"
             style="height: 1rem"
-            
           />  
         </div>
         <input
@@ -50,7 +49,7 @@
         />
       </div>
       <div class="input-group mt-1">
-        <div class="input-group-text bg-info">
+        <div class="input-group-text bg-info bg-black">
           <img th:src="@{/img/password-icon.svg}"
             alt="password-icon"
             style="height: 1rem"
@@ -79,7 +78,7 @@
         </div>
       </div>
       <a th:href="@{/}">
-        <div class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm" onclick="()=>{document.getElementById('formX').submit();}">
+        <div class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm bg-black" onclick="()=>{document.getElementById('formX').submit();}">
           Iniciar Sesión
         </div>
       </a>

@@ -19,7 +19,8 @@ h1{
 }
 div {
     text-align: center;
-  }
+
+}
 input[type="text"],
 input[type="password"]{
     font-size: 20px;
@@ -60,6 +61,7 @@ p{
 .link:hover{
      color: #FFA2FD;
 }
+
 @media(min-width:768px)
 {
     .formulario{

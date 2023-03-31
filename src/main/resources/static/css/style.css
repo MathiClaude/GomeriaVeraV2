@@ -62,6 +62,12 @@ p{
      color: #FFA2FD;
 }
 
+.contenedor img{
+    width: 200px;
+    height: 200px;
+    text-align: center;
+}
+
 @media(min-width:768px)
 {
     .formulario{

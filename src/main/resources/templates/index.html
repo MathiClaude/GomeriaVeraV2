@@ -55,7 +55,7 @@
         <!--li><a th:href="@{/usuarios}"><i class="bx bx-user"></i> <span>Seguridad</span></a></li><!agg acá usuarios, roles, permisos como en venta-->
         <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contacto</span></a></li>
         <!--exit-->
-        <li><a th:href="@{/logout}"><i class="bx bx-exit"></i> <span>Cerrar sesión</span></a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}"><i class="bx bx-exit"></i> <span>Cerrar sesión</span></a></li>
       </ul>
     </nav><!-- .nav-menu -->
 

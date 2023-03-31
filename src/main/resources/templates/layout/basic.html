@@ -36,8 +36,8 @@
               Usuarios <!--Para listar los usuarios existentes-->
             </a>
           </li>
-          <li class="nav-item">
-            <a th:href="@{/login}" class="nav-link text-white text-center">
+          <li class="nav-item" sec:authorize="isAuthenticated()">
+            <a th:href="@{/logout}" class="nav-link text-white text-center">
               <i class="fa-solid fa-right-from-bracket"></i>
               Cerrar Sesión
             </a>

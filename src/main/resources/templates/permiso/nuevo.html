@@ -2,7 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-    <h1 class="text-center mb-4">Nuevo Permiso</h1>
+    <!--logo personita-->
+    <div>
+        <img th:src="@{/img/permisos.png}" class="center wp-image-4532"/> <!--div center img-->
+      </div>
+      <br> 
+      <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">Nuevo Permiso</b></h1> <!--titulo-->
 
     <form method="post" th:action="@{/permisos/crear}" th:object="${modelPermiso}">
         <fieldset>
@@ -25,7 +30,7 @@
         </fieldset>
         <div class="row">
             <div class="col-sm-6">
-                <a th:href="@{/permisos}" class="btn btn-outline-secondary w-100">
+                <a th:href="@{/permisos}" class="btn btn-outline-info w-100">
                     Atrás
                 </a>
             </div>

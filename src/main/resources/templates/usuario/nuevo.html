@@ -10,7 +10,8 @@
         <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">Nuevo Usuario</b></h1> <!--titulo-->
     <form method="post" th:action="@{/usuarios/crear}" th:object="${usuario}">
         <fieldset>
-            <legend>Información del Usuario</legend>
+            <legend style="color:#21618C">Información del Usuario</legend>
+            <br> <!--separador-->
             <div class="mb-3"> <!-- margen button -->
                 <label for="inputUsuario" class="form-label">Usuario</label>
                 <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca el nombre" autofocus>

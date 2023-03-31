@@ -4,23 +4,23 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-    <h1 class="text-center mb-4">Permisos</h1>
+    <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">Permisos</b></h1> <!--titulo-->
 
     <th:block th:include="fragment/success-message.html"></th:block>
 
     <th:block th:if="${permisoCrear eq true}">
-        <a th:href="@{/permisos/nuevo}" class="btn btn-outline-success mb-3">
-            <i class="fa-solid fa-rol-plus"></i> Nuevo Permiso
+        <a th:href="@{/permisos/nuevo}" class="btn btn-success mb-4">
+            <i class="fa-solid fa-user-plus"></i>  Nuevo Permiso
         </a>
     </th:block>
 
     <tr th:if="${permisoVer eq false}">
         <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
     </tr>
-    <div th:if="${permisoVer eq true}" class="table-responsive">
-        <table class="table table-sm table-bordered">
-            <thead>
-            <tr class="text-center">
+    <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
+        <table class="table table-striped mb-0" ><!---->
+          <thead style="background-color: #0a4275;"><!---->
+          <tr class="text-center"><!---->
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Vista</th>
@@ -51,8 +51,9 @@
             </tr>
             </tbody>
         </table>
+        <br> 
     </div>
-    <a th:href="@{/}" class="btn btn-primary btn-sm" Text-align: center>
+    <a th:href="@{/}" class="btn btn-outline-primary">
         <i class="fa fa-backward" aria-hidden="true"></i> Atrás 
       </a>
 </div>

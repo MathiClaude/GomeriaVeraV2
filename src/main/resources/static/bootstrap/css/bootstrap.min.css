@@ -44,3 +44,6 @@ thead {
   top: 0;
   position: sticky;
 }
+h1 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

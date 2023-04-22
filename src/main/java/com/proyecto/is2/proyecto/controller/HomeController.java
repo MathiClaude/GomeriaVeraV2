@@ -1,5 +1,4 @@
 package com.proyecto.is2.proyecto.controller;
-
 import com.proyecto.is2.proyecto.Util.GeneralUtils;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;

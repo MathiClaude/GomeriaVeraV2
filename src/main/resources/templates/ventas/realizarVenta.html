@@ -1,47 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
 <body>
-<div layout:fragment="content">
+  <div layout:fragment="content">
     <!--logo personita-->
     <div>
-        <img th:src="@{/img/realizarVenta.png}" class="center wp-image-4532"/> <!--div center img-->
-      </div>
-      <br> 
-        <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">Realizar Venta</b></h1> <!--titulo-->
-        <!-- Tabs navs -->
-<ul class="nav nav-tabs mb-3" id="ex-with-icons" role="tablist">
-    <li class="nav-item" role="presentation">
-      <a class="nav-link active" id="ex-with-icons-tab-1" data-mdb-toggle="tab" href="#ex-with-icons-tabs-1" role="tab"
-        aria-controls="ex-with-icons-tabs-1" aria-selected="true"><i class="fas fa-chart-pie fa-fw me-2"></i>Cliente</a>
-        
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="ex-with-icons-tab-2" data-mdb-toggle="tab" href="#ex-with-icons-tabs-2" role="tab"
-        aria-controls="ex-with-icons-tabs-2" aria-selected="false"><i class="fas fa-chart-line fa-fw me-2"></i>Producto</a>
-    </li>
-    <li class="nav-item" role="presentation">
-      <a class="nav-link" id="ex-with-icons-tab-3" data-mdb-toggle="tab" href="#ex-with-icons-tabs-3" role="tab"
-        aria-controls="ex-with-icons-tabs-3" aria-selected="false"><i class="fas fa-cogs fa-fw me-2"></i>Método de Pago</a>
-    </li>
-  </ul>
-  <!-- Tabs navs -->
-  
-  <!-- Tabs content -->
-  <div class="tab-content" id="ex-with-icons-content">
-    <div class="tab-pane fade show active" id="ex-with-icons-tabs-1" role="tabpanel" aria-labelledby="ex-with-icons-tab-1">
-      <legend style="color:#21618C">Cliente</legend>
-            <br> <!--separador-->
-    <select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
-        <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
-    </select>
-    <th:block th:if="${permisoCrear eq true}"><!--pesto es de permisos user - modificar a uno para registrar clientes-->
-    <a th:href="@{/ventas/reg}" class="btn btn-success mb-4">
-      <i class="fa-solid fa-user-plus"></i> Registrar Cliente
-    </a>
-  </th:block> <!--modificar front-->
+      <img th:src="@{/img/realizarVenta.png}" class="center wp-image-4532"/> <!--div center img-->
     </div>
-
-</div>
+    <br> 
+    <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">Realizar Venta</b></h1> <!--titulo-->
+    <!-- Tabs navs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabCliente" type="button" role="tab" aria-controls="tabCliente" aria-selected="true"><i class="fas fa-chart-pie fa-fw me-2"></i>Cliente</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#ex-with-icons-tabs-2" type="button" role="tab" aria-controls="ex-with-icons-tabs-2" aria-selected="false"><i class="fas fa-chart-pie fa-fw me-2"></i>Producto</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#ex-with-icons-tabs-3" type="button" role="tab" aria-controls="ex-with-icons-tabs-3" aria-selected="false"><i class="fas fa-chart-pie fa-fw me-2"></i>Método de Pago</button>
+      </li>
+    </ul>
+    <!-- Tabs content -->
+    <div class="tab-content" id="ex-with-icons-content">
+      <div class="tab-pane fade show active" id="tabCliente" role="tabpanel" aria-labelledby="tabCliente">
+        <legend style="color:#21618C">Cliente</legend>
+        <div class="container">
+          <div class="row">
+            <div class="col-4">
+              <select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
+                <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
+              </select>
+            </div>
+            <div class="col-4">
+              <th:block th:if="${permisoCrear eq true}"><!--pesto es de permisos user - modificar a uno para registrar clientes-->
+              <a th:href="@{/registrarCliente}" class="btn btn-success mb-4">
+                <i class="fa-solid fa-user-plus"></i> Registrar Cliente
+              </a>
+            </th:block> <!--modificar front-->
+            </div>
+          </div>
+        </div>
+    
+    </div>
+    <!---->
     <div class="tab-pane fade" id="ex-with-icons-tabs-2" role="tabpanel" aria-labelledby="ex-with-icons-tab-2">
       Tab 2 content
     </div>
@@ -49,7 +50,9 @@
       Tab 3 content
     </div>
   </div>
-  <!-- Tabs content -->
+
+</div>
+<!-- Tabs content -->
 </div>
 
 </body>

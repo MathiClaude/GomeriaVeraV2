@@ -11,13 +11,13 @@
     <!-- Tabs navs -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabCliente" type="button" role="tab" aria-controls="tabCliente" aria-selected="true"><i class="fas fa-chart-pie fa-fw me-2"></i>Cliente</button>
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabCliente" type="button" role="tab" aria-controls="tabCliente" aria-selected="true"><i class="fas fa-user fa-fw me-2"></i>Cliente</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabProducto" type="button" role="tab" aria-controls="tabProducto" aria-selected="false"><i class="fas fa-chart-pie fa-fw me-2"></i>Producto</button>
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabProducto" type="button" role="tab" aria-controls="tabProducto" aria-selected="false"><i class="fas fa-shopping-cart fa-fw me-2"></i>Producto</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabPago" type="button" role="tab" aria-controls="tabPago" aria-selected="false"><i class="fas fa-chart-pie fa-fw me-2"></i>Método de Pago</button>
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabPago" type="button" role="tab" aria-controls="tabPago" aria-selected="false"><i class="fas fa-credit-card fa-fw me-2"></i>Método de Pago</button>
       </li>
     </ul>
     <br>
@@ -45,29 +45,72 @@
     
     </div>
     <!--contenido de Producto-->
-    
     <div class="tab-pane fade" id="tabProducto" role="tabpanel" aria-labelledby="tabProducto">
       <legend style="color:#21618C">Producto</legend>
-        <div class="container">
-          <div class="row">
-            <div class="col-6">
-              <select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
-                <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
-              </select>
-            </div>
+        <!--Form para seleccionar el producto-->
+        <div class="row mb-4">
+          <div class="col">
+              <div class="form-outline">
+                  <label for="inputUsuario" class="form-label">Producto</label>
+                  <!--select de los productos existentes en la base de datos-->
+                  <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idProducto">
+                      <option th:each="elemento : ${productos}" th:value="${elemento.idProducto}" th:text="${elemento.toString()}"></option>
+                  </select-->
+                  <!--esto debe cambiarse a lo de arriba cuando exista la BD-->
+                  <select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
+                    <option value="1">Espejos retrovisores</option>
+                    <option value="2">Manecillas</option>
+                    <option value="3">Capots</option>
+                  </select>
+              </div>
           </div>
-        </div>
-        <div class="container">
-          <div class="row">
-            <div class="col-3">
-              <div class="mb-3"> <!-- margen button -->
-                <legend style="color:#21618C">Cantidad</legend>
-                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca cantidad" autofocus>
-            </div>
+          
+          <!--Cantidad de Productos-->
+          <div class="col">
+              <div class="form-outline">
+                  <label for="inputUsuario" class="form-label">Cantidad Producto</label>
+                  <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca la cantidad deseada" autofocus>
+              </div>
           </div>
-        </div>
-        
+          
       </div>
+
+      <!--ESTO SE DEBE MODIFICAR-->
+      <table class="table table-striped mb-0" ><!---->
+        <thead style="background-color: #0a4275;"><!---->
+        <tr class="text-center"><!---->
+          <th>Producto</th><!---->
+          <th>Cantidad</th><!---->
+          <th>Precio</th><!---->
+          <th>Acción</th><!---->
+        </tr><!---->
+        </thead><!---->
+        <tbody><!---->
+        <tr th:if="${#lists.isEmpty(listUser)}"><!---->
+          <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+        </tr><!---->
+        <tr class="text-center" th:each="user: ${listUser}">
+          <td th:text="${user.username}">Name</td>
+          <td th:text="${user.email}">Email</td><!---->
+          <td th:text="${user.rol.nombre}">Age</td>
+          <td><!---->
+            <div class="btn-group"><!---->
+              <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 
+                 class="btn btn-sm btn-outline-primary"><!---->
+                <i class="fa-solid fa-pen-to-square"></i><!---->
+              </a>
+              <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
+                <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                  <i class="fa-sharp fa-solid fa-trash"></i>
+                </button>
+              </a>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+
     </div>
     <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
       Tab 3 content

@@ -14,13 +14,13 @@
         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabCliente" type="button" role="tab" aria-controls="tabCliente" aria-selected="true"><i class="fas fa-chart-pie fa-fw me-2"></i>Cliente</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#ex-with-icons-tabs-2" type="button" role="tab" aria-controls="ex-with-icons-tabs-2" aria-selected="false"><i class="fas fa-chart-pie fa-fw me-2"></i>Producto</button>
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabProducto" type="button" role="tab" aria-controls="tabProducto" aria-selected="false"><i class="fas fa-chart-pie fa-fw me-2"></i>Producto</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#ex-with-icons-tabs-3" type="button" role="tab" aria-controls="ex-with-icons-tabs-3" aria-selected="false"><i class="fas fa-chart-pie fa-fw me-2"></i>Método de Pago</button>
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabPago" type="button" role="tab" aria-controls="tabPago" aria-selected="false"><i class="fas fa-chart-pie fa-fw me-2"></i>Método de Pago</button>
       </li>
     </ul>
-    
+    <br>
     <!-- Tabs content -->
     <div class="tab-content" id="ex-with-icons-content">
       <div class="tab-pane fade show active" id="tabCliente" role="tabpanel" aria-labelledby="tabCliente">
@@ -32,8 +32,9 @@
                 <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
               </select>
             </div>
+            <!--botón de registro-->
             <div class="col-4">
-              <th:block th:if="${permisoCrear eq true}"><!--pesto es de permisos user - modificar a uno para registrar clientes-->
+              <th:block th:if="${permisoCrear eq true}"><!--esto es de permisos user - modificar a uno para registrar clientes-->
               <a th:href="@{/registrarCliente}" class="btn btn-success mb-4">
                 <i class="fa-solid fa-user-plus"></i> Registrar Cliente
               </a>
@@ -43,13 +44,40 @@
         </div>
     
     </div>
-    <!---->
-    <div class="tab-pane fade" id="ex-with-icons-tabs-2" role="tabpanel" aria-labelledby="ex-with-icons-tab-2">
-      Tab 2 content
+    <!--contenido de Producto-->
+    
+    <div class="tab-pane fade" id="tabProducto" role="tabpanel" aria-labelledby="tabProducto">
+      <legend style="color:#21618C">Producto</legend>
+        <div class="container">
+          <div class="row">
+            <div class="col-6">
+              <select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
+                <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-3">
+              <div class="mb-3"> <!-- margen button -->
+                <legend style="color:#21618C">Cantidad</legend>
+                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca cantidad" autofocus>
+            </div>
+          </div>
+        </div>
+        
+      </div>
     </div>
-    <div class="tab-pane fade" id="ex-with-icons-tabs-3" role="tabpanel" aria-labelledby="ex-with-icons-tab-3">
+    <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
       Tab 3 content
     </div>
+    <div class="row">
+      <div class="col-sm-1">
+          <a th:href="@{/}" class="btn btn-outline-info w-100">
+              Atrás
+          </a>
+      </div>
   </div>
 
 </div>

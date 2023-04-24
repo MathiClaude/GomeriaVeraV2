@@ -1227,3 +1227,12 @@ section {
 #footer .credits {
   font-size: 13px;
 }
+
+
+iframe:focus {
+  outline: none;
+}
+
+iframe[seamless] {
+  display: block;
+}

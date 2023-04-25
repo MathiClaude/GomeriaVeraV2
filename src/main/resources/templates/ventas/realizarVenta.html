@@ -76,7 +76,7 @@
                 <div class="modal-content">
                   <!--Header-->
                   <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Your cart</h4>
+                    <h4 class="modal-title" id="myModalLabel">Lista de Productos</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">×</span>
                     </button>
@@ -84,7 +84,7 @@
                   <!--Body-->
                   <div class="modal-body">
                     
-                    <table class="table table-hover">
+                    <table class="table table-hover table-striped">
                       <thead>
                         <tr>
                           <th>#</th>
@@ -93,6 +93,7 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <!--ESTO DEBE IR EN LA BASE DE DATOS DE PRODUCTOS-->
                         <tr>
                           <th scope="row">1</th>
                           <td>Cubierta Pirelli Cinturato P1 195/60R15 88H</td>
@@ -144,7 +145,10 @@
                         <tr class="total">
                           <th scope="row">9</th>
                           <td>Cubierta Kumho Road Venture AT51 245/75 R16 SL T 3</td>
-                          <td>Gs. 1.287.466</td>
+                          <td>Gs. 1.162.558</td>
+                            <td><a><i class="fas fa-times"></i></a></td>
+                          </tr>
+                        </tr>
                           <tr>
                             <th scope="row">10</th>
                             <td>Gato Hidráulico ST-112 Tipo Tijera 2 Toneladas
@@ -248,24 +252,24 @@
   <div class="form-check">
     <!--opción 1-->
     <div>
-      <input type="radio" id="mostrar-contenido">
+      <input type="radio" id="mostrar-contenido" name="tipoPago">
       <label for="mostrar-contenido">Efectivo</label>
       <div id="contenido" style="display:none">
-        Contenido que se oculta o muestra
+        trolo : D
       </div>
     </div>
     
     <!--opción 2-->
-    <div>
-      <input type="radio" id="mostrar-contenido">
+    <!--div>
+      <input type="radio" id="mostrar-contenido" name="tipoPago">
       <label for="mostrar-contenido">Transferencia Bancaria</label>
       <div id="contenido" style="display:none">
         Enviar cuenta bancaria al cliente registrado (Número de teléfono)
       </div>
-    </div>
+    </div-->
     <!--opción 3-->
     <div>
-      <input type="radio" id="mostrar-contenido">
+      <input type="radio" id="mostrar-contenido" name="tipoPago">
       <label for="mostrar-contenido">Bancard</label>
       <div id="contenido" style="display:none">
         <div>

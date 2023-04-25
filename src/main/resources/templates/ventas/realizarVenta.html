@@ -39,53 +39,183 @@
                 <i class="fa-solid fa-user-plus"></i> Registrar Cliente
               </a>
             </th:block> <!--modificar front-->
-            </div>
           </div>
         </div>
-    
+      </div>
+      
     </div>
     <!--contenido de Producto-->
     <div class="tab-pane fade" id="tabProducto" role="tabpanel" aria-labelledby="tabProducto">
       <legend style="color:#21618C">Producto</legend>
-        <!--Form para seleccionar el producto-->
-        <div class="row mb-4">
-          <div class="col">
-              <div class="form-outline">
-                  <label for="inputUsuario" class="form-label">Producto</label>
-                  <!--select de los productos existentes en la base de datos-->
-                  <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idProducto">
-                      <option th:each="elemento : ${productos}" th:value="${elemento.idProducto}" th:text="${elemento.toString()}"></option>
-                  </select-->
-                  <!--esto debe cambiarse a lo de arriba cuando exista la BD-->
-                  <select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
-                    <option value="1">Espejos retrovisores</option>
-                    <option value="2">Manecillas</option>
-                    <option value="3">Capots</option>
-                  </select>
-              </div>
-          </div>
-          
-          <!--Cantidad de Productos-->
-          <div class="col">
-              <div class="form-outline">
-                  <label for="inputUsuario" class="form-label">Cantidad Producto</label>
-                  <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca la cantidad deseada" autofocus>
-              </div>
-          </div>
-          
-      </div>
+      <!--Form para seleccionar el producto-->
+      <div class="row mb-4">
+        <div class="col">
+          <div class="form-outline">
+            <label for="inputUsuario" class="form-label">Producto</label>
+            <!--select de los productos existentes en la base de datos-->
+            <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idProducto">
+              <option th:each="elemento : ${productos}" th:value="${elemento.idProducto}" th:text="${elemento.toString()}"></option>
+            </select-->
+            <!--esto debe cambiarse a lo de arriba cuando exista la BD-->
+            <!--select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
+              <option value="1">Espejos retrovisores</option>
+              <option value="2">Manecillas</option>
+              <option value="3">Capots</option>
+            </select-->
 
-      <!--ESTO SE DEBE MODIFICAR-->
-      <table class="table table-striped mb-0" ><!---->
-        <thead style="background-color: #0a4275;"><!---->
+            <!--para poder desplegar pantalla flotante-->
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Seleccionar producto" aria-label="Seleccionar producto" aria-describedby="button-addon2">
+              <!-- Button trigger modal-->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >-</button>
+              
+              <!-- Modal: modalCart -->
+              <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                  <!--Header-->
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Your cart</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <!--Body-->
+                  <div class="modal-body">
+                    
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Producto</th>
+                          <th>Precio</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Cubierta Pirelli Cinturato P1 195/60R15 88H</td>
+                          <td>Gs. 730.093</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">2</th>
+                          <td>Gato Hidráulico ST-112 Tipo Tijera 2 Toneladas</td>
+                          <td>Gs. 162.558</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">3</th>
+                          <td>Gato Hidráulico 10 Toneladas</td>
+                          <td>Gs. 226.292</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">4</th>
+                          <td>Gato Hidráulico 4 Toneladas</td>
+                          <td>Gs. 155.519</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">5</th>
+                          <td>Llanta RCX 14 4X108 MOD T909</td>
+                          <td>Gs. 502.337</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">6</th>
+                          <td>Cubre Volante F16N9210N 38X8.2cm - Negro</td>
+                          <td>Gs. 71.651</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">7</th>
+                          <td>Cubre Volante F16N9211G 38X8.2cm - Negro/Gris</td>
+                          <td>Gs. 71.651</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">8</th>
+                          <td>Cubierta Pirelli P1 Cinturato 185/70R14</td>
+                          <td>Gs. 627.595</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr class="total">
+                          <th scope="row">9</th>
+                          <td>Cubierta Kumho Road Venture AT51 245/75 R16 SL T 3</td>
+                          <td>Gs. 1.287.466</td>
+                          <tr>
+                            <th scope="row">10</th>
+                            <td>Gato Hidráulico ST-112 Tipo Tijera 2 Toneladas
+                            </td>
+                            <td>Gs. 162.558</td>
+                            <td><a><i class="fas fa-times"></i></a></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">11</th>
+                            <td>Llanta AC. 16 Triangular - Blanco</td>
+                            <td>Gs. 600.381</td>
+                            <td><a><i class="fas fa-times"></i></a></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">12</th>
+                            <td>Cables De Acople De Batería 200 AMP + Cuerda De Remolque</td>
+                            <td>Gs. 137.632</td>
+                            <td><a><i class="fas fa-times"></i></a></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">13</th>
+                            <td>Limpiaparabrisas Michelin S 20"</td>
+                            <td>Gs. 89.441</td>
+                            <td><a><i class="fas fa-times"></i></a></td>
+                          </tr>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    
+                  </div>
+                  <!--Footer-->
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Checkout</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Modal: modalCart -->
+          </div>
+          <!--modal-->
+          
+          
+          
+          
+          
+        </div>
+      </div>
+      
+      <!--Cantidad de Productos-->
+      <div class="col">
+        <div class="form-outline">
+          <label for="inputUsuario" class="form-label">Cantidad Producto</label>
+          <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca la cantidad deseada" autofocus>
+        </div>
+      </div>
+      
+    </div>
+    
+    <!--ESTO SE DEBE MODIFICAR-->
+    <table class="table table-striped mb-0" ><!---->
+      <thead style="background-color: #0a4275;"><!---->
         <tr class="text-center"><!---->
           <th>Producto</th><!---->
           <th>Cantidad</th><!---->
           <th>Precio</th><!---->
           <th>Acción</th><!---->
         </tr><!---->
-        </thead><!---->
-        <tbody><!---->
+      </thead><!---->
+      <tbody><!---->
         <tr th:if="${#lists.isEmpty(listUser)}"><!---->
           <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
         </tr><!---->
@@ -96,61 +226,67 @@
           <td><!---->
             <div class="btn-group"><!---->
               <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 
-                 class="btn btn-sm btn-outline-primary"><!---->
-                <i class="fa-solid fa-pen-to-square"></i><!---->
-              </a>
-              <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
-                <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                  <i class="fa-sharp fa-solid fa-trash"></i>
-                </button>
-              </a>
-            </div>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+              class="btn btn-sm btn-outline-primary"><!---->
+              <i class="fa-solid fa-pen-to-square"></i><!---->
+            </a>
+            <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
+              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+            </a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+</div>
 
-    </div>
-
-    <!--CONTENIDO DE MÉTODO DE PAGO-->
-    <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
-      <!--opciones de los botones-->
-      <div class="form-check">
-      <!--opción 1-->
-      <div>
-        <input type="radio" id="mostrar-contenido">
-        <label for="mostrar-contenido">Efectivo</label>
-        <div id="contenido" style="display:none">
-          Contenido que se oculta o muestra
-        </div>
-      </div>
-
-       <!--opción 2-->
-       <div>
-        <input type="radio" id="mostrar-contenido">
-        <label for="mostrar-contenido">Transferencia Bancaria</label>
-        <div id="contenido" style="display:none">
-          Contenido que se oculta o muestra
-        </div>
-      </div>
-       <!--opción 3-->
-       <div>
-        <input type="radio" id="mostrar-contenido">
-        <label for="mostrar-contenido">Bancard</label>
-        <div id="contenido" style="display:none">
-          Contenido que se oculta o muestra
-        </div>
+<!--CONTENIDO DE MÉTODO DE PAGO-->
+<div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
+  <!--opciones de los botones-->
+  <div class="form-check">
+    <!--opción 1-->
+    <div>
+      <input type="radio" id="mostrar-contenido">
+      <label for="mostrar-contenido">Efectivo</label>
+      <div id="contenido" style="display:none">
+        Contenido que se oculta o muestra
       </div>
     </div>
     
-    </div>
-    <div class="row">
-      <div class="col-sm-1">
-          <a th:href="@{/}" class="btn btn-outline-info w-100">
-              Atrás
-          </a>
+    <!--opción 2-->
+    <div>
+      <input type="radio" id="mostrar-contenido">
+      <label for="mostrar-contenido">Transferencia Bancaria</label>
+      <div id="contenido" style="display:none">
+        Enviar cuenta bancaria al cliente registrado (Número de teléfono)
       </div>
+    </div>
+    <!--opción 3-->
+    <div>
+      <input type="radio" id="mostrar-contenido">
+      <label for="mostrar-contenido">Bancard</label>
+      <div id="contenido" style="display:none">
+        <div>
+          <img th:src="@{/img/bancard.jpg}" class="center wp-image-4532"/> <!--div center img-->
+        </div>
+        <select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
+          <option value="1">Crédito</option>
+          <option value="2">Débito</option>
+        </select>
+      </div>
+    </div>
   </div>
+  
+</div>
+<div class="row">
+  <div class="col-sm-1">
+    <a th:href="@{/}" class="btn btn-outline-info w-100">
+      Atrás
+    </a>
+  </div>
+</div>
 
 </div>
 <!-- Tabs content -->

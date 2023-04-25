@@ -21,16 +21,26 @@
       </li>
     </ul>
     <br>
-    <!-- Tabs content -->
+    <!-- Tabs content cliente -->
     <div class="tab-content" id="ex-with-icons-content">
       <div class="tab-pane fade show active" id="tabCliente" role="tabpanel" aria-labelledby="tabCliente">
         <legend style="color:#21618C">Cliente</legend>
         <div class="container">
           <div class="row">
             <div class="col-4">
-              <select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
-                <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
+              <!--TEMPORAL PARA TUTORÍA-->
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Seleccione cliente existente</option>
+                <option value="1">Giannina Iriarte</option>
+                <option value="2">Mathias Villasanti</option>
+                <option value="3">Yanina Jara</option>
+                <option value="4">Alexis Ortiz</option>
               </select>
+
+              <!--ESTO DEBE IR CON RESPECTO A LA BASE DE DATOS CLIENTES-->
+              <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
+                <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
+              </select-->
             </div>
             <!--botón de registro-->
             <div class="col-4">
@@ -62,7 +72,7 @@
               <option value="2">Manecillas</option>
               <option value="3">Capots</option>
             </select-->
-
+            
             <!--para poder desplegar pantalla flotante-->
             <div class="input-group mb-3">
               <input type="text" class="form-control" placeholder="Seleccionar producto" aria-label="Seleccionar producto" aria-describedby="button-addon2">
@@ -74,176 +84,186 @@
               aria-hidden="true">
               <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
                 <div class="modal-content">
-                  <!--Header-->
-                  <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Lista de Productos</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">×</span>
-                    </button>
-                  </div>
-                  <!--Body-->
-                  <div class="modal-body">
-                    
-                    <table class="table table-hover table-striped">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Producto</th>
-                          <th>Precio</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <!--ESTO DEBE IR EN LA BASE DE DATOS DE PRODUCTOS-->
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Cubierta Pirelli Cinturato P1 195/60R15 88H</td>
-                          <td>Gs. 730.093</td>
-                          <td><a><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Gato Hidráulico ST-112 Tipo Tijera 2 Toneladas</td>
-                          <td>Gs. 162.558</td>
-                          <td><a><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>Gato Hidráulico 10 Toneladas</td>
-                          <td>Gs. 226.292</td>
-                          <td><a><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">4</th>
-                          <td>Gato Hidráulico 4 Toneladas</td>
-                          <td>Gs. 155.519</td>
-                          <td><a><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">5</th>
-                          <td>Llanta RCX 14 4X108 MOD T909</td>
-                          <td>Gs. 502.337</td>
-                          <td><a><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">6</th>
-                          <td>Cubre Volante F16N9210N 38X8.2cm - Negro</td>
-                          <td>Gs. 71.651</td>
-                          <td><a><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">7</th>
-                          <td>Cubre Volante F16N9211G 38X8.2cm - Negro/Gris</td>
-                          <td>Gs. 71.651</td>
-                          <td><a><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr>
-                          <th scope="row">8</th>
-                          <td>Cubierta Pirelli P1 Cinturato 185/70R14</td>
-                          <td>Gs. 627.595</td>
-                          <td><a><i class="fas fa-times"></i></a></td>
-                        </tr>
-                        <tr class="total">
-                          <th scope="row">9</th>
-                          <td>Cubierta Kumho Road Venture AT51 245/75 R16 SL T 3</td>
-                          <td>Gs. 1.162.558</td>
+                    <!--Header-->
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="myModalLabel">Lista de Productos</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                      </button>
+                    </div>
+                    <!-- Tabs navs para modal-->
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabListaProd" type="button" role="tab" aria-controls="tabListaProd" aria-selected="true"><i class="fas fa-cart-arrow-down me-2"></i>Productos</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabListaServ" type="button" role="tab" aria-controls="tabListaServ" aria-selected="false"><i class="	fas fa-shuttle-van me-2"></i>Servicios</button>
+                    </li>
+                  </ul>
+                  
+                    <!--Body-->
+                    <!--agg contenido para el navs-->
+                    <div class="modal-body"> 
+                                           
+                      <table class="table table-hover table-striped table-bordered border-primary">
+                        <thead>
+                          <tr style="background-color: #3a4e7a;">
+                            <th>#</th>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!--ESTO DEBE IR EN LA BASE DE DATOS DE PRODUCTOS-->
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>Cubierta Pirelli Cinturato P1 195/60R15 88H</td>
+                            <td>Gs. 730.093</td>
                             <td><a><i class="fas fa-times"></i></a></td>
                           </tr>
-                        </tr>
                           <tr>
-                            <th scope="row">10</th>
-                            <td>Gato Hidráulico ST-112 Tipo Tijera 2 Toneladas
-                            </td>
+                            <th scope="row">2</th>
+                            <td>Gato Hidráulico ST-112 Tipo Tijera 2 Toneladas</td>
                             <td>Gs. 162.558</td>
                             <td><a><i class="fas fa-times"></i></a></td>
                           </tr>
                           <tr>
-                            <th scope="row">11</th>
-                            <td>Llanta AC. 16 Triangular - Blanco</td>
-                            <td>Gs. 600.381</td>
+                            <th scope="row">3</th>
+                            <td>Gato Hidráulico 10 Toneladas</td>
+                            <td>Gs. 226.292</td>
                             <td><a><i class="fas fa-times"></i></a></td>
                           </tr>
                           <tr>
-                            <th scope="row">12</th>
-                            <td>Cables De Acople De Batería 200 AMP + Cuerda De Remolque</td>
-                            <td>Gs. 137.632</td>
+                            <th scope="row">4</th>
+                            <td>Gato Hidráulico 4 Toneladas</td>
+                            <td>Gs. 155.519</td>
                             <td><a><i class="fas fa-times"></i></a></td>
                           </tr>
                           <tr>
-                            <th scope="row">13</th>
-                            <td>Limpiaparabrisas Michelin S 20"</td>
-                            <td>Gs. 89.441</td>
+                            <th scope="row">5</th>
+                            <td>Llanta RCX 14 4X108 MOD T909</td>
+                            <td>Gs. 502.337</td>
                             <td><a><i class="fas fa-times"></i></a></td>
                           </tr>
-                          <td></td>
+                          <tr>
+                            <th scope="row">6</th>
+                            <td>Cubre Volante F16N9210N 38X8.2cm - Negro</td>
+                            <td>Gs. 71.651</td>
+                            <td><a><i class="fas fa-times"></i></a></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">7</th>
+                            <td>Cubre Volante F16N9211G 38X8.2cm - Negro/Gris</td>
+                            <td>Gs. 71.651</td>
+                            <td><a><i class="fas fa-times"></i></a></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">8</th>
+                            <td>Cubierta Pirelli P1 Cinturato 185/70R14</td>
+                            <td>Gs. 627.595</td>
+                            <td><a><i class="fas fa-times"></i></a></td>
+                          </tr>
+                          <tr class="total">
+                            <th scope="row">9</th>
+                            <td>Cubierta Kumho Road Venture AT51 245/75 R16 SL T 3</td>
+                            <td>Gs. 1.162.558</td>
+                            <td><a><i class="fas fa-times"></i></a></td>
+                          </tr>
                         </tr>
-                      </tbody>
-                    </table>
-                    
-                  </div>
-                  <!--Footer-->
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-                    <button class="btn btn-primary">Checkout</button>
-                  </div>
+                        <tr>
+                          <th scope="row">10</th>
+                          <td>Gato Hidráulico ST-112 Tipo Tijera 2 Toneladas
+                          </td>
+                          <td>Gs. 162.558</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">11</th>
+                          <td>Llanta AC. 16 Triangular - Blanco</td>
+                          <td>Gs. 600.381</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">12</th>
+                          <td>Cables De Acople De Batería 200 AMP + Cuerda De Remolque</td>
+                          <td>Gs. 137.632</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">13</th>
+                          <td>Limpiaparabrisas Michelin S 20"</td>
+                          <td>Gs. 89.441</td>
+                          <td><a><i class="fas fa-times"></i></a></td>
+                        </tr>
+                      </tr>
+                    </tbody>
+                  </table>                              
+                
+              </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
                 </div>
               </div>
             </div>
-            <!-- Modal: modalCart -->
           </div>
-          <!--modal-->
-          
-          
-          
-          
-          
+          <!-- Modal: modalCart -->
         </div>
+        <!--modal-->
+        
+        
+        
+        
+        
       </div>
-      
-      <!--Cantidad de Productos-->
-      <div class="col">
-        <div class="form-outline">
-          <label for="inputUsuario" class="form-label">Cantidad Producto</label>
-          <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca la cantidad deseada" autofocus>
-        </div>
-      </div>
-      
     </div>
     
-    <!--ESTO SE DEBE MODIFICAR-->
-    <table class="table table-striped mb-0" ><!---->
-      <thead style="background-color: #0a4275;"><!---->
-        <tr class="text-center"><!---->
-          <th>Producto</th><!---->
-          <th>Cantidad</th><!---->
-          <th>Precio</th><!---->
-          <th>Acción</th><!---->
-        </tr><!---->
-      </thead><!---->
-      <tbody><!---->
-        <tr th:if="${#lists.isEmpty(listUser)}"><!---->
-          <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
-        </tr><!---->
-        <tr class="text-center" th:each="user: ${listUser}">
-          <td th:text="${user.username}">Name</td>
-          <td th:text="${user.email}">Email</td><!---->
-          <td th:text="${user.rol.nombre}">Age</td>
-          <td><!---->
-            <div class="btn-group"><!---->
-              <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 
-              class="btn btn-sm btn-outline-primary"><!---->
-              <i class="fa-solid fa-pen-to-square"></i><!---->
-            </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
-              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                <i class="fa-sharp fa-solid fa-trash"></i>
-              </button>
-            </a>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <!--Cantidad de Productos-->
+    <div class="col">
+      <div class="form-outline">
+        <label for="inputUsuario" class="form-label">Cantidad Producto</label>
+        <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca la cantidad deseada" autofocus>
+      </div>
+    </div>
+    
+  </div>
   
+  <!--ESTO SE DEBE MODIFICAR-->
+  <table class="table table-striped mb-0" ><!---->
+    <thead style="background-color: #0a4275;"><!---->
+      <tr class="text-center"><!---->
+        <th>Producto</th><!---->
+        <th>Cantidad</th><!---->
+        <th>Precio</th><!---->
+        <th>Acción</th><!---->
+      </tr><!---->
+    </thead><!---->
+    <tbody><!---->
+      <tr th:if="${#lists.isEmpty(listUser)}"><!---->
+        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+      </tr><!---->
+      <tr class="text-center" th:each="user: ${listUser}">
+        <td th:text="${user.username}">Name</td>
+        <td th:text="${user.email}">Email</td><!---->
+        <td th:text="${user.rol.nombre}">Age</td>
+        <td><!---->
+          <div class="btn-group"><!---->
+            <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 
+            class="btn btn-sm btn-outline-primary"><!---->
+            <i class="fa-solid fa-pen-to-square"></i><!---->
+          </a>
+          <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
+            <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+              <i class="fa-sharp fa-solid fa-trash"></i>
+            </button>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 </div>
 
 <!--CONTENIDO DE MÉTODO DE PAGO-->

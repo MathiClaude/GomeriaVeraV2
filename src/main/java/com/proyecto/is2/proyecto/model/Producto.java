@@ -32,12 +32,12 @@ public class Producto {
     /* RELACIONES DE BASE DE DATOS */
 
     /** Relacion con Rol **/
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "rol_id", referencedColumnName = "idRol")
-    private Rol rol;
+    private Rol rol;*/
 
     /* Relacion con UserStory */
-    @OneToMany(mappedBy = "usuario")
-    private Set<UserStory> userStories = new HashSet<>();
+    /*@OneToMany(mappedBy = "usuario")
+    private Set<UserStory> userStories = new HashSet<>();*/
 
 } /* Se crea un relacion tambien con Proyecto */

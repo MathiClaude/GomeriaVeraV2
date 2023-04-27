@@ -34,9 +34,15 @@
                         <div class="col">
                             <div class="form-outline">
                                 <label for="inputUsuario" class="form-label">Tipo de Documento</label>
-                                <select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
-                                    <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
+                                <!--TEMPORAL PARA TUTORÍA-->
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccione Tipo de Documento</option>
+                                    <option value="1">Cédula de Identidad</option>
+                                    <option value="2">RUC</option>
                                 </select>
+                                <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
+                                    <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
+                                </select-->
                             </div>
                         </div>
                         
@@ -80,7 +86,7 @@
             </div>
         </div>
     </fieldset>
-  
+    
     
 </form>
 

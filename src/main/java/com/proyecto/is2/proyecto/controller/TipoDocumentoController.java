@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 @Controller
 @RequestMapping("/crudTipoDoc")
-public class TipoDoController {
+public class TipoDocumentoController {
     final String VIEW = "crudSistema"; // identificador de la vista
     final String VIEW_PATH = "crudSistema";
     String operacion = "";

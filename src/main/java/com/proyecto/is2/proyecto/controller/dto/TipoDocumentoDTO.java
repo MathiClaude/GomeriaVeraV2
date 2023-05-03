@@ -9,11 +9,11 @@ import java.util.Set;
 @Data
 public class TipoDocumentoDTO {
     
-    private Long idTipoDocumento;
+    private Long idTipoDocumento;//comentario que quiera : D PONELE QUE SE CREA SOLOS NJSJSJS
     
-    private String nombre;
+    private String nombre;////comentario que quiera : D CI, RUC, PASAPORTE
     
-    private String descripcion;
+    private String descripcion;//comentario que quiera : D CEDULA DE IDENTIDAD, XD
     
     private String formatoValido;
     

@@ -58,10 +58,17 @@
                     <!--Correo de Cliente-->
                     <div class="row mb-4">
                         <div class="col">
-                            <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Correo Electrónico</label>
-                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca correo electrónico" autofocus>
-                            </div>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">@</button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                  <li><a class="dropdown-item" href="#">@gmail.com</a></li>
+                                  <li><a class="dropdown-item" href="#">@outlook.com</a></li>
+                                  <li><a class="dropdown-item" href="#">@hotmail</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                </ul>
+                              </div>
                         </div>
                         <!-- Form para Teléfono-->
                         <div class="col">

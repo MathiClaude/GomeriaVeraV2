@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {//valida los request
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**",
+                .antMatchers(
                         "/css/**","/js/**","/img/**", "/assets/**", "/usuarios/")//se da permiso a las rutas
                 .permitAll()
                 .anyRequest()

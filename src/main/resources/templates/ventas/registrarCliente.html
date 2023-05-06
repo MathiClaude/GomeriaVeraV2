@@ -58,6 +58,7 @@
                     <!--Correo de Cliente-->
                     <div class="row mb-4">
                         <div class="col">
+                            <label for="inputUsuario" class="form-label">Correo Electrónico</label>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" aria-label="Text input with dropdown button">
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">@</button>
@@ -66,7 +67,7 @@
                                   <li><a class="dropdown-item" href="#">@outlook.com</a></li>
                                   <li><a class="dropdown-item" href="#">@hotmail</a></li>
                                   <li><hr class="dropdown-divider"></li>
-                                  <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                  <li><a class="dropdown-item" href="#">@fpuna.edu.py</a></li>
                                 </ul>
                               </div>
                         </div>
@@ -86,7 +87,7 @@
                         </div>
                         <div class="col-sm-8"></div>
                         <div class="col-sm-2">
-                            <button type="submit" class="btn btn-success w-100">Guardar Cliente</button>
+                            <a th:href="@{/realizarVenta}" class="btn btn-success w-100">Registrar Cliente</a>
                         </div>
                     </div>
                 </div>

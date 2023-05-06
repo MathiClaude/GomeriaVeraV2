@@ -4,26 +4,27 @@
     <div layout:fragment="content">
         <!--logo personita-->
         <div>
-            <img th:src="@{/img/productosCrud.png}" class="center wp-image-4532"/> <!--div center img-->
+            <img th:src="@{/img/services.png}" class="center wp-image-4532"/> <!--div center img-->
         </div>
         <br> 
-        <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">CRUD de tipo de Producto</b></h1> <!--titulo-->
+        <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">CRUD de Servicios</b></h1> <!--titulo-->
         <form method="post" th:action="@{/realizarVenta/registrarCliente}" th:object="${cliente}">
             <fieldset>
+                <legend style="color:#21618C">Información del Tipo de Documento</legend>
                 <br> <!--separador-->
                 <div class="container">
-                    <!--Nombre de Producto-->
+                    <!--Nombres de Cliente-->
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="idTipoDocumento" class="form-label">Nombre de Producto</label>
-                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca nombre del producto" autofocus>
+                                <label for="idTipoDocumento" class="form-label">Id Documento</label>
+                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca nombres" autofocus>
                             </div>
                         </div>
                         <!-- Form para apellidos-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Fecha de Ingreso</label>
+                                <label for="inputUsuario" class="form-label">Tipo de Documento</label>
                                 <!--TEMPORAL PARA TUTORÍA-->
                                 <select class="form-select" aria-label="Default select example">
                                     <option selected>Seleccione Tipo de Documento</option>
@@ -41,7 +42,7 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="idTipoDocumento" class="form-label">Cantidad</label>
+                                <label for="idTipoDocumento" class="form-label">Descripción</label>
                                 <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca descripción para el tipo de documento seleccionado" autofocus>
                             </div>
                         </div>
@@ -49,7 +50,7 @@
                         <!--Nro. Documento de Cliente-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Precio</label>
+                                <label for="inputUsuario" class="form-label">Nro. Documento</label>
                                 <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca documento" autofocus>
                             </div>
                         </div>
@@ -57,16 +58,13 @@
                                         
                     <div class="row">
                         <div class="col-sm-2">
-                            <a th:href="@{/}" class="btn btn-outline-info w-100">
+                            <a th:href="@{/realizarVenta}" class="btn btn-outline-info w-100">
                                 Atrás
                             </a>
                         </div>
                         <div class="col-sm-8"></div>
                         <div class="col-sm-2">
-                          <a th:href="@{/}" class="btn btn-success w-100">
-                              Guardar Producto
-                          </a>
-                      </div>
+                            <button type="submit" class="btn btn-success w-100">Guardar Documento</button>
                         </div>
                     </div>
                 </div>

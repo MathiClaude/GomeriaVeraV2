@@ -29,13 +29,14 @@
           <div class="row">
             <div class="col-4">
               <!--TEMPORAL PARA TUTORÍA-->
-              <select class="form-select" aria-label="Default select example">
-                <option selected>Seleccione cliente existente</option>
-                <option value="1">Giannina Iriarte</option>
-                <option value="2">Mathias Villasanti</option>
-                <option value="3">Yanina Jara</option>
-                <option value="4">Alexis Ortiz</option>
-              </select>
+              <div class="form-group">                
+                <input class="form-control" list="options" id="exampleInput" placeholder="Seleccionar cliente">
+                <datalist id="options">
+                  <option value="GiaNNina">
+                  <option value="Option 2">
+                  <option value="Option 3">
+                </datalist>
+              </div>
 
               <!--ESTO DEBE IR CON RESPECTO A LA BASE DE DATOS CLIENTES-->
               <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
@@ -306,7 +307,7 @@
 </div>
 <div class="row">
   <div class="col-sm-1">
-    <a th:href="@{/}" class="btn btn-outline-info w-100">
+    <a href="javascript:history.back()" class="btn btn-outline-info w-100">
       Atrás
     </a>
   </div>

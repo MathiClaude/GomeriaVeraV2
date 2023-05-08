@@ -1,83 +1,62 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
 <body>
-    <div layout:fragment="content">
-        <!--logo personita-->
-        <div>
-            <img th:src="@{/img/productosCrud.png}" class="center wp-image-4532"/> <!--div center img-->
-        </div>
-        <br> 
-        <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">CRUD de tipo de Producto</b></h1> <!--titulo-->
-        <form method="post" th:action="@{/realizarVenta/registrarCliente}" th:object="${cliente}">
-            <fieldset>
-                <br> <!--separador-->
-                <div class="container">
-                    <!--Nombre de Producto-->
-                    <div class="row mb-4">
-                        <div class="col">
-                            <div class="form-outline">
-                                <label for="idTipoDocumento" class="form-label">Nombre de Producto</label>
-                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca nombre del producto" autofocus>
-                            </div>
-                        </div>
-                        <!-- Form para apellidos-->
-                        <div class="col">
-                            <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Fecha de Ingreso</label>
-                                <!--TEMPORAL PARA TUTORÍA-->
-                                <select class="form-select" aria-label="Default select example">
-                                    <option selected>Seleccione Tipo de Documento</option>
-                                    <option value="1">Cédula de Identidad</option>
-                                    <option value="2">RUC</option>
-                                    <option value="3">Pasaporte</option>
-                                </select>
-                                <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
-                                    <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
-                                </select-->
-                            </div>
-                        </div>
-                    </div>
-                    <!--Tipo de Documento de Cliente-->
-                    <div class="row mb-4">
-                        <div class="col">
-                            <div class="form-outline">
-                                <label for="idTipoDocumento" class="form-label">Cantidad</label>
-                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca descripción para el tipo de documento seleccionado" autofocus>
-                            </div>
-                        </div>
-                        
-                        <!--Nro. Documento de Cliente-->
-                        <div class="col">
-                            <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Precio</label>
-                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca documento" autofocus>
-                            </div>
-                        </div>
-                    </div>
-                                        
-                    <div class="row">
-                      <div class="col-sm-2">
-                        <a href="javascript:history.back()" class="btn btn-outline-info w-100">
-                            Atrás
-                        </a>
-                    </div>
-                        <div class="col-sm-8"></div>
-                        <div class="col-sm-2">
-                          <a th:href="@{/}" class="btn btn-success w-100">
-                              Guardar Producto
-                          </a>
-                      </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </fieldset>
-    
-    
-</form>
+<div layout:fragment="content">
+  <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">CRUD Producto</b></h1> <!--titulo-->
 
+  <!--th:block th:include="fragment/success-message.html"></th:block-->
 
+  <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
+    <a th:href="@{/crudProductoNuevo}" class="btn btn-success mb-4">
+      <i class="	fas fa-shopping-cart"></i> Crear nuevo producto
+    </a>
+  </th:block> <!--modificar front-->
+
+  <div th:if="${permisoVer eq false}">
+    <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+  </div><!---->
+  <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
+    <table class="table table-striped mb-0" ><!---->
+      <thead style="background-color: #0a4275;"><!---->
+      <tr class="text-center"><!---->
+        <th>Producto</th><!---->
+        <th>Precio</th><!---->
+        <th>Cantidad</th><!---->
+        <th>Acción</th><!---->
+      </tr><!---->
+      </thead><!---->
+      <tbody><!---->
+      <tr th:if="${#lists.isEmpty(listUser)}"><!---->
+        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+      </tr><!---->
+      <tr class="text-center" th:each="user: ${listUser}">
+        <td th:text="${user.username}">Name</td>
+        <td th:text="${user.email}">Email</td><!---->
+        <td th:text="${user.rol.nombre}">Age</td>
+        <td><!---->
+          <div class="btn-group"><!---->
+            <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 
+               class="btn btn-sm btn-outline-primary"><!---->
+              <i class="fa-solid fa-pen-to-square"></i><!---->
+            </a>
+            <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
+              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  <br>  
+  </div>
+    <a href="javascript:history.back()" class="btn btn-outline-primary">
+      <i class="fa fa-backward" aria-hidden="true"></i> Atrás 
+    </a>
+  </th:block> <!--modificar front-->
 </div>
 
 </body>

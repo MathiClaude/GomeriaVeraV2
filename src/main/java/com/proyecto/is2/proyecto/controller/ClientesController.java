@@ -1,9 +1,12 @@
 package com.proyecto.is2.proyecto.controller;
+import com.proyecto.is2.proyecto.controller.dto.ClienteDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
+import com.proyecto.is2.proyecto.services.ClienteServiceImp;
+import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +37,12 @@ public class ClientesController {
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
 
     @Autowired
+    private ClienteRepository clienteRepository;
+    
+    @Autowired
+    private ClienteServiceImp clienteService; // llamada a los servicios de usuario
+
+    @Autowired
     private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
 
     @Autowired
@@ -45,9 +54,9 @@ public class ClientesController {
      * Usuario.
      * @return
      */
-    @ModelAttribute("usuario")
-    public UsuarioDTO instanciarObjetoDTO() {
-        return new UsuarioDTO();
+    @ModelAttribute("cliente")
+    public ClienteDTO instanciarObjetoDTO() {
+        return new ClienteDTO();
     }
 
     @GetMapping

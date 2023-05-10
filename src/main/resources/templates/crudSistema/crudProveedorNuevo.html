@@ -4,11 +4,11 @@
     <div layout:fragment="content">
         <!--logo personita-->
         <div>
-            <img th:src="@{/img/services.png}" class="center wp-image-4532"/> <!--div center img-->
+            <img th:src="@{/img/cheams.png}" class="center wp-image-4532"/> <!--div center img-->
         </div>
         <br> 
-        <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">CRUD de Servicios</b></h1> <!--titulo-->
-        <form method="post" th:action="@{/realizarVenta/registrarCliente}" th:object="${cliente}">
+        <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">CRUD de Proveedor</b></h1> <!--titulo-->
+        <form method="post" th:action="@{/crudSistema/crudProveedorNuevo}" th:object="${cliente}">
             <fieldset>
                 <br> <!--separador-->
                 <div class="container">
@@ -16,15 +16,15 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="idTipoDocumento" class="form-label">Nombre del Servicio</label>
-                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca nombre del servicio" autofocus>
+                                <label for="idTipoDocumento" class="form-label">Nombre del Proveedor</label>
+                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca nombre del proveedor" autofocus>
                             </div>
                         </div>
                         
                         <!--Precio del producto-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Precio</label>
+                                <label for="inputUsuario" class="form-label">Contacto</label>
                                 <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca precio" autofocus>
                             </div>
                         </div>

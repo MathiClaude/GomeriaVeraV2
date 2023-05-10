@@ -88,9 +88,7 @@
                     <!--Header-->
                     <div class="modal-header">
                       <h4 class="modal-title" id="myModalLabel">Lista de Productos</h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                      </button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
                     </div>
                     <!-- Tabs navs para modal-->
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -204,7 +202,7 @@
               </div>
                 <!--Footer-->
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
               </div>
             </div>
@@ -289,22 +287,51 @@
       </div>
     </div-->
     <!--opción 3-->
-    <div>
+    <!--div>
       <input type="radio" id="mostrar-contenido" name="tipoPago">
       <label for="mostrar-contenido">Bancard</label>
       <div id="contenido" style="display:none">
         <div>
-          <img th:src="@{/img/bancard.jpg}" class="center wp-image-4532"/> <!--div center img-->
+          <img th:src="@{/img/bancard.jpg}" class="center wp-image-4532"/> 
         </div>
+        
         <select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
           <option value="1">Crédito</option>
           <option value="2">Débito</option>
         </select>
+        
+      </div>
+    </div-->
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Finalizar venta
+</button>
+
+<!-- Modal para comprobante-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">        
+        <div>
+          <img th:src="@{/img/comprobante.png}" class="center wp-image-4532"/> 
+          ¿Desea generar el comprobante de venta?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Finalizar sin generar pdf</button>
+        <button type="button" class="btn btn-primary">Generar PDF</button>
       </div>
     </div>
   </div>
+</div>
+  </div>
   
 </div>
+<br>
 <div class="row">
   <div class="col-sm-1">
     <a href="javascript:history.back()" class="btn btn-outline-info w-100">

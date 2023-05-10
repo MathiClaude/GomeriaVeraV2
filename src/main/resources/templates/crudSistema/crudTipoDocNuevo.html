@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<body>
+    <div layout:fragment="content">
+        <!--logo personita-->
+        <div>
+            <img th:src="@{/img/tipoDoc.png}" class="center wp-image-4532"/> <!--div center img-->
+        </div>
+        <br> 
+        <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">CRUD de tipo de documento</b></h1> <!--titulo-->
+        <form method="post" th:action="@{/realizarVenta/registrarCliente}" th:object="${cliente}">
+            <fieldset>
+                <br> <!--separador-->
+                <div class="container">
+                        <!-- Form para tipo de documento-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputUsuario" class="form-label">Tipo de Documento</label>
+                                <!--TEMPORAL PARA TUTORÍA-->
+                                <select class="form-select" aria-label="Default select example">
+                                    <option selected>Seleccione Tipo de Documento</option>
+                                    <option value="1">Cédula de Identidad</option>
+                                    <option value="2">RUC</option>
+                                    <option value="3">Pasaporte</option>
+                                </select>
+                                <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
+                                    <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
+                                </select-->
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <!--Tipo de Documento de Cliente-->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="idTipoDocumento" class="form-label">Descripción</label>
+                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca descripción para el tipo de documento seleccionado" autofocus>
+                            </div>
+                        </div>
+                        
+                        <!--Nro. Documento de Cliente-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputUsuario" class="form-label">Nro. Documento</label>
+                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca documento" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                                        
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <a href="javascript:history.back()" class="btn btn-outline-info w-100">
+                                Atrás
+                            </a>
+                        </div>
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success w-100">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    
+    
+</form>
+
+
+</div>
+
+</body>
+</html>

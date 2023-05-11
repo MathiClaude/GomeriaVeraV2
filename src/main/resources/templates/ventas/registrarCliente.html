@@ -7,7 +7,7 @@
             <img th:src="@{/img/cliente.png}" class="center wp-image-4532"/> <!--div center img-->
         </div>
         <br> 
-        <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">Registro de nuevo cliente</b></h1> <!--titulo-->
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Registro de nuevo cliente</b></h1> <!--titulo-->
         <form method="post" th:action="@{/realizarVenta/registrarCliente}" th:object="${cliente}">
             <fieldset>
                 <legend style="color:#21618C">Información del Cliente</legend>
@@ -60,17 +60,15 @@
                         <div class="col">
                             <label for="inputUsuario" class="form-label">Correo Electrónico</label>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" aria-label="Text input with dropdown butto n">
-                                <div class="dropdown">
-                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-                                      @
-                                    </button>
-                                    <div class="dropdown-menu">
-                                      <a class="dropdown-item" href="#">@gmail.com</a>
-                                      <a class="dropdown-item" href="#">@hotmail.com</a>
-                                      <a class="dropdown-item" href="#">@fpuna.edu.py</a>
-                                    </div>
-                                  </div>
+                                <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">@</button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                  <li><a class="dropdown-item" href="#">@gmail.com</a></li>
+                                  <li><a class="dropdown-item" href="#">@hotmail.com</a></li>
+                                  <li><a class="dropdown-item" href="#">@yahoo.com</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                </ul>
                               </div>
                         </div>
                         <!-- Form para Teléfono-->

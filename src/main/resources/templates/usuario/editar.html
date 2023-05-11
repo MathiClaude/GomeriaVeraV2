@@ -4,7 +4,7 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-  <h1 class="text-center mb-4">Editar Usuario</h1>
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Usuario</b></h1> <!--titulo-->
 
   <form method="POST" th:action="@{/usuarios/{id}(id=${user.idUsuario})}" th:object="${usuario}">
     <!--th:block th:include="fragment/error-message.html"></th:block-->

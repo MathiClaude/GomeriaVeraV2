@@ -7,7 +7,7 @@
       <img th:src="@{/img/realizarVenta.png}" class="center wp-image-4532"/> <!--div center img-->
     </div>
     <br> 
-    <h1 class="text-center mb-6" style="font-family: Garamond, serif;" ><b style= "color:#21618C">Realizar Venta</b></h1> <!--titulo-->
+    <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Realizar Venta</b></h1> <!--titulo-->
     <!-- Tabs navs -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
@@ -31,7 +31,7 @@
         <div class="container">
           <div class="row">
             <div class="col-4">
-              <!--TEMPORAL PARA TUTORÍA-->
+              <!--Buscador de clientes-->
               <div class="form-group">                
                 <input class="form-control" list="options" id="exampleInput" placeholder="Seleccionar cliente">
                 <datalist id="options">
@@ -40,11 +40,6 @@
                       <option value="Option 3">
                       </datalist>
                     </div>
-                    
-                    <!--ESTO DEBE IR CON RESPECTO A LA BASE DE DATOS CLIENTES-->
-                    <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
-                      <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
-                    </select-->
                   </div>
                   <!--botón de registro-->
                   <div class="col-4">
@@ -71,7 +66,9 @@
                   <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Seleccionar producto" aria-label="Seleccionar producto" aria-describedby="button-addon2">
                     <!-- Button trigger modal-->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >-</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
+                      <i class="bi bi-cup-hot-fill"></i>
+                    </button>
                     
                     <!-- Modal: modalCart -->
                     <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -81,10 +78,21 @@
                         <!--Header-->
                         <div class="modal-header">
                           <h4 class="modal-title" id="myModalLabel">Lista de Productos</h4>
+                          
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
                         </div>
                         <!-- Body para modal-->
                         <div class="modal-body">
+                          <!--boton de busqueda-->
+                          <div class="input-group">
+                            <div class="form-outline">
+                              <input type="search" id="form1" class="form-control"/>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                          <br>
                           <!--body de productos-->
                         <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
                           <table class="table table-striped mb-0" ><!---->
@@ -136,12 +144,12 @@
           </div><!--termina contenido del modal para producto-->
           
           <!--Cantidad de Productos-->
-          <!--div class="col">
+          <div class="col">
             <div class="form-outline">
-              <label for="inputUsuario" class="form-label">Cantidad Producto</label>
+              <!--label for="inputUsuario" class="form-label">Cantidad Producto</label-->
               <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca la cantidad deseada" autofocus>
             </div>
-          </div-->
+          </div>
           
         </div>
         
@@ -193,7 +201,9 @@
                             <div class="input-group mb-3">
                               <input type="text" class="form-control" placeholder="Buscar servicio" aria-label="Buscar servicio" aria-describedby="button-addon2">
                               <!-- Button trigger modal-->
-                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalServices" >-</button>
+                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalServices" >
+                                <i class="bi bi-cup-hot-fill"></i>
+                              </button>
                               
                               <!-- Modal: modalServices-->
                               <div class="modal fade" id="modalServices" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -207,6 +217,16 @@
                                   </div>
                                   <!-- Body para modal-->
                                   <div class="modal-body">
+                                    <!--boton de busqueda-->
+                          <div class="input-group">
+                            <div class="form-outline">
+                              <input type="search" id="form1" class="form-control"/>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark">
+                              <i class="fas fa-search"></i>
+                            </button>
+                          </div>
+                          <br>
                                     <!--body de productos-->
                                   <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
                                     <table class="table table-striped mb-0" ><!---->
@@ -305,37 +325,10 @@
           <div id="contenido" style="display:none">
             Aún falta completar este apartado : D
           </div>
+          
         </div>
         
-        <!--opción 2-->
-        <!--div>
-          <input type="radio" id="mostrar-contenido" name="tipoPago">
-          <label for="mostrar-contenido">Transferencia Bancaria</label>
-          <div id="contenido" style="display:none">
-            Enviar cuenta bancaria al cliente registrado (Número de teléfono)
-          </div>
-        </div-->
-        <!--opción 3-->
-        <!--div>
-          <input type="radio" id="mostrar-contenido" name="tipoPago">
-          <label for="mostrar-contenido">Bancard</label>
-          <div id="contenido" style="display:none">
-            <div>
-              <img th:src="@{/img/bancard.jpg}" class="center wp-image-4532"/> 
-            </div>
-            
-            <select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
-              <option value="1">Crédito</option>
-              <option value="2">Débito</option>
-            </select>
-            
-          </div>
-        </div-->
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Finalizar venta
-        </button>
-        
+               
         <!-- Modal para comprobante-->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
@@ -357,9 +350,14 @@
               </div>
             </div>
           </div>
+          
         </div>
+        
       </div>
-      
+      <div class="col-sm-6">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Finalizar venta</button>
+      </div>
     </div>
     <br>
     <div class="row">

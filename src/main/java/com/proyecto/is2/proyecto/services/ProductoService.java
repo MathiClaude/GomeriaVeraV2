@@ -39,4 +39,8 @@ public interface ProductoService {
 
     public void eliminarProducto(Producto producto);
 
+    public Producto obtenerProducto(Long id);
+
+    public boolean tienePermiso(String permiso);
+
 }

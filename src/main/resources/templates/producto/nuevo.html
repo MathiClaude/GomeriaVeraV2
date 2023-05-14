@@ -7,8 +7,8 @@
             <img th:src="@{/img/productosCrud.png}" class="center wp-image-4532"/> <!--div center img-->
         </div>
         <br> 
-        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">CRUD de Producto</b></h1> <!--titulo-->
-        <form method="post" th:action="@{/realizarVenta/registrarCliente}" th:object="${cliente}">
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Producto</b></h1> <!--titulo-->
+        <form method="post" th:action="@{/productos/crear}" th:object="${producto}">
             <fieldset>
                 <br> <!--separador-->
                 <div class="container">
@@ -16,15 +16,15 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="idTipoDocumento" class="form-label">Nombre de Producto</label>
-                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca nombre del producto" autofocus>
+                                <label for="inputProducto" class="form-label">Nombre de Producto</label>
+                                <input type="text" class="form-control" id="inputProducto" name="user" placeholder="Introduzca nombre del producto" autofocus>
                             </div>
                         </div>
                         <!-- Fecha en el que se ingresó el producto-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="fecha" class="form-label">Fecha de Ingreso:</label>
-                                <input type="date" id="fecha" name="fecha" class="form-control">
+                                <label for="inputProducto" class="form-label">Fecha de Ingreso:</label>
+                                <input type="date" id="inputFecha" name="fecha" class="form-control">
                               </div>
                             </div>
                         </div>
@@ -33,32 +33,37 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="idTipoDocumento" class="form-label">Cantidad</label>
-                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca cantidad del producto" autofocus>
+                                <label for="inputProducto" class="form-label">Cantidad</label>
+                                <input type="text" class="form-control" id="inputCantidad" name="cantidad" placeholder="Introduzca cantidad del producto" autofocus>
                             </div>
                         </div>
                         
                         <!--Precio del producto-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Precio</label>
-                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca precio" autofocus>
+                                <label for="inputProducto" class="form-label">Precio</label>
+                                <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca precio" autofocus>
                             </div>
                         </div>
                     </div>
                                         
                     <div class="row">
                       <div class="col-sm-2">
-                        <a href="javascript:history.back()" class="btn btn-outline-info w-100">
-                            Atrás
-                        </a>
-                    </div>
+                        <!--a href="javascript:history.back()" class="btn btn-outline-info w-100"-->
+                            <a th:href="@{/productos}" class="btn btn-outline-info w-100">
+
+                                Atrás
+                            </a>
+                        </div>
                         <div class="col-sm-8"></div>
-                        <div class="col-sm-2">
+                        <!--div class="col-sm-2">
                           <a th:href="@{/crudProducto}" class="btn btn-success w-100">
                               Guardar Producto
                           </a>
-                      </div>
+                        </div-->
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success w-100">Guardar Producto</button>
+                        </div>
                         </div>
                     </div>
                 </div>

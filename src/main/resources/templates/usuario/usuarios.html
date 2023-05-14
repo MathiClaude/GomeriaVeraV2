@@ -34,7 +34,7 @@
       <tr class="text-center" th:each="user: ${listUser}">
         <td th:text="${user.username}">Name</td>
         <td th:text="${user.email}">Email</td><!---->
-        <td th:text="${user.rol.nombre}">Age</td>
+        <td th:text="${user.rol.nombre}">Age</td><!--del rol-->
         <td><!---->
           <div class="btn-group"><!---->
             <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 

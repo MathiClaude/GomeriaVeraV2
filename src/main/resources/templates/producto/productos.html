@@ -4,12 +4,12 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-  <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">CRUD Producto</b></h1> <!--titulo-->
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Productos</b></h1> <!--titulo-->
 
   <!--th:block th:include="fragment/success-message.html"></th:block-->
 
   <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
-    <a th:href="@{/crudProductoNuevo}" class="btn btn-success mb-4">
+    <a th:href="@{/productos/nuevo}" class="btn btn-success mb-4">
       <i class="	fas fa-shopping-cart"></i> Crear nuevo producto
     </a>
   </th:block> <!--modificar front-->
@@ -28,20 +28,20 @@
       </tr><!---->
       </thead><!---->
       <tbody><!---->
-      <tr th:if="${#lists.isEmpty(listUser)}"><!---->
-        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+      <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
+        <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
       </tr><!---->
-      <tr class="text-center" th:each="user: ${listUser}">
-        <td th:text="${user.username}">Name</td>
-        <td th:text="${user.email}">Email</td><!---->
-        <td th:text="${user.rol.nombre}">Age</td>
+      <tr class="text-center" th:each="product: ${listProduct}">
+        <td th:text="${product.nombreProducto}">Name</td>
+        <td th:text="${product.nombreProducto}">90.000</td><!---->
+        <td th:text="${product.nombreProducto}">12</td>
         <td><!---->
           <div class="btn-group"><!---->
-            <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 
+            <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${user.idProducto})}" 
                class="btn btn-sm btn-outline-primary"><!---->
               <i class="fa-solid fa-pen-to-square"></i><!---->
             </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
+            <a th:if="${permisoEliminar eq true}" th:href="@{/productos/{id}/delete(id=${user.idProducto})}">
               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>

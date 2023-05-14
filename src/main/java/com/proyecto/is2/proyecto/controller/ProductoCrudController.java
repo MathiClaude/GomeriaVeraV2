@@ -1,9 +1,10 @@
 package com.proyecto.is2.proyecto.controller;
-import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
+import com.proyecto.is2.proyecto.controller.dto.ProductoDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
+import com.proyecto.is2.proyecto.model.Producto;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
-import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
+import com.proyecto.is2.proyecto.services.ProductoServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,23 +19,23 @@ import java.util.ArrayList;
  * para realizar venta
  */
 @Controller
-@RequestMapping("/crudProducto")
+@RequestMapping("/productos")
 public class ProductoCrudController {
-    final String VIEW = "crudSistema"; // identificador de la vista
-    final String VIEW_PATH = "crudSistema";
+    final String VIEW = "producto"; // identificador de la vista
+    final String VIEW_PATH = "producto";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/crudProducto";
+    final String FORM_VIEW = VIEW_PATH + "/productos";
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/usuarios";
+    final String RD_FORM_VIEW = "redirect:/productos";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
-    final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
+    //final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
 //    final String RD_ASIGNAR_ROL_VIEW = "redirect:/" + ASIGNAR_ROL_VIEW;
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
 
     @Autowired
-    private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
+    private ProductoServiceImp productoService; // llamada a los servicios de usuario
 
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
@@ -45,25 +46,25 @@ public class ProductoCrudController {
      * Usuario.
      * @return
      */
-    @ModelAttribute("usuario")
-    public UsuarioDTO instanciarObjetoDTO() {
-        return new UsuarioDTO();
+    @ModelAttribute("producto")
+    public ProductoDTO instanciarObjetoDTO() {
+        return new ProductoDTO();
     }
 
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = productoService.tienePermiso("consultar-" + VIEW);
+        boolean crear = productoService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = productoService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = productoService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
         //        }
 
         if(consultar) {
-            model.addAttribute("listUser", usuarioService.listarUsuarios());//lista los usuarios
+            model.addAttribute("listProduct", productoService.listar());//lista los productos
         } else {
             return FALTA_PERMISO_VIEW;
         }
@@ -78,8 +79,8 @@ public class ProductoCrudController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = productoService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = productoService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -94,7 +95,7 @@ public class ProductoCrudController {
     }
 
     @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("usuario") UsuarioDTO objetoDTO,
+    public String crearObjeto(@ModelAttribute("producto") ProductoDTO objetoDTO,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
@@ -102,21 +103,23 @@ public class ProductoCrudController {
 //            return FORM_NEW;
 //        }
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Usuario usuario = new Usuario();
-            usuarioService.convertirDTO(usuario, objetoDTO);
+        if(productoService.tienePermiso(operacion + VIEW)) {
+            Producto producto = new Producto();
+            productoService.convertirDTO(producto, objetoDTO);
 
             // si tiene permiso se le asigna el rol con id del formulario
             // sino se le asignar un rol por defecto.
-            if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
-                usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
+
+            //esta parte creo que no se usa para producto
+            /*if(productoService.tienePermiso(P_ASIGNAR_ROL)) {
+                producto.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
             } else {
-                usuario.setRol(rolService.existeRol(1L)); // ID 1: Rol sin permisos.
-            }
+                producto.setRol(rolService.existeRol(1L)); // ID 1: Rol sin permisos.
+            }*/
 
-            usuarioService.guardar(usuario);
+            productoService.guardar(producto);
 
-            attributes.addFlashAttribute("message", "¡Usuario creado exitosamente!");
+            attributes.addFlashAttribute("message", "¡Producto creado exitosamente!");
 
             return RD_FORM_VIEW;
         } else {
@@ -126,25 +129,27 @@ public class ProductoCrudController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        Usuario usuario;
+        boolean eliminar = productoService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = productoService.tienePermiso("asignar-rol-" + VIEW);
+        Producto producto;
 
         // validar el id
         try {
-            Long idUsuario = Long.parseLong(id);
-            usuario = usuarioService.existeUsuario(idUsuario);
+            Long idProducto = Long.parseLong(id);
+            producto = productoService.existeProducto(idProducto);
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("user", usuario);
+        model.addAttribute("product", producto);
 
         // validar si puede cambiar de rol
-        if(asignarRol) {
+        //esta parte creo que no se usa tampoco
+        //TODO
+        /*if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
         }
-        model.addAttribute("permisoAsignarRol", asignarRol);
+        model.addAttribute("permisoAsignarRol", asignarRol);*/
 
         if(eliminar) {
             return FORM_EDIT;
@@ -154,29 +159,31 @@ public class ProductoCrudController {
     }
 
     @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("usuario") UsuarioDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("producto") ProductoDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        Usuario usuario;
+        Producto producto;
 
         if (result.hasErrors()) {
 //            studentDTO.setId(id);
             return RD_FORM_VIEW;
         }
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            usuario = usuarioService.existeUsuario(id);
-            if(usuario != null) {
-                usuarioService.convertirDTO(usuario, objetoDTO);
+        if(productoService.tienePermiso(operacion + VIEW)) {
+            producto = productoService.existeProducto(id);
+            if(producto != null) {
+                productoService.convertirDTO(producto, objetoDTO);
 
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
-                if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
-                    usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-                }
 
-                attributes.addFlashAttribute("message", "¡Usuario actualizado correctamente!");
-                usuarioService.guardar(usuario);
+                //este tampoco creo que se usa
+                /*if(productoService.tienePermiso(P_ASIGNAR_ROL)) {
+                    producto.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
+                }*/
+
+                attributes.addFlashAttribute("message", "¡Producto actualizado correctamente!");
+                productoService.guardar(producto);
                 return RD_FORM_VIEW;
             }
         }
@@ -186,18 +193,18 @@ public class ProductoCrudController {
     @GetMapping("/{id}/delete")
         public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
         this.operacion = "eliminar-";
-        Long idUsuario;
+        Long idProducto;
 
         try {
-            idUsuario = Long.parseLong(id);
+            idProducto = Long.parseLong(id);
         } catch (Exception e) {
             return RD_FORM_VIEW;
         }
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
-            usuarioService.eliminarUsuario(usuario);
-            attributes.addFlashAttribute("message", "¡Usuario eliminado correctamente!");
+        if(productoService.tienePermiso(operacion + VIEW)) {
+            Producto producto = productoService.obtenerProducto(idProducto);
+            productoService.eliminarProducto(producto);
+            attributes.addFlashAttribute("message", "¡Producto eliminado correctamente!");
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;

@@ -73,7 +73,21 @@ public class TipoDocumentoServiceImp implements TipoDocumentoService {
     }
 
     @Override
+    public TipoDocumento obtenerTipoDocumento(Long id) {
+        return tipoDocumentoRepository.findByIdTipoDocumento(id);
+    }
+
+    @Override
     public void eliminarTipoDocumento(TipoDocumento tipoDocumento) {
         tipoDocumentoRepository.delete(tipoDocumento);
     }
+
+    @Override
+    public boolean tienePermiso(String permiso) {
+        /*for(Permiso aux : this.verPermisosUsuarioActual()) {
+            if(permiso.equals(aux.toString())) return true;
+        }*/
+        return true;
+    }
+
 }

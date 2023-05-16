@@ -4,13 +4,13 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">CRUD de Tipo de Documento</b></h1> <!--titulo-->
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">CRUD Proveedor</b></h1> <!--titulo-->
 
   <!--th:block th:include="fragment/success-message.html"></th:block-->
 
   <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
-    <a th:href="@{/crudTipoDoc/nuevo}" class="btn btn-success mb-4">
-      <i class="fa-solid fa-hammer"></i> Crear nuevo tipo de documento
+    <a th:href="@{/proveedores/nuevo}" class="btn btn-success mb-4">
+      <i class="fa-solid fa-hammer"></i> Agregar nuevo proveedor
     </a>
   </th:block> <!--modificar front-->
 
@@ -21,18 +21,18 @@
     <table class="table table-striped mb-0" ><!---->
       <thead style="background-color: #0a4275;"><!---->
       <tr class="text-center"><!---->
-        <th>Servicio</th><!---->
-        <th>Precio</th><!---->
+        <th>Nombre</th><!---->
+        <th>Contacto</th><!---->
         <th>Acción</th><!---->
       </tr><!---->
       </thead><!---->
       <tbody><!---->
-      <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
+      <tr th:if="${#lists.isEmpty(listProveedor)}"><!---->
         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
       </tr><!---->
-      <tr class="text-center" th:each="user: ${listServicios}">
-        <td th:text="${user.service}">Servicio</td>
-        <td th:text="${user.precio}">Precio</td><!---->
+      <tr class="text-center" th:each="user: ${listProveedor}">
+        <td th:text="${user.service}">Nombre</td>
+        <td th:text="${user.precio}">Contacto</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
             <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 

@@ -44,9 +44,9 @@ public class TipoDocumento {
     private LocalDateTime fechaActualizacion;
     
     //@ManyToOne(fetch = FetchType.LAZY)
-    @ManyToOne
+   /* @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false, referencedColumnName = "idCliente")
-    private Cliente cliente;
+    private Cliente cliente;*/
 
 
 } /* Se crea un relacion tambien con Proyecto */

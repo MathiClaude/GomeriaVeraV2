@@ -18,15 +18,15 @@ import java.util.ArrayList;
  * para realizar venta
  */
 @Controller
-@RequestMapping("/crudProveedor")
+@RequestMapping("/proveedores")
 public class ProveedorController {
-    final String VIEW = "crudSistema"; // identificador de la vista
-    final String VIEW_PATH = "crudSistema";
+    final String VIEW = "proveedor"; // identificador de la vista
+    final String VIEW_PATH = "proveedor";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/crudProveedor";
-    final String FORM_NEW = VIEW_PATH + "/crudProveedorNuevo";
-    final String FORM_EDIT = VIEW_PATH + "/crudProveedorEdit";
-    final String RD_FORM_VIEW = "redirect:/usuarios";
+    final String FORM_VIEW = VIEW_PATH + "/proveedores";
+    final String FORM_NEW = VIEW_PATH + "/nuevo";
+    final String FORM_EDIT = VIEW_PATH + "/editar";
+    final String RD_FORM_VIEW = "redirect:/proveedores";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";

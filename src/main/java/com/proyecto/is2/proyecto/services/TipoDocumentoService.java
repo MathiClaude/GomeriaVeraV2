@@ -38,4 +38,8 @@ public interface TipoDocumentoService {
 
     public void eliminarTipoDocumento(TipoDocumento tipoDocumento);
 
+    public TipoDocumento obtenerTipoDocumento(Long id);
+
+    public boolean tienePermiso(String permiso);
+
 }

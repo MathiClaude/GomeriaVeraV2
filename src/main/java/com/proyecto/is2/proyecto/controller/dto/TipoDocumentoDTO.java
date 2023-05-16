@@ -27,7 +27,7 @@ public class TipoDocumentoDTO {
     
     private LocalDateTime fechaActualizacion;
     
-    private Long clienteId;
+    //private Long clienteId;
 
     // getters y setters
     

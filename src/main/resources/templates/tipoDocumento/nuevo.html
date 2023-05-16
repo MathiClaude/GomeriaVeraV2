@@ -7,17 +7,17 @@
             <img th:src="@{/img/tipoDoc.png}" class="center wp-image-4532"/> <!--div center img-->
         </div>
         <br> 
-        <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">CRUD de tipo de documento</b></h1> <!--titulo-->
-        <form method="post" th:action="@{/realizarVenta/registrarCliente}" th:object="${cliente}">
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Tipo de documentos</b></h1> <!--titulo-->
+        <form method="post" th:action="@{/tipoDocumentos/crear}" th:object="${tipoDocumento}">
             <fieldset>
                 <br> <!--separador-->
                 <div class="container">
                         <!-- Form para tipo de documento-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Tipo de Documento</label>
+                                <label for="inputNombre" class="form-label">Tipo de Documento</label>
                                 <!--TEMPORAL PARA TUTORÍA-->
-                                <select class="form-select" aria-label="Default select example">
+                                <select class="form-select" aria-label="Default select example" name="nombre">
                                     <option selected>Seleccione Tipo de Documento</option>
                                     <option value="1">Cédula de Identidad</option>
                                     <option value="2">RUC</option>
@@ -34,8 +34,8 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="idTipoDocumento" class="form-label">Descripción</label>
-                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca descripción para el tipo de documento seleccionado" autofocus>
+                                <label for="inputDescripcion" class="form-label">Descripción</label>
+                                <input type="text" class="form-control" id="inputDescripcion" name="descripcion" placeholder="Introduzca descripción para el tipo de documento seleccionado" autofocus>
                             </div>
                         </div>
                                                 

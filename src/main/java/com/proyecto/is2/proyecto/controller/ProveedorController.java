@@ -19,13 +19,13 @@ import java.util.ArrayList;
  */
 @Controller
 @RequestMapping("/crudProveedor")
-public class ProveedorCrudController {
+public class ProveedorController {
     final String VIEW = "crudSistema"; // identificador de la vista
     final String VIEW_PATH = "crudSistema";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/crudProveedor";
-    final String FORM_NEW = VIEW_PATH + "/nuevo";
-    final String FORM_EDIT = VIEW_PATH + "/editar";
+    final String FORM_NEW = VIEW_PATH + "/crudProveedorNuevo";
+    final String FORM_EDIT = VIEW_PATH + "/crudProveedorEdit";
     final String RD_FORM_VIEW = "redirect:/usuarios";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;

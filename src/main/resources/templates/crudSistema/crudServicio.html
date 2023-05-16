@@ -9,7 +9,7 @@
   <!--th:block th:include="fragment/success-message.html"></th:block-->
 
   <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
-    <a th:href="@{/crudServicioNuevo}" class="btn btn-success mb-4">
+    <a th:href="@{/crudServicio/nuevo}" class="btn btn-success mb-4">
       <i class="fa-solid fa-hammer"></i> Crear nuevo servicio
     </a>
   </th:block> <!--modificar front-->
@@ -30,16 +30,16 @@
       <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
       </tr><!---->
-      <tr class="text-center" th:each="user: ${listServicios}">
-        <td th:text="${user.service}">Servicio</td>
-        <td th:text="${user.precio}">Precio</td><!---->
+      <tr class="text-center" th:each="servicio: ${listServicios}">
+        <td th:text="${servicio.descripcionServicio}">Servicio</td>
+        <td th:text="${servicio.precio}">Precio</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
-            <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 
+            <a th:if="${permisoActualizar eq true}" th:href="@{/crudServicio/{id}(id=${servicio.idServicio})}" 
                class="btn btn-sm btn-outline-primary"><!---->
               <i class="fa-solid fa-pen-to-square"></i><!---->
             </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
+            <a th:if="${permisoEliminar eq true}" th:href="@{/crudServicio/{id}/delete(id=${servicio.idServicio})}">
               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>

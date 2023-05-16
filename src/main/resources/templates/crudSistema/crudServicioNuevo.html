@@ -8,7 +8,7 @@
         </div>
         <br> 
         <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">CRUD de Servicios</b></h1> <!--titulo-->
-        <form method="post" th:action="@{/realizarVenta/registrarCliente}" th:object="${cliente}">
+        <form method="post" th:action="@{/crudServicio/crear}" th:object="${servicio}">
             <fieldset>
                 <br> <!--separador-->
                 <div class="container">
@@ -16,16 +16,16 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="idTipoDocumento" class="form-label">Nombre del Servicio</label>
-                                <input type="text" class="form-control" id="idTipoDocumento" name="user" placeholder="Introduzca nombre del servicio" autofocus>
+                                <label for="inputServicio" class="form-label">Nombre del Servicio</label>
+                                <input type="text" class="form-control" id="inputServicio" name="descripcionServicio" placeholder="Introduzca nombre del servicio" autofocus>
                             </div>
                         </div>
                         
-                        <!--Precio del producto-->
+                        <!--Precio del servicio-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Precio</label>
-                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca precio" autofocus>
+                                <label for="inputPrecio" class="form-label">Precio</label>
+                                <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca precio" autofocus>
                             </div>
                         </div>
                     </div>
@@ -38,10 +38,8 @@
                     </div>
                         <div class="col-sm-8"></div>
                         <div class="col-sm-2">
-                          <a th:href="@{/crudServicio}" class="btn btn-success w-100">
-                              Guardar Servicio
-                          </a>
-                      </div>
+                            <button type="submit" class="btn btn-success w-100">Guardar Servicio</button>
+                        </div>
                         </div>
                     </div>
                 </div>

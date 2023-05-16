@@ -24,8 +24,8 @@ public class TipoDocumentoController {
     final String VIEW_PATH = "crudSistema";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/crudTipoDoc";
-    final String FORM_NEW = VIEW_PATH + "/nuevo";
-    final String FORM_EDIT = VIEW_PATH + "/editar";
+    final String FORM_NEW = VIEW_PATH + "/crudTipoDocNuevo";
+    final String FORM_EDIT = VIEW_PATH + "/crudTipoDocEdit";
     final String RD_FORM_VIEW = "redirect:/usuarios";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;

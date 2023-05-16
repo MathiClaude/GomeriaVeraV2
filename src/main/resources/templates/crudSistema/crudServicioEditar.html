@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Servicio</b></h1> <!--titulo-->
+
+  <form method="POST" th:action="@{/crudServicio/{id}(id=${servicio.idServicio})}" th:object="${servicio}">
+    <!--th:block th:include="fragment/error-message.html"></th:block-->
+
+    <fieldset>
+      <legend>Información del Servicio</legend>
+      <div class="mb-3"> <!-- margen button -->
+        <label class="form-label">Id Servicio: [[${servicio.idServicio}]]</label>
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label class="form-label">Descripción: [[${servicio.descripcionServicio}]]</label>
+        <input type="hidden" name="descripcionServicio" th:value="${servicio.descripcionServicio}" />
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputNombre2" class="form-label">Precio</label>
+        <input type="text" class="form-control" id="inputPrecio" name="precio" th:value="${servicio.precio}">
+      </div>
+    </fieldset>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <a th:href="@{/crudServicio}" class="btn btn-outline-secondary w-100">
+          Atrás
+        </a>
+      </div>
+      <div class="col-sm-6">
+        <button type="submit" class="btn btn-warning w-100">Modificar Servicio</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

@@ -28,7 +28,7 @@ public class ServicioController {
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/crudServicio";
     final String FORM_NEW = VIEW_PATH + "/crudServicioNuevo";
-    final String FORM_EDIT = VIEW_PATH + "/crudServicioEdit";
+    final String FORM_EDIT = VIEW_PATH + "/crudServicioEditar";
     final String RD_FORM_VIEW = "redirect:/crudServicio";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;

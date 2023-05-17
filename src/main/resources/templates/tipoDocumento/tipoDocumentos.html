@@ -21,8 +21,8 @@
     <table class="table table-striped mb-0" ><!---->
       <thead style="background-color: #0a4275;"><!---->
       <tr class="text-center"><!---->
-        <th>Servicio</th><!---->
-        <th>Precio</th><!---->
+        <th>Tipo de Doc</th><!---->
+        <th>Descripción</th><!---->
         <th>Acción</th><!---->
       </tr><!---->
       </thead><!---->
@@ -31,8 +31,8 @@
         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
       </tr><!---->
       <tr class="text-center" th:each="doc: ${listTipDoc}">
-        <td th:text="${doc.nombre}">Servicio</td>
-        <td th:text="${doc.descripcion}">Precio</td><!---->
+        <td th:text="${doc.nombre}">Tipo de Doc</td>
+        <td th:text="${doc.descripcion}">Descripción</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
             <a th:if="${permisoActualizar eq true}" th:href="@{/tipoDocumentos/{id}(id=${tipoDocumento.idTipoDocumento})}" 

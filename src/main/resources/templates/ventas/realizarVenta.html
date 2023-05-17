@@ -101,7 +101,7 @@
                                 <th>Producto</th><!---->
                                 <th>Precio</th><!---->
                                 <th>Cantidad</th><!---->
-                                <th>Acción</th><!---->
+                                <!--th>Acción</th--><!---->
                               </tr><!---->
                               </thead><!---->
                               <tbody><!---->
@@ -110,8 +110,8 @@
                               </tr><!---->
                               <tr class="text-center" th:each="producto: ${listProduct}">
                                 <td th:text="${producto.nombreProducto}">Name</td>
-                                <td th:text="${producto.nombreProducto}">90.000</td><!---->
-                                <td th:text="${producto.nombreProducto}">12</td>                               
+                                <td th:text="${producto.precio}">90.000</td><!---->
+                                <td th:text="${producto.cantidad}">12</td>                               
                             </tr>
                           </tbody>
                         </table>
@@ -119,10 +119,10 @@
                       </div>                               
                     </div>
                       <!--Footer-->
-                      <div class="modal-footer">
+                      <div- class="modal-footer aria-hidden">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="button" class="btn btn-primary">Agregar</button>
-                      </div>
+                      </div->
                     </div>
                   </div>
                 </div>
@@ -135,7 +135,7 @@
           <div class="col">
             <div class="form-outline">
               <!--label for="inputUsuario" class="form-label">Cantidad Producto</label-->
-              <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca la cantidad deseada" autofocus>
+              <input type="text" class="form-control" id="inputCantidad" name="user" placeholder="Introduzca la cantidad deseada" autofocus>
             </div>
           </div>
           
@@ -146,109 +146,99 @@
           <table class="table table-striped mb-0" ><!---->
             <thead style="background-color: #0a4275;"><!---->
             <tr class="text-center"><!---->
-              <th>Servicio</th><!---->
+              <th>Producto</th><!---->
               <th>Precio</th><!---->
               <th>Acción</th><!---->
             </tr><!---->
             </thead><!---->
             <tbody><!---->
-            <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
+            <tr th:if="${#lists.isEmpty(listVenta)}"><!---->
               <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
             </tr><!---->
-            <tr class="text-center" th:each="servicio: ${listServicios}">
-              <td th:text="${servicio.descripcionServicio}">Servicio</td>
-              <td th:text="${servicio.precio}">Precio</td><!---->
+            <tr class="text-center" th:each="venta: ${listVenta}">
+              <td th:text="${venta.descripcionServicio}">Producto</td>
+              <td th:text="${venta.precio}">Precio</td><!---->
             </tr>
             </tbody>
           </table>
         </div>
     </div>
-
-          <!--TAB contenido de Servicio-->
-                    <div class="tab-pane fade" id="tabServicio" role="tabpanel" aria-labelledby="tabServicio">
-                      <legend style="color:#21618C">Servicio</legend>
-                      <!--Form para seleccionar el producto-->
-                      <div class="row mb-4">
-                        <div class="col">
-                          <div class="form-outline">
-                            <!--para poder desplegar pantalla flotante-->
-                            <div class="input-group mb-3">
-                              <input type="text" class="form-control" placeholder="Buscar servicio" aria-label="Buscar servicio" aria-describedby="button-addon2">
-                              <!-- Button trigger modal-->
-                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalServices" >
-                                <i class="bi bi-cup-hot-fill"></i>
-                              </button>
-                              
-                              <!-- Modal: modalServices-->
-                              <div class="modal fade" id="modalServices" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                              aria-hidden="true">
-                              <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                                <div class="modal-content">
-                                  <!--Header-->
-                                  <div class="modal-header">
-                                    <h4 class="modal-title" id="myModalLabel">Lista de Servicios</h4>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
-                                  </div>
-                                  <!-- Body para modal-->
-                                  <div class="modal-body">
-                                    <!--boton de busqueda-->
-                          <div class="input-group">
-                            <div class="form-outline">
-                              <input type="search" id="form1" class="form-control"/>
-                            </div>
-                            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark">
-                              <i class="fas fa-search"></i>
-                            </button>
-                          </div>
-                          <br>
-                                    <!--body de productos-->
-                                  <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-                                    <table class="table table-striped mb-0" ><!---->
-                                      <thead style="background-color: #0a4275;"><!---->
-                                      <tr class="text-center"><!---->
-                                        <th>Servicio</th><!---->
-                                        <th>Precio</th><!---->
-                                        <th>Acción</th><!---->
-                                      </tr><!---->
-                                      </thead><!---->
-                                      <tbody><!---->
-                                      <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
-                                        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
-                                      </tr><!---->
-                                      <tr class="text-center" th:each="servicio: ${listServicios}">
-                                        <td th:text="${servicio.descripcionServicio}">Servicio</td>
-                                        <td th:text="${servicio.precio}">Precio</td><!---->
-                                        <td><!---->
-                                          <div class="btn-group"><!---->
-                                            <a th:if="${permisoActualizar eq true}" th:href="@{/crudServicio/{id}(id=${servicio.idServicio})}" 
-                                               class="btn btn-sm btn-outline-primary"><!---->
-                                              <i class="fa-solid fa-pen-to-square"></i><!---->
-                                            </a>
-                                            <a th:if="${permisoEliminar eq true}" th:href="@{/crudServicio/{id}/delete(id=${servicio.idServicio})}">
-                                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                                                <i class="fa-sharp fa-solid fa-trash"></i>
-                                              </button>
-                                            </a>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                      </tbody>
-                                    </table>
-                                  <br>  
-                                </div>                               
-                              </div>
-                                <!--Footer-->
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                  <button type="button" class="btn btn-primary">Agregar</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      
+    <!--TAB contenido de Servicio-->
+        <div class="tab-pane fade" id="tabServicio" role="tabpanel" aria-labelledby="tabServicio">
+          <legend style="color:#21618C">Servicio</legend>
+          <!--Form para seleccionar el producto-->
+          <div class="row mb-4">
+            <div class="col">
+              <div class="form-outline">
+                <!--para poder desplegar pantalla flotante-->
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Buscar servicio" aria-label="Buscar servicio" aria-describedby="button-addon2">
+                  <!-- Button trigger modal-->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalServices" >
+                    <i class="bi bi-cup-hot-fill"></i>
+                  </button>
+                  
+                  <!-- Modal: modalServices-->
+                  <div class="modal fade" id="modalServices" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                  aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                    <div class="modal-content">
+                      <!--Header-->
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Lista de Servicios</h4>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
                       </div>
-                    </div><!--termina contenido del modal para servicio-->
+                      <!-- Body para modal-->
+                      <div class="modal-body">
+                        <!--boton de busqueda-->
+                      <div class="input-group">
+                        <div class="form-outline">
+                          <input type="search" id="form1" class="form-control"/>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark">
+                          <i class="fas fa-search"></i>
+                        </button>
+                      </div>
+                      <br>
+                        <!--body de servicios-->
+                        <div th:if="${permisoVer eq false}">
+                          <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+                        </div><!---->
+                        <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
+                          <table class="table table-striped mb-0" ><!---->
+                            <thead style="background-color: #0a4275;"><!---->
+                            <tr class="text-center"><!---->
+                              <th>Servicio</th><!---->
+                              <th>Precio</th><!---->
+                            </tr><!---->
+                            </thead><!---->
+                            <tbody><!---->
+
+                          <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
+                            <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+                          </tr><!---->
+                          <tr class="text-center" th:each="servicio: ${listServicios}">
+                            <td th:text="${servicio.descripcionServicio}">Servicio</td>
+                            <td th:text="${servicio.precio}">Precio</td><!---->
+                            
+                          </tr>
+                          </tbody>
+                        </table>
+                      <br>  
+                    </div>                               
+                  </div>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                      <button type="button" class="btn btn-primary">Agregar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+          </div>
+        </div><!--termina contenido del modal para servicio-->
                     
                   </div>
                   
@@ -263,19 +253,19 @@
                       </tr><!---->
                       </thead><!---->
                       <tbody><!---->
-                      <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
+                      <tr th:if="${#lists.isEmpty(listVentaDetalle)}"><!---->
                         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
                       </tr><!---->
-                      <tr class="text-center" th:each="servicio: ${listServicios}">
-                        <td th:text="${servicio.descripcionServicio}">Servicio</td>
-                        <td th:text="${servicio.precio}">Precio</td><!---->
+                      <tr class="text-center" th:each="ventaDetalle: ${listVentaDetalle}">
+                        <td th:text="${ventaDetalle.descripcionServicio}">Servicio</td>
+                        <td th:text="${ventaDetalle.precio}">Precio</td><!---->
                         <td><!---->
                           <div class="btn-group"><!---->
-                            <a th:if="${permisoActualizar eq true}" th:href="@{/crudServicio/{id}(id=${servicio.idServicio})}" 
+                            <a th:if="${permisoActualizar eq true}" th:href="@{/crudServicio/{id}(id=${ventaDetalle.idServicio})}" 
                                class="btn btn-sm btn-outline-primary"><!---->
                               <i class="fa-solid fa-pen-to-square"></i><!---->
                             </a>
-                            <a th:if="${permisoEliminar eq true}" th:href="@{/crudServicio/{id}/delete(id=${servicio.idServicio})}">
+                            <a th:if="${permisoEliminar eq true}" th:href="@{/crudServicio/{id}/delete(id=${ventaDetalle.idServicio})}">
                               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                                 <i class="fa-sharp fa-solid fa-trash"></i>
                               </button>

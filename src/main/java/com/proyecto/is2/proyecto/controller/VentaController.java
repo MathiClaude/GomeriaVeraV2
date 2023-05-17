@@ -4,6 +4,9 @@ import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
+import com.proyecto.is2.proyecto.services.ProductoServiceImp;
+import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +37,12 @@ public class VentaController {
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
 
     @Autowired
-    private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
+    private UsuarioServiceImp usuarioService;
+     // llamada a los servicios de usuario
+     @Autowired
+     private ProductoServiceImp productoService; // llamada a los servicios de usuario
+     @Autowired
+     private ServicioServiceImp servicioService; // llamada a los servicios de usuario
 
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
@@ -58,12 +66,11 @@ public class VentaController {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
-        //        if(!crear && !eliminar && !actualizar) {
-        //            return FALTA_PERMISO_VIEW;
-        //        }
 
         if(consultar) {
-            model.addAttribute("listUser", usuarioService.listarUsuarios());//lista los usuarios
+            model.addAttribute("listProduct", productoService.listar());//lista los productos
+            model.addAttribute("listServicio", servicioService.listar());//lista los productos
+
         } else {
             return FALTA_PERMISO_VIEW;
         }

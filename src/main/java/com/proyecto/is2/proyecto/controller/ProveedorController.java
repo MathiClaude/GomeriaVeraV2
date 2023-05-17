@@ -1,9 +1,8 @@
 package com.proyecto.is2.proyecto.controller;
-import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
-import com.proyecto.is2.proyecto.model.Rol;
-import com.proyecto.is2.proyecto.model.Usuario;
+import com.proyecto.is2.proyecto.controller.dto.ProveedorDTO;
+import com.proyecto.is2.proyecto.model.Proveedor;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
-import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
+import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,10 +33,10 @@ public class ProveedorController {
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
 
     @Autowired
-    private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
-
+    private ProveedorServiceImp proveedorService; // llamada a los proveedors de proveedor
+    
     @Autowired
-    private RolServiceImp rolService;//llamada a servicios de roles
+    private RolServiceImp rolService;//llamada a proveedors de roles
 
     /**
      * Instancia un UsuarioDTO para rellenar con datos
@@ -45,25 +44,25 @@ public class ProveedorController {
      * Usuario.
      * @return
      */
-    @ModelAttribute("usuario")
-    public UsuarioDTO instanciarObjetoDTO() {
-        return new UsuarioDTO();
+    @ModelAttribute("proveedor")
+    public ProveedorDTO instanciarObjetoDTO() {
+        return new ProveedorDTO();
     }
 
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = proveedorService.tienePermiso("consultar-" + VIEW);
+        boolean crear = proveedorService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = proveedorService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = proveedorService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
         //        }
 
         if(consultar) {
-            model.addAttribute("listUser", usuarioService.listarUsuarios());//lista los usuarios
+            model.addAttribute("listProveedor", proveedorService.listar());//lista los proveedors
         } else {
             return FALTA_PERMISO_VIEW;
         }
@@ -78,8 +77,8 @@ public class ProveedorController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = proveedorService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = proveedorService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -94,7 +93,7 @@ public class ProveedorController {
     }
 
     @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("usuario") UsuarioDTO objetoDTO,
+    public String crearObjeto(@ModelAttribute("proveedor") ProveedorDTO objetoDTO,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
@@ -102,49 +101,38 @@ public class ProveedorController {
 //            return FORM_NEW;
 //        }
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Usuario usuario = new Usuario();
-            usuarioService.convertirDTO(usuario, objetoDTO);
+        if(proveedorService.tienePermiso(operacion + VIEW)) {
+            Proveedor proveedor = new Proveedor();
+            proveedorService.convertirDTO(proveedor, objetoDTO);
 
-            // si tiene permiso se le asigna el rol con id del formulario
-            // sino se le asignar un rol por defecto.
-            if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
-                usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-            } else {
-                usuario.setRol(rolService.existeRol(1L)); // ID 1: Rol sin permisos.
-            }
+            proveedorService.guardar(proveedor);
 
-            usuarioService.guardar(usuario);
-
-            attributes.addFlashAttribute("message", "¡Usuario creado exitosamente!");
+            attributes.addFlashAttribute("message", "¡Proveedor creado exitosamente!");
 
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;
+            
+
         }
     }
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        Usuario usuario;
+        boolean eliminar = proveedorService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = proveedorService.tienePermiso("asignar-rol-" + VIEW);
+        Proveedor proveedor;
 
         // validar el id
         try {
-            Long idUsuario = Long.parseLong(id);
-            usuario = usuarioService.existeUsuario(idUsuario);
+            Long idProveedor = Long.parseLong(id);
+            proveedor = proveedorService.existeProveedor(idProveedor);
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("user", usuario);
+        model.addAttribute("proveedor", proveedor);
 
-        // validar si puede cambiar de rol
-        if(asignarRol) {
-            model.addAttribute("roles", rolService.listar());
-        }
-        model.addAttribute("permisoAsignarRol", asignarRol);
 
         if(eliminar) {
             return FORM_EDIT;
@@ -154,29 +142,23 @@ public class ProveedorController {
     }
 
     @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("usuario") UsuarioDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("proveedor") ProveedorDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        Usuario usuario;
+        Proveedor proveedor;
 
         if (result.hasErrors()) {
 //            studentDTO.setId(id);
             return RD_FORM_VIEW;
         }
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            usuario = usuarioService.existeUsuario(id);
-            if(usuario != null) {
-                usuarioService.convertirDTO(usuario, objetoDTO);
+        if(proveedorService.tienePermiso(operacion + VIEW)) {
+            proveedor = proveedorService.existeProveedor(id);
+            if(proveedor != null) {
+                proveedorService.convertirDTO(proveedor, objetoDTO);
 
-                // si tiene permiso se le asigna el rol con id del formulario
-                // sino se queda con el mismo rol.
-                if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
-                    usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-                }
-
-                attributes.addFlashAttribute("message", "¡Usuario actualizado correctamente!");
-                usuarioService.guardar(usuario);
+                attributes.addFlashAttribute("message", "¡Proveedor actualizado correctamente!");
+                proveedorService.guardar(proveedor);
                 return RD_FORM_VIEW;
             }
         }
@@ -186,51 +168,22 @@ public class ProveedorController {
     @GetMapping("/{id}/delete")
         public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
         this.operacion = "eliminar-";
-        Long idUsuario;
+        Long idProveedor;
 
         try {
-            idUsuario = Long.parseLong(id);
+            idProveedor = Long.parseLong(id);
         } catch (Exception e) {
             return RD_FORM_VIEW;
         }
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
-            usuarioService.eliminarUsuario(usuario);
-            attributes.addFlashAttribute("message", "¡Usuario eliminado correctamente!");
+        if(proveedorService.tienePermiso(operacion + VIEW)) {
+            Proveedor proveedor = proveedorService.obtenerProveedor(idProveedor);
+            proveedorService.eliminarProveedor(proveedor);
+            attributes.addFlashAttribute("message", "¡Proveedor eliminado correctamente!");
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;
         }
     }
-
-//    @GetMapping("asignar-rol")
-//    public String asignarRolUsuario() {
-//        this.operacion = "asignar-rol-";
-//
-//        if(usuarioService.tienePermiso(operacion + VIEW)) {
-//            if(usuarioService.tienePermiso(operacion + VIEW)) {
-//                return ASIGNAR_ROL_VIEW;
-//            }
-//        }
-//        return FALTA_PERMISO_VIEW;
-//    }
-
-//    @PostMapping("asignar-rol")
-//    public String asignarRolUsuarioForm(@RequestParam("id_rol") Long idRol, @RequestParam("username") String email) {
-//        this.operacion = "asignar-rol-";
-//
-//        if(usuarioService.tienePermiso(operacion + VIEW)) {
-//            Usuario usuario = usuarioService.existeUsuario(email);
-//            Rol rol = rolService.existeRol(idRol);
-//
-//            if(usuario != null && rol != null) {
-//                usuario.setRol(rol);
-//                usuarioService.guardar(usuario);
-//                return RD_ASIGNAR_ROL_VIEW;
-//            }
-//        }
-//        return RD_FALTA_PERMISO_VIEW;
-//    }
 
 }

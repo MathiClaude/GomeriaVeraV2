@@ -8,7 +8,7 @@
         </div>
         <br> 
         <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Registro de nuevo cliente</b></h1> <!--titulo-->
-        <form method="post" th:action="@{/realizarVenta/registrarCliente}" th:object="${cliente}">
+        <form method="post" th:action="@{/registrarCliente/crear}" th:object="${cliente}">
             <fieldset>
                 <legend style="color:#21618C">Información del Cliente</legend>
                 <br> <!--separador-->
@@ -17,15 +17,15 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Nombres</label>
-                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca nombres" autofocus>
+                                <label for="nombre" class="form-label">Nombres</label>
+                                <input type="text" class="form-control" id="nombre" name="name" placeholder="Introduzca nombres" autofocus>
                             </div>
                         </div>
                         <!-- Form para apellidos-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca Apellidos" autofocus>
+                                <label for="apellido" class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" id="apellido" name="lastName" placeholder="Introduzca Apellidos" autofocus>
                             </div>
                         </div>
                     </div>
@@ -33,24 +33,22 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Tipo de Documento</label>
+                                <label for="tipoDoc" class="form-label">Tipo de Documento</label>
                                 <!--TEMPORAL PARA TUTORÍA-->
                                 <select class="form-select" aria-label="Default select example">
                                     <option selected>Seleccione Tipo de Documento</option>
                                     <option value="1">Cédula de Identidad</option>
                                     <option value="2">RUC</option>
                                 </select>
-                                <!--select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idCliente">
-                                    <option th:each="elemento : ${clientes}" th:value="${elemento.idCliente}" th:text="${elemento.toString()}"></option>
-                                </select-->
+                                
                             </div>
                         </div>
                         
                         <!--Nro. Documento de Cliente-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Nro. Documento</label>
-                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca documento" autofocus>
+                                <label for="nroDoc" class="form-label">Nro. Documento</label>
+                                <input type="text" class="form-control" id="nroDoc" name="documentNumber" placeholder="Introduzca documento" autofocus>
                             </div>
                         </div>
                     </div>
@@ -58,9 +56,9 @@
                     <!--Correo de Cliente-->
                     <div class="row mb-4">
                         <div class="col">
-                            <label for="inputUsuario" class="form-label">Correo Electrónico</label>
+                            <label for="correo" class="form-label">Correo Electrónico</label>
                             <div class="input-group mb-3">
-                                <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                                <input type="text" name="email" class="form-control" aria-label="Text input with dropdown button">
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">@</button>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                   <li><a class="dropdown-item" href="#">@gmail.com</a></li>
@@ -74,8 +72,8 @@
                         <!-- Form para Teléfono-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputUsuario" class="form-label">Nro. de Teléfono</label>
-                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca nro. de teléfono" autofocus>
+                                <label for="telefono" class="form-label">Nro. de Teléfono</label>
+                                <input type="text" class="form-control" id="telefono" name="telephone" placeholder="Introduzca nro. de teléfono" autofocus>
                             </div>
                         </div>
                     </div>
@@ -87,7 +85,7 @@
                         </div>
                         <div class="col-sm-8"></div>
                         <div class="col-sm-2">
-                            <a th:href="@{/realizarVenta}" class="btn btn-success w-100">Registrar Cliente</a>
+                            <button type="submit" class="btn btn-success w-100">Guardar Cliente</button>
                         </div>
                     </div>
                 </div>

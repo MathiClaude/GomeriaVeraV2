@@ -30,16 +30,16 @@
       <tr th:if="${#lists.isEmpty(listProveedor)}"><!---->
         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
       </tr><!---->
-      <tr class="text-center" th:each="user: ${listProveedor}">
-        <td th:text="${user.service}">Nombre</td>
-        <td th:text="${user.precio}">Contacto</td><!---->
+      <tr class="text-center" th:each="proveedor: ${listProveedor}">
+        <td th:text="${proveedor.nombre}">Nombre</td>
+        <td th:text="${proveedor.numeroContacto}">Contacto</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
-            <a th:if="${permisoActualizar eq true}" th:href="@{/usuarios/{id}(id=${user.idUsuario})}" 
+            <a th:if="${permisoActualizar eq true}" th:href="@{/proveedores/{id}(id=${proveedor.idProveedor})}" 
                class="btn btn-sm btn-outline-primary"><!---->
               <i class="fa-solid fa-pen-to-square"></i><!---->
             </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
+            <a th:if="${permisoEliminar eq true}" th:href="@{/proveedores/{id}/delete(id=${proveedor.idProveedor})}">
               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>

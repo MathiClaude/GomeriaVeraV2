@@ -38,5 +38,9 @@ public interface ClienteService {
     public Cliente existeCliente(Long id);
 
     public void eliminarCliente(Cliente cliente);
+    
+    public Cliente obtenerCliente(Long id);
+
+    public boolean tienePermiso(String permiso);
 
 }

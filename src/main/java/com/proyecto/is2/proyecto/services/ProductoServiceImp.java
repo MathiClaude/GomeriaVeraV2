@@ -51,9 +51,10 @@ public class ProductoServiceImp implements ProductoService {
 
     @Override
     public void convertirDTO(Producto producto, ProductoDTO objetoDTO) {
-        //permiso.setNombre(objetoDTO.getNombre());
-        //permiso.setDescripcion(objetoDTO.getDescripcion());
-        //permiso.setVista(vistaService.existeVista(objetoDTO.getIdVista()));
+        producto.setNombreProducto(objetoDTO.getNombreProducto());
+        producto.setPrecio(objetoDTO.getPrecio());
+        producto.setCantidad(objetoDTO.getCantidad());
+        //producto.setVista(vistaService.existeVista(objetoDTO.getIdVista()));
         return;
     }
 

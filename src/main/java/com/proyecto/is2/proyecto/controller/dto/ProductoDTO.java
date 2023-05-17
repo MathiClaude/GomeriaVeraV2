@@ -11,5 +11,7 @@ public class ProductoDTO {
     private String nombreProducto;
     private String fechaIngreso;
     private String esActual;
+    private Integer precio;
+    private Integer cantidad;
 
 }

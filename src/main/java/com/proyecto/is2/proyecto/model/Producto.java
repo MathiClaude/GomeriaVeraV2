@@ -25,6 +25,12 @@ public class Producto {
     @Column(name = "esActual")
     private String esActual;
 
+    @Column(name = "precio")
+    private Integer precio;
+
+    @Column(name = "cantidad")
+    private Integer cantidad;
+
     /*public String toString() {
         return email;
     }*/

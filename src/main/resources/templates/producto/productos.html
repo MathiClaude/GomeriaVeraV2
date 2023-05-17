@@ -33,8 +33,8 @@
       </tr><!---->
       <tr class="text-center" th:each="producto: ${listProduct}">
         <td th:text="${producto.nombreProducto}">Name</td>
-        <td th:text="${producto.nombreProducto}">90.000</td><!---->
-        <td th:text="${producto.nombreProducto}">12</td>
+        <td th:text="${producto.precio}">90.000</td><!---->
+        <td th:text="${producto.cantidad}">12</td>
         <td><!---->
           <div class="btn-group"><!---->
             <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${producto.idProducto})}" 

@@ -51,9 +51,10 @@ public class TipoDocumentoServiceImp implements TipoDocumentoService {
 
     @Override
     public void convertirDTO(TipoDocumento tipoDocumento, TipoDocumentoDTO objetoDTO) {
-        //permiso.setNombre(objetoDTO.getNombre());
-        //permiso.setDescripcion(objetoDTO.getDescripcion());
+        tipoDocumento.setNombre(objetoDTO.getNombre());
+        tipoDocumento.setDescripcion(objetoDTO.getDescripcion());
         //permiso.setVista(vistaService.existeVista(objetoDTO.getIdVista()));
+
         return;
     }
 

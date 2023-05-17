@@ -30,9 +30,9 @@
       <tr th:if="${#lists.isEmpty(listTipDoc)}"><!---->
         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
       </tr><!---->
-      <tr class="text-center" th:each="user: ${listTipDoc}">
-        <td th:text="${tipoDocumento.nombre}">Servicio</td>
-        <td th:text="${tipoDocumento.descripcion}">Precio</td><!---->
+      <tr class="text-center" th:each="doc: ${listTipDoc}">
+        <td th:text="${doc.nombre}">Servicio</td>
+        <td th:text="${doc.descripcion}">Precio</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
             <a th:if="${permisoActualizar eq true}" th:href="@{/tipoDocumentos/{id}(id=${tipoDocumento.idTipoDocumento})}" 

@@ -32,7 +32,7 @@
       </tr><!---->
       <tr class="text-center" th:each="proveedor: ${listProveedor}">
         <td th:text="${proveedor.nombre}">Nombre</td>
-        <td th:text="${proveedor.numeroContacto}">Contacto</td><!---->
+        <td th:text="${proveedor.nombreContacto}">Contacto</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
             <a th:if="${permisoActualizar eq true}" th:href="@{/proveedores/{id}(id=${proveedor.idProveedor})}" 

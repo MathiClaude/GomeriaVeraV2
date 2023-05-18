@@ -19,8 +19,21 @@ public class Proveedor {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "numeroContacto")
-    private Integer numeroContacto;
+    @Column(name = "nombreFantasia")
+    private String nombreFantasia;
+
+
+    @Column(name = "nombreContacto")
+    private String nombreContacto;
+
+    @Column(name = "ruc")
+    private String ruc;
+
+    @Column(name = "contacto")
+    private String contacto;
+
+    @Column(name = "esActual")
+    private String esActual;
 
 
 } /* Se crea un relacion tambien con Proyecto */

@@ -22,7 +22,11 @@ public class ProveedorServiceImp implements ProveedorService {
     @Override
     public void convertirDTO(Proveedor proveedor, ProveedorDTO objetoDTO) {
         proveedor.setNombre(objetoDTO.getNombre());
-        proveedor.setNumeroContacto(objetoDTO.getNumeroContacto());
+        proveedor.setNombreContacto(objetoDTO.getNombreContacto());
+        proveedor.setContacto(objetoDTO.getContacto());
+        proveedor.setContacto(objetoDTO.getNombreFantasia());
+        proveedor.setRuc(objetoDTO.getRuc());
+        proveedor.setEsActual(objetoDTO.getEsActual());
         
         return;
     }

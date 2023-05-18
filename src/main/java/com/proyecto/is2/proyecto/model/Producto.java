@@ -31,6 +31,24 @@ public class Producto {
     @Column(name = "cantidad")
     private Integer cantidad;
 
+    @Column(name = "familiaProducto")
+    private String familiaProducto;
+
+    @Column(name = "tipoProducto")
+    private String tipoProducto;
+
+    @Column(name = "codigo")
+    private String codigo;
+
+    @Column(name = "unidadMedida")
+    private String unidadMedida;
+
+    @Column(name = "color")
+    private String color;
+
+    @Column(name = "procedencia")
+    private String procedencia;
+
     /*public String toString() {
         return email;
     }*/

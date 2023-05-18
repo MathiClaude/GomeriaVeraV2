@@ -9,6 +9,10 @@ import java.util.Set;
 public class ProveedorDTO {
     private Long idProveedor;
     private String nombre;
-    private Integer numeroContacto;
+    private String nombreFantasia;
+    private String nombreContacto;
+    private String ruc;
+    private String contacto;
+    private String esActual;
 
 }

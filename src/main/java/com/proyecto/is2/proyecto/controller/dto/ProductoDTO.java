@@ -11,7 +11,15 @@ public class ProductoDTO {
     private String nombreProducto;
     private String fechaIngreso;
     private String esActual;
-    private Integer precio;
-    private Integer cantidad;
+    private Integer precio;//sacar. Es solo para pruebas
+    private Integer cantidad;//sacar Es solo para prubas
+    //
+    private String familiaProducto;
+    private String tipoProducto;
+    private String codigo;
+    private String unidadMedida;
+    private String color;
+    private String procedencia;
+
 
 }

@@ -12,24 +12,76 @@
             <fieldset>
                 <br> <!--separador-->
                 <div class="container">
-                    <!--Nombre del proveedor-->
+                    <div class="form-outline">
+                        <!--esto es temporal ahora-->
+                        <label for="inputNombre" class="form-label">Tipo de Documento</label>
+                        <!--TEMPORAL PARA TUTORÍA-->
+                        <select class="form-select" aria-label="Default select example" name="nombre">
+                            <option selected>Seleccione Tipo de Documento</option>
+                            <option value="1">Cédula de Identidad</option>
+                            <option value="2">RUC</option>
+                            <option value="3">Pasaporte</option>
+                        </select>
+                    </div>
+                    <br>
+                    <!--Razón social del proveedor-->
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="nombre" class="form-label">Nombre del Proveedor</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduzca nombre del proveedor" autofocus>
+                                <label for="nombre" class="form-label">Razón social</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduzca razón social del proveedor" autofocus>
                             </div>
                         </div>
-                        
+                        <br>
                         <!--Contacto del proveedor-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="nombreContacto" class="form-label">Contacto</label>
-                                <input type="text" class="form-control" id="nombreContacto" name="numeroContacto" placeholder="Introduzca nro contacto" autofocus>
+                                <label for="nombreContacto" class="form-label">Nombre de Contacto</label>
+                                <input type="text" class="form-control" id="nombreContacto" name="numeroContacto" placeholder="Introduzca nombre del contacto" autofocus>
                             </div>
                         </div>
                     </div>
-                                        
+                    <!--Tipo de persona-->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputNombre" class="form-label">Tipo de Persona</label>
+                                <!--TEMPORAL PARA TUTORÍA-->
+                                <select class="form-select" aria-label="Default select example" name="nombre">
+                                    <option selected>Seleccione Tipo de Persona</option>
+                                    <option value="1">Persona Física</option>
+                                    <option value="2">Persona Jurídica</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <!--Dirección del proveedor-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="direccion" class="form-label">Dirección</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Introduzca la dirección del proveedor" autofocus>
+                            </div>
+                        </div>
+                        <!--Teléfono del proveedor-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Introduzca el telefono del proveedor" autofocus>
+                            </div>
+                        </div>
+                        <!--Estado  del proveedor-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputNombre" class="form-label">Estado del proveedor</label>
+                                <!--TEMPORAL PARA TUTORÍA-->
+                                <select class="form-select" aria-label="Default select example" name="nombre">
+                                    <option selected>Seleccione Tipo de Persona</option>
+                                    <option value="1">Activo</option>
+                                    <option value="2">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>                    
                     <div class="row">
                       <div class="col-sm-2">
                         <a href="javascript:history.back()" class="btn btn-outline-info w-100">

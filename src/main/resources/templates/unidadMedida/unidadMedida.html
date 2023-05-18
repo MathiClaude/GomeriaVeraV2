@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">CRUD de Unidad de Medida</b></h1> <!--titulo-->
+
+  <!--th:block th:include="fragment/success-message.html"></th:block-->
+
+  <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
+    <a th:href="@{/unidadMedidas/nuevo}" class="btn btn-success mb-4">
+      <i class="fa-solid fa-hammer"></i> Crear nueva unidad de medida
+    </a>
+  </th:block> <!--modificar front-->
+
+  <div th:if="${permisoVer eq false}">
+    <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+  </div><!---->
+  <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
+    <table class="table table-striped mb-0" ><!---->
+      <thead style="background-color: #0a4275;"><!---->
+      <tr class="text-center"><!---->
+        <th>Tipo de Doc</th><!---->
+        <th>Descripción</th><!---->
+        <th>Acción</th><!---->
+      </tr><!---->
+      </thead><!---->
+      <tbody><!---->
+      <tr th:if="${#lists.isEmpty(listTipDoc)}"><!---->
+        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+      </tr><!---->
+      <tr class="text-center" th:each="doc: ${listTipDoc}">
+        <td th:text="${doc.nombre}">Tipo de Doc</td>
+        <td th:text="${doc.descripcion}">Descripción</td><!---->
+        <td><!---->
+          <div class="btn-group"><!---->
+            <a th:if="${permisoActualizar eq true}" th:href="@{/tipoDocumentos/{id}(id=${tipoDocumento.idTipoDocumento})}" 
+               class="btn btn-sm btn-outline-primary"><!---->
+              <i class="fa-solid fa-pen-to-square"></i><!---->
+            </a>
+            <a th:if="${permisoEliminar eq true}" th:href="@{/tipoDocumentos/{id}/delete(id=${tipoDocumento.idTipoDocumento})}">
+              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  <br>  
+  </div>
+    <a href="javascript:history.back()" class="btn btn-outline-primary">
+      <i class="fa fa-backward" aria-hidden="true"></i> Atrás 
+    </a>
+  </th:block> <!--modificar front-->
+</div>
+
+</body>
+</html>

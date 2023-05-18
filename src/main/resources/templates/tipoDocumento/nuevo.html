@@ -11,24 +11,19 @@
         <form method="post" th:action="@{/tipoDocumentos/crear}" th:object="${tipoDocumento}">
             <fieldset>
                 <br> <!--separador-->
-                <div class="container">
-                        <!-- Form para tipo de documento-->
-                        <div class="col">
-                            <div class="form-outline">
-                                <label for="inputNombre" class="form-label">Tipo de Documento</label>
-                                <!--TEMPORAL PARA TUTORÍA-->
-                                <select class="form-select" aria-label="Default select example" name="nombre">
-                                    <option selected>Seleccione Tipo de Documento</option>
-                                    <option value="1">Cédula de Identidad</option>
-                                    <option value="2">RUC</option>
-                                    <option value="3">Pasaporte</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+
                     <br>
                     <!--Tipo de Documento de Cliente-->
                     <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputNombre" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Introduzca el nombre para el tipo de documento seleccionado" autofocus>
+                            </div>
+                        </div>                    
+                    </div>
+                    <div class="row mb-4">
+                        
                         <div class="col">
                             <div class="form-outline">
                                 <label for="inputDescripcion" class="form-label">Descripción</label>

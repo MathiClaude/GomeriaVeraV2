@@ -79,12 +79,12 @@ public class TipoDocumentoController {
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
         boolean crear = tipoDocumentoService.tienePermiso("crear-" + VIEW);
-        //boolean asignarRol = tipoDocumentoService.tienePermiso("asignar-rol-" + VIEW);
+        boolean asignarRol = tipoDocumentoService.tienePermiso("asignar-rol-" + VIEW);
 
-       /* if(asignarRol) {
+        if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
         }
-        model.addAttribute("permisoAsignarRol", asignarRol);*/
+        model.addAttribute("permisoAsignarRol", asignarRol);
 
         if(crear) {
             return FORM_NEW;
@@ -127,7 +127,7 @@ public class TipoDocumentoController {
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
         boolean eliminar = tipoDocumentoService.tienePermiso("eliminar-" + VIEW);
-        //boolean asignarRol = tipoDocumentoService.tienePermiso("asignar-rol-" + VIEW);
+        boolean asignarRol = tipoDocumentoService.tienePermiso("asignar-rol-" + VIEW);
         TipoDocumento tipoDocumento;
 
         // validar el id
@@ -197,7 +197,7 @@ public class TipoDocumentoController {
         if(tipoDocumentoService.tienePermiso(operacion + VIEW)) {
             TipoDocumento tipoDocumento = tipoDocumentoService.obtenerTipoDocumento(idTipoDocumento);
             tipoDocumentoService.eliminarTipoDocumento(tipoDocumento);
-            attributes.addFlashAttribute("message", "¡Tipo de Documento eliminado correctamente!");
+            attributes.addFlashAttribute("message", "Tipo de Documento eliminado correctamente!");
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;

@@ -53,6 +53,11 @@ public class TipoDocumentoServiceImp implements TipoDocumentoService {
     public void convertirDTO(TipoDocumento tipoDocumento, TipoDocumentoDTO objetoDTO) {
         tipoDocumento.setNombre(objetoDTO.getNombre());
         tipoDocumento.setDescripcion(objetoDTO.getDescripcion());
+        //
+        tipoDocumento.setFormatoValido(objetoDTO.getFormatoValido());
+        tipoDocumento.setLongitudValida(objetoDTO.getLongitudValida());
+        tipoDocumento.setCaracteresValidos(objetoDTO.getCaracteresValidos());
+        tipoDocumento.setObligatorio(objetoDTO.isObligatorio());
         //permiso.setVista(vistaService.existeVista(objetoDTO.getIdVista()));
 
         return;

@@ -2,9 +2,12 @@ package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.ClienteDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.model.Rol;
+import com.proyecto.is2.proyecto.model.TipoDocumento;
 import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
+import com.proyecto.is2.proyecto.services.TipoDocumentoService;
+import com.proyecto.is2.proyecto.services.TipoDocumentoServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
@@ -46,6 +49,9 @@ public class ClientesController {
     
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
+
+    @Autowired
+    private TipoDocumentoServiceImp tipoDocumentoService;//llamada a servicios de roles
 
     /**
      * Instancia un UsuarioDTO para rellenar con datos
@@ -93,6 +99,13 @@ public class ClientesController {
             model.addAttribute("roles", rolService.listar());
         }
         model.addAttribute("permisoAsignarRol", asignarRol);
+
+        //seteamos valores de documentos
+        if(true){
+            model.addAttribute("tipoDocumentos", tipoDocumentoService.listar());
+        }
+        model.addAttribute("permisoAsignarDoc", true);
+
 
         if(crear) {
             return FORM_NEW;
@@ -147,6 +160,12 @@ if(clienteService.tienePermiso(operacion + VIEW)) {
             model.addAttribute("roles", rolService.listar());
         }
         model.addAttribute("permisoAsignarRol", asignarRol);
+        
+        //seteamos valores de documentos
+        if(true){
+            model.addAttribute("tipoDocumentos", tipoDocumentoService.listar());
+        }
+        model.addAttribute("permisoAsignarDoc", true);
 
         if(eliminar) {
             return FORM_EDIT;

@@ -29,6 +29,12 @@
                             </div>
                         </div>
                     </div>
+                    <div  class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupSelect02">Documento a Asignar</label>
+                        <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="idTipoDocumento">
+                            <option th:each="elemento : ${tipoDocumentos}" th:value="${elemento.idTipoDocumento}" th:text="${elemento.toString()}"></option>
+                        </select>
+                    </div>
                     <!--Tipo de Documento de Cliente-->
                     <div class="row mb-4">
                         <div class="col">

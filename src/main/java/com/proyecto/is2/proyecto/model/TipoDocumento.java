@@ -48,5 +48,17 @@ public class TipoDocumento {
     @JoinColumn(name = "cliente_id", nullable = false, referencedColumnName = "idCliente")
     private Cliente cliente;*/
 
+    public TipoDocumento() {
+
+    }
+    public TipoDocumento(String nombre, String descripcion) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
+
+    public String toString() {
+        return nombre;
+    }
+
 
 } /* Se crea un relacion tambien con Proyecto */

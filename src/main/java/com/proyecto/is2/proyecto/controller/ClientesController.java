@@ -95,15 +95,17 @@ public class ClientesController {
         boolean crear = clienteService.tienePermiso("crear-" + VIEW);
         boolean asignarRol = clienteService.tienePermiso("asignar-rol-" + VIEW);
 
-        if(asignarRol) {
+        /*if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
         }
-        model.addAttribute("permisoAsignarRol", asignarRol);
+        model.addAttribute("permisoAsignarRol", asignarRol);*/
 
         //seteamos valores de documentos
-        if(true){
-            model.addAttribute("tipoDocumentos", tipoDocumentoService.listar());
-        }
+        //if(true){
+            model.addAttribute("tipoDoc", tipoDocumentoService.listar());
+  
+        System.out.println("HOLA MUNDO XDDD:" + tipoDocumentoService.listar());
+        //}
         model.addAttribute("permisoAsignarDoc", true);
 
 
@@ -123,20 +125,20 @@ public class ClientesController {
 //            return FORM_NEW;
 //        }
 
-if(clienteService.tienePermiso(operacion + VIEW)) {
-    Cliente cliente = new Cliente();
-    clienteService.convertirDTO(cliente, objetoDTO);
+        if(clienteService.tienePermiso(operacion + VIEW)) {
+            Cliente cliente = new Cliente();
+            clienteService.convertirDTO(cliente, objetoDTO);
 
-    clienteService.guardar(cliente);
+            clienteService.guardar(cliente);
 
-    attributes.addFlashAttribute("message", "¡Cliente creado exitosamente!");
+            attributes.addFlashAttribute("message", "¡Cliente creado exitosamente!");
 
-    return RD_FORM_VIEW;
-} else {
-    return RD_FALTA_PERMISO_VIEW;
-    
+            return RD_FORM_VIEW;
+        } else {
+            return RD_FALTA_PERMISO_VIEW;
+            
 
-}
+        }
     }
 
     @GetMapping("/{id}")
@@ -162,9 +164,9 @@ if(clienteService.tienePermiso(operacion + VIEW)) {
         model.addAttribute("permisoAsignarRol", asignarRol);
         
         //seteamos valores de documentos
-        if(true){
-            model.addAttribute("tipoDocumentos", tipoDocumentoService.listar());
-        }
+        //if(true){
+            model.addAttribute("tipoDocu", tipoDocumentoService.listar());
+        //}
         model.addAttribute("permisoAsignarDoc", true);
 
         if(eliminar) {

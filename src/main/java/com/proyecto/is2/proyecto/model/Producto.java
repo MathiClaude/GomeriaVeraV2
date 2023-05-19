@@ -49,6 +49,20 @@ public class Producto {
     @Column(name = "procedencia")
     private String procedencia;
 
+
+    public Producto() {
+
+    }
+    public Producto(String nombreProducto, String tipoProducto) {
+        this.nombreProducto = nombreProducto;
+        this.tipoProducto = tipoProducto;
+    }
+
+    public String toString() {
+        return nombreProducto;
+    }
+
+
     /*public String toString() {
         return email;
     }*/

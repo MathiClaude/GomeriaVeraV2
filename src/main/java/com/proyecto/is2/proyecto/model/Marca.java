@@ -10,15 +10,28 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "Marcas", uniqueConstraints = @UniqueConstraint(columnNames = "descripcion"))
+@Table(name = "Marca", uniqueConstraints = @UniqueConstraint(columnNames = "descripcion"))
 public class Marca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idMarca;
 
+    @Column(name = "nombre")
+    private String nombre;
+
     @Column(name = "descripcion")
     private String descripcion;
 
+    public Marca() {
 
+    }
+    public Marca(String nombre, String descripcion) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+    }
+
+    public String toString() {
+        return nombre;
+    }
 
 } /* Se crea un relacion tambien con Proyecto */

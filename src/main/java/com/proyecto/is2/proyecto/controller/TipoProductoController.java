@@ -1,11 +1,11 @@
 package com.proyecto.is2.proyecto.controller;
-import com.proyecto.is2.proyecto.controller.dto.UnidadMedidaDTO;
+import com.proyecto.is2.proyecto.controller.dto.TipoProductoDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.ServicioDTO;
-import com.proyecto.is2.proyecto.model.UnidadMedida;
+import com.proyecto.is2.proyecto.model.TipoProducto;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
-import com.proyecto.is2.proyecto.services.UnidadMedidaServiceImp;
+import com.proyecto.is2.proyecto.services.TipoProductoServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +22,15 @@ import java.util.ArrayList;
  * para realizar venta
  */
 @Controller
-@RequestMapping("/unidadMedidas")
-public class UnidadMedidaController {
-    final String VIEW = "unidadMedida"; // identificador de la vista
-    final String VIEW_PATH = "unidadMedida";
+@RequestMapping("/tipoProductos")
+public class TipoProductoController {
+    final String VIEW = "tipoProducto"; // identificador de la vista
+    final String VIEW_PATH = "tipoProducto";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/unidadMedidas";
+    final String FORM_VIEW = VIEW_PATH + "/tipoProductos";
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/unidadMedidas";
+    final String RD_FORM_VIEW = "redirect:/tipoProductos";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     //final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
@@ -44,7 +44,7 @@ public class UnidadMedidaController {
     private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
 
     @Autowired
-    private UnidadMedidaServiceImp unidadMedidaService;//llamada a servicios de roles
+    private TipoProductoServiceImp tipoProductoService;//llamada a servicios de roles
 
     /**
      * Instancia un UsuarioDTO para rellenar con datos
@@ -52,25 +52,25 @@ public class UnidadMedidaController {
      * Usuario.
      * @return
      */
-    @ModelAttribute("unidadMedida")
-    public UnidadMedidaDTO instanciarObjetoDTO() {
-        return new UnidadMedidaDTO();
+    @ModelAttribute("tipoProducto")
+    public TipoProductoDTO instanciarObjetoDTO() {
+        return new TipoProductoDTO();
     }
 
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = unidadMedidaService.tienePermiso("consultar-" + VIEW);
-        boolean crear = unidadMedidaService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = unidadMedidaService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = unidadMedidaService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = tipoProductoService.tienePermiso("consultar-" + VIEW);
+        boolean crear = tipoProductoService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = tipoProductoService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = tipoProductoService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
         //        }
 
         if(consultar) {
-            model.addAttribute("listMedidas", unidadMedidaService.listar());//lista los servicios
+            model.addAttribute("listTipDoc", tipoProductoService.listar());//lista los servicios
         } else {
             return FALTA_PERMISO_VIEW;
         }
@@ -85,11 +85,11 @@ public class UnidadMedidaController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = unidadMedidaService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = unidadMedidaService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = tipoProductoService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = tipoProductoService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
-            model.addAttribute("unidadMedidas", unidadMedidaService.listar());
+            model.addAttribute("tipoProductos", tipoProductoService.listar());
         }
         model.addAttribute("permisoAsignarRol", asignarRol);
 
@@ -101,7 +101,7 @@ public class UnidadMedidaController {
     }
 
     @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("unidadMedida") UnidadMedidaDTO objetoDTO,
+    public String crearObjeto(@ModelAttribute("tipoProducto") TipoProductoDTO objetoDTO,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
@@ -109,13 +109,13 @@ public class UnidadMedidaController {
 //            return FORM_NEW;
 //        }
 
-        if(unidadMedidaService.tienePermiso(operacion + VIEW)) {
-            UnidadMedida unidadMedida = new UnidadMedida();
-            unidadMedidaService.convertirDTO(unidadMedida, objetoDTO);
+        if(tipoProductoService.tienePermiso(operacion + VIEW)) {
+            TipoProducto tipoProducto = new TipoProducto();
+            tipoProductoService.convertirDTO(tipoProducto, objetoDTO);
 
-            unidadMedidaService.guardar(unidadMedida);
+            tipoProductoService.guardar(tipoProducto);
 
-            attributes.addFlashAttribute("message", "¡Medida creado exitosamente!");
+            attributes.addFlashAttribute("message", "¡Tipo producto creado exitosamente!");
 
             return RD_FORM_VIEW;
         } else {
@@ -127,19 +127,19 @@ public class UnidadMedidaController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = unidadMedidaService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = unidadMedidaService.tienePermiso("asignar-rol-" + VIEW);
-        UnidadMedida unidadMedida;
+        boolean eliminar = tipoProductoService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = tipoProductoService.tienePermiso("asignar-rol-" + VIEW);
+        TipoProducto tipoProducto;
 
         // validar el id
         try {
-            Long idUnidadMedida = Long.parseLong(id);
-            unidadMedida = unidadMedidaService.existeUnidadMedida(idUnidadMedida);
+            Long idTipoProducto = Long.parseLong(id);
+            tipoProducto = tipoProductoService.existeTipoProducto(idTipoProducto);
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("unidMed", unidadMedida);
+        model.addAttribute("tipProduc", tipoProducto);
 
         // validar si puede cambiar de rol
         //esta parte creo que no se usa tampoco
@@ -157,20 +157,20 @@ public class UnidadMedidaController {
     }
 
     @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("unidadMedida") UnidadMedidaDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("tipoProducto") TipoProductoDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        UnidadMedida unidadMedida;
+        TipoProducto tipoProducto;
 
         if (result.hasErrors()) {
 //            studentDTO.setId(id);
             return RD_FORM_VIEW;
         }
 
-        if(unidadMedidaService.tienePermiso(operacion + VIEW)) {
-            unidadMedida = unidadMedidaService.existeUnidadMedida(id);
-            if(unidadMedida != null) {
-                unidadMedidaService.convertirDTO(unidadMedida, objetoDTO);
+        if(tipoProductoService.tienePermiso(operacion + VIEW)) {
+            tipoProducto = tipoProductoService.existeTipoProducto(id);
+            if(tipoProducto != null) {
+                tipoProductoService.convertirDTO(tipoProducto, objetoDTO);
 
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
@@ -180,8 +180,8 @@ public class UnidadMedidaController {
                     servicio.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
                 }*/
 
-                attributes.addFlashAttribute("message", "¡Medida actualizada correctamente!");
-                unidadMedidaService.guardar(unidadMedida);
+                attributes.addFlashAttribute("message", "¡Tipo producto actualizada correctamente!");
+                tipoProductoService.guardar(tipoProducto);
                 return RD_FORM_VIEW;
             }
         }
@@ -191,17 +191,17 @@ public class UnidadMedidaController {
     @GetMapping("/{id}/delete")
         public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
         this.operacion = "eliminar-";
-        Long idUnidadMedida;
+        Long idTipoProducto;
 
         try {
-            idUnidadMedida = Long.parseLong(id);
+            idTipoProducto = Long.parseLong(id);
         } catch (Exception e) {
             return RD_FORM_VIEW;
         }
 
-        if(unidadMedidaService.tienePermiso(operacion + VIEW)) {
-            UnidadMedida unidadMedida = unidadMedidaService.obtenerUnidadMedida(idUnidadMedida);
-            unidadMedidaService.eliminarUnidadMedida(unidadMedida);
+        if(tipoProductoService.tienePermiso(operacion + VIEW)) {
+            TipoProducto tipoProducto = tipoProductoService.obtenerTipoProducto(idTipoProducto);
+            tipoProductoService.eliminarTipoProducto(tipoProducto);
             attributes.addFlashAttribute("message", "¡Servicio eliminado correctamente!");
             return RD_FORM_VIEW;
         } else {

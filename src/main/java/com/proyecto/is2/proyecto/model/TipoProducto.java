@@ -20,6 +20,19 @@ public class TipoProducto {
     private String descripcion;
 
 
+    public TipoProducto() {
+
+    }
+    public TipoProducto(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String toString() {
+        return descripcion;
+    }
+
+
+
     /* RELACIONES DE BASE DE DATOS */
 
     /* Relacion con Producto */

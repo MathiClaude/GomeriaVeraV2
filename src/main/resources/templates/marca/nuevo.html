@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<body>
+    <div layout:fragment="content">
+        <!--logo personita-->
+        <div>
+            <img th:src="@{/img/marca.png}" class="center wp-image-4532"/> <!--div center img-->
+        </div>
+        <br> 
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Marcas</b></h1> <!--titulo-->
+        <form method="post" th:action="@{/marcas/crear}" th:object="${marca}">
+            <fieldset>
+                <br> <!--separador-->
+                <div class="container">
+                    <!--Nombre de la marca-->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="nombre" class="form-label">Nombre de la marca</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduzca nombre de la Marca" autofocus>
+                            </div>
+                        </div>
+                        
+                        <!--Descripción de la Marca-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Introduzca descripción" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                                        
+                    <div class="row">
+                      <div class="col-sm-2">
+                        <a href="javascript:history.back()" class="btn btn-outline-info w-100">
+                            Atrás
+                        </a>
+                    </div>
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success w-100">Guardar Marca</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    
+    
+</form>
+
+
+</div>
+
+</body>
+</html>

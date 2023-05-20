@@ -21,25 +21,25 @@
     <table class="table table-striped mb-0" ><!---->
       <thead style="background-color: #0a4275;"><!---->
       <tr class="text-center"><!---->
-        <th>Tipo de Doc</th><!---->
+        <th>Código</th><!---->
         <th>Descripción</th><!---->
         <th>Acción</th><!---->
       </tr><!---->
       </thead><!---->
       <tbody><!---->
-      <tr th:if="${#lists.isEmpty(listTipDoc)}"><!---->
+      <tr th:if="${#lists.isEmpty(listUniMed)}"><!---->
         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
       </tr><!---->
-      <tr class="text-center" th:each="doc: ${listTipDoc}">
-        <td th:text="${doc.nombre}">Tipo de Doc</td>
-        <td th:text="${doc.descripcion}">Descripción</td><!---->
+      <tr class="text-center" th:each="doc: ${listUniMed}">
+        <td th:text="${unidad.codigo}">Código</td>
+        <td th:text="${unidad.descripcion}">Descripción</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
-            <a th:if="${permisoActualizar eq true}" th:href="@{/tipoDocumentos/{id}(id=${tipoDocumento.idTipoDocumento})}" 
+            <a th:if="${permisoActualizar eq true}" th:href="@{/unidadMedidas/{id}(id=${unidad.idUnidadMedida})}" 
                class="btn btn-sm btn-outline-primary"><!---->
               <i class="fa-solid fa-pen-to-square"></i><!---->
             </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/tipoDocumentos/{id}/delete(id=${tipoDocumento.idTipoDocumento})}">
+            <a th:if="${permisoEliminar eq true}" th:href="@{/unidadMedidas/{id}/delete(id=${unidad.idUnidadMedida})}">
               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>

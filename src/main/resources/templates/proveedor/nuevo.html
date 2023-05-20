@@ -28,16 +28,16 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="nombre" class="form-label">Razón social</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Introduzca razón social del proveedor" autofocus>
+                                <label for="inputNombre" class="form-label">Razón social</label>
+                                <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Introduzca razón social" autofocus>
                             </div>
                         </div>
                         <br>
                         <!--Contacto del proveedor-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="nombreContacto" class="form-label">Nombre de Contacto</label>
-                                <input type="text" class="form-control" id="nombreContacto" name="numeroContacto" placeholder="Introduzca nombre del contacto" autofocus>
+                                <label for="inputNombreFantasia" class="form-label">Nombre fantasia</label>
+                                <input type="text" class="form-control" id="inputNombreFantasia" name="nombreFantasia" placeholder="Introduzca nombre fantasia" autofocus>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                                 <label for="inputNombre" class="form-label">Tipo de Persona</label>
                                 <!--TEMPORAL PARA TUTORÍA-->
                                 <select class="form-select" aria-label="Default select example" name="nombre">
-                                    <option selected>Seleccione Tipo de Persona</option>
+                                    <option selected>Seleccione Estado</option>
                                     <option value="1">Persona Física</option>
                                     <option value="2">Persona Jurídica</option>
                                 </select>
@@ -58,24 +58,26 @@
                         <!--Dirección del proveedor-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="direccion" class="form-label">Dirección</label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Introduzca la dirección del proveedor" autofocus>
+                                <label for="inputRuc" class="form-label">Documento</label>
+                                <input type="text" class="form-control" id="inputRuc" name="ruc" placeholder="Introduzca la dirección del proveedor" autofocus>
                             </div>
                         </div>
+                    </div>
+                    <div class="row mb-4">    
                         <!--Teléfono del proveedor-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="telefono" class="form-label">Teléfono</label>
-                                <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Introduzca el telefono del proveedor" autofocus>
+                                <label for="inputContacto" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control" id="inputContacto" name="contacto" placeholder="Introduzca el telefono del proveedor" autofocus>
                             </div>
                         </div>
                         <!--Estado  del proveedor-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputNombre" class="form-label">Estado del proveedor</label>
+                                <label for="inputEsActual" class="form-label">Estado del proveedor</label>
                                 <!--TEMPORAL PARA TUTORÍA-->
-                                <select class="form-select" aria-label="Default select example" name="nombre">
-                                    <option selected>Seleccione Tipo de Persona</option>
+                                <select class="form-select" aria-label="Default select example" name="esActual">
+                                    <option selected>Seleccione estado</option>
                                     <option value="1">Activo</option>
                                     <option value="2">Inactivo</option>
                                 </select>

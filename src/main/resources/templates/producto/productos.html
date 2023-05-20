@@ -21,9 +21,15 @@
     <table class="table table-striped mb-0" ><!---->
       <thead style="background-color: #0a4275;"><!---->
       <tr class="text-center"><!---->
+        <th>Codigo</th><!---->
         <th>Producto</th><!---->
         <th>Precio</th><!---->
         <th>Cantidad</th><!---->
+        <th>Marca</th><!---->
+        <th>Tipo</th><!---->
+        <th>U. Medida</th><!---->
+        <th>Color</th><!---->
+        <th>Procedencia</th><!---->
         <th>Acción</th><!---->
       </tr><!---->
       </thead><!---->
@@ -32,9 +38,15 @@
         <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
       </tr><!---->
       <tr class="text-center" th:each="producto: ${listProduct}">
+        <td th:text="${producto.codigo}">Cod</td>
         <td th:text="${producto.nombreProducto}">Name</td>
         <td th:text="${producto.precio}">90.000</td><!---->
-        <td th:text="${producto.cantidad}">12</td>
+        <td th:text="${producto.cantidad}">90</td><!---->
+        <td th:text="${producto.familiaProducto}">90</td><!---->
+        <td th:text="${producto.tipoProducto}">type</td>
+        <td th:text="${producto.unidadMedida}">-</td>
+        <td th:text="${producto.color}">black</td>
+        <td th:text="${producto.procedencia}">py</td>
         <td><!---->
           <div class="btn-group"><!---->
             <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${producto.idProducto})}" 

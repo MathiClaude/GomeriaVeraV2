@@ -22,6 +22,8 @@
       <thead style="background-color: #0a4275;"><!---->
       <tr class="text-center"><!---->
         <th>Nombre</th><!---->
+        <th>Razon Social</th><!---->
+        <th>Documento</th><!---->
         <th>Contacto</th><!---->
         <th>Acción</th><!---->
       </tr><!---->
@@ -32,7 +34,9 @@
       </tr><!---->
       <tr class="text-center" th:each="proveedor: ${listProveedor}">
         <td th:text="${proveedor.nombre}">Nombre</td>
-        <td th:text="${proveedor.nombreContacto}">Contacto</td><!---->
+        <td th:text="${proveedor.nombreFantasia}">Razon Social</td>
+        <td th:text="${proveedor.ruc}">Doc</td><!---->
+        <td th:text="${proveedor.contacto}">021</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
             <a th:if="${permisoActualizar eq true}" th:href="@{/proveedores/{id}(id=${proveedor.idProveedor})}" 

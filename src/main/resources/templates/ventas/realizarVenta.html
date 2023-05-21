@@ -8,6 +8,7 @@
     </div>
     <br> 
     <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Realizar Venta</b></h1> <!--titulo-->
+    <br>
     <!-- Tabs navs -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
@@ -60,8 +61,8 @@
             <div class="row mb-4">
               <div class="col">
                 <div class="form-outline">
-
-                 
+                  
+                  
                   <!--para poder desplegar pantalla flotante-->
                   <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Seleccionar producto" aria-label="Seleccionar producto" aria-describedby="button-addon2">
@@ -94,32 +95,32 @@
                           </div>
                           <br>
                           <!--body de productos-->
-                        <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-                          <table class="table table-striped mb-0" ><!---->
-                            <thead style="background-color: #0a4275;"><!---->
-                              <tr class="text-center"><!---->
-                                <th>Producto</th><!---->
-                                <th>Precio</th><!---->
-                                <th>Cantidad</th><!---->
-                                <!--th>Acción</th--><!---->
-                              </tr><!---->
+                          <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
+                            <table class="table table-striped mb-0" ><!---->
+                              <thead style="background-color: #0a4275;"><!---->
+                                <tr class="text-center"><!---->
+                                  <th>Producto</th><!---->
+                                  <th>Precio</th><!---->
+                                  <th>Cantidad</th><!---->
+                                  <!--th>Acción</th--><!---->
+                                </tr><!---->
                               </thead><!---->
                               <tbody><!---->
-                              <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
-                                <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
-                              </tr><!---->
-                              <tr class="text-center" th:each="producto: ${listProduct}">
-                                <td th:text="${producto.nombreProducto}">Name</td>
-                                <td th:text="${producto.precio}">90.000</td><!---->
-                                <td th:text="${producto.cantidad}">12</td>                               
-                            </tr>
-                          </tbody>
-                        </table>
-                        <br>  
-                      </div>                               
-                    </div>
-                      <!--Footer-->
-                      <div- class="modal-footer aria-hidden">
+                                <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
+                                  <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
+                                </tr><!---->
+                                <tr class="text-center" th:each="producto: ${listProduct}">
+                                  <td th:text="${producto.nombreProducto}">Name</td>
+                                  <td th:text="${producto.precio}">90.000</td><!---->
+                                  <td th:text="${producto.cantidad}">12</td>                               
+                                </tr>
+                              </tbody>
+                            </table>
+                            <br>  
+                          </div>                               
+                        </div>
+                        <!--Footer-->
+                        <div- class="modal-footer aria-hidden">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="button" class="btn btn-primary">Agregar</button>
                       </div->
@@ -127,7 +128,7 @@
                   </div>
                 </div>
               </div>
-            
+              
             </div>
           </div><!--termina contenido del modal para producto-->
           
@@ -145,52 +146,52 @@
         <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
           <table class="table table-striped mb-0" ><!---->
             <thead style="background-color: #0a4275;"><!---->
-            <tr class="text-center"><!---->
-              <th>Producto</th><!---->
-              <th>Precio</th><!---->
-              <th>Acción</th><!---->
-            </tr><!---->
+              <tr class="text-center"><!---->
+                <th>Producto</th><!---->
+                <th>Precio</th><!---->
+                <th>Acción</th><!---->
+              </tr><!---->
             </thead><!---->
             <tbody><!---->
-            <tr th:if="${#lists.isEmpty(listVenta)}"><!---->
-              <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
-            </tr><!---->
-            <tr class="text-center" th:each="venta: ${listVenta}">
-              <td th:text="${venta.descripcionServicio}">Producto</td>
-              <td th:text="${venta.precio}">Precio</td><!---->
-            </tr>
+              <tr th:if="${#lists.isEmpty(listVenta)}"><!---->
+                <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+              </tr><!---->
+              <tr class="text-center" th:each="venta: ${listVenta}">
+                <td th:text="${venta.descripcionServicio}">Producto</td>
+                <td th:text="${venta.precio}">Precio</td><!---->
+              </tr>
             </tbody>
           </table>
         </div>
-    </div>
-    <!--TAB contenido de Servicio-->
-        <div class="tab-pane fade" id="tabServicio" role="tabpanel" aria-labelledby="tabServicio">
-          <legend style="color:#21618C">Servicio</legend>
-          <!--Form para seleccionar el producto-->
-          <div class="row mb-4">
-            <div class="col">
-              <div class="form-outline">
-                <!--para poder desplegar pantalla flotante-->
-                <div class="input-group mb-3">
-                  <input type="text" class="form-control" placeholder="Buscar servicio" aria-label="Buscar servicio" aria-describedby="button-addon2">
-                  <!-- Button trigger modal-->
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalServices" >
-                    <i class="bi bi-cup-hot-fill"></i>
-                  </button>
-                  
-                  <!-- Modal: modalServices-->
-                  <div class="modal fade" id="modalServices" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                  aria-hidden="true">
-                  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                    <div class="modal-content">
-                      <!--Header-->
-                      <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">Lista de Servicios</h4>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
-                      </div>
-                      <!-- Body para modal-->
-                      <div class="modal-body">
-                        <!--boton de busqueda-->
+      </div>
+      <!--TAB contenido de Servicio-->
+      <div class="tab-pane fade" id="tabServicio" role="tabpanel" aria-labelledby="tabServicio">
+        <legend style="color:#21618C">Servicio</legend>
+        <!--Form para seleccionar el producto-->
+        <div class="row mb-4">
+          <div class="col">
+            <div class="form-outline">
+              <!--para poder desplegar pantalla flotante-->
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar servicio" aria-label="Buscar servicio" aria-describedby="button-addon2">
+                <!-- Button trigger modal-->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalServices" >
+                  <i class="bi bi-cup-hot-fill"></i>
+                </button>
+                
+                <!-- Modal: modalServices-->
+                <div class="modal fade" id="modalServices" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                  <div class="modal-content">
+                    <!--Header-->
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="myModalLabel">Lista de Servicios</h4>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
+                    </div>
+                    <!-- Body para modal-->
+                    <div class="modal-body">
+                      <!--boton de busqueda-->
                       <div class="input-group">
                         <div class="form-outline">
                           <input type="search" id="form1" class="form-control"/>
@@ -200,33 +201,33 @@
                         </button>
                       </div>
                       <br>
-                        <!--body de servicios-->
-                        <div th:if="${permisoVer eq false}">
-                          <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
-                        </div><!---->
-                        <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-                          <table class="table table-striped mb-0" ><!---->
-                            <thead style="background-color: #0a4275;"><!---->
+                      <!--body de servicios-->
+                      <div th:if="${permisoVer eq false}">
+                        <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+                      </div><!---->
+                      <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
+                        <table class="table table-striped mb-0" ><!---->
+                          <thead style="background-color: #0a4275;"><!---->
                             <tr class="text-center"><!---->
                               <th>Servicio</th><!---->
                               <th>Precio</th><!---->
                             </tr><!---->
-                            </thead><!---->
-                            <tbody><!---->
-
-                          <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
-                            <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
-                          </tr><!---->
-                          <tr class="text-center" th:each="servicio: ${listServicios}">
-                            <td th:text="${servicio.descripcionServicio}">Servicio</td>
-                            <td th:text="${servicio.precio}">Precio</td><!---->
+                          </thead><!---->
+                          <tbody><!---->
                             
-                          </tr>
+                            <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
+                              <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+                            </tr><!---->
+                            <tr class="text-center" th:each="servicio: ${listServicios}">
+                              <td th:text="${servicio.descripcionServicio}">Servicio</td>
+                              <td th:text="${servicio.precio}">Precio</td><!---->
+                              
+                            </tr>
                           </tbody>
                         </table>
-                      <br>  
-                    </div>                               
-                  </div>
+                        <br>  
+                      </div>                               
+                    </div>
                     <!--Footer-->
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -236,93 +237,115 @@
                 </div>
               </div>
             </div>
-          
+            
           </div>
         </div><!--termina contenido del modal para servicio-->
-                    
-                  </div>
-                  
-                  <!--LISTA DE SERVICES EN ITEM SERVICIO DEL TAB-->
-                  <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-                    <table class="table table-striped mb-0" ><!---->
-                      <thead style="background-color: #0a4275;"><!---->
-                      <tr class="text-center"><!---->
-                        <th>Servicio</th><!---->
-                        <th>Precio</th><!---->
-                        <th>Acción</th><!---->
-                      </tr><!---->
-                      </thead><!---->
-                      <tbody><!---->
-                      <tr th:if="${#lists.isEmpty(listVentaDetalle)}"><!---->
-                        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
-                      </tr><!---->
-                      <tr class="text-center" th:each="ventaDetalle: ${listVentaDetalle}">
-                        <td th:text="${ventaDetalle.descripcionServicio}">Servicio</td>
-                        <td th:text="${ventaDetalle.precio}">Precio</td><!---->
-                        <td><!---->
-                          <div class="btn-group"><!---->
-                            <a th:if="${permisoActualizar eq true}" th:href="@{/crudServicio/{id}(id=${ventaDetalle.idServicio})}" 
-                               class="btn btn-sm btn-outline-primary"><!---->
-                              <i class="fa-solid fa-pen-to-square"></i><!---->
-                            </a>
-                            <a th:if="${permisoEliminar eq true}" th:href="@{/crudServicio/{id}/delete(id=${ventaDetalle.idServicio})}">
-                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                                <i class="fa-sharp fa-solid fa-trash"></i>
-                              </button>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-              </div><!--termina contenido del tab servicios-->
-    
-    <!--CONTENIDO DE MÉTODO DE PAGO-->
-    <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
-      <!--opciones de los botones-->
-      <div class="form-check">
-        <!--opción 1-->
-        <div>
-          <input type="radio" id="mostrar-contenido" name="tipoPago">
-          <label for="mostrar-contenido">Efectivo</label>
-          <div id="contenido" style="display:none">
-            Aún falta completar este apartado : D
-          </div>
-          
-        </div>
-        
-               
-        <!-- Modal para comprobante-->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">        
-                  <picture>
-                    <img width="150" src="https://img.freepik.com/foto-gratis/mano-3d-factura-confirmacion-pago-seguro_107791-16702.jpg?w=740&t=st=1683733445~exp=1683734045~hmac=0e774142147f08d258e789d191d885e4f5fde8ebf456654d3f05521a42fa7dda">
-                    
-                  </picture>
-                  ¿Desea generar el comprobante de venta?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Finalizar sin generar pdf</button>
-                <button type="button" class="btn btn-primary">Generar PDF</button>
-              </div>
-            </div>
-          </div>
-          
-        </div>
         
       </div>
-      <div class="col-sm-6">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-          Finalizar venta</button>
+      
+      <!--LISTA DE SERVICES EN ITEM SERVICIO DEL TAB-->
+      <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
+        <table class="table table-striped mb-0" ><!---->
+          <thead style="background-color: #0a4275;"><!---->
+            <tr class="text-center"><!---->
+              <th>Servicio</th><!---->
+              <th>Precio</th><!---->
+              <th>Acción</th><!---->
+            </tr><!---->
+          </thead><!---->
+          <tbody><!---->
+            <tr th:if="${#lists.isEmpty(listVentaDetalle)}"><!---->
+              <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+            </tr><!---->
+            <tr class="text-center" th:each="ventaDetalle: ${listVentaDetalle}">
+              <td th:text="${ventaDetalle.descripcionServicio}">Servicio</td>
+              <td th:text="${ventaDetalle.precio}">Precio</td><!---->
+              <td><!---->
+                <div class="btn-group"><!---->
+                  <a th:if="${permisoActualizar eq true}" th:href="@{/crudServicio/{id}(id=${ventaDetalle.idServicio})}" 
+                  class="btn btn-sm btn-outline-primary"><!---->
+                  <i class="fa-solid fa-pen-to-square"></i><!---->
+                </a>
+                <a th:if="${permisoEliminar eq true}" th:href="@{/crudServicio/{id}/delete(id=${ventaDetalle.idServicio})}">
+                  <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                    <i class="fa-sharp fa-solid fa-trash"></i>
+                  </button>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!--termina contenido del tab servicios-->
+  
+  <!--CONTENIDO DE MÉTODO DE PAGO-->
+  <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
+    <!--opciones de los botones-->
+    <div class="form-check">
+      <!--opción 1-->
+      <div>
+        <input type="radio" id="mostrar-contenido" name="tipoPago">
+        <label for="mostrar-contenido">Efectivo</label>
+        <div id="contenido" style="display:none">
+          <!--metodo de pago campos-->
+      <div class="row mb-4">
+        <div class="col">
+          <div class="form-outline">
+            <label for="inputNombre" class="form-label">Total a pagar:</label>
+          </div>
+        </div>
+        <br>
+        <div class="col">
+          <div class="form-outline">
+            <label for="inputNombre" class="form-label">Pago cliente</label>
+            <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Introduzca pago del cliente" autofocus>
+          </div>
+        </div>
+        <br>
+        <!--Contacto del proveedor-->
+        <div class="col">
+          <div class="form-outline">
+            <label for="inputNombreFantasia" class="form-label">Vuelto</label>
+            <input type="text" class="form-control" id="inputNombreFantasia" name="nombreFantasia" placeholder="Introduzca vuelto correspondiente" autofocus>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Finalizar venta</button>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+       
+      
+      <!-- Modal para comprobante-->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">        
+              <picture>
+                <img width="150" src="https://img.freepik.com/foto-gratis/mano-3d-factura-confirmacion-pago-seguro_107791-16702.jpg?w=740&t=st=1683733445~exp=1683734045~hmac=0e774142147f08d258e789d191d885e4f5fde8ebf456654d3f05521a42fa7dda">
+                
+              </picture>
+              ¿Desea generar el comprobante de venta?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Finalizar sin generar pdf</button>
+              <button type="button" class="btn btn-primary">Generar PDF</button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+    
     <br>
     <div class="row">
       <div class="col-sm-1">

@@ -5,7 +5,6 @@ import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
-import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,15 +20,15 @@ import java.util.ArrayList;
  * para realizar venta
  */
 @Controller
-@RequestMapping("/crudServicio")
+@RequestMapping("/servicios")
 public class ServicioController {
-        final String VIEW = "crudSistema"; // identificador de la vista
-    final String VIEW_PATH = "crudSistema";
+        final String VIEW = "servicio"; // identificador de la vista
+    final String VIEW_PATH = "servicio";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/crudServicio";
-    final String FORM_NEW = VIEW_PATH + "/crudServicioNuevo";
-    final String FORM_EDIT = VIEW_PATH + "/crudServicioEditar";
-    final String RD_FORM_VIEW = "redirect:/crudServicio";
+    final String FORM_VIEW = VIEW_PATH + "/servicios";
+    final String FORM_NEW = VIEW_PATH + "/nuevo";
+    final String FORM_EDIT = VIEW_PATH + "/editar";
+    final String RD_FORM_VIEW = "redirect:/servicios";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
@@ -38,9 +37,6 @@ public class ServicioController {
     
     @Autowired
     private ServicioServiceImp servicioService; // llamada a los servicios de servicio
-
-    @Autowired
-    private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
 
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
@@ -207,34 +203,4 @@ public class ServicioController {
             return RD_FALTA_PERMISO_VIEW;
         }
     }
-
-//    @GetMapping("asignar-rol")
-//    public String asignarRolUsuario() {
-//        this.operacion = "asignar-rol-";
-//
-//        if(usuarioService.tienePermiso(operacion + VIEW)) {
-//            if(usuarioService.tienePermiso(operacion + VIEW)) {
-//                return ASIGNAR_ROL_VIEW;
-//            }
-//        }
-//        return FALTA_PERMISO_VIEW;
-//    }
-
-//    @PostMapping("asignar-rol")
-//    public String asignarRolUsuarioForm(@RequestParam("id_rol") Long idRol, @RequestParam("username") String email) {
-//        this.operacion = "asignar-rol-";
-//
-//        if(usuarioService.tienePermiso(operacion + VIEW)) {
-//            Usuario usuario = usuarioService.existeUsuario(email);
-//            Rol rol = rolService.existeRol(idRol);
-//
-//            if(usuario != null && rol != null) {
-//                usuario.setRol(rol);
-//                usuarioService.guardar(usuario);
-//                return RD_ASIGNAR_ROL_VIEW;
-//            }
-//        }
-//        return RD_FALTA_PERMISO_VIEW;
-//    }
-
 }

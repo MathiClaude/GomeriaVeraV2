@@ -2,9 +2,11 @@ package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.ProductoDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
+import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Producto;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
+import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,6 +40,9 @@ public class ProductoCrudController {
     private ProductoServiceImp productoService; // llamada a los servicios de usuario
 
     @Autowired
+    private ServicioServiceImp servicioService; // llamada a los servicios de usuario
+
+    @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
 
     /**
@@ -65,6 +70,7 @@ public class ProductoCrudController {
 
         if(consultar) {
             model.addAttribute("listProduct", productoService.listar());//lista los productos
+            model.addAttribute("listServicios", servicioService.listar());//lista los productos
         } else {
             return FALTA_PERMISO_VIEW;
         }
@@ -211,33 +217,5 @@ public class ProductoCrudController {
         }
     }
 
-//    @GetMapping("asignar-rol")
-//    public String asignarRolUsuario() {
-//        this.operacion = "asignar-rol-";
-//
-//        if(usuarioService.tienePermiso(operacion + VIEW)) {
-//            if(usuarioService.tienePermiso(operacion + VIEW)) {
-//                return ASIGNAR_ROL_VIEW;
-//            }
-//        }
-//        return FALTA_PERMISO_VIEW;
-//    }
-
-//    @PostMapping("asignar-rol")
-//    public String asignarRolUsuarioForm(@RequestParam("id_rol") Long idRol, @RequestParam("username") String email) {
-//        this.operacion = "asignar-rol-";
-//
-//        if(usuarioService.tienePermiso(operacion + VIEW)) {
-//            Usuario usuario = usuarioService.existeUsuario(email);
-//            Rol rol = rolService.existeRol(idRol);
-//
-//            if(usuario != null && rol != null) {
-//                usuario.setRol(rol);
-//                usuarioService.guardar(usuario);
-//                return RD_ASIGNAR_ROL_VIEW;
-//            }
-//        }
-//        return RD_FALTA_PERMISO_VIEW;
-//    }
 
 }

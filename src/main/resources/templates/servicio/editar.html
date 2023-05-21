@@ -6,7 +6,7 @@
 <div layout:fragment="content">
   <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Servicio</b></h1> <!--titulo-->
 
-  <form method="POST" th:action="@{/crudServicio/{id}(id=${servicio.idServicio})}" th:object="${servicio}">
+  <form method="POST" th:action="@{/servicios/{id}(id=${servicio.idServicio})}" th:object="${servicio}">
     <!--th:block th:include="fragment/error-message.html"></th:block-->
 
     <fieldset>
@@ -26,7 +26,7 @@
 
     <div class="row">
       <div class="col-sm-6">
-        <a th:href="@{/crudServicio}" class="btn btn-outline-secondary w-100">
+        <a th:href="@{/servicios}" class="btn btn-outline-secondary w-100">
           Atrás
         </a>
       </div>

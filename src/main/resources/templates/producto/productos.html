@@ -14,7 +14,7 @@ layout:decorate="~{/layout/basic}">
   </th:block> <!--modificar front-->
   
   <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
-  <a th:href="@{/crudServicio/nuevo}" class="btn btn-success mb-4">
+  <a th:href="@{/servicios/nuevo}" class="btn btn-success mb-4">
     <i class="fa-solid fa-hammer"></i> Crear nuevo servicio
   </a>
 </th:block> <!--modificar front-->
@@ -109,11 +109,11 @@ layout:decorate="~{/layout/basic}">
           <td th:text="${servicio.precio}">Precio</td><!---->
           <td><!---->
             <div class="btn-group"><!---->
-              <a th:if="${permisoActualizar eq true}" th:href="@{/crudServicio/{id}(id=${servicio.idServicio})}" 
+              <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 
               class="btn btn-sm btn-outline-primary"><!---->
               <i class="fa-solid fa-pen-to-square"></i><!---->
             </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/crudServicio/{id}/delete(id=${servicio.idServicio})}">
+            <a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>

@@ -5,8 +5,13 @@ import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Producto;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
+import com.proyecto.is2.proyecto.services.MarcaServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
+import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+import com.proyecto.is2.proyecto.services.TipoProductoServiceImp;
+import com.proyecto.is2.proyecto.services.UnidadMedidaServiceImp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +49,16 @@ public class ProductoCrudController {
 
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
+
+    //servicios para los selects
+    @Autowired
+    private TipoProductoServiceImp tipoProductoService; 
+    @Autowired
+    private UnidadMedidaServiceImp unidadMedidaService; 
+    @Autowired
+    private MarcaServiceImp marcaService; 
+    @Autowired
+    private ProveedorServiceImp proveedorService; 
 
     /**
      * Instancia un UsuarioDTO para rellenar con datos
@@ -92,6 +107,13 @@ public class ProductoCrudController {
             model.addAttribute("roles", rolService.listar());
         }
         model.addAttribute("permisoAsignarRol", asignarRol);
+
+        //cargamos los selects
+        model.addAttribute("tiposProductos", tipoProductoService.listar());
+        model.addAttribute("unidadMedidas", unidadMedidaService.listar());
+        model.addAttribute("marcas", marcaService.listar());
+        model.addAttribute("proveedores", proveedorService.listar());
+
 
         if(crear) {
             return FORM_NEW;

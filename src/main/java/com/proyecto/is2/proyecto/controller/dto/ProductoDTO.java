@@ -20,6 +20,7 @@ public class ProductoDTO {
     private String unidadMedida;
     private String color;
     private String procedencia;
+    private String proveedor;
 
 
 }

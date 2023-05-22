@@ -49,6 +49,9 @@ public class Producto {
     @Column(name = "procedencia")
     private String procedencia;
 
+    @Column(name = "proveedor")
+    private String proveedor;
+
 
     public Producto() {
 

@@ -27,10 +27,10 @@
       </tr><!---->
       </thead><!---->
       <tbody><!---->
-      <tr th:if="${#lists.isEmpty(listUniMed)}"><!---->
+      <tr th:if="${#lists.isEmpty(listMedidas)}"><!---->
         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
       </tr><!---->
-      <tr class="text-center" th:each="doc: ${listUniMed}">
+      <tr class="text-center" th:each="unidad: ${listMedidas}">
         <td th:text="${unidad.codigo}">Código</td>
         <td th:text="${unidad.descripcion}">Descripción</td><!---->
         <td><!---->

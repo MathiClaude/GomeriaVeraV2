@@ -35,11 +35,11 @@
         <td th:text="${doc.descripcion}">Descripción</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
-            <a th:if="${permisoActualizar eq true}" th:href="@{/tipoDocumentos/{id}(id=${tipoDocumento.idTipoDocumento})}" 
+            <a th:if="${permisoActualizar eq true}" th:href="@{/tipoDocumentos/{id}(id=${doc.idTipoDocumento})}" 
                class="btn btn-sm btn-outline-primary"><!---->
               <i class="fa-solid fa-pen-to-square"></i><!---->
             </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/tipoDocumentos/{id}/delete(id=${tipoDocumento.idTipoDocumento})}">
+            <a th:if="${permisoEliminar eq true}" th:href="@{/tipoDocumentos/{id}/delete(id=${doc.idTipoDocumento})}">
               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>

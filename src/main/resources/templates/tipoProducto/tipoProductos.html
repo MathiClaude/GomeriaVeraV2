@@ -27,19 +27,19 @@
       </tr><!---->
       </thead><!---->
       <tbody><!---->
-      <tr th:if="${#lists.isEmpty(listUniMed)}"><!---->
+      <tr th:if="${#lists.isEmpty(listTipDoc)}"><!---->
         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
       </tr><!---->
-      <tr class="text-center" th:each="doc: ${listUniMed}">
-        <td th:text="${unidad.codigo}">Código</td>
-        <td th:text="${unidad.descripcion}">Descripción</td><!---->
+      <tr class="text-center" th:each="tDoc: ${listTipDoc}">
+        <td th:text="${tDoc.idTipoProducto}">Código</td>
+        <td th:text="${tDoc.descripcion}">Descripción</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
-            <a th:if="${permisoActualizar eq true}" th:href="@{/unidadMedidas/{id}(id=${unidad.idUnidadMedida})}" 
+            <a th:if="${permisoActualizar eq true}" th:href="@{/tipoProductos/{id}(id=${tDoc.idTipoProducto})}" 
                class="btn btn-sm btn-outline-primary"><!---->
               <i class="fa-solid fa-pen-to-square"></i><!---->
             </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/unidadMedidas/{id}/delete(id=${unidad.idUnidadMedida})}">
+            <a th:if="${permisoEliminar eq true}" th:href="@{/tipoProductos/{id}/delete(id=${tDoc.idTipoProducto})}">
               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>

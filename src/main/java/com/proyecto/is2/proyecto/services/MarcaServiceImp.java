@@ -29,15 +29,16 @@ public class MarcaServiceImp implements MarcaService {
 
 
     @Override
-    public void convertirDTO(Marca servicio, MarcaDTO objetoDTO) {
-        servicio.setDescripcion(objetoDTO.getDescripcion());
+    public void convertirDTO(Marca marca, MarcaDTO objetoDTO) {
+        marca.setNombre(objetoDTO.getNombre());
+        marca.setDescripcion(objetoDTO.getDescripcion());
 
         return;
     }
 
     @Override
-    public Marca guardar(Marca servicio) {
-        return marcaRepository.save(servicio);
+    public Marca guardar(Marca marca) {
+        return marcaRepository.save(marca);
     }
 
     @Override
@@ -56,8 +57,8 @@ public class MarcaServiceImp implements MarcaService {
     }
 
     @Override
-    public void eliminarMarca(Marca servicio) {
-        marcaRepository.delete(servicio);
+    public void eliminarMarca(Marca marca) {
+        marcaRepository.delete(marca);
     }
 
     @Override

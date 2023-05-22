@@ -27,10 +27,10 @@
       </tr><!---->
       </thead><!---->
       <tbody><!---->
-      <tr th:if="${#lists.isEmpty(listMarcas)}"><!---->
+      <tr th:if="${#lists.isEmpty(listMarca)}"><!---->
         <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
       </tr><!---->
-      <tr class="text-center" th:each="marca: ${listMarcas}">
+      <tr class="text-center" th:each="marca: ${listMarca}">
         <td th:text="${marca.nombre}">Marca</td>
         <td th:text="${marca.descripcion}">Descripción</td><!---->
         <td><!---->

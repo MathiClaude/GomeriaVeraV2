@@ -11,8 +11,12 @@ public class ProveedorDTO {
     private String nombre;
     private String nombreFantasia;
     private String nombreContacto;
-    private String ruc;
     private String contacto;
     private String esActual;
+    private String tipoDocumento;
+    private String tipoPersona;
+
+    private String ruc;
+    private String direccion;
 
 }

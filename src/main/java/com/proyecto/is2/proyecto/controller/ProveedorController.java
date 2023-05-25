@@ -2,6 +2,7 @@ package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.ProveedorDTO;
 import com.proyecto.is2.proyecto.model.Proveedor;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
+import com.proyecto.is2.proyecto.services.TipoDocumentoServiceImp;
 import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,9 @@ public class ProveedorController {
     @Autowired
     private ProveedorServiceImp proveedorService; // llamada a los proveedors de proveedor
     
+    @Autowired
+    private TipoDocumentoServiceImp tipoDocumentoService; 
+
     @Autowired
     private RolServiceImp rolService;//llamada a proveedors de roles
 
@@ -85,6 +89,9 @@ public class ProveedorController {
         }
         model.addAttribute("permisoAsignarRol", asignarRol);
 
+        model.addAttribute("tiposDocumentos", tipoDocumentoService.listar());
+
+        
         if(crear) {
             return FORM_NEW;
         } else {

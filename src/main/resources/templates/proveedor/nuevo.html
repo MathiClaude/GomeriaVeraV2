@@ -12,16 +12,15 @@
             <fieldset>
                 <br> <!--separador-->
                 <div class="container">
-                    <div class="form-outline">
-                        <!--esto es temporal ahora-->
-                        <label for="inputNombre" class="form-label">Tipo de Documento</label>
-                        <!--TEMPORAL PARA TUTORÍA-->
-                        <select class="form-select" aria-label="Default select example" name="nombre">
-                            <option selected>Seleccione Tipo de Documento</option>
-                            <option value="1">Cédula de Identidad</option>
-                            <option value="2">RUC</option>
-                            <option value="3">Pasaporte</option>
-                        </select>
+                    <div class="col">
+                        <div class="form-outline">
+                            <label for="inputTipoDocumento" class="form-label">Tipo Producto</label>
+                            <select class="form-select" id="inputTipoDocumento" name="tipoDocumento">
+                                <option value="">Seleccionar Tipo de Producto</option>
+                                <option th:each="tipoDocumento : ${tipoDocumentos}" th:value="${tipoDocumento.nombre}" th:text="${tipoDocumento.nombre}"></option>
+                            </select>
+                            
+                        </div>
                     </div>
                     <br>
                     <!--Razón social del proveedor-->

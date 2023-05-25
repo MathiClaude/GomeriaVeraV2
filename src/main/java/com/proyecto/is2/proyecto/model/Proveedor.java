@@ -26,14 +26,22 @@ public class Proveedor {
     @Column(name = "nombreContacto")
     private String nombreContacto;
 
-    @Column(name = "ruc")
-    private String ruc;
-
     @Column(name = "contacto")
     private String contacto;
 
     @Column(name = "esActual")
     private String esActual;
 
+    @Column(name = "ruc")
+    private String ruc;
+
+    @Column(name = "tipoDocumento")
+    private String tipoDocumento;
+
+    @Column(name = "tipoPersona")
+    private String tipoPersona;
+
+    @Column(name = "direccion")
+    private String direccion;
 
 } /* Se crea un relacion tambien con Proyecto */

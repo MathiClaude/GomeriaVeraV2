@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "Marca", uniqueConstraints = @UniqueConstraint(columnNames = "descripcion"))
+@Table(name = "Marca")
 public class Marca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

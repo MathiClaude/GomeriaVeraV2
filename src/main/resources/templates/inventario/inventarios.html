@@ -4,24 +4,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{/layout/basic}">
 <body>
   <div layout:fragment="content">
-    <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Productos</b></h1> <!--titulo-->
-    
-    
-    <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
-    <a th:href="@{/productos/nuevo}" class="btn btn-success mb-4">
-      <i class="	fas fa-shopping-cart"></i> Crear nuevo producto
-    </a>
-  </th:block> <!--modificar front-->
-  
-  <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
-  <a th:href="@{/servicios/nuevo}" class="btn btn-success mb-4">
-    <i class="fa-solid fa-hammer"></i> Crear nuevo servicio
-  </a>
-</th:block> <!--modificar front-->
-
-<div th:if="${permisoVer eq false}">
-  <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
-</div><!---->
+    <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Inventario</b></h1> <!--titulo-->
 
 
 <!--tab para ver las tablas-->
@@ -42,7 +25,7 @@ layout:decorate="~{/layout/basic}">
     <table class="table table-striped mb-0" ><!---->
       <thead style="background-color: #0a4275;"><!---->
         <tr class="text-center"><!---->
-          <th>Código</th><!---->
+          <th>Codigo</th><!---->
           <th>Producto</th><!---->
           <!--th>Precio</th-->
           <!--th>Cantidad</th-->
@@ -50,7 +33,7 @@ layout:decorate="~{/layout/basic}">
           <th>Tipo</th><!---->
           <th>U. Medida</th><!---->
           <th>Color</th><!---->
-          <th>Descripción</th><!---->
+          <th>Procedencia</th><!---->
           <th>Proveedor</th><!---->
           <th>Acción</th><!---->
         </tr><!---->

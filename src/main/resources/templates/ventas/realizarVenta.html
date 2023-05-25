@@ -103,10 +103,7 @@
                                   <th>Producto</th><!---->
                                   <th>Precio</th><!---->                                  
                                   <th>Marca</th><!---->
-                                  <th>Tipo</th><!---->
-                                  <th>U. Medida</th><!---->
-                                  <th>Color</th><!---->
-                                  <th>Procedencia</th><!---->
+                                  <th>Tipo de Producto</th><!---->
                                   <th>Acción</th><!---->
                                 </tr><!---->
                               </thead><!---->
@@ -120,9 +117,6 @@
                                   <td th:text="${producto.precio}">90.000</td><!---->
                                   <td th:text="${producto.familiaProducto}">90</td><!---->
                                   <td th:text="${producto.tipoProducto}">type</td>
-                                  <td th:text="${producto.unidadMedida}">-</td>
-                                  <td th:text="${producto.color}">black</td>
-                                  <td th:text="${producto.procedencia}">py</td>
                                   <td><!--CON ESTO SE DEBE PONER FUNCIONALIDAD-->
                                     <!--div class="form-check form-switch">
                                       <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${producto.idProducto})}" 

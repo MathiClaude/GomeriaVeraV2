@@ -12,43 +12,56 @@
             <fieldset>
                 <br> <!--separador-->
                 <div class="container">
-                    <!--Nombre de Producto-->
                     <div class="row mb-4">
+                        <!--Tipo Producto-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputNombreProducto" class="form-label">Nombre de Producto</label>
-                                <input type="text" class="form-control" id="inputNombreProducto" name="nombreProducto" placeholder="Introduzca nombre del producto" autofocus>
+                                <label for="inputTipoProducto" class="form-label">Tipo Producto<span style="color:red">*</span></label>
+                                <select class="form-select" id="inputTipoProducto" name="tipoProducto" required>
+                                    <option value="">Seleccionar Tipo de Producto</option>
+                                    <option th:each="tipoProducto : ${tiposProductos}" th:value="${tipoProducto.idTipoProducto}" th:text="${tipoProducto.descripcion}"></option>
+                                </select>
+                                
+                            </div>
+                        </div>
+                        
+                        <!--Nombre de Producto-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputNombreProducto" class="form-label">Nombre de Producto<span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="inputNombreProducto" name="nombreProducto" placeholder="Introduzca nombre del producto" autofocus required>
                             </div>
                         </div>
                         <!-- Fecha en el que se ingresó el producto-->
-                        <div class="col">
+                        <!-- <div class="col">
                             <div class="form-outline">
                                 <label for="inputProducto" class="form-label">Fecha de Ingreso:</label>
                                 <input type="date" id="inputFecha" name="fecha" class="form-control">
                               </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="row mb-4">        
-                        
+                    <div class="row mb-4">  
+                        <!--Código de Producto-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputCodigo" class="form-label">Código</label>
-                                <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Introduzca código" autofocus>
+                                <label for="inputCodigo" class="form-label">Código<span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Introduzca código" autofocus required>
                             </div>
-                        </div>
+                        </div>      
                         <!--div class="col">
                             <div class="form-outline">
                                 <label for="inputTipoProducto" class="form-label">Tipo Producto</label>
                                 <input type="text" class="form-control" id="inputTipoProducto" name="tipoProducto" placeholder="Introduzca tipo Producto" autofocus>
                             </div>
                         </div-->
+                        
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputTipoProducto" class="form-label">Tipo Producto</label>
-                                <select class="form-select" id="inputTipoProducto" name="tipoProducto">
-                                    <option value="">Seleccionar Tipo de Producto</option>
-                                    <option th:each="tipoProducto : ${tiposProductos}" th:value="${tipoProducto.idTipoProducto}" th:text="${tipoProducto.descripcion}"></option>
+                                <label for="inputFamiliaProducto" class="form-label">Marca<span style="color:red">*</span></label>
+                                <select class="form-select" id="inputFamiliaProducto" name="familiaProducto"required>
+                                    <option value="">Seleccionar Marca</option>
+                                    <option th:each="marca : ${marcas}" th:value="${marca.idMarca}" th:text="${marca.nombre}"></option>
                                 </select>
                                 
                             </div>
@@ -56,19 +69,7 @@
                     </div>
 
                     <!--código del producto-->
-                    <div class="row mb-4">    
-                        <div class="col">
-                            <div class="form-outline">
-                                <label for="inputProcedencia" class="form-label">Descripción</label>
-                                <input type="text" class="form-control" id="inputProcedencia" name="procedencia" placeholder="Introduzca procedencia" autofocus>
-                            </div>
-                        </div>
-                        <!--div class="col">
-                            <div class="form-outline">
-                                <label for="inputUnidadMedida" class="form-label">Unidad Medida</label>
-                                <input type="text" class="form-control" id="inputUnidadMedida" name="unidadMedida" placeholder="Introduzca unidad Medida" autofocus>
-                            </div>
-                        </div-->
+                    <div class="row mb-4">   
                         <div class="col">
                             <div class="form-outline">
                                 <label for="inputUnidadMedida" class="form-label">Unidad Medida</label>
@@ -78,39 +79,41 @@
                                 </select>
                                 
                             </div>
-                        </div>
-                    </div>
-                    <div class="row mb-4">    
+                        </div> 
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputColor" class="form-label">Color</label>
-                                <input type="text" class="form-control" id="inputColor" name="color" placeholder="Introduzca color" autofocus>
-                            </div>
-                        </div>
-                        
-                        <div class="col">
-                            <div class="form-outline">
-                                <label for="inputFamiliaProducto" class="form-label">Marca</label>
-                                <select class="form-select" id="inputFamiliaProducto" name="familiaProducto">
-                                    <option value="">Seleccionar Marca</option>
-                                    <option th:each="marca : ${marcas}" th:value="${marca.idMarca}" th:text="${marca.nombre}"></option>
+                                <label for="inputProveedor" class="form-label">Impuesto<span style="color:red">*</span></label>
+                                <select class="form-select" id="inputProveedor" name="proveedor">
+                                    <option value="">Seleccionar Impuesto</option>
+                                    <option value="10">I.V.A. 10%</option>
+                                    <option value="5">I.V.A. 5%</option>
+          
                                 </select>
                                 
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-4">    
+                    <div class="row mb-4">   
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputProveedor" class="form-label">Proveedor</label>
-                                <select class="form-select" id="inputProveedor" name="proveedor">
+                                <label for="inputProveedor" class="form-label">Proveedor<span style="color:red">*</span></label>
+                                <select class="form-select" id="inputProveedor" name="proveedor" required>
                                     <option value="">Seleccionar Proveedor</option>
                                     <option th:each="proveedor : ${proveedores}" th:value="${proveedor.idProveedor}" th:text="${proveedor.nombre}"></option>
                                 </select>
                                 
                             </div>
-                        </div>
+                        </div> 
                     </div>
+                    <div class="row mb-4">    
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputDetalle" class="form-label">Detalle</label>
+                                <textarea class="form-control" id="inputDetalle" name="detalle" placeholder="Introduzca detalle. Ej:Ideal para: Automóviles pequeños y medios,indice de carga: 88,indice de velocidad: H - 210 km/h, tamaño: 195/60 R15 " autofocus></textarea>
+                            </div>
+                        </div> 
+                    </div>
+                   
                                         
                     <div class="row">
                       <div class="col-sm-2">
@@ -131,6 +134,8 @@
                         </div>
                         </div>
                     </div>
+                    
+                    
                 </div>
             </div>
         </div>

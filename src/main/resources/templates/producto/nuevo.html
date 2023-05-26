@@ -75,7 +75,7 @@
                                 <label for="inputUnidadMedida" class="form-label">Unidad Medida</label>
                                 <select class="form-select" id="inputUnidadMedida" name="unidadMedida">
                                     <option value="">Seleccionar Medida</option>
-                                    <option th:each="unidadMedida : ${unidadMedidas}" th:value="${unidadMedida.idUnidadMedida}" th:text="${unidadMedida.codigo}"></option>
+                                    <option th:each="unidadMedida : ${unidadMedidas}" th:value="${unidadMedida.idUnidadMedida}" th:text="${unidadMedida.descripcion}"></option>
                                 </select>
                                 
                             </div>

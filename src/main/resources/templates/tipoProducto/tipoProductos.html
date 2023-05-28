@@ -17,39 +17,37 @@
   <div th:if="${permisoVer eq false}">
     <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
   </div><!---->
-  <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-    <table class="table table-striped mb-0" ><!---->
-      <thead style="background-color: #0a4275;"><!---->
-      <tr class="text-center"><!---->
+  <div th:if="${true}" class="table-responsive">
+    <table id="myTable" class="table table-sm table-bordered table-hover">
+      <thead style="background-color: #0a4275;">
         <th>Código</th><!---->
         <th>Descripción</th><!---->
         <th>Acción</th><!---->
-      </tr><!---->
-      </thead><!---->
-      <tbody><!---->
-      <tr th:if="${#lists.isEmpty(listTipDoc)}"><!---->
-        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
-      </tr><!---->
-      <tr class="text-center" th:each="tDoc: ${listTipDoc}">
-        <td th:text="${tDoc.idTipoProducto}">Código</td>
-        <td th:text="${tDoc.descripcion}">Descripción</td><!---->
-        <td><!---->
-          <div class="btn-group"><!---->
-            <a th:if="${permisoActualizar eq true}" th:href="@{/tipoProductos/{id}(id=${tDoc.idTipoProducto})}" 
-               class="btn btn-sm btn-outline-primary"><!---->
-              <i class="fa-solid fa-pen-to-square"></i><!---->
-            </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/tipoProductos/{id}/delete(id=${tDoc.idTipoProducto})}">
-              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                <i class="fa-sharp fa-solid fa-trash"></i>
-              </button>
-            </a>
-          </div>
-        </td>
+      </tr>
+      </thead>
+      <tbody>
+        <tr th:if="${#lists.isEmpty(listTipDoc)}"><!---->
+          <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+        </tr><!---->
+        <tr class="text-center" th:each="tDoc: ${listTipDoc}">
+          <td th:text="${tDoc.idTipoProducto}">Código</td>
+          <td th:text="${tDoc.descripcion}">Descripción</td><!---->
+          <td><!---->
+            <div class="btn-group"><!---->
+              <a th:if="${permisoActualizar eq true}" th:href="@{/tipoProductos/{id}(id=${tDoc.idTipoProducto})}" 
+                 class="btn btn-sm btn-outline-primary"><!---->
+                <i class="fa-solid fa-pen-to-square"></i><!---->
+              </a>
+              <a th:if="${permisoEliminar eq true}" th:href="@{/tipoProductos/{id}/delete(id=${tDoc.idTipoProducto})}">
+                <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                  <i class="fa-sharp fa-solid fa-trash"></i>
+                </button>
+              </a>
+            </div>
+          </td>
       </tr>
       </tbody>
     </table>
-  <br>  
   </div>
     <a href="javascript:history.back()" class="btn btn-outline-primary">
       <i class="fa fa-backward" aria-hidden="true"></i> Atrás 

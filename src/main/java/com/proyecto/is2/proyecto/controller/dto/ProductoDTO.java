@@ -9,18 +9,18 @@ import java.util.Set;
 public class ProductoDTO {
     private Long idProducto;
     private String nombreProducto;
+    private String codigo;
+    private String familiaProducto;
+    private String unidadMedida;
+    private String impuesto;
+    private String proveedor;
+    private String tipoProducto;
     private String fechaIngreso;
     private String esActual;
+    private String descripcion;
+
     private Integer precio;//sacar. Es solo para pruebas
     private Integer cantidad;//sacar Es solo para prubas
-    //
-    private String familiaProducto;
-    private String tipoProducto;
-    private String codigo;
-    private String unidadMedida;
-    private String color;
     private String procedencia;
-    private String proveedor;
-
 
 }

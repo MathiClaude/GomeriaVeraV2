@@ -43,14 +43,17 @@ public class Producto {
     @Column(name = "unidadMedida")
     private String unidadMedida;
 
-    @Column(name = "color")
-    private String color;
-
     @Column(name = "procedencia")
     private String procedencia;
 
     @Column(name = "proveedor")
     private String proveedor;
+
+    @Column(name = "impuesto")
+    private String impuesto;
+
+    @Column(name = "descripcion")
+    private String descripcion;
 
 
     public Producto() {

@@ -50,7 +50,6 @@ layout:decorate="~{/layout/basic}">
           <th>Tipo</th><!---->
           <th>U. Medida</th><!---->
           <th>Impuesto</th><!---->
-          <th>Descripción</th><!---->
           <th>Proveedor</th><!---->
           <th>Acción</th><!---->
         </tr><!---->
@@ -68,7 +67,6 @@ layout:decorate="~{/layout/basic}">
           <td th:text="${producto.tipoProducto.descripcion}">type</td>
           <td th:text="${producto.unidadMedida.descripcion}">-</td>
           <td th:text="${producto.impuesto}">black</td>
-          <td th:text="${producto.procedencia}">py</td>
           <td th:text="${producto.proveedor.nombre}">py</td>
           <td><!---->
             <div class="btn-group"><!---->

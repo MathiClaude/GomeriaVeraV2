@@ -17,9 +17,9 @@
   <div th:if="${permisoVer eq false}">
     <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
   </div><!---->
-  <div th:if="${permisoVer eq true}" class="table-responsive">
-    <table id="myTable" class="table table-sm table-bordered table-hover">
-      <thead style="background-color: #0a4275;">
+  <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
+    <table class="table table-striped mb-0" ><!---->
+      <thead style="background-color: #0a4275;"><!---->
       <tr class="text-center"><!---->
         <th>Marca</th><!---->
         <th>Descripción</th><!---->

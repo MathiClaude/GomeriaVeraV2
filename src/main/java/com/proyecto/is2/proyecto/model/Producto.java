@@ -31,23 +31,23 @@ public class Producto {
     @Column(name = "cantidad")
     private Integer cantidad;
 
-    @Column(name = "familiaProducto")
-    private String familiaProducto;
+    /*@Column(name = "familiaProducto")
+    private String familiaProducto;*/
 
-    @Column(name = "tipoProducto")
-    private String tipoProducto;
+    /*@Column(name = "tipoProducto")
+    private String tipoProducto;*/
 
     @Column(name = "codigo")
     private String codigo;
 
-    @Column(name = "unidadMedida")
-    private String unidadMedida;
+    /*@Column(name = "unidadMedida")
+    private String unidadMedida;*/
 
     @Column(name = "procedencia")
     private String procedencia;
 
-    @Column(name = "proveedor")
-    private String proveedor;
+    /*@Column(name = "proveedor")
+    private String proveedor;*/
 
     @Column(name = "impuesto")
     private String impuesto;
@@ -59,26 +59,42 @@ public class Producto {
     public Producto() {
 
     }
-    public Producto(String nombreProducto, String tipoProducto) {
+    /*public Producto(String nombreProducto, String tipoProducto) {
         this.nombreProducto = nombreProducto;
         this.tipoProducto = tipoProducto;
+    }*/
+
+    public Producto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+        //this.tipoProducto = tipoProducto;
     }
 
     public String toString() {
         return nombreProducto;
     }
 
-
-    /*public String toString() {
-        return email;
-    }*/
-
     /* RELACIONES DE BASE DE DATOS */
 
-    /** Relacion con Rol **/
-    /*@ManyToOne
-    @JoinColumn(name = "rol_id", referencedColumnName = "idRol")
-    private Rol rol;*/
+    /** Relacion con tipo producto **/
+    @ManyToOne
+    @JoinColumn(name = "tipo_producto_id", referencedColumnName = "idTipoProducto")
+    private TipoProducto tipoProducto;
+
+    /** Relacion con Marcas **/
+    @ManyToOne
+    @JoinColumn(name = "marca_id", referencedColumnName = "idMarca")
+    private Marca marca;
+
+    /** Relacion con Unidad Medida **/
+    @ManyToOne
+    @JoinColumn(name = "unidad_medida_id", referencedColumnName = "idUnidadMedida")
+    private UnidadMedida unidadMedida;
+
+    /** Relacion con Unidad Medida **/
+    @ManyToOne
+    @JoinColumn(name = "proveedor_id", referencedColumnName = "idProveedor")
+    private Proveedor proveedor;
+
 
     /* Relacion con UserStory */
     /*@OneToMany(mappedBy = "usuario")

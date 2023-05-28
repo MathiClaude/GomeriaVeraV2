@@ -145,6 +145,11 @@ public class ProductoCrudController {
                 producto.setRol(rolService.existeRol(1L)); // ID 1: Rol sin permisos.
             }*/
 
+            producto.setTipoProducto(tipoProductoService.existeTipoProducto(objetoDTO.getIdTipoProducto().longValue()));
+            producto.setMarca(marcaService.existeMarca(objetoDTO.getIdMarca().longValue()));
+            producto.setUnidadMedida(unidadMedidaService.existeUnidadMedida(objetoDTO.getIdUnidadMedida().longValue()));
+            producto.setProveedor(proveedorService.existeProveedor(objetoDTO.getIdProveedor().longValue()));
+
             productoService.guardar(producto);
 
             attributes.addFlashAttribute("message", "¡Producto creado exitosamente!");

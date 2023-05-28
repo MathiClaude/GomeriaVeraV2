@@ -20,10 +20,11 @@
   <div th:if="${true}" class="table-responsive">
     <table id="myTable" class="table table-sm table-bordered table-hover">
       <thead style="background-color: #0a4275;">
-        <th>Código</th><!---->
-        <th>Descripción</th><!---->
-        <th>Acción</th><!---->
-      </tr>
+        <tr class="text-center">
+          <th>Código</th><!---->
+          <th>Descripción</th><!---->
+          <th>Acción</th><!---->
+        </tr>
       </thead>
       <tbody>
         <tr th:if="${#lists.isEmpty(listTipDoc)}"><!---->

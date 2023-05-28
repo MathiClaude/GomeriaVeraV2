@@ -24,6 +24,30 @@ $(document).ready(function() {
         });
     }
 
+    // table grilla para una segunda tabla
+    let existTable2 = document.querySelector("#myTable2");
+    if(existTable2 != null) {
+        var table2 = new DataTable('#myTable2', {
+            language: {
+//                search: "Buscar:",
+//                lengthMenu: "Mostrar _MENU_ registros",
+//                emptyTable: "No hay resultados",
+//                zeroRecords: "No hay resultados",
+                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
+            },
+//            paginate: {
+//                "first": "Primero",
+//                "last": "Ultimo",
+//                "next": "Siguiente",
+//                "previous": "Anterior"
+//            },
+            retrieve: true,
+            "lengthChange": true,
+            info: true,
+            searching: true,
+        });
+    }
+
     // table con input
     let existTableList = document.querySelector("#myTableList");
     if(existTableList != null) {

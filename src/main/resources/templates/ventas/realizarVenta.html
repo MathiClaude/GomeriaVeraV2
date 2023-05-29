@@ -17,9 +17,7 @@
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabProducto" type="button" role="tab" aria-controls="tabProducto" aria-selected="false"><i class="fas fa-cart-arrow-down me-2"></i>Producto</button>
       </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabServicio" type="button" role="tab" aria-controls="tabServicio" aria-selected="false"><i class="fas fas fa-shuttle-van me-2"></i>Servicio</button>
-      </li>
+      
       <li class="nav-item" role="presentation">
         <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabPago" type="button" role="tab" aria-controls="tabPago" aria-selected="false"><i class="fas fa-credit-card fa-fw me-2"></i>Método de Pago</button>
       </li>
@@ -34,351 +32,352 @@
             <div class="col-4">
               <!--Buscador de clientes-->
               <div class="form-group">                
-                <input class="form-control" list="options" id="exampleInput" placeholder="Seleccionar cliente">
-                <datalist id="options">
-                  <option value="GiaNNina">
-                    <option value="Option 2">
-                      <option value="Option 3">
-                      </datalist>
-                    </div>
-                  </div>
-                  <!--botón de registro-->
-                  <div class="col-4">
-                    <th:block th:if="${permisoCrear eq true}"><!--esto es de permisos user - modificar a uno para registrar clientes-->
-                    <a th:href="@{/registrarCliente}" class="btn btn-success mb-4">
-                      <i class="fa-solid fa-user-plus"></i> Registrar Cliente
-                    </a>
-                  </th:block> <!--modificar front-->
-                </div>
-              </div>
-            </div>
-            
-          </div>
-          <!--TAB contenido de Producto-->
-          <div class="tab-pane fade" id="tabProducto" role="tabpanel" aria-labelledby="tabProducto">
-            <legend style="color:#21618C">Producto</legend>
-            <!--Form para seleccionar el producto-->
-            <div class="row mb-4">
-              <div class="col">
-                <div class="form-outline">
-                  
-                  
-                  <!--para poder desplegar pantalla flotante-->
-                  <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Seleccionar producto" aria-label="Seleccionar producto" aria-describedby="button-addon2">
-                    <!-- Button trigger modal-->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
-                      <i class="bi bi-cup-hot-fill"></i>
-                    </button>
+                <!-- <input class="form-control" list="options" id="exampleInput" placeholder="Seleccionar cliente">
+                  <datalist id="options">
+                    <option th:each="cliente : ${listarCliente}" th:value="${cliente.id}" th:text="${cliente.documentNumber} -${cliente.name} ${cliente.lastName}"></option>
+                  </datalist>  -->
+                  <div id="myDropdown" class="dropdown-content">
+                    <input type="hidden"  id="InputCliente" name="cliente" >
                     
-                    <!-- Modal: modalCart -->
-                    <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                      <div class="modal-content">
-                        <!--Header-->
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="myModalLabel">Lista de Productos</h4>
-                          
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
-                        </div>
-                        <!-- Body para modal-->
-                        <div class="modal-body">
-                          <!--boton de busqueda-->
-                          <div class="input-group">
-                            <div class="form-outline">
-                              <input type="search" id="form1" class="form-control"/>
-                            </div>
-                            <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark">
-                              <i class="fas fa-search"></i>
-                            </button>
-                          </div>
-                          <br>
-                          <!--body de productos-->
-                          <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-                            <table class="table table-striped mb-0" ><!---->
-                              <thead style="background-color: #0a4275;"><!---->
-                                <tr class="text-center"><!---->
-                                  <th>Código</th><!---->
-                                  <th>Producto</th><!---->
-                                  <th>Precio</th><!---->                                  
-                                  <th>Marca</th><!---->
-                                  <th>Tipo de Producto</th><!---->
-                                  <th>Acción</th><!---->
-                                </tr><!---->
-                              </thead><!---->
-                              <tbody><!---->
-                                <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
-                                  <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
-                                </tr><!---->
-                                <tr class="text-center" th:each="producto: ${listProduct}">
-                                  <td th:text="${producto.codigo}">Cod</td>
-                                  <td th:text="${producto.nombreProducto}">Name</td>
-                                  <td th:text="${producto.precio}">90.000</td><!---->
-                                  <td th:text="${producto.familiaProducto}">90</td><!---->
-                                  <td th:text="${producto.tipoProducto}">type</td>
-                                  <td><!--CON ESTO SE DEBE PONER FUNCIONALIDAD-->
-                                    <!--div class="form-check form-switch">
-                                      <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${producto.idProducto})}" 
-                                      class="form-check-input">
-                                      <i class="form-check-label"></i>
-                                      </a>
-                                    </div-->
-                                    <!--cantidad de producto que se seleccione-->
-                                    <div class="input-group">
-                                      <button class="btn btn-outline-secondary" type="button" id="decrement-btn">-</button>
-                                      <input type="number" class="form-control" id="quantity-input" value="0">
-                                      <button class="btn btn-outline-secondary" type="button" id="increment-btn">+</button>
-                                    </div>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          <br>  
-                          </div> <!--termina la tabla-->                          
-                        </div>
-                        <!--Footer-->
-                        <div- class="modal-footer aria-hidden">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Agregar</button>
-                      </div->
-                    </div>
+                    <input type="text" placeholder="Search.." id="buscadorCliente" onkeyup="funcionFiltrar(this.value)">
+                    <a  class="opcionesCliente" onclick = "seleccionar(this)"></a>
+                    <a  class="opcionesCliente" onclick = "seleccionar(this)"></a>
+                    <a  class="opcionesCliente" onclick = "seleccionar(this)"></a>
+                    <a  class="opcionesCliente" onclick = "seleccionar(this)"></a>
+                    <a  class="opcionesCliente" onclick = "seleccionar(this)"></a>
+                    <a  class="opcionesCliente" onclick = "seleccionar(this)"></a>
+                    <a  class="opcionesCliente" onclick = "seleccionar(this)"></a>
+                    <a  class="opcionesCliente" onclick = "seleccionar(this)"></a>
+                    <!-- <a th:each="cliente : ${listarCliente}" th:data-value="${cliente.idCliente}" class="opcionesCliente" onclick = "seleccionar(this)" th:text="${cliente.documentNumber}+'-'+${cliente.name}+' '+${cliente.lastName}"></a> -->
                   </div>
                 </div>
               </div>
-              
-            </div>
-          </div><!--termina contenido del modal para producto-->
-          
-          <!--Cantidad de Productos-->
-          <div class="col">
-            <div class="form-outline">
-              <!--label for="inputUsuario" class="form-label">Cantidad Producto</label-->
-              <input type="text" class="form-control" id="inputCantidad" name="user" placeholder="Introduzca la cantidad deseada" autofocus>
+              <!--botón de registro-->
+              <div class="col-4">
+                <th:block th:if="${permisoCrear eq true}"><!--esto es de permisos user - modificar a uno para registrar clientes-->
+                <a th:href="@{/registrarCliente}" class="btn btn-success mb-4">
+                  <i class="fa-solid fa-user-plus"></i> Registrar Cliente
+                </a>
+              </th:block> <!--modificar front-->
             </div>
           </div>
-          
         </div>
         
-        <!--LISTA DE PRODUCTOS EN ITEM PRODUCTO-->
-        <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-          <table class="table table-striped mb-0" ><!---->
-            <thead style="background-color: #0a4275;"><!---->
-              <tr class="text-center"><!---->
-                <th>Producto</th><!---->
-                <th>Precio</th><!---->
-                <th>Acción</th><!---->
-              </tr><!---->
-            </thead><!---->
-            <tbody><!---->
-              <tr th:if="${#lists.isEmpty(listVenta)}"><!---->
-                <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
-              </tr><!---->
-              <tr class="text-center" th:each="venta: ${listVenta}">
-                <td th:text="${venta.descripcionServicio}">Producto</td>
-                <td th:text="${venta.precio}">Precio</td><!---->
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
-      <!--TAB contenido de Servicio-->
-      <div class="tab-pane fade" id="tabServicio" role="tabpanel" aria-labelledby="tabServicio">
-        <legend style="color:#21618C">Servicio</legend>
+      <!--TAB contenido de Producto-->
+      <div class="tab-pane fade" id="tabProducto" role="tabpanel" aria-labelledby="tabProducto">
+        <legend style="color:#21618C">Producto</legend>
         <!--Form para seleccionar el producto-->
         <div class="row mb-4">
           <div class="col">
             <div class="form-outline">
+              
+              
               <!--para poder desplegar pantalla flotante-->
               <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Buscar servicio" aria-label="Buscar servicio" aria-describedby="button-addon2">
+                <input type="text" class="form-control" placeholder="Seleccionar producto" aria-label="Seleccionar producto" aria-describedby="button-addon2">
                 <!-- Button trigger modal-->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalServices" >
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
                   <i class="bi bi-cup-hot-fill"></i>
                 </button>
                 
-                <!-- Modal: modalServices-->
-                <div class="modal fade" id="modalServices" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
-                  <div class="modal-content">
-                    <!--Header-->
-                    <div class="modal-header">
-                      <h4 class="modal-title" id="myModalLabel">Lista de Servicios</h4>
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
-                    </div>
-                    <!-- Body para modal-->
-                    <div class="modal-body">
-                      <!--boton de busqueda-->
-                      <div class="input-group">
-                        <div class="form-outline">
-                          <input type="search" id="form1" class="form-control"/>
-                        </div>
-                        <button type="button" class="btn btn-outline-primary" data-mdb-ripple-color="dark">
-                          <i class="fas fa-search"></i>
-                        </button>
+                <!-- Modal: modalCart -->
+                <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                    <div class="modal-content">                                   
+                      <!--Header-->                    
+                      <div class="modal-header"> 
+                        <h5 class="modal-title">Lista de articulos</h5> <!-- Por que si-->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
                       </div>
-                      <br>
-                      <!--body de servicios-->
-                      <div th:if="${permisoVer eq false}">
-                        <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
-                      </div><!---->
-                      <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-                        <table class="table table-striped mb-0" ><!---->
-                          <thead style="background-color: #0a4275;"><!---->
-                            <tr class="text-center"><!---->
-                              <th>Servicio</th><!---->
-                              <th>Precio</th><!---->
-                            </tr><!---->
-                          </thead><!---->
-                          <tbody><!---->
-                            
-                            <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
-                              <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
-                            </tr><!---->
-                            <tr class="text-center" th:each="servicio: ${listServicios}">
-                              <td th:text="${servicio.descripcionServicio}">Servicio</td>
-                              <td th:text="${servicio.precio}">Precio</td><!---->
-                              
-                            </tr>
-                          </tbody>
-                        </table>
-                        <br>  
-                      </div>                               
-                    </div>
-                    <!--Footer-->
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                      <button type="button" class="btn btn-primary">Agregar</button>
-                    </div>
+                      <!-- Body para modal-->
+                      <div class="modal-body">
+                        <!-- Tabs navs para modal-->
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                          <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabListaProd" type="button" role="tab" aria-controls="tabListaProd" aria-selected="true"><i class="fas fa-cart-arrow-down me-2"></i>Productos</button>
+                          </li>
+                          <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabListaServ" type="button" role="tab" aria-controls="tabListaServ" aria-selected="false"><i class="	fas fa-shuttle-van me-2"></i>Servicios</button>
+                          </li>
+                        </ul>
+                        <!--Lista/tabla de productos-->
+                        <div class="tab-content" >
+                          <div class="tab-pane fade show active" id="tabListaProd" role="tabpanel" aria-labelledby="tabListaProd">
+                            <legend style="color:#21618C">Lista de productos</legend>
+                            <div th:if="${permisoVer eq true}" class="table-responsive">
+                              <table id="myTable" class="table table-sm table-bordered table-hover">
+                                <thead style="background-color: #0a4275;">
+                                  <tr class="text-center">
+                                    <th>Código</th><!---->
+                                    <th>Producto</th><!---->
+                                    <th>Tipo</th><!---->
+                                    <th>Impuesto</th><!---->
+                                    <th>Proveedor</th><!---->
+                                    <th>Acción</th><!---->
+                                  </tr><!---->
+                                </thead><!---->
+                                <tbody><!---->
+                                  <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
+                                    <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
+                                  </tr><!---->
+                                  <tr class="text-center" th:each="producto: ${listProduct}">
+                                    <td th:text="${producto.codigo}">Cod</td>
+                                    <td th:text="${producto.nombreProducto}">Name</td>
+                                    <td th:text="${producto.marca.nombre}">90</td><!---->
+                                    <td th:text="${producto.tipoProducto.descripcion}">type</td>
+                                    <td th:text="${producto.impuesto}">black</td>
+                                    <td><!---->
+                                      <div class="btn-group"><!---->
+                                        <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${producto.idProducto})}" 
+                                        class="btn btn-sm btn-outline-primary"><!---->
+                                        <i class="fa-solid fa-pen-to-square"></i><!---->
+                                      </a>
+                                      <a th:if="${permisoEliminar eq true}" th:href="@{/productos/{id}/delete(id=${producto.idProducto})}">
+                                        <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                          <i class="fa-sharp fa-solid fa-trash"></i>
+                                        </button>
+                                      </a>
+                                    </div>
+                                  </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <br>  
+                            </div> <!--termina la tabla-->
+                          </div> <!--termina el tab-->
+                          <!--Lista/tabla de servicios-->
+                          <div class="tab-pane fade show" id="tabListaServ" role="tabpanel" aria-labelledby="tabListaServ">
+                            <legend style="color:#21618C">Lista de servicios</legend>
+                            <div th:if="${permisoVer eq true}" class="table-responsive">
+                              <table id="myTable2" class="table table-sm table-bordered table-hover">
+                                <thead style="background-color: #0a4275;">
+                                  <tr class="text-center">
+                                    <th>Código</th><!---->
+                                    <th>Producto</th><!---->
+                                    <th>Tipo</th><!---->
+                                    <th>Impuesto</th><!---->
+                                    <th>Proveedor</th><!---->
+                                    <th>Acción</th><!---->
+                                  </tr><!---->
+                                </thead><!---->
+                                <tbody><!---->
+                                  <tr th:if="${#lists.isEmpty(listServicio)}"><!---->
+                                    <td class="text-center fw-bold" ></td><!---->
+                                    <td class="text-center fw-bold" >No</td><!---->
+                                    <td class="text-center fw-bold" >se </td><!---->
+                                    <td class="text-center fw-bold" >encontraron</td><!---->
+                                    <td class="text-center fw-bold" >Servicios</td><!---->
+                                    <td class="text-center fw-bold" ></td><!---->
+                                  </tr><!---->
+                                  <tr class="text-center" th:each="servicio: ${listServicio}">
+                                    <td th:text="${servicio.codigo}">Cod</td>
+                                    <td th:text="${servicio.nombreProducto}">Name</td>
+                                    <td th:text="${servicio.marca.nombre}">90</td><!---->
+                                    <td th:text="${servicio.tipoProducto.descripcion}">type</td>
+                                    <td th:text="${servicio.impuesto}">black</td>
+                                    <td><!---->
+                                      <div class="btn-group"><!---->
+                                        <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${producto.idProducto})}" 
+                                        class="btn btn-sm btn-outline-primary"><!---->
+                                        <i class="fa-solid fa-pen-to-square"></i><!---->
+                                      </a>
+                                      <a th:if="${permisoEliminar eq true}" th:href="@{/productos/{id}/delete(id=${producto.idProducto})}">
+                                        <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                          <i class="fa-sharp fa-solid fa-trash"></i>
+                                        </button>
+                                      </a>
+                                    </div>
+                                  </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              <br>  
+                            </div> <!--termina la tabla-->
+                          </div> <!--termina el tab-->
+                       </div>
+                      
+                      </div>  
+                      <!--Footer-->
+                      <div class="modal-footer aria-hidden">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-primary">Agregar</button>
+                      </div>
+                    </div> 
+                
                   </div>
                 </div>
               </div>
-            </div>
-            
-          </div>
-        </div><!--termina contenido del modal para servicio-->
-        
-      </div>
+            </div><!--termina contenido del modal para producto-->
       
-      <!--LISTA DE SERVICES EN ITEM SERVICIO DEL TAB-->
-      <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-        <table class="table table-striped mb-0" ><!---->
-          <thead style="background-color: #0a4275;"><!---->
-            <tr class="text-center"><!---->
-              <th>Servicio</th><!---->
-              <th>Precio</th><!---->
-              <th>Acción</th><!---->
-            </tr><!---->
-          </thead><!---->
-          <tbody><!---->
-            <tr th:if="${#lists.isEmpty(listVentaDetalle)}"><!---->
-              <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
-            </tr><!---->
-            <tr class="text-center" th:each="ventaDetalle: ${listVentaDetalle}">
-              <td th:text="${ventaDetalle.descripcionServicio}">Servicio</td>
-              <td th:text="${ventaDetalle.precio}">Precio</td><!---->
-              <td><!---->
-                <div class="btn-group"><!---->
-                  <a th:if="${permisoActualizar eq true}" th:href="@{/crudServicio/{id}(id=${ventaDetalle.idServicio})}" 
-                  class="btn btn-sm btn-outline-primary"><!---->
-                  <i class="fa-solid fa-pen-to-square"></i><!---->
-                </a>
-                <a th:if="${permisoEliminar eq true}" th:href="@{/crudServicio/{id}/delete(id=${ventaDetalle.idServicio})}">
-                  <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                    <i class="fa-sharp fa-solid fa-trash"></i>
-                  </button>
-                </a>
+          </div>
+        </div>
+        <!--LISTA DE PRODUCTOS EN ITEM PRODUCTO-->
+        <div th:if="${permisoVer eq true}" class="table-responsive">
+          <table id="myTable3" class="table table-sm table-bordered table-hover">
+            <thead style="background-color: #0a4275;">
+              <tr class="text-center">
+                <th>Código</th><!---->
+                <th>Producto</th><!---->
+                <!--th>Precio</th-->
+                <!--th>Cantidad</th-->
+                <th>Marca</th><!---->
+                <th>Tipo</th><!---->
+                <th>U. Medida</th><!---->
+                <th>Impuesto</th><!---->
+                <th>Proveedor</th><!---->
+                <th>Acción</th><!---->
+              </tr><!---->
+            </thead><!---->
+            <tbody><!---->
+              <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
+                <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
+              </tr><!---->
+              <tr class="text-center" th:each="producto: ${listProduct}">
+                <td th:text="${producto.codigo}">Cod</td>
+                <td th:text="${producto.nombreProducto}">Name</td>
+                <!--td th:text="${producto.precio}">90.000</td-->
+                <!--td th:text="${producto.cantidad}">90</td-->
+                <td th:text="${producto.marca.nombre}">90</td><!---->
+                <td th:text="${producto.tipoProducto.descripcion}">type</td>
+                <td th:text="${producto.unidadMedida.descripcion}">-</td>
+                <td th:text="${producto.impuesto}">black</td>
+                <td th:text="${producto.proveedor.nombre}">py</td>
+                <td><!---->
+                  <div class="btn-group"><!---->
+                    <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${producto.idProducto})}" 
+                    class="btn btn-sm btn-outline-primary"><!---->
+                      <i class="fa-solid fa-pen-to-square"></i><!---->
+                    </a>
+                    <a th:if="${permisoEliminar eq true}" th:href="@{/productos/{id}/delete(id=${producto.idProducto})}">
+                      <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                        <i class="fa-sharp fa-solid fa-trash"></i>
+                      </button>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div> <!--termina la tabla-->
+      </div>
+    <!--CONTENIDO DE MÉTODO DE PAGO-->
+    <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
+      <!--opciones de los botones-->
+      <div class="form-check">
+        <!--opción 1-->
+        <div>
+          <input type="radio" id="mostrar-contenido" name="tipoPago">
+          <label for="mostrar-contenido">Efectivo</label>
+          <div id="contenido" style="display:none">
+            <br>
+            <!--metodo de pago campos-->
+            <div class="row mb-4">
+              <div class="col">
+                <div class="form-outline">
+                  <label for="inputNombre" class="form-label">Total a pagar:</label>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label for="inputNombre" class="form-label">IVA:</label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-outline">
+                    <label for="inputNombre" class="form-label">Vuelto:</label>
+                  </div>
+                </div>
+              </div> 
+              <div class="col">
+                <div class="form-outline">
+                  <label for="inputNombre" class="form-label">Total abonado</label>
+                  <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Introduzca pago del cliente" autofocus>
+                </div>
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div><!--termina contenido del tab servicios-->
-  
-  <!--CONTENIDO DE MÉTODO DE PAGO-->
-  <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
-    <!--opciones de los botones-->
-    <div class="form-check">
-      <!--opción 1-->
-      <div>
-        <input type="radio" id="mostrar-contenido" name="tipoPago">
-        <label for="mostrar-contenido">Efectivo</label>
-        <div id="contenido" style="display:none">
-          <br>
-          <!--metodo de pago campos-->
-      <div class="row mb-4">
-        <div class="col">
-          <div class="form-outline">
-            <label for="inputNombre" class="form-label">Total a pagar:</label>
-          </div>
-          <div class="col">
-            <div class="form-outline">
-              <label for="inputNombre" class="form-label">IVA:</label>
+              <br>
+              <div class="col-sm-6">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                  Finalizar venta</button>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="col">
-            <div class="form-outline">
-              <label for="inputNombre" class="form-label">Vuelto:</label>
-            </div>
-          </div>
-        </div> 
-        <div class="col">
-          <div class="form-outline">
-            <label for="inputNombre" class="form-label">Total abonado</label>
-            <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Introduzca pago del cliente" autofocus>
-          </div>
-        </div>
-        <br>
-        <div class="col-sm-6">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Finalizar venta</button>
-          </div>
-        </div>
       </div>
-    </div>
-  </div>
-       
-      
-      <!-- Modal para comprobante-->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">        
-              <picture>
-                <img width="150" src="https://img.freepik.com/foto-gratis/mano-3d-factura-confirmacion-pago-seguro_107791-16702.jpg?w=740&t=st=1683733445~exp=1683734045~hmac=0e774142147f08d258e789d191d885e4f5fde8ebf456654d3f05521a42fa7dda">
-                
-              </picture>
-              ¿Desea generar el comprobante de venta?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Finalizar sin generar pdf</button>
-              <button type="button" class="btn btn-primary">Generar PDF</button>
+        
+        
+        <!-- Modal para comprobante-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">        
+                <picture>
+                  <img width="150" src="https://img.freepik.com/foto-gratis/mano-3d-factura-confirmacion-pago-seguro_107791-16702.jpg?w=740&t=st=1683733445~exp=1683734045~hmac=0e774142147f08d258e789d191d885e4f5fde8ebf456654d3f05521a42fa7dda">
+                  
+                </picture>
+                ¿Desea generar el comprobante de venta?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Finalizar sin generar pdf</button>
+                <button type="button" class="btn btn-primary">Generar PDF</button>
+              </div>
             </div>
           </div>
+          
         </div>
         
+    </div>
+      
+      <br>
+      <div class="row">
+        <div class="col-sm-1">
+          <a href="javascript:history.back()" class="btn btn-outline-info w-100">
+            Atrás
+          </a>
+        </div>
       </div>
       
     </div>
-    
-    <br>
-    <div class="row">
-      <div class="col-sm-1">
-        <a href="javascript:history.back()" class="btn btn-outline-info w-100">
-          Atrás
-        </a>
-      </div>
-    </div>
-    
+    <!-- Tabs content -->
   </div>
-  <!-- Tabs content -->
-</div>
+  <script th:inline="javascript">
+    let datos = /*[[${listarCliente}]]*/ null;
+    function seleccionar(a){
+      console.log(a.getAttribute('data-value'))
+      document.getElementById("InputCliente").value= a.getAttribute('data-value')
+    }
+    function funcionFiltrar(valor) {
+      let datosFiltrados =[]
+      let listaOpciones = document.getElementsByClassName("opcionesCliente");
+      if(valor==""){
+        datosFiltrados = datos
+      }else{
+        datosFiltrados = datos.filter((elemento)=>{return (elemento.documentNumber.toUpperCase().includes(valor.toUpperCase()) || elemento.name.toUpperCase().includes(valor.toUpperCase()) || elemento.lastName.toUpperCase().includes(valor.toUpperCase()) )})
+      } 
+      // console.log(datosFiltrados)
+      // console.log(listaOpciones)
+      
+      for (let i = 0; i < listaOpciones.length; i++) {
+        listaOpciones[i].removeAttribute("data-value")
+        listaOpciones[i].innerHTML = "";
+        
+      } 
+      for (let i = 0; i < listaOpciones.length; i++) {
+        if(!datosFiltrados[i]){
+          // console.log("test")
+          break
+        }
+        listaOpciones[i].setAttribute("data-value",`${datosFiltrados[i].idCliente}`)
+        listaOpciones[i].innerHTML = `${datosFiltrados[i].documentNumber} - ${datosFiltrados[i].name} ${datosFiltrados[i].lastName}`;
+        
+      }
 
+      
+    }
+  </script>
 </body>
+
 </html>

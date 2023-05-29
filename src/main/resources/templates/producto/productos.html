@@ -102,7 +102,9 @@ layout:decorate="~{/layout/basic}">
       </thead><!---->
       <tbody><!---->
         <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
-          <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+          <td class="text-center fw-bold" ></td><!---->
+          <td class="text-center fw-bold" >No se encontraron resultados</td><!---->
+          <td class="text-center fw-bold" ></td><!---->
         </tr><!---->
         <tr class="text-center" th:each="servicio: ${listServicios}">
           <td th:text="${servicio.descripcionServicio}">Servicio</td>

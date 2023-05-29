@@ -3,11 +3,12 @@ import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
+import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
-
+import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,9 +42,11 @@ public class VentaController {
     private UsuarioServiceImp usuarioService;
      // llamada a los servicios de usuario
      @Autowired
-     private ProductoServiceImp productoService; // llamada a los servicios de usuario
+     private ProductoServiceImp productoService; // llamada a los servicios de producto
      @Autowired
-     private ServicioServiceImp servicioService; // llamada a los servicios de usuario
+     private ServicioServiceImp servicioService; // llamada a los servicios de servicio
+     @Autowired
+     private ClienteServiceImp clienteService; // llamada a los servicios de cliente
 
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
@@ -73,6 +76,7 @@ public class VentaController {
         if(consultar) {
             model.addAttribute("listProduct", productoService.listar());//lista los productos
             model.addAttribute("listServicio", servicioService.listar());//lista los productos
+            model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
 
         } else {
             return FALTA_PERMISO_VIEW;

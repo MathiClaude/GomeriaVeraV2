@@ -22,6 +22,8 @@ public class Proveedor {
     @Column(name = "nombreFantasia")
     private String nombreFantasia;
 
+    @Column(name = "razonSocial")
+    private String razonSocial;
 
     @Column(name = "nombreContacto")
     private String nombreContacto;
@@ -43,5 +45,8 @@ public class Proveedor {
 
     @Column(name = "direccion")
     private String direccion;
+
+    @Column(name = "telefono")
+    private String telefono;
 
 } /* Se crea un relacion tambien con Proyecto */

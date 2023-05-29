@@ -17,7 +17,7 @@
                         <div class="col">
                             <div class="form-outline">
                                 <label for="inputTipoProducto" class="form-label">Tipo Producto<span style="color:red">*</span></label>
-                                <select class="form-select" aria-label="Default select example" id="inputTipoProducto" name="idTipoProducto">
+                                <select class="form-select" aria-label="Default select example" id="inputTipoProducto" name="idTipoProducto" required>
                                     <option value="">Seleccionar Tipo de Producto</option>
                                     <option th:each="tipoProducto : ${tiposProductos}" th:value="${tipoProducto.idTipoProducto}" th:text="${tipoProducto.descripcion}"></option>
                                 </select>

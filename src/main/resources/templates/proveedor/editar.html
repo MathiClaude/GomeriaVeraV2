@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/basic}">
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{/layout/basic}">
 <body>
-<div layout:fragment="content">
-  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Usuario</b></h1> <!--titulo-->
-
-  <form method="POST" th:action="@{/productos/{id}(id=${producto.idProducto})}" th:object="${producto}">
-    <!--th:block th:include="fragment/error-message.html"></th:block-->
-
-    <fieldset>
-      <legend>Información del Producto</legend>
-      <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Id Usuario: [[${producto.idProducto}]]</label>
+  <div layout:fragment="content">
+    <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Proveedor</b></h1> <!--titulo-->
+    
+    <form method="POST" th:action="@{/proveedores/{id}(id=${proveedor.idProveedor})}" th:object="${proveedor}">
+      <!--th:block th:include="fragment/error-message.html"></th:block-->
+      
+      <fieldset>
+        <legend>Información del Proveedor</legend>
+        <div class="mb-3"> <!-- margen button -->
+          <label class="form-label">Nombre del Proveedor: [[${proveedor.nombre}]]</label>
+          <input type="hidden" name="nombreProveedor" th:value="${proveedor.nombre}" />
+        </div>
+        <div class="mb-3"> <!-- margen button -->
+          <label for="inputTelefono" class="form-label">Teléfono</label>
+          <input type="text" class="form-control" id="inputTelefono" name="proveedor" th:value="${proveedor.telefono}">
+        </div>
+        <div class="mb-3"> <!-- margen button -->
+          <label for="inputDireccion" class="form-label">Dirección</label>
+          <input type="text" id="inputDireccion" name="direccion" class="form-control" placeholder="Introduzca nueva dirección">
+        </div>
+        <div class="mb-3"> <!-- margen button -->
+          <label for="inputPrecio" class="form-label">Estado de Proveedor</label>
+          <!--TEMPORAL PARA TUTORÍA-->
+          <select class="form-select" aria-label="Default select example" name="esActual" required>
+            <option selected>Seleccione nuevo estado</option>
+            <option value="1">Activo</option>
+            <option value="2">Inactivo</option>
+          </select>
+        </div>
+      </fieldset>
+      
+      <div class="row">
+        <div class="col-sm-6">
+          <a th:href="@{/proveedores}" class="btn btn-outline-secondary w-100">
+            Atrás
+          </a>
+        </div>
+        <div class="col-sm-6">
+          <button type="submit" class="btn btn-warning w-100">Modificar Proveedor</button>
+        </div>
       </div>
-      <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Nombre de Producto: [[${producto.nombreProducto}]]</label>
-        <input type="hidden" name="nombreProducto" th:value="${producto.nombreProducto}" />
-      </div>
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputCantidad" class="form-label">Cantidad</label>
-        <input type="text" class="form-control" id="inputCantidad" name="cantidad" th:value="${producto.cantidad}">
-      </div>
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputPrecio" class="form-label">Precio</label>
-        <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
-      </div>
-
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputPrecio" class="form-label">Fecha de Ingreso</label>
-        <input type="date" id="inputFecha" name="fecha" class="form-control"placeholder="Introduzca nueva fecha">
-      </div>
-
-    </fieldset>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <a th:href="@{/productos}" class="btn btn-outline-secondary w-100">
-          Atrás
-        </a>
-      </div>
-      <div class="col-sm-6">
-        <button type="submit" class="btn btn-warning w-100">Modificar Producto</button>
-      </div>
-    </div>
-  </form>
-</div>
-
+    </form>
+  </div>
+  
 </body>
 </html>

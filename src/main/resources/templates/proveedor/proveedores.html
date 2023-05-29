@@ -16,13 +16,14 @@
     <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
   </div><!---->
   <div th:if="${permisoVer eq true}" class="table-responsive">
-    <table id="myTable" class="table table-sm table-bordered table-hover">
+    <table id="myTable" class="table table-sm table-bordered table-hover" > <!--Ver de modificar formato de la tabla-->
       <thead style="background-color: #0a4275;">
       <tr class="text-center"><!---->
         <th>Proveedor</th><!---->
-        <th>Razón Social</th><!---->
+        <th>Nombre del Contacto</th><!---->
         <th>Documento</th><!---->
         <th>Teléfono</th><!---->
+        <th>Estado</th><!---->
         <th>Acción</th><!---->
       </tr><!---->
       </thead><!---->
@@ -32,9 +33,10 @@
       </tr><!---->
       <tr class="text-center" th:each="proveedor: ${listProveedor}">
         <td th:text="${proveedor.nombre}">Proveedor</td>
-        <td th:text="${proveedor.nombreFantasia}">Razón Social </td>
+        <td th:text="${proveedor.contacto}">Contacto</td>
         <td th:text="${proveedor.ruc}">Doc</td><!---->
         <td th:text="${proveedor.telefono}">021</td><!---->
+        <td th:text="(${proveedor.esActual}=='1')?'Activo':'Inactivo'">estado</td><!---->
         <td><!---->
           <div class="btn-group"><!---->
             <a th:if="${permisoActualizar eq true}" th:href="@{/proveedores/{id}(id=${proveedor.idProveedor})}" 

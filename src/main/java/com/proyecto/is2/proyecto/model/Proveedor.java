@@ -19,22 +19,19 @@ public class Proveedor {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "nombreFantasia")
-    private String nombreFantasia;
+    // @Column(name = "nombreFantasia")
+    // private String nombreFantasia;
 
     @Column(name = "razonSocial")
     private String razonSocial;
 
-    @Column(name = "nombreContacto")
-    private String nombreContacto;
-
-    @Column(name = "contacto")
+    @Column(name = "contacto") //Nombre de contacto 
     private String contacto;
 
-    @Column(name = "esActual")
+    @Column(name = "esActual") // Estado del proveedor [Activo/Inactivo]
     private String esActual;
 
-    @Column(name = "ruc")
+    @Column(name = "ruc")// Corresponde a documento
     private String ruc;
 
     @Column(name = "tipoDocumento")

@@ -17,25 +17,31 @@
                             <div class="col">
                                 <div class="form-outline">
                                     <label for="inputTipoDocumento" class="form-label">Tipo de Documento<span style="color:red">*</span></label>
-                                    <select class="form-select" id="inputTipoDocumento" name="tipoDocumento">
+                                    <select class="form-select" id="inputTipoDocumento" name="tipoDocumento" autofocus required>
                                         <option value="">Seleccionar Tipo de Documento</option>
-                                        <option th:each="tipoDocumento : ${tipoDocumentos}" th:value="${tipoDocumento.nombre}" th:text="${tipoDocumento.nombre}"></option>
+                                        <option th:each="tipoDocumento : ${tiposDocumentos}" th:value="${tipoDocumento.nombre}" th:text="${tipoDocumento.nombre}"></option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-outline">
                                     <label for="inputRuc" class="form-label">Documento<span style="color:red">*</span></label>
-                                    <input type="text" class="form-control" id="inputRuc" name="ruc" placeholder="Introduzca el documento del proveedor" autofocus required>
+                                    <input type="text" class="form-control" id="inputRuc" name="ruc" placeholder="Introduzca el documento del proveedor" required>
                                 </div>
                             </div>
                         </div>
-                        <!--Razón social del proveedor-->
+                        <!--Nombre correspondiente del proveedor-->
                         <div class="row mb-4">
                             <div class="col">
                                 <div class="form-outline">
-                                    <label for="inputNombre" class="form-label">Razón social</label>
-                                    <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Introduzca razón social" autofocus>
+                                    <label for="inputNombreProveedor" class="form-label">Nombre del Proveedor<span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" id="inputNombreProveedor" name="nombre" placeholder="Introduzca Proveedor" autofocus required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-outline">
+                                    <label for="inputRazonSocial" class="form-label">Razón social</label>
+                                    <input type="text" class="form-control" id="inputRazonSocial" name="razonSocial" placeholder="Introduzca razón social" autofocus>
                                 </div>
                             </div>
                             <!--Tipo de persona-->
@@ -55,15 +61,15 @@
                         <div class="row mb-4">
                             <div class="col">
                                 <div class="form-outline">
-                                    <label for="inputNombreFantasia" class="form-label">Nombre de Contacto<span style="color:red">*</span></label>
-                                    <input type="text" class="form-control" id="inputNombreFantasia" name="nombreFantasia" placeholder="Introduzca nombre del contacto" autofocus required>
+                                    <label for="inputContacto" class="form-label">Nombre de Contacto<span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" id="inputContacto" name="contacto" placeholder="Introduzca nombre del contacto" autofocus required>
                                 </div>
                             </div> 
                             <!--Teléfono del proveedor-->
                             <div class="col">
                                 <div class="form-outline">
-                                    <label for="inputContacto" class="form-label">Teléfono<span style="color:red">*</span></label>
-                                    <input type="text" class="form-control" id="inputContacto" name="contacto" placeholder="Introduzca el teléfono del proveedor" autofocus required>
+                                    <label for="inputTelefono" class="form-label">Teléfono<span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" id="inputTelefono" name="telefono" placeholder="Introduzca el teléfono del proveedor" autofocus required>
                                 </div>
                             </div>
                         </div>
@@ -71,8 +77,8 @@
                         <div class="row mb-4">
                             <div class="col">
                                 <div class="form-outline">
-                                    <label for="inputContacto" class="form-label">Dirección<span style="color:red">*</span></label>
-                                    <input type="text" class="form-control" id="inputContacto" name="contacto" placeholder="Introduzca el dirección del proveedor" autofocus required>
+                                    <label for="inputDireccion" class="form-label">Dirección<span style="color:red">*</span></label>
+                                    <input type="text" class="form-control" id="inputDireccion" name="direccion" placeholder="Introduzca la dirección del proveedor" autofocus required>
                                 </div>
                             </div>
                             <div class="col">

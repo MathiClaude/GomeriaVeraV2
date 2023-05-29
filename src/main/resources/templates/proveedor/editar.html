@@ -13,15 +13,23 @@ layout:decorate="~{/layout/basic}">
         <legend>Información del Proveedor</legend>
         <div class="mb-3"> <!-- margen button -->
           <label class="form-label">Nombre del Proveedor: [[${proveedor.nombre}]]</label>
-          <input type="hidden" name="nombreProveedor" th:value="${proveedor.nombre}" />
+          <input type="hidden" name="nombre" th:value="${proveedor.nombre}" />
+          <input type="hidden" name="tipoDocumento" th:value="${proveedor.tipoDocumento}" />
+          <input type="hidden" name="ruc" th:value="${proveedor.ruc}" />
+          <input type="hidden" name="razonSocial" th:value="${proveedor.razonSocial}" />
+          <input type="hidden" name="tipoPersona" th:value="${proveedor.tipoPersona}" />
         </div>
         <div class="mb-3"> <!-- margen button -->
           <label for="inputTelefono" class="form-label">Teléfono</label>
-          <input type="text" class="form-control" id="inputTelefono" name="proveedor" th:value="${proveedor.telefono}">
+          <input type="text" class="form-control" id="inputTelefono" name="telefono" th:value="${proveedor.telefono}">
+        </div>
+        <div class="mb-3"> <!-- margen button -->
+          <label for="inputNombreContacto" class="form-label">Nombre del Contacto</label>
+          <input type="text" class="form-control" id="inputNombreContacto" name="contacto" th:value="${proveedor.contacto}">
         </div>
         <div class="mb-3"> <!-- margen button -->
           <label for="inputDireccion" class="form-label">Dirección</label>
-          <input type="text" id="inputDireccion" name="direccion" class="form-control" placeholder="Introduzca nueva dirección">
+          <input type="text" id="inputDireccion" name="direccion" class="form-control" placeholder="Introduzca nueva dirección" th:value="${proveedor.direccion}">
         </div>
         <div class="mb-3"> <!-- margen button -->
           <label for="inputPrecio" class="form-label">Estado de Proveedor</label>

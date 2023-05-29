@@ -104,9 +104,9 @@ public class ProveedorController {
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
-//        if (result.hasErrors()) {
-//            return FORM_NEW;
-//        }
+        // if (result.hasErrors()) {
+        //     return FORM_NEW;
+        // }
 
         if(proveedorService.tienePermiso(operacion + VIEW)) {
             Proveedor proveedor = new Proveedor();
@@ -155,7 +155,7 @@ public class ProveedorController {
         Proveedor proveedor;
 
         if (result.hasErrors()) {
-//            studentDTO.setId(id);
+            //studentDTO.setId(id);
             return RD_FORM_VIEW;
         }
 

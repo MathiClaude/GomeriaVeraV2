@@ -18,6 +18,7 @@
   <script th:src="@{/js/common.js}" type="text/javascript"></script>
   <script th:src="@{/dataTables/datatables.min.js}" type="text/javascript"></script>
   <link th:href="@{/dataTables/datatables.min.css}" rel="stylesheet"><!---->
+  <link th:href="@{assets/css/buscadorCliente.css}" rel="stylesheet">
 
   
 </head>
@@ -67,18 +68,69 @@
     <div class="col-6 text-left text-sm-center">
       <span>Gomería Vera - Proyecto II</span>
     </div>
-    <div class="col-6 text-right text-sm-center" sec:authorize="isAuthenticated()" style="color:">
+    <div class="col-6 text-right text-sm-center" sec:authorize="isAuthenticated()" >
       Usuario: <span sec:authentication="name"></span>
     </div>
   </div>
 </footer>
 
-<th:block layout:fragment="scripts">
+<th:block layout:fragment="js_assets">
   
   <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
   <script th:src="@{/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
   <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
+  <script type="text/javascript" th:inline="javascript">
+    let datos = /*[[${listarCliente}]]*/ null;
+    
+    // esto es para que se despliegue el contenido de cada buttonradio en Método de pago
+    const checkbox = document.getElementById('mostrar-contenido');
+    const contenido = document.getElementById('contenido');
+    
+    checkbox.addEventListener('click', function() {
+      if (checkbox.checked) {
+        contenido.style.display = 'block';
+      } else {
+        contenido.style.display = 'none';
+      }
+    });
   
+    // Funcion para buscar y seleccionar un cliente del buscador
+    function seleccionar(a){
+      console.log(a.getAttribute('data-value'))
+      document.getElementById("InputCliente").value= a.getAttribute('data-value')
+    }
+    function funcionFiltrar(valor) {
+      if(datos == []){
+  
+      }
+      let datosFiltrados =[]
+      let listaOpciones = document.getElementsByClassName("opcionesCliente");
+      if(valor==""){
+        datosFiltrados = datos
+      }else{
+        datosFiltrados = datos.filter((elemento)=>{return (elemento.documentNumber.toUpperCase().includes(valor.toUpperCase()) || elemento.name.toUpperCase().includes(valor.toUpperCase()) || elemento.lastName.toUpperCase().includes(valor.toUpperCase()) )})
+      } 
+      // console.log(datosFiltrados)
+      // console.log(listaOpciones)
+      
+      for (let i = 0; i < listaOpciones.length; i++) {
+        listaOpciones[i].removeAttribute("data-value")
+        listaOpciones[i].innerHTML = "";
+        
+      } 
+      for (let i = 0; i < listaOpciones.length; i++) {
+        if(!datosFiltrados[i]){
+          // console.log("test")
+          break
+        }
+        listaOpciones[i].setAttribute("data-value",`${datosFiltrados[i].idCliente}`)
+        listaOpciones[i].innerHTML = `${datosFiltrados[i].documentNumber} - ${datosFiltrados[i].name} ${datosFiltrados[i].lastName}`;
+        
+      }
+  
+      
+    }
+  </script>
 </th:block>
 
 </body>

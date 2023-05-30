@@ -22,8 +22,8 @@ public class Cliente {
     @Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "documentType")
-    private String documentType;
+    // @Column(name = "documentType")
+    // private String documentType;
 
     @Column(name = "documentNumber")
     private String documentNumber;
@@ -38,5 +38,7 @@ public class Cliente {
         return email;
     }
 
-    
+    @ManyToOne
+    @JoinColumn(name = "documentType", referencedColumnName = "idTipoDocumento")
+    private TipoDocumento tipoDocumento;
 } /* Se crea un relacion tambien con Proyecto */

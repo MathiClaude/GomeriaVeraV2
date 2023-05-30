@@ -23,14 +23,15 @@
     <!-- Vendor CSS Files -->
     <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/assets/vendor/aos/aos.css}" rel="stylesheet">
-    <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+    <!-- <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet"> -->
     <link th:href="@{/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
     <link th:href="@{/assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
     <link th:href="@{/assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
     
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
     <!-- =======================================================
       * Template Name: MyResume - v4.9.2
       * Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/
@@ -48,14 +49,17 @@
       <header id="header" class="d-flex flex-column justify-content-center">
         
         <nav id="navbar" class="navbar nav-menu">
-          <ul>
+          <ul>            
             <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Inicio</span></a></li>
-            <li><a href="#servicios" class="nav-link scrollto"><i class="bi bi-basket"></i> <span>Venta</span></a></li>
-            <li><a href="#portfolio" class="nav-link scrollto"><i class="bi bi-calendar3"></i> <span>Gestión de Insumos</span></a></li>
             <li><a href="#seguridad" class="nav-link scrollto"><i class="bx bx-user"></i> <span>Seguridad</span></a></li>
+            <li><a href="#servicios" class="nav-link scrollto"><i class="bi bi-basket"></i> <span>Venta</span></a></li>
+            <li><a href="#productos" class="nav-link scrollto"><i class="bi bi-shop-window"></i> <span>Productos</span></a></li>
+            <li><a href="#stock" class="nav-link scrollto"><i class="bi bi-box2"></i> <span>Stock</span></a></li>
+            <li><a href="#portfolio" class="nav-link scrollto"><i class="bi bi-calendar3"></i> <span>Gestión de Insumos</span></a></li>
+            
             <!--li><a th:href="@{/usuarios}"><i class="bx bx-user"></i> <span>Seguridad</span></a></li><!agg acá usuarios, roles, permisos como en venta-->
 
-            <li><a href="#stock" class="nav-link scrollto"><i class="bi bi-box2"></i> <span>Stock</span></a></li>
+            
             
             <!--configuración para cruds chiquitos-->
             <li><a href="#setting" class="nav-link scrollto"><i class="bi bi-gear"></i> <span>Configuración</span></a></li>
@@ -89,50 +93,189 @@
               <p>En este apartado se encuentran los CRUD de seguridad</p>
             </div>
             
-            <div class="row">        
+            <div class="row">     
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                <div class="icon-box iconbox-blue">
-                  <div class="icon">
-                    <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                    </svg>
-                    <i class="bx bx-user"></i>
+                <a th:href="@{/usuarios}">   
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bx bx-user"></i>
+                    </div>
+                    <h4 class="opcion-menu">Usuarios</h4>
+                    <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar usuarios</p>
                   </div>
-                  <h4><a th:href="@{/usuarios}">Usuarios</a></h4>
-                  <p>En esta sección se podrá crear, modificar y eliminar usuarios</p>
-                </div>
+                </a>
               </div>
               
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="400">
-                <div class="icon-box iconbox-blue">
-                  <div class="icon">
-                    <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781"></path>
-                    </svg>
-                    <i class="bi bi-person-workspace"></i>
+                <a th:href="@{/permisos}">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781"></path>
+                      </svg>
+                      <i class="bi bi-person-workspace"></i>
+                    </div>
+                    <h4 class="opcion-menu">Permisos</h4>
+                    <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar permisos</p>
                   </div>
-                  <h4><a th:href="@{/permisos}">Permisos</a></h4>
-                  <p>En esta sección se podrá crear, modificar y eliminar permisos</p>
-                </div>
+                </a>
               </div>
               
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                <div class="icon-box iconbox-blue">
-                  <div class="icon">
-                    <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                    </svg>
-                    <i class="bi bi-person-check-fill"></i>
+                <a th:href="@{/roles}">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bi bi-person-check-fill"></i>
+                    </div>
+                    <h4 class="opcion-menu">Roles</h4>
+                    <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar roles</p>
                   </div>
-                  <h4><a th:href="@{/roles}">Roles</a></h4>
-                  <p>En esta sección se podrá crear, modificar y eliminar roles</p>
-                </div>
+                </a>
               </div>
               
             </div>
             
           </div>
         </section><!-- End Services Section -->
+        <!-- ======= Sección para ventas ======= -->
+        <section id="servicios" class="services">
+          <div class="container" data-aos="fade-up">
+            
+            <div class="section-title">
+              <h2>Gestionar ventas</h2>
+              <!-- Ver la leyenda a agregar en este lugar-->
+              <p>En esta sección se podrá realizar las ventas correspondientes a los productos que ofrece la Gomería</p>
+            </div>
+            
+            <div class="row">        
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
+                <a href="login.html">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bi bi-basket2-fill"></i>
+                    </div>
+                    <h4 class="opcion-menu">Venta por minorista</h4>
+                    <p class="opcion-menu">Realizar venta a por menor (Esta Sección será implementada en el futuro)</p>
+                  </div>
+                </a>
+              </div>
+              
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="400">
+                <a th:href="@{/realizarVenta}" >
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781"></path>
+                      </svg>
+                      <i class="bi bi-fan"></i>
+                    </div>
+                    <h4 class="opcion-menu">Realizar venta</h4>
+                    <p class="opcion-menu">Realizar venta a clientes registrados y sin registrar</p>
+                  </div>
+                </a>
+              </div>
+              
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
+                <a href="login.html">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bi bi-basket-fill"></i>
+                    </div>
+                    <h4 class="opcion-menu">Venta por mayorista</h4>
+                    <p class="opcion-menu">Realizar venta a por mayor (Esta Sección será implementada en el futuro)</p>
+                  </div>
+                </a>
+              </div>
+              
+            </div>
+            
+          </div>
+        </section><!-- End Venta Section -->
+         <!-- ======= Sección de productos======= -->
+         <section id="productos" class="services">
+          <div class="container" data-aos="fade-up">
+            
+            <div class="section-title">
+              <h2>Productos</h2>
+              <!-- Ver la leyenda a agregar en este lugar-->
+              <p>En este apartado se encuentran todo lo referente al productos</p>
+            </div>            
+            <div class="row">        
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
+                <a th:href="@{/productos}">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bi bi-bag-plus-fill"></i>
+                    </div>
+                    <h4 class="opcion-menu">Productos</h4>
+                    <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar productos</p>
+                  </div>
+                </a>
+              </div>
+              <!--tipoProductos-->
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
+                <a th:href="@{/tipoProductos}">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bi bi-plugin"></i>
+                    </div>
+                    <h4 class="opcion-menu">Tipo de Productos</h4>
+                    <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar las categorias correspondientes al producto</p>
+                  </div>
+                </a>
+              </div>
+              <!--unida de medida-->
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
+                <a th:href="@{/unidadMedidas}">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bi bi-folder-fill"></i>
+                    </div>
+                    <h4 class="opcion-menu">Unidad de Medida</h4>
+                    <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar las unidades de medidas correspondientes al producto</p>
+                  </div>
+                </a>
+              </div>
+              <!--CRUD marca-->
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
+                <a th:href="@{/marcas}">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bi bi-cc-circle-fill"></i>
+                    </div>
+                    <h4 class="opcion-menu">Marcas</h4>
+                    <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar las familias de productos correspondientes al producto</p>
+                  </div>
+                </a>
+              </div>
+              
+              
+            </div>
+          </section><!-- End producto Section -->
         <!-- ======= Sección de stock======= -->
         <section id="stock" class="services">
           <div class="container" data-aos="fade-up">
@@ -145,34 +288,160 @@
             
             <div class="row">        
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                <div class="icon-box iconbox-blue">
-                  <div class="icon">
-                    <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                    </svg>
-                    <i class="bi bi-boxes"></i>
+                <a th:href="@{/inventarios}">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bi bi-boxes"></i>
+                    </div>
+                    <h4 class="opcion-menu">Inventario</h4>
+                    <p class="opcion-menu">En esta sección se podrá visualizar los productos existentes en el inventario</p>
                   </div>
-                  <h4><a th:href="@{/inventarios}">Inventario</a></h4>
-                  <p>En esta sección se podrá visualizar los productos existentes en el inventario</p>
-                </div>
+                </a>
               </div>
               
               <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                <div class="icon-box iconbox-blue">
-                  <div class="icon">
-                    <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                    </svg>
-                    <i class="bi bi-shop"></i>
+                <a th:href="@{/compras}">
+                  <div class="icon-box iconbox-blue">
+                    <div class="icon">
+                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                      </svg>
+                      <i class="bi bi-shop"></i>
+                    </div>
+                    <h4 class="opcion-menu">Compra</h4>
+                    <p class="opcion-menu">En esta sección será implementada en un futuro (pendiente)</p>
                   </div>
-                  <h4><a th:href="@{/compras}">Compra</a></h4>
-                  <p>En esta sección será implementada en un futuro (pendiente)</p>
-                </div>
+                </a>
               </div>
               
               
             </div>
           </section><!-- End stock Section -->
+
+         <!-- ======= Insumos Section ======= -->
+         <section id="portfolio" class="portfolio section-bg">
+          <div class="container" data-aos="fade-up">
+            
+            <div class="section-title">
+              <h2>Gestión de insumos</h2>
+              <p>Aquí podrá encontrar los proveedores y productos</p>
+            </div>
+            
+            <div class="row">
+              <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                <ul id="portfolio-flters">
+                  <li data-filter="*" class="filter-active">Todo</li>
+                  <li data-filter=".filter-app">Ruedas</li>
+                  <li data-filter=".filter-web">Repuestos</li>
+                  <li data-filter=".filter-card">Productos</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+              
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                <div class="portfolio-wrap">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Logo_Pirelli.svg/2560px-Logo_Pirelli.svg.png" class="img-fluid" alt="">
+                  <!--img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt=""-->
+                  <div class="portfolio-info">
+                    <h4>Pirelli Ruedas</h4>
+                    <p>Neumaticos</p>
+                    <div class="portfolio-links">
+                      <a href="http://www.castrol.com.py/sucursales.php" class="portfolio-details-lightbox" data-glightbox="type: external" title="Horarios"><i class="bx bx-link"></i></a>
+                      <a href="https://scontent.fasu11-1.fna.fbcdn.net/v/t39.30808-6/336645381_289787740046027_2818321601658421215_n.png?_nc_cat=100&ccb=1-7&_nc_sid=730e14&_nc_ohc=ZRcZjGn4PhoAX_OuOv9&_nc_ht=scontent.fasu11-1.fna&oh=00_AfBB6Adv2P6ufCeM8yQtTDRoW83tdcyDtpA9xm4_sHP3VA&oe=644CE095" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Sucursales"><i class="bx bx-plus"></i></a>
+                      <!--a href="portfolio-details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details"><i class="bx bx-link"></i></a-->
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                <div class="portfolio-wrap">
+                  <img src="https://bpando.org/wp-content/uploads/New-Bridgestone-Logo-Design-2011-BPO.jpg" class="img-fluid" alt="">
+                  <!--img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt=""-->
+                  <div class="portfolio-info">
+                    <h4>Bridgestone Ruedas</h4>
+                    <p>Neumaticos</p>
+                    <div class="portfolio-links">
+                      <!--a href="assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 2"><i class="bx bx-plus"></i></a-->
+                      <a href="https://scontent.fasu11-1.fna.fbcdn.net/v/t1.6435-9/106590997_3179208838828242_8869365593314473143_n.png?_nc_cat=100&ccb=1-7&_nc_sid=9267fe&_nc_ohc=-v8hOrrvsaEAX9sGhLX&_nc_ht=scontent.fasu11-1.fna&oh=00_AfCG1dYpYrERUv1p7QJGaFmfeNjOBZYhC7FIJ_ew5eMXjQ&oe=646ED9A8" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
+                      <a href="https://www.autocentro.com.py/comunicate-con-nosotros-o-conoce-donde-esta-nuestro-centro-de-servicios/" class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursal"><i class="bx bx-link"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                <div class="portfolio-wrap">
+                  <img src="https://www.automaq-jd.com.py/sites/automaq-jd.com.py/files/2021-10/portada%20MICHELIN.jpg" class="img-fluid" alt="">
+                  <!--img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt=""-->
+                  <div class="portfolio-info">
+                    <h4>Ruedas Michelin</h4>
+                    <p>Neumaticos</p>
+                    <div class="portfolio-links">
+                      <a href="https://automaq.com.py/wp-content/uploads/2023/01/POP_UP.png" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
+                      <a href="https://automaq.com.py/sucursales-asuncion" class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursales"><i class="bx bx-link"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                <div class="portfolio-wrap">
+                  <!--img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt=""-->
+                  <img src="https://scontent.fasu11-1.fna.fbcdn.net/v/t39.30808-6/314091015_494210579415744_7773024452227360533_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=SW_ueSaGD68AX_cHnWg&_nc_ht=scontent.fasu11-1.fna&oh=00_AfBt5FeDsu4189SyXHojUttBlxMAxmx7G8TVM-1DlJHKFA&oe=644B81E7" class="img-fluid" alt="">
+                  <div class="portfolio-info">
+                    <h4>Pluscar</h4>
+                    <p>Repuestos</p>
+                    <div class="portfolio-links">
+                      <a href="https://scontent.fasu11-2.fna.fbcdn.net/v/t39.30808-6/279684330_6188099197875500_6700281428644199483_n.png?_nc_cat=110&ccb=1-7&_nc_sid=730e14&_nc_ohc=Z2pzrNeyTmoAX_k-Yj_&_nc_ht=scontent.fasu11-2.fna&oh=00_AfC1ep8hXeLtfSVewihVIrMIZqWeEhq5mcqoO-c-3vpAAg&oe=644BDE0B" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
+                      <a href="https://www.pluscar.com.py/sucursales " class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursales"><i class="bx bx-link"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                <div class="portfolio-wrap">
+                  <!--img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt=""-->
+                  <img src="https://pbs.twimg.com/media/EZBr1sGXgAAH_Dw?format=jpg&name=large" class="img-fluid" alt="">
+                  <div class="portfolio-info">
+                    <h4>Automovil Supply</h4>
+                    <p>Repuestos</p>
+                    <div class="portfolio-links">
+                      <a href="https://scontent.fasu11-1.fna.fbcdn.net/v/t1.6435-9/116597211_3299095960111774_8582643011243251953_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=730e14&_nc_ohc=xf5fZrN1uWQAX_mMMsa&_nc_ht=scontent.fasu11-1.fna&oh=00_AfDj-ZQpg7GN3I2dIiYgRdXbXJxWtI0VBBSAWBMxC0D9uQ&oe=646EEBA6" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
+                      <a href="https://www.supply.com.py/sucursales" class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursales"><i class="bx bx-link"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                <div class="portfolio-wrap">
+                  <!--img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt=""-->
+                  <!--img src="https://pbs.twimg.com/media/EZC-1icWAAABsee.jpg:large" class="img-fluid" alt=""-->
+                  <img src="https://i0.wp.com/logoroga.com/wp-content/uploads/2012/05/chacomer1.jpg?fit=500%2C375&ssl=1" class="img-fluid" alt="">
+                  <div class="portfolio-info">
+                    <h4>Chacomer Automotores</h4>
+                    <p>Repuestos</p>
+                    <div class="portfolio-links">
+                      <a href="https://scontent.fasu11-1.fna.fbcdn.net/v/t39.30808-6/278841585_5279442308740679_333862433578150870_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=730e14&_nc_ohc=IokRYNRYGeEAX9tg3KT&_nc_ht=scontent.fasu11-1.fna&oh=00_AfCZi0o6O7gfKlsjCP6SpZCka7eSBkHqV1EDE88WDzu9Hw&oe=644BAA76" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
+                      <a href="https://www.chacomer.com.py/sucursales" class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursales"><i class="bx bx-link"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            
+          </div>
+        </section><!-- End insumos Section -->
+
           <!-- ======= Sección de configuración======= -->
           <section id="setting" class="services">
             <div class="container" data-aos="fade-up">
@@ -182,32 +451,35 @@
                 <!-- Ver la leyenda a agregar en este lugar-->
                 <p>En este apartado se encuentran los CRUD para todo el circuito del Sistema</p>
               </div>
-              
-              <div class="row">        
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                  <div class="icon-box iconbox-blue">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                      </svg>
-                      <i class="bi bi-bag-plus-fill"></i>
-                    </div>
-                    <h4><a th:href="@{/productos}">Productos</a></h4>
-                    <p>En esta sección se podrá crear, modificar y eliminar productos</p>
-                  </div>
-                </div>
-                
+              <div class="row">  
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="400">
-                  <div class="icon-box iconbox-blue">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781"></path>
-                      </svg>
-                      <i class="bi bi-credit-card-2-front-fill"></i>
+                  <a th:href="@{/clientes}">
+                    <div class="icon-box iconbox-blue">
+                      <div class="icon">
+                        <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781"></path>
+                        </svg>
+                        <i class="bi bi-person-up"></i>
+                      </div>
+                      <h4 class="opcion-menu">Clientes</h4>
+                      <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar los clientes</p>
                     </div>
-                    <h4><a th:href="@{/tipoDocumentos}">Tipo de Documento</a></h4>
-                    <p>En esta sección se podrá crear, modificar y eliminar los tipos de documentos existentes para clientes</p>
-                  </div>
+                  </a>
+                </div>  
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="400">
+                  <a th:href="@{/tipoDocumentos}">
+                    <div class="icon-box iconbox-blue">
+                      <div class="icon">
+                        <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781"></path>
+                        </svg>
+                        <i class="bi bi-person-video2"></i>
+
+                      </div>
+                      <h4 class="opcion-menu">Tipo de Documento</h4>
+                      <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar los tipos de documentos existentes para clientes</p>
+                    </div>
+                  </a>
                 </div>
                 
                 <!--div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
@@ -222,236 +494,28 @@
                     <p>En esta sección se podrá crear, modificar y eliminar servicios</p>
                   </div>
                 </div-->
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                  <div class="icon-box iconbox-blue">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                      </svg>
-                      <i class="bi bi-folder-fill"></i>
-                    </div>
-                    <h4><a th:href="@{/unidadMedidas}">Unidad de Medida</a></h4>
-                    <p>En esta sección se podrá crear, modificar y eliminar las unidades de medidas correspondientes al producto</p>
-                  </div>
-                </div>
-                <!--CRUD marca-->
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                  <div class="icon-box iconbox-blue">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                      </svg>
-                      <i class="bi bi-cc-circle-fill"></i>
-                    </div>
-                    <h4><a th:href="@{/marcas}">Marcas</a></h4>
-                    <p>En esta sección se podrá crear, modificar y eliminar las familias de productos correspondientes al producto</p>
-                  </div>
-                </div>
-                <!--tipoProductos-->
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                  <div class="icon-box iconbox-blue">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                      </svg>
-                      <i class="bi bi-plugin"></i>
-                    </div>
-                    <h4><a th:href="@{/tipoProductos}">Tipo de Productos</a></h4>
-                    <p>En esta sección se podrá crear, modificar y eliminar las categorias correspondientes al producto</p>
-                  </div>
-                </div>
+                
                 <!--crud proveedor-->
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                  <div class="icon-box iconbox-blue">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                      </svg>
-                      <i class="bi bi-person-rolodex"></i>
+                  <a th:href="@{/proveedores}">
+                    <div class="icon-box iconbox-blue">
+                      <div class="icon">
+                        <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
+                        </svg>
+                        <i class="bi bi-person-rolodex"></i>
+                      </div>
+                      <h4 class="opcion-menu">Proveedor</h4>
+                      <p class="opcion-menu">En esta sección se podrá crear, modificar y eliminar proveedor</p>
                     </div>
-                    <h4><a th:href="@{/proveedores}">Proveedor</a></h4>
-                    <p>En esta sección se podrá crear, modificar y eliminar proveedor</p>
-                  </div>
+                  </a>
                 </div>
               </div>
               
             </div>
           </section><!-- End Services Section -->
-          <!-- ======= Insumos Section ======= -->
-          <section id="portfolio" class="portfolio section-bg">
-            <div class="container" data-aos="fade-up">
-              
-              <div class="section-title">
-                <h2>Gestión de insumos</h2>
-                <p>Aquí podrá encontrar los proveedores y productos</p>
-              </div>
-              
-              <div class="row">
-                <div class="col-lg-12 d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
-                  <ul id="portfolio-flters">
-                    <li data-filter="*" class="filter-active">Todo</li>
-                    <li data-filter=".filter-app">Ruedas</li>
-                    <li data-filter=".filter-web">Repuestos</li>
-                    <li data-filter=".filter-card">Productos</li>
-                  </ul>
-                </div>
-              </div>
-              
-              <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-                
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                  <div class="portfolio-wrap">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Logo_Pirelli.svg/2560px-Logo_Pirelli.svg.png" class="img-fluid" alt="">
-                    <!--img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt=""-->
-                    <div class="portfolio-info">
-                      <h4>Pirelli Ruedas</h4>
-                      <p>Neumaticos</p>
-                      <div class="portfolio-links">
-                        <a href="http://www.castrol.com.py/sucursales.php" class="portfolio-details-lightbox" data-glightbox="type: external" title="Horarios"><i class="bx bx-link"></i></a>
-                        <a href="https://scontent.fasu11-1.fna.fbcdn.net/v/t39.30808-6/336645381_289787740046027_2818321601658421215_n.png?_nc_cat=100&ccb=1-7&_nc_sid=730e14&_nc_ohc=ZRcZjGn4PhoAX_OuOv9&_nc_ht=scontent.fasu11-1.fna&oh=00_AfBB6Adv2P6ufCeM8yQtTDRoW83tdcyDtpA9xm4_sHP3VA&oe=644CE095" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Sucursales"><i class="bx bx-plus"></i></a>
-                        <!--a href="portfolio-details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details"><i class="bx bx-link"></i></a-->
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                  <div class="portfolio-wrap">
-                    <img src="https://bpando.org/wp-content/uploads/New-Bridgestone-Logo-Design-2011-BPO.jpg" class="img-fluid" alt="">
-                    <!--img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt=""-->
-                    <div class="portfolio-info">
-                      <h4>Bridgestone Ruedas</h4>
-                      <p>Neumaticos</p>
-                      <div class="portfolio-links">
-                        <!--a href="assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 2"><i class="bx bx-plus"></i></a-->
-                        <a href="https://scontent.fasu11-1.fna.fbcdn.net/v/t1.6435-9/106590997_3179208838828242_8869365593314473143_n.png?_nc_cat=100&ccb=1-7&_nc_sid=9267fe&_nc_ohc=-v8hOrrvsaEAX9sGhLX&_nc_ht=scontent.fasu11-1.fna&oh=00_AfCG1dYpYrERUv1p7QJGaFmfeNjOBZYhC7FIJ_ew5eMXjQ&oe=646ED9A8" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
-                        <a href="https://www.autocentro.com.py/comunicate-con-nosotros-o-conoce-donde-esta-nuestro-centro-de-servicios/" class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursal"><i class="bx bx-link"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                  <div class="portfolio-wrap">
-                    <img src="https://www.automaq-jd.com.py/sites/automaq-jd.com.py/files/2021-10/portada%20MICHELIN.jpg" class="img-fluid" alt="">
-                    <!--img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt=""-->
-                    <div class="portfolio-info">
-                      <h4>Ruedas Michelin</h4>
-                      <p>Neumaticos</p>
-                      <div class="portfolio-links">
-                        <a href="https://automaq.com.py/wp-content/uploads/2023/01/POP_UP.png" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
-                        <a href="https://automaq.com.py/sucursales-asuncion" class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursales"><i class="bx bx-link"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                  <div class="portfolio-wrap">
-                    <!--img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt=""-->
-                    <img src="https://scontent.fasu11-1.fna.fbcdn.net/v/t39.30808-6/314091015_494210579415744_7773024452227360533_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=SW_ueSaGD68AX_cHnWg&_nc_ht=scontent.fasu11-1.fna&oh=00_AfBt5FeDsu4189SyXHojUttBlxMAxmx7G8TVM-1DlJHKFA&oe=644B81E7" class="img-fluid" alt="">
-                    <div class="portfolio-info">
-                      <h4>Pluscar</h4>
-                      <p>Repuestos</p>
-                      <div class="portfolio-links">
-                        <a href="https://scontent.fasu11-2.fna.fbcdn.net/v/t39.30808-6/279684330_6188099197875500_6700281428644199483_n.png?_nc_cat=110&ccb=1-7&_nc_sid=730e14&_nc_ohc=Z2pzrNeyTmoAX_k-Yj_&_nc_ht=scontent.fasu11-2.fna&oh=00_AfC1ep8hXeLtfSVewihVIrMIZqWeEhq5mcqoO-c-3vpAAg&oe=644BDE0B" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
-                        <a href="https://www.pluscar.com.py/sucursales " class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursales"><i class="bx bx-link"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                  <div class="portfolio-wrap">
-                    <!--img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt=""-->
-                    <img src="https://pbs.twimg.com/media/EZBr1sGXgAAH_Dw?format=jpg&name=large" class="img-fluid" alt="">
-                    <div class="portfolio-info">
-                      <h4>Automovil Supply</h4>
-                      <p>Repuestos</p>
-                      <div class="portfolio-links">
-                        <a href="https://scontent.fasu11-1.fna.fbcdn.net/v/t1.6435-9/116597211_3299095960111774_8582643011243251953_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=730e14&_nc_ohc=xf5fZrN1uWQAX_mMMsa&_nc_ht=scontent.fasu11-1.fna&oh=00_AfDj-ZQpg7GN3I2dIiYgRdXbXJxWtI0VBBSAWBMxC0D9uQ&oe=646EEBA6" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
-                        <a href="https://www.supply.com.py/sucursales" class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursales"><i class="bx bx-link"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                  <div class="portfolio-wrap">
-                    <!--img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt=""-->
-                    <!--img src="https://pbs.twimg.com/media/EZC-1icWAAABsee.jpg:large" class="img-fluid" alt=""-->
-                    <img src="https://i0.wp.com/logoroga.com/wp-content/uploads/2012/05/chacomer1.jpg?fit=500%2C375&ssl=1" class="img-fluid" alt="">
-                    <div class="portfolio-info">
-                      <h4>Chacomer Automotores</h4>
-                      <p>Repuestos</p>
-                      <div class="portfolio-links">
-                        <a href="https://scontent.fasu11-1.fna.fbcdn.net/v/t39.30808-6/278841585_5279442308740679_333862433578150870_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=730e14&_nc_ohc=IokRYNRYGeEAX9tg3KT&_nc_ht=scontent.fasu11-1.fna&oh=00_AfCZi0o6O7gfKlsjCP6SpZCka7eSBkHqV1EDE88WDzu9Hw&oe=644BAA76" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Horarios"><i class="bx bx-plus"></i></a>
-                        <a href="https://www.chacomer.com.py/sucursales" class="portfolio-details-lightbox" data-glightbox="type: external" title="Sucursales"><i class="bx bx-link"></i></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-              </div>
-              
-            </div>
-          </section><!-- End Portfolio Section -->
           
-          <!-- ======= Sección para ventas ======= -->
-          <section id="servicios" class="services">
-            <div class="container" data-aos="fade-up">
-              
-              <div class="section-title">
-                <h2>Gestionar ventas</h2>
-                <!-- Ver la leyenda a agregar en este lugar-->
-                <p>En esta sección se podrá realizar las ventas correspondientes a los productos que ofrece la Gomería</p>
-              </div>
-              
-              <div class="row">        
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                  <div class="icon-box iconbox-blue">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                      </svg>
-                      <i class="bi bi-basket2-fill"></i>
-                    </div>
-                    <h4><a href="login.html">Venta por minorista</a></h4>
-                    <p>Realizar venta a por menor (Esta Sección será implementada en el futuro)</p>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="400">
-                  <div class="icon-box iconbox-blue">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,541.5067337569781C382.14930387511276,545.0595476570109,479.8736841581634,548.3450877840088,526.4010558755058,480.5488172755941C571.5218469581645,414.80211281144784,517.5187510058486,332.0715597781072,496.52539010469104,255.14436215662573C477.37192572678356,184.95920475031193,473.57363656557914,105.61284051026155,413.0603344069578,65.22779650032875C343.27470386102294,18.654635553484475,251.2091493199835,5.337323636656869,175.0934190732945,40.62881213300186C97.87086631185822,76.43348514350839,51.98124368387456,156.15599469081315,36.44837278890362,239.84606092416172C21.716077023791087,319.22268207091537,43.775223500013084,401.1760424656574,96.891909868211,461.97329694683043C147.22146801428983,519.5804099606455,223.5754009179313,538.201503339737,300,541.5067337569781"></path>
-                      </svg>
-                      <i class="bi bi-fan"></i>
-                    </div>
-                    <h4><a th:href="@{/realizarVenta}" >Realizar venta</a></h4>
-                    <p>Realizar venta a clientes registrados y sin registrar</p>
-                  </div>
-                </div>
-                
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="400" onclick="">
-                  <div class="icon-box iconbox-blue">
-                    <div class="icon">
-                      <svg width="100" height="100" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="none" stroke-width="0" fill="#f5f5f5" d="M300,503.46388370962813C374.79870501325706,506.71871716319447,464.8034551963731,527.1746412648533,510.4981551193396,467.86667711651364C555.9287308511215,408.9015244558933,512.6030010748507,327.5744911775523,490.211057578863,256.5855673507754C471.097692560561,195.9906835881958,447.69079081568157,138.11976852964426,395.19560036434837,102.3242989838813C329.3053358748298,57.3949838291264,248.02791733380457,8.279543830951368,175.87071277845988,42.242879143198664C103.41431057327972,76.34704239035025,93.79494320519305,170.9812938413882,81.28167332365135,250.07896920659033C70.17666984294237,320.27484674793965,64.84698225790005,396.69656628748305,111.28512138212992,450.4950937839243C156.20124167950087,502.5303643271138,231.32542653798444,500.4755392045468,300,503.46388370962813"></path>
-                      </svg>
-                      <i class="bi bi-basket-fill"></i>
-                    </div>
-                    <h4><a href="login.html">Venta por mayorista</a></h4>
-                    <p>Realizar venta a por mayor (Esta Sección será implementada en el futuro)</p>
-                  </div>
-                </div>
-                
-              </div>
-              
-            </div>
-          </section><!-- End Services Section -->
+          
 
           <!--Inicio de la sección de reportes-->
           <section id="reportes" class="services">
@@ -472,8 +536,8 @@
                       </svg>
                       <i class="bi bi-graph-up-arrow"></i>
                     </div>
-                    <h4><a th:href="@{/reporte/venta}">Reporte de ventas</a></h4>
-                    <p>En esta sección se podrá visualizar el Reporte de ventas (pendiente)</p>
+                    <h4 class="opcion-menu"><a th:href="@{/reporte/venta}">Reporte de ventas</a></h4>
+                    <p class="opcion-menu">En esta sección se podrá visualizar el Reporte de ventas (pendiente)</p>
                   </div>
                 </div>
                 
@@ -485,8 +549,8 @@
                       </svg>
                       <i class="bi bi-graph-up"></i>
                     </div>
-                    <h4><a th:href="@{/reporte/compra}">Reporte de Compra</a></h4>
-                    <p>En esta sección se podrá visualizar el Reporte de ventas(pendiente)</p>
+                    <h4 class="opcion-menu"><a th:href="@{/reporte/compra}">Reporte de Compra</a></h4>
+                    <p class="opcion-menu">En esta sección se podrá visualizar el Reporte de ventas(pendiente)</p>
                   </div>
                 </div>
                 
@@ -498,8 +562,8 @@
                       </svg>
                       <i class="bi bi-graph-down-arrow"></i>
                     </div>
-                    <h4><a th:href="@{/reporte/inventario}">Reporte de Inventario</a></h4>
-                    <p>En esta sección se podrá visualizar el Reporte de Inventario (pendiente)</p>
+                    <h4 class="opcion-menu"><a th:href="@{/reporte/inventario}">Reporte de Inventario</a></h4>
+                    <p class="opcion-menu">En esta sección se podrá visualizar el Reporte de Inventario (pendiente)</p>
                   </div>
                 </div>
                 

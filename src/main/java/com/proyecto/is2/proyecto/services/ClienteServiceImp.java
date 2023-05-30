@@ -26,7 +26,7 @@ public class ClienteServiceImp implements ClienteService {
         cliente.setEmail(objetoDTO.getEmail());
         cliente.setTelephone(objetoDTO.getTelephone());
         cliente.setDocumentNumber(objetoDTO.getDocumentNumber());
-        cliente.setDocumentType(objetoDTO.getDocumentType());
+        // cliente.setDocumentType(objetoDTO.getDocumentType());
         return;
     }
 

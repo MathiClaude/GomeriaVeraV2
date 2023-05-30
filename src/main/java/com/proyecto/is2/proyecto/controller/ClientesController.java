@@ -1,14 +1,9 @@
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.ClienteDTO;
-import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
-import com.proyecto.is2.proyecto.model.Rol;
-import com.proyecto.is2.proyecto.model.TipoDocumento;
 import com.proyecto.is2.proyecto.model.Cliente;
-import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.TipoDocumentoService;
 import com.proyecto.is2.proyecto.services.TipoDocumentoServiceImp;
-import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +20,15 @@ import java.util.ArrayList;
  * para realizar venta
  */
 @Controller
-@RequestMapping("/registrarCliente")
+@RequestMapping("/clientes")
 public class ClientesController {
-    final String VIEW = "ventas"; // identificador de la vista
-    final String VIEW_PATH = "ventas";
+    final String VIEW = "cliente"; // identificador de la vista
+    final String VIEW_PATH = "cliente";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/registrarCliente";
+    final String FORM_VIEW = VIEW_PATH + "/clientes";
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/registrarCliente";
+    final String RD_FORM_VIEW = "redirect:/clientes";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";

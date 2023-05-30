@@ -18,7 +18,7 @@
     <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
   </div><!---->
   <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-    <table class="table table-striped mb-0" ><!---->
+    <table id="myTable" class="table table-striped mb-0" ><!---->
       <thead style="background-color: #0a4275;"><!---->
       <tr class="text-center"><!---->
         <th>Nombres</th><!---->
@@ -31,13 +31,21 @@
       </tr><!---->
       </thead><!---->
       <tbody><!---->
-      <tr th:if="${#lists.isEmpty(listCliente)}"><!---->
-        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+      <tr th:if="${#lists.isEmpty(listClientes)}"><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold">No se encontraron resultados</td><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold"></td><!---->
+
       </tr><!---->
-      <tr class="text-center" th:each="cliente: ${listCliente}">
+      <tr class="text-center" th:each="cliente: ${listClientes}">
         <td th:text="${cliente.name}">Nombre</td>
         <td th:text="${cliente.lastName}">Razón Social</td>
-        <td th:text="${cliente.documentType}">Doc</td><!---->
+        <td th:text="${cliente.tipoDocumento.nombre}">Doc</td><!---->
+        <td th:text="${cliente.documentNumber}">Doc</td><!---->
         <td th:text="${cliente.email}">Mail</td><!---->
         <td th:text="${cliente.telephone}">Teléfono</td><!---->
 

@@ -10,7 +10,7 @@ public class ClienteDTO {
     private Long idCliente;
     private String name;
     private String lastName;
-    private String documentType;
+    private Long documentType;
     private String documentNumber;
     private String email;
     private String telephone;

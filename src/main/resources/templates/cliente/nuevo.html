@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<body>
+    <div layout:fragment="content">
+        <!--logo personita-->
+        <div>
+            <img th:src="@{/img/cliente.png}" class="center wp-image-4532"/> <!--div center img-->
+        </div>
+        <br> 
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Registro de nuevo cliente</b></h1> <!--titulo-->
+        <form method="post" th:action="@{/clientes/crear}" th:object="${cliente}">
+            <fieldset>
+                <legend style="color:#21618C">Información del Cliente</legend>
+                <br> <!--separador-->
+                <div class="container">
+                    <!--Nombres de Cliente-->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="nombre" class="form-label">Nombre<span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="nombre" name="name" placeholder="Introduzca nombre" autofocus required>
+                            </div>
+                        </div>
+                        <!-- Form para apellidos-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="apellido" class="form-label">Apellido <span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="apellido" name="lastName" placeholder="Introduzca Apellido" autofocus required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--Tipo de Documento de Cliente-->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputTipoDocumento" class="form-label">Tipo de Documento<span style="color:red">*</span></label>
+                                <select class="form-select" id="inputTipoDocumento" name="tipoDocumento" autofocus required>
+                                    <option value="">Seleccionar Tipo de Documento</option>
+                                    <option th:each="tipoDocumento : ${tiposDocumentos}" th:value="${tipoDocumento.nombre}" th:text="${tipoDocumento.nombre}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!--Nro. Documento de Cliente-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="nroDoc" class="form-label">Nro. Documento<span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="nroDoc" name="documentNumber" placeholder="Introduzca documento" autofocus required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!--Correo de Cliente-->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <label for="correo" class="form-label">Correo Electrónico<span style="color:red">*</span></label>
+                            <div class="input-group mb-3">
+                                <input type="text" name="email" class="form-control" aria-label="Text input with dropdown button">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">@</button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                  <li><a class="dropdown-item" href="#">@gmail.com</a></li>
+                                  <li><a class="dropdown-item" href="#">@hotmail.com</a></li>
+                                  <li><a class="dropdown-item" href="#">@yahoo.com</a></li>
+                                  <li><hr class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                </ul>
+                              </div>
+                        </div>
+                        <!-- Form para Teléfono-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="telefono" class="form-label">Nro. de Teléfono<span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="telefono" name="telephone" placeholder="Introduzca nro. de teléfono" autofocus required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">                    
+                            <div class="col-sm-1">
+                              <a href="javascript:history.back()" class="btn btn-outline-info w-100">
+                                Atrás
+                              </a>
+                            </div>
+                         
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success w-100">Guardar Cliente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    
+    
+</form>
+
+
+</div>
+
+</body>
+</html>

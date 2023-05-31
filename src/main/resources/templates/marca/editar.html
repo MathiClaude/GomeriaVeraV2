@@ -1,51 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/basic}">
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{/layout/basic}">
 <body>
-<div layout:fragment="content">
-  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Usuario</b></h1> <!--titulo-->
-
-  <form method="POST" th:action="@{/productos/{id}(id=${producto.idProducto})}" th:object="${producto}">
-    <!--th:block th:include="fragment/error-message.html"></th:block-->
-
-    <fieldset>
-      <legend>Información del Producto</legend>
-      <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Id Usuario: [[${producto.idProducto}]]</label>
+  <div layout:fragment="content">
+    <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Tipo de Documento</b></h1> <!--titulo-->
+    
+    <form method="POST" th:action="@{/marcas/{id}(id=${marca.idMarca})}" th:object="${marca}">
+      <!--th:block th:include="fragment/error-message.html"></th:block-->
+      
+      <fieldset>
+        <legend>Información</legend>
+        <div class="mb-3"> <!-- margen button -->
+          <label for="inputNombre" class="form-label">Nombre de la Marca</label>
+          <input type="text" class="form-control" id="inputNombre" name="nombre" th:value="${marca.nombre}">
+        </div>
+        <div class="mb-3"> <!-- margen button -->
+          <label for="inputDescripcion" class="form-label">Descripción</label>
+          <input type="text" class="form-control" id="inputDescripcion" name="descripcion" th:value="${marca.descripcion}">
+        </div>
+        
+      </fieldset>
+      
+      <div class="row">
+        <div class="col-sm-6">
+          <a th:href="@{/marcas}" class="btn btn-outline-secondary w-100">
+            Atrás
+          </a>
+        </div>
+        <div class="col-sm-6">
+          <button type="submit" class="btn btn-warning w-100">Modificar</button>
+        </div>
       </div>
-      <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Nombre de Producto: [[${producto.nombreProducto}]]</label>
-        <input type="hidden" name="nombreProducto" th:value="${producto.nombreProducto}" />
-      </div>
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputCantidad" class="form-label">Cantidad</label>
-        <input type="text" class="form-control" id="inputCantidad" name="cantidad" th:value="${producto.cantidad}">
-      </div>
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputPrecio" class="form-label">Precio</label>
-        <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
-      </div>
-
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputPrecio" class="form-label">Fecha de Ingreso</label>
-        <input type="date" id="inputFecha" name="fecha" class="form-control"placeholder="Introduzca nueva fecha">
-      </div>
-
-    </fieldset>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <a th:href="@{/marcas}" class="btn btn-outline-secondary w-100">
-          Atrás
-        </a>
-      </div>
-      <div class="col-sm-6">
-        <button type="submit" class="btn btn-warning w-100">Modificar Marca</button>
-      </div>
-    </div>
-  </form>
-</div>
-
+    </form>
+  </div>
+  
 </body>
 </html>

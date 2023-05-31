@@ -12,38 +12,77 @@
             <fieldset>
                 <br> <!--separador-->
                 <div class="container">
-                    <!--Nombre de Servicio-->
                     <div class="row mb-4">
+                        <!--Tipo Producto-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputServicio" class="form-label">Nombre del Servicio</label>
-                                <input type="text" class="form-control" id="inputServicio" name="descripcionServicio" placeholder="Introduzca nombre del servicio" autofocus>
+                                <label for="inputTipoProducto" class="form-label">Tipo Producto<span style="color:red">*</span></label>
+                                <select class="form-select" aria-label="Default select example" id="inputTipoProducto" name="idTipoProducto" autofocus required>
+                                    <option value="">Seleccionar Tipo de Producto</option>
+                                    <option th:each="tipoProducto : ${tiposProductos}" th:value="${tipoProducto.idTipoProducto}" th:text="${tipoProducto.descripcion}"></option>
+                                </select>
                             </div>
                         </div>
-                        
-                        <!--Precio del servicio-->
+                        <!--Nombre de Producto-->
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputPrecio" class="form-label">Precio</label>
-                                <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca precio" autofocus>
+                                <label for="inputNombreServicio" class="form-label">Nombre de Servicio<span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="inputNombreServicio" name="nombre" placeholder="Introduzca nombre del servicio" autofocus required>
                             </div>
                         </div>
                     </div>
-                                        
+                    <div class="row mb-4">  
+                        <!--Código de Servicio-->
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputCodigo" class="form-label">Código<span style="color:red">*</span></label>
+                                <input type="text" class="form-control" id="inputCodigo" name="codigo" placeholder="Introduzca código" autofocus required>
+                            </div>
+                        </div>      
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputImpuesto" class="form-label">Impuesto<span style="color:red">*</span></label>
+                                <select class="form-select" id="inputImpuesto" name="impuesto">
+                                    <option value="">Seleccionar Impuesto</option>
+                                    <option value="10">I.V.A. 10%</option>
+                                    <option value="5">I.V.A. 5%</option>
+                                    <option value="0">Sin I.V.A</option>
+                                </select>
+                                
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="row mb-4">    
+                        <div class="col">
+                            <div class="form-outline">
+                                <label for="inputDescripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="inputDescripcion" name="descripcion" placeholder="Introduzca descripcion. Ej:Servicio de Cambio de neumáticos para automóviles, motocicletas " autofocus></textarea>
+                            </div>
+                        </div> 
+                    </div>
+                        
                     <div class="row">
                       <div class="col-sm-2">
-                        <a href="javascript:history.back()" class="btn btn-outline-info w-100">
-                            Atrás
-                        </a>
-                    </div>
+                        <!--a href="javascript:history.back()" class="btn btn-outline-info w-100"-->
+                            <a th:href="@{/productos}" class="btn btn-outline-info w-100">
+
+                                Atrás
+                            </a>
+                        </div>
                         <div class="col-sm-8"></div>
+                        <!--div class="col-sm-2">
+                          <a th:href="@{/crudProducto}" class="btn btn-success w-100">
+                              Guardar Producto
+                          </a>
+                        </div-->
                         <div class="col-sm-2">
                             <button type="submit" class="btn btn-success w-100">Guardar Servicio</button>
                         </div>
                         </div>
                     </div>
+                    
+                    
                 </div>
-            </div>
         </div>
     </fieldset>
     

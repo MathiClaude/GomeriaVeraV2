@@ -16,6 +16,12 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idServicio;
 
+    @Column(name = "nombre")
+    private String nombre;
+
+    @Column(name = "codigo")
+    private String codigo;
+
     @Column(name = "descripcionServicio")
     private String descripcionServicio;
 

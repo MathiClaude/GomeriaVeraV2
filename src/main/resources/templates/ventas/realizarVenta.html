@@ -63,17 +63,13 @@
               </div>
               <!--botón de registro-->
               <div class="col-4">
-                <th:block th:if="${permisoCrear eq true}"><!--esto es de permisos user - modificar a uno para registrar clientes-->
-                <a th:href="@{/clientes/nuevo}" class="btn btn-success mb-4">
-                  <i class="fa-solid fa-user-plus"></i> Registrar Cliente
-                </a>
-              </th:block> <!--modificar front-->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
+                  <i class="bi bi-search-heart"> Buscar productos</i>
+                </button>
             </div>
           </div>
         </div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
-          <i class="bi bi-search-heart"> Seleccionar productos</i>
-        </button>
+        
      
       
       

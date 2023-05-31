@@ -121,13 +121,9 @@
               <td th:text="${producto.proveedor.nombre}">py</td>
               <td><!---->
                 <div class="btn-group"><!---->
-                  <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${producto.idProducto})}" 
-                  class="btn btn-sm btn-outline-primary"><!---->
-                    <i class="fa-solid fa-pen-to-square"></i><!---->
-                  </a>
                   <a th:if="${permisoEliminar eq true}" th:href="@{/productos/{id}/delete(id=${producto.idProducto})}">
                     <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                      <i class="fa-sharp fa-solid fa-trash"></i>
+                      <i class="bi bi-trash-fill"></i>
                     </button>
                   </a>
                 </div>

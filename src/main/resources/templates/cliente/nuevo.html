@@ -34,8 +34,8 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <label for="inputTipoDocumento" class="form-label">Tipo de Documento<span style="color:red">*</span></label>
-                                <select class="form-select" id="inputTipoDocumento" name="tipoDocumento" autofocus required>
+                                <label for="inputDocumentType" class="form-label">Tipo de Documento<span style="color:red">*</span></label>
+                                <select class="form-select" id="inputDocumentType" name="documentType" autofocus required>
                                     <option value="">Seleccionar Tipo de Documento</option>
                                     <option th:each="tipoDocumento : ${tipoDoc}" th:value="${tipoDocumento.idTipoDocumento}" th:text="${tipoDocumento.nombre}"></option>
                                 </select>

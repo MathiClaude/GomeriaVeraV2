@@ -123,6 +123,7 @@ public class ClientesController {
         if(clienteService.tienePermiso(operacion + VIEW)) {
             Cliente cliente = new Cliente();
             clienteService.convertirDTO(cliente, objetoDTO);
+            cliente.setTipoDocumento(tipoDocumentoService.existeTipoDocumento(objetoDTO.getDocumentType().longValue()));
 
             clienteService.guardar(cliente);
 

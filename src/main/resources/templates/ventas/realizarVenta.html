@@ -250,7 +250,14 @@
                         </thead><!---->
                         <tbody><!---->
                           <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
-                            <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" >No se encontraron productos</td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+
                           </tr><!---->
                           <tr class="text-center" th:each="producto: ${listProduct}">
                             <td >
@@ -293,7 +300,12 @@
                         </thead><!---->
                         <tbody><!---->
                           <tr th:if="${#lists.isEmpty(listServicio)}"><!---->
-                            <td class="text-center fw-bold" colspan="10">No se encontraron servicios</td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" >No</td><!---->
+                            <td class="text-center fw-bold" >se </td><!---->
+                            <td class="text-center fw-bold" >encontraron</td><!---->
+                            <td class="text-center fw-bold" >Servicios</td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
                           </tr><!---->
                           <tr class="text-center" th:each="servicio: ${listServicio}">
                             <td th:text="${servicio.codigo}">Cod</td>

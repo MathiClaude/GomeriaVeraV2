@@ -67,6 +67,12 @@
                   <i class="bi bi-search-heart"> Buscar productos</i>
                 </button>
             </div>
+            <div class="col-4">
+              <div class="form-outline">
+                <label for="inputNombre" class="form-label">Total a pagar:</label>
+                <input type="text" id="totalProds" disabled/>
+              </div>
+            </div> 
           </div>
         </div>
         
@@ -93,42 +99,19 @@
         <table id="myTable3" class="table table-sm table-bordered table-hover">
           <thead style="background-color: #0a4275;">
             <tr class="text-center">
-              <th>Código</th><!---->
               <th>Artículo</th><!---->
-              <!--th>Precio</th-->
-              <!--th>Cantidad</th-->
-              <th>Marca</th><!---->
-              <th>Tipo</th><!---->
-              <th>U. Medida</th><!---->
+              <th>Cantidad</th><!---->
+              <th>Precio</th><!---->
               <th>Impuesto</th><!---->
-              <th>Proveedor</th><!---->
-              <th>Acción</th><!---->
+              <th>Total</th><!---->
+              <th>Total Impuesto</th><!---->
             </tr><!---->
           </thead><!---->
-          <tbody><!---->
+          <tbody id="productosSeleccionados"><!---->
             <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
               <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
             </tr><!---->
-            <tr class="text-center" th:each="producto: ${listProduct}">
-              <td th:text="${producto.codigo}">Cod</td>
-              <td th:text="${producto.nombreProducto}">Name</td>
-              <!--td th:text="${producto.precio}">90.000</td-->
-              <!--td th:text="${producto.cantidad}">90</td-->
-              <td th:text="${producto.marca.nombre}">90</td><!---->
-              <td th:text="${producto.tipoProducto.descripcion}">type</td>
-              <td th:text="${producto.unidadMedida.descripcion}">-</td>
-              <td th:text="${producto.impuesto}">black</td>
-              <td th:text="${producto.proveedor.nombre}">py</td>
-              <td><!---->
-                <div class="btn-group"><!---->
-                  <a th:if="${permisoEliminar eq true}" th:href="@{/productos/{id}/delete(id=${producto.idProducto})}">
-                    <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                      <i class="bi bi-trash-fill"></i>
-                    </button>
-                  </a>
-                </div>
-              </td>
-            </tr>
+            
           </tbody>
         </table>
       </div> <!--termina la tabla-->
@@ -255,6 +238,7 @@
                       <table id="myTable" class="table table-sm table-bordered table-hover">
                         <thead style="background-color: #0a4275;">
                           <tr class="text-center">
+                            <th>#</th><!---->
                             <th>Código</th><!---->
                             <th>Producto</th><!---->
                             <th>Tipo</th><!---->
@@ -268,6 +252,7 @@
                           <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
                             <td class="text-center fw-bold" ></td><!---->
                             <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
                             <td class="text-center fw-bold" >No se encontraron productos</td><!---->
                             <td class="text-center fw-bold" ></td><!---->
                             <td class="text-center fw-bold" ></td><!---->
@@ -275,6 +260,11 @@
 
                           </tr><!---->
                           <tr class="text-center" th:each="producto: ${listProduct}">
+                            <td >
+                              <a >
+                                <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}',this)|"  />
+                              </a>
+                            </td>
                             <td th:text="${producto.codigo}">Cod</td>
                             <td th:text="${producto.nombreProducto}">Name</td>
                             <td th:text="${producto.tipoProducto.descripcion}">type</td>
@@ -283,7 +273,7 @@
                             <td><!---->
                               <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="button" class="btn btn-secondary">-</button>
-                                <input type="text" class="form-control"/>
+                                <input type="text" class="form-control" th:id="${producto.idProducto}" />
                                 <button type="button" class="btn btn-secondary">+</button>
                               </div>
                           </td>
@@ -342,7 +332,7 @@
               <!--Footer-->
               <div class="modal-footer aria-hidden">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Agregar</button>
+                <button type="button" class="btn btn-primary" onclick="actualizarListaProductos()" data-bs-dismiss="modal">Agregar</button>
               </div>
             </div> 
           </div>

@@ -4,7 +4,7 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Usuario</b></h1> <!--titulo-->
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Producto</b></h1> <!--titulo-->
 
   <form method="POST" th:action="@{/productos/{id}(id=${producto.idProducto})}" th:object="${producto}">
     <!--th:block th:include="fragment/error-message.html"></th:block-->
@@ -12,7 +12,7 @@
     <fieldset>
       <legend>Información del Producto</legend>
       <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Id Usuario: [[${producto.idProducto}]]</label>
+        <label class="form-label">Id Producto: [[${producto.idProducto}]]</label>
       </div>
       <div class="mb-3"> <!-- margen button -->
         <label class="form-label">Nombre de Producto: [[${producto.nombreProducto}]]</label>

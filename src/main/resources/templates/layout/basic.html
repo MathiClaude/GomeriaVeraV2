@@ -82,7 +82,7 @@
   <script type="text/javascript" th:inline="javascript">
     let datos = /*[[${listarCliente}]]*/ null;
     mostrarBuscador(false)
-    
+    let listaProductos =[];
     // esto es para que se despliegue el contenido de cada buttonradio en Método de pago
     const checkbox = document.getElementById('mostrar-contenido');
     const contenido = document.getElementById('contenido');
@@ -139,6 +139,58 @@
       }
   
       
+    }
+    function moverProducto(idProducto,precio,impuesto,descripcion,elemento){
+      if(elemento.checked){
+        listaProductos.push({"producto_id":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
+      }else{
+        listaProductos = listaProductos.filter((producto)=>producto.producto_id != idProducto)
+      }
+      // console.log(idProducto,precio,impuesto,"+","test")
+      console.log(listaProductos)
+    }
+    function actualizarListaProductos(){
+      for(let elemento of listaProductos){
+         let cantidad = document.getElementById(elemento.producto_id).value
+         elemento.cantidad = cantidad
+      }
+      actualizarTabla();
+    }
+    function actualizarTabla(){
+      const TABLA = document.getElementById("productosSeleccionados");
+      const TOTAL_PRODS = document.getElementById("totalProds");
+      TABLA.innerHTML = "";
+      let totalProds = 0;
+      for(let elemento of listaProductos){
+         let totalMonto = elemento.cantidad * elemento.precio
+
+         let fila = document.createElement("tr")
+         let descripcion = document.createElement("td")
+         descripcion.innerHTML = elemento.descripcion;
+         let producto_id = document.createElement("td")
+         producto_id.innerHTML = elemento.producto_id;
+         let precio = document.createElement("td")
+         precio.innerHTML = elemento.precio;
+         let impuesto = document.createElement("td")
+         impuesto.innerHTML = elemento.impuesto;
+         let cantidad = document.createElement("td")
+         cantidad.innerHTML = elemento.cantidad;
+         let total =document.createElement("td")
+         total.innerHTML = totalMonto
+         let totalImpuesto =document.createElement("td")
+         totalImpuesto.innerHTML = totalMonto*elemento.impuesto/100
+        
+         fila.appendChild(descripcion)
+         fila.appendChild(cantidad)
+         fila.appendChild(precio)
+         fila.appendChild(impuesto)
+         fila.appendChild(total)
+         fila.appendChild(totalImpuesto)
+         TABLA.appendChild(fila)
+         totalProds+=totalMonto;
+      }
+      TOTAL_PRODS.value = totalProds;
+
     }
   </script>
 </th:block>

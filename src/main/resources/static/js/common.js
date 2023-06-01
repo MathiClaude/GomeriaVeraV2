@@ -127,6 +127,39 @@ function closeAlert() {
         $("#idAlert").fadeOut(0);
     }, 0);
 }
+/*
+$(function () {
+
+    $("#insertRow").on("click", function (event) {
+        event.preventDefault();
+
+        var newRow = $("<tr>");
+        var cols = '';
+
+        // Table columns
+        cols += '<th scrope="row">' + counter + '</th>';
+        cols += '<td><input class="form-control rounded-0" type="text" name="c-nombres[]" placeholder="Nombre"></td>';
+        cols += '<td><input class="form-control rounded-0" type="text" name="c-telefonos[]" placeholder="Teléfono"></td>';
+        cols += '<td><input class="form-control rounded-0" type="text" name="c-correos[]" placeholder="Correo"></td>';
+        cols += '<td><button class="btn btn-danger rounded-0" id ="deleteRow"><i class="fa fa-trash"></i></button</td>';
+
+        // Insert the columns inside a row
+        newRow.append(cols);
+
+        // Insert the row inside a table
+        $("table").append(newRow);
+
+        // Increase counter after each row insertion
+        counter++;
+    });
+
+    // Remove row when delete btn is clicked
+    $("table").on("click", "#deleteRow", function (event) {
+        $(this).closest("tr").remove();
+        counter -= 1
+    });
+});*/
+
 
 function generarPDF(id, name) {
     //window.jsPDF = window.jspdf.jsPDF;

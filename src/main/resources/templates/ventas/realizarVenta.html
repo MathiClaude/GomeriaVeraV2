@@ -238,26 +238,19 @@
                       <table id="myTable" class="table table-sm table-bordered table-hover">
                         <thead style="background-color: #0a4275;">
                           <tr class="text-center">
-                            <th>#</th><!---->
+                            <th>Carrito</th><!---->
                             <th>Código</th><!---->
                             <th>Producto</th><!---->
                             <th>Tipo</th><!---->
                             <th>Marca</th><!---->
                             <th>Impuesto</th><!---->
                             
-                            <th>Acción</th><!---->
+                            <th>Cantidad</th><!---->
                           </tr><!---->
                         </thead><!---->
                         <tbody><!---->
                           <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
-                            <td class="text-center fw-bold" ></td><!---->
-                            <td class="text-center fw-bold" ></td><!---->
-                            <td class="text-center fw-bold" ></td><!---->
-                            <td class="text-center fw-bold" >No se encontraron productos</td><!---->
-                            <td class="text-center fw-bold" ></td><!---->
-                            <td class="text-center fw-bold" ></td><!---->
-                            <td class="text-center fw-bold" ></td><!---->
-
+                            <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
                           </tr><!---->
                           <tr class="text-center" th:each="producto: ${listProduct}">
                             <td >
@@ -300,12 +293,7 @@
                         </thead><!---->
                         <tbody><!---->
                           <tr th:if="${#lists.isEmpty(listServicio)}"><!---->
-                            <td class="text-center fw-bold" ></td><!---->
-                            <td class="text-center fw-bold" >No</td><!---->
-                            <td class="text-center fw-bold" >se </td><!---->
-                            <td class="text-center fw-bold" >encontraron</td><!---->
-                            <td class="text-center fw-bold" >Servicios</td><!---->
-                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" colspan="10">No se encontraron servicios</td><!---->
                           </tr><!---->
                           <tr class="text-center" th:each="servicio: ${listServicio}">
                             <td th:text="${servicio.codigo}">Cod</td>

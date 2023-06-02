@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +27,10 @@ public class Venta {
     @Column(name = "esActual")
     private String esActual;
 
+    @Column(name = "montoTotal")
+    private BigDecimal montoTotal;
+
+
     public Venta() {
 
     }
@@ -42,6 +48,11 @@ public class Venta {
 
     
     /* Relacion con usuario */
+    @ManyToOne
+    @JoinColumn(name = "cliente_id", referencedColumnName = "idCliente")
+    private Cliente cliente;
+
+    /* Relacion con cliente */
     @ManyToOne
     @JoinColumn(name = "usuario_id", referencedColumnName = "idUsuario")
     private Usuario usuario;

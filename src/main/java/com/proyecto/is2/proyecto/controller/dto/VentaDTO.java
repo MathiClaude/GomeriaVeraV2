@@ -2,6 +2,7 @@ package com.proyecto.is2.proyecto.controller.dto;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,6 +12,8 @@ public class VentaDTO {
     private String montoVenta;
     private String fechaVenta;
     private String esActual;
+    private BigDecimal montoTotal;
     private Long idUsuario;
+    private Long idCliente;
 
 }

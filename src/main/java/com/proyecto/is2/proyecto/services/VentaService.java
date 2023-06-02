@@ -39,4 +39,8 @@ public interface VentaService {
 
     public void eliminarVenta(Venta venta);
 
+    public Venta obtenerVenta(Long id);
+
+    public boolean tienePermiso(String permiso);
+
 }

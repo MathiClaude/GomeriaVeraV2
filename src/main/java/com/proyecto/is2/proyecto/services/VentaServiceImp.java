@@ -76,4 +76,18 @@ public class VentaServiceImp implements VentaService {
     public void eliminarVenta(Venta venta) {
         ventaRepository.delete(venta);
     }
+
+    @Override
+    public Venta obtenerVenta(Long id) {
+        return ventaRepository.findByIdVenta(id);
+    }
+
+
+    @Override
+    public boolean tienePermiso(String permiso) {
+        /*for(Permiso aux : this.verPermisosUsuarioActual()) {
+            if(permiso.equals(aux.toString())) return true;
+        }*/
+        return true;
+    }
 }

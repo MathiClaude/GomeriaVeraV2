@@ -4,9 +4,11 @@ import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Cliente;
+import com.proyecto.is2.proyecto.model.Venta;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
+import com.proyecto.is2.proyecto.services.VentaServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,7 +112,7 @@ public class VentaController {
     }
 
     @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("usuario") UsuarioDTO objetoDTO,
+    public String crearObjeto(@ModelAttribute("venta") UsuarioDTO objetoDTO,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 

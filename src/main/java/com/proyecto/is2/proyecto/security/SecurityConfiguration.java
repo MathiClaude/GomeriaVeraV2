@@ -38,6 +38,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .hasAuthority("conectarse")//consultar
                 .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
+                .and()
+                
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/", true)

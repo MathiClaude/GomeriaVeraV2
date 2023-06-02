@@ -18,8 +18,8 @@
   <script th:src="@{/js/common.js}" type="text/javascript"></script>
   <script th:src="@{/dataTables/datatables.min.js}" type="text/javascript"></script>
   <link th:href="@{/dataTables/datatables.min.css}" rel="stylesheet"><!---->
-  <link th:href="@{assets/css/buscadorCliente.css}" rel="stylesheet">
-
+ <!-- Agregar los scripts de Bootstrap 5 -->
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   
 </head>
 
@@ -80,9 +80,21 @@
   <script th:src="@{/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
   <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}" type="text/javascript"></script>
   <script type="text/javascript" th:inline="javascript">
+    /*Datos para buscador*/
     let datos = /*[[${listarCliente}]]*/ null;
-    mostrarBuscador(false)
+    window.onload=()=>{
+      mostrarBuscador(false)
+      let opciones = document.getElementsByClassName("opcionesCliente");
+      console.log(opciones);
+      for(let opcion of opciones){
+        opcion.addEventListener("click",()=>console.log("test"));
+
+      }
+    }
     let listaProductos =[];
+    
+
+    
     // esto es para que se despliegue el contenido de cada buttonradio en Método de pago
     const checkbox = document.getElementById('mostrar-contenido');
     const contenido = document.getElementById('contenido');
@@ -96,17 +108,20 @@
     });
   
     // Funcion para buscar y seleccionar un cliente del buscador
-    function seleccionar(a){
-      console.log(a.getAttribute('data-value'))
-      document.getElementById("InputCliente").value= a.getAttribute('data-value')
-    }
+    
     function mostrarBuscador(estado){
       let opciones = document.getElementsByClassName("opcionesCliente");
       let display = (estado)?"":"none";
-      console.log(opciones);
+      // console.log(opciones);
       for(let opcion of opciones){
         opcion.style.display=display
+
       }
+    }
+    function seleccionar(a){
+      console.log(a.getAttribute('data-value'))
+      document.getElementById("buscadorCliente").value="buscado"
+      document.getElementById("InputCliente").value= a.getAttribute('data-value')
     }
     function funcionFiltrar(valor) {
       if(datos == []){
@@ -125,6 +140,7 @@
       for (let i = 0; i < listaOpciones.length; i++) {
         listaOpciones[i].removeAttribute("data-value")
         listaOpciones[i].innerHTML = "";
+        listaOpciones[i].addEventListener("click",seleccionar);
         
       } 
       mostrarBuscador(false)
@@ -133,9 +149,12 @@
           // console.log("test")
           break
         }
+        // listaOpciones[i].removeEventListener("click",seleccionar);
+
         listaOpciones[i].setAttribute("data-value",`${datosFiltrados[i].idCliente}`)
         listaOpciones[i].innerHTML = `${datosFiltrados[i].documentNumber} - ${datosFiltrados[i].name} ${datosFiltrados[i].lastName}`;
         listaOpciones[i].style.display="";
+        listaOpciones[i].setAttribute("onclick",seleccionar);
       }
   
       
@@ -147,7 +166,7 @@
         listaProductos = listaProductos.filter((producto)=>producto.producto_id != idProducto)
       }
       // console.log(idProducto,precio,impuesto,"+","test")
-      console.log(listaProductos)
+      // console.log(listaProductos)
     }
     function actualizarListaProductos(){
       for(let elemento of listaProductos){
@@ -192,6 +211,7 @@
       TOTAL_PRODS.value = totalProds;
 
     }
+    
   </script>
 </th:block>
 

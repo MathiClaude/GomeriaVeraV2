@@ -1,5 +1,6 @@
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
+import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
@@ -33,7 +34,7 @@ public class VentaController {
     final String FORM_VIEW = VIEW_PATH + "/realizarVenta";
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/usuarios";
+    final String RD_FORM_VIEW = "redirect:/ventas";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
@@ -41,8 +42,9 @@ public class VentaController {
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
 
     @Autowired
-    private UsuarioServiceImp usuarioService;
-     // llamada a los servicios de usuario
+    private VentaServiceImp ventaService;
+
+     // llamada a los servicios de venta
      @Autowired
      private ProductoServiceImp productoService; // llamada a los servicios de producto
      @Autowired
@@ -59,19 +61,19 @@ public class VentaController {
      * Usuario.
      * @return
      */
-    @ModelAttribute("usuario")
-    public UsuarioDTO instanciarObjetoDTO() {
-        return new UsuarioDTO();
+    @ModelAttribute("venta")
+    public VentaDTO instanciarObjetoDTO() {
+        return new VentaDTO();
     }
 
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
-        boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
+        boolean consultar = ventaService.tienePermiso("consultar-" + VIEW);
+        boolean crear = ventaService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = ventaService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = ventaService.tienePermiso("actualizar-" + VIEW);
+        boolean seleccionar = ventaService.tienePermiso("seleccionar-" + VIEW);
 
 
 
@@ -96,8 +98,8 @@ public class VentaController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = ventaService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = ventaService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -112,7 +114,7 @@ public class VentaController {
     }
 
     @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("venta") UsuarioDTO objetoDTO,
+    public String crearObjeto(@ModelAttribute("venta") VentaDTO objetoDTO,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
@@ -120,21 +122,21 @@ public class VentaController {
 //            return FORM_NEW;
 //        }
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Usuario usuario = new Usuario();
-            usuarioService.convertirDTO(usuario, objetoDTO);
+        if(ventaService.tienePermiso(operacion + VIEW)) {
+            Venta venta = new Venta();
+            ventaService.convertirDTO(venta, objetoDTO);
 
             // si tiene permiso se le asigna el rol con id del formulario
             // sino se le asignar un rol por defecto.
-            if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
-                usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
+            /*if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
+                venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
             } else {
-                usuario.setRol(rolService.existeRol(1L)); // ID 1: Rol sin permisos.
-            }
+                venta.setRol(rolService.existeRol(1L)); // ID 1: Rol sin permisos.
+            }*/
 
-            usuarioService.guardar(usuario);
 
-            attributes.addFlashAttribute("message", "¡Usuario creado exitosamente!");
+            ventaService.guardar(venta);
+            attributes.addFlashAttribute("message", "¡Venta creado exitosamente!");
 
             return RD_FORM_VIEW;
         } else {
@@ -144,19 +146,19 @@ public class VentaController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        Usuario usuario;
+        boolean eliminar = ventaService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = ventaService.tienePermiso("asignar-rol-" + VIEW);
+        Venta venta;
 
         // validar el id
         try {
-            Long idUsuario = Long.parseLong(id);
-            usuario = usuarioService.existeUsuario(idUsuario);
+            Long idVenta = Long.parseLong(id);
+            venta = ventaService.existeVenta(idVenta);
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("user", usuario);
+        model.addAttribute("user", venta);
 
         // validar si puede cambiar de rol
         if(asignarRol) {
@@ -172,29 +174,29 @@ public class VentaController {
     }
 
     @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("usuario") UsuarioDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("venta") VentaDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        Usuario usuario;
+        Venta venta;
 
         if (result.hasErrors()) {
 //            studentDTO.setId(id);
             return RD_FORM_VIEW;
         }
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            usuario = usuarioService.existeUsuario(id);
-            if(usuario != null) {
-                usuarioService.convertirDTO(usuario, objetoDTO);
+        if(ventaService.tienePermiso(operacion + VIEW)) {
+            venta = ventaService.existeVenta(id);
+            if(venta != null) {
+                ventaService.convertirDTO(venta, objetoDTO);
 
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
-                if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
-                    usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-                }
+                /*if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
+                    venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
+                }*/
 
-                attributes.addFlashAttribute("message", "¡Usuario actualizado correctamente!");
-                usuarioService.guardar(usuario);
+                attributes.addFlashAttribute("message", "¡Venta actualizado correctamente!");
+                ventaService.guardar(venta);
                 return RD_FORM_VIEW;
             }
         }
@@ -204,18 +206,18 @@ public class VentaController {
     @GetMapping("/{id}/delete")
         public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
         this.operacion = "eliminar-";
-        Long idUsuario;
+        Long idVenta;
 
         try {
-            idUsuario = Long.parseLong(id);
+            idVenta = Long.parseLong(id);
         } catch (Exception e) {
             return RD_FORM_VIEW;
         }
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
-            usuarioService.eliminarUsuario(usuario);
-            attributes.addFlashAttribute("message", "¡Usuario eliminado correctamente!");
+        if(ventaService.tienePermiso(operacion + VIEW)) {
+            Venta venta = ventaService.obtenerVenta(idVenta);
+            ventaService.eliminarVenta(venta);
+            attributes.addFlashAttribute("message", "¡Venta eliminado correctamente!");
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;

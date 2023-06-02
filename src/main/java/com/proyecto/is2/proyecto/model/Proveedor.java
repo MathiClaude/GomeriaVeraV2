@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -45,5 +46,8 @@ public class Proveedor {
 
     @Column(name = "telefono")
     private String telefono;
+
+    @OneToMany(mappedBy = "proveedor")
+    private List<Contacto> contactos;
 
 } /* Se crea un relacion tambien con Proyecto */

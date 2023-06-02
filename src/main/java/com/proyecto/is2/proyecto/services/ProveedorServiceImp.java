@@ -30,6 +30,7 @@ public class ProveedorServiceImp implements ProveedorService {
         proveedor.setRuc(objetoDTO.getRuc());
         proveedor.setTelefono(objetoDTO.getTelefono());
         proveedor.setDireccion(objetoDTO.getDireccion());
+        proveedor.setContactos(objetoDTO.getContactos());
         
         return;
     }

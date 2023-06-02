@@ -1,7 +1,8 @@
 package com.proyecto.is2.proyecto.controller.dto;
+import com.proyecto.is2.proyecto.model.Contacto;
 
 import lombok.Data;
-
+import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,4 +19,5 @@ public class ProveedorDTO {
     private String ruc;
     private String direccion;
 
+    List<Contacto> contactos;
 }

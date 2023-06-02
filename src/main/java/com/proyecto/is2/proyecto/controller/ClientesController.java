@@ -99,7 +99,7 @@ public class ClientesController {
         //if(true){
             model.addAttribute("tipoDoc", tipoDocumentoService.listar());
   
-        System.out.println("HOLA MUNDO XDDD:" + tipoDocumentoService.listar());
+        // System.out.println("HOLA MUNDO XDDD:" + tipoDocumentoService.listar());
         //}
         model.addAttribute("permisoAsignarDoc", true);
 

@@ -120,7 +120,7 @@
     }
     function seleccionar(a){
       console.log(a.getAttribute('data-value'))
-      document.getElementById("buscadorCliente").value="buscado"
+      document.getElementById("buscadorCliente").value=a.innerHTML
       document.getElementById("InputCliente").value= a.getAttribute('data-value')
     }
     function funcionFiltrar(valor) {
@@ -178,10 +178,14 @@
     function actualizarTabla(){
       const TABLA = document.getElementById("productosSeleccionados");
       const TOTAL_PRODS = document.getElementById("totalProds");
+      const TOTAL_PRODS2 = document.getElementById("totalPagar");
+      const TOTAL_IVA = document.getElementById("idIva");
       TABLA.innerHTML = "";
       let totalProds = 0;
+      let totalIva = 0;
       for(let elemento of listaProductos){
          let totalMonto = elemento.cantidad * elemento.precio
+         let sumaIva = totalMonto*elemento.impuesto/100
 
          let fila = document.createElement("tr")
          let descripcion = document.createElement("td")
@@ -197,7 +201,7 @@
          let total =document.createElement("td")
          total.innerHTML = totalMonto
          let totalImpuesto =document.createElement("td")
-         totalImpuesto.innerHTML = totalMonto*elemento.impuesto/100
+         totalImpuesto.innerHTML = sumaIva
         
          fila.appendChild(descripcion)
          fila.appendChild(cantidad)
@@ -207,8 +211,11 @@
          fila.appendChild(totalImpuesto)
          TABLA.appendChild(fila)
          totalProds+=totalMonto;
+         totalIva+=sumaIva;
       }
       TOTAL_PRODS.value = totalProds;
+      TOTAL_PRODS2.value = totalProds;
+      TOTAL_IVA.value = totalIva;
 
     }
     

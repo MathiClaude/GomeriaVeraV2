@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<script src="scriptFecha.js"></script>
+<body>
+    <div layout:fragment="content">
+        
+        <h1 class="text-left mb-4" style="font-family:Trebuchet MS"><b style= "color:#21618C"><i class="bi bi-emoji-frown-fill"></i> Abrir Caja</b></h1> <!--titulo-->
+        <form method="post" th:action="@{/caja/crear}" th:object="${caja}">
+            <fieldset>
+                <div class="container">
+                    <div class="row">
+                        <div class="col"> 
+                            <i class="bi bi-clock"> Hora:</i>
+                            <p id="hora"></p>
+                        </div>                    
+                    
+                        <div class="col">
+                        <i class="bi bi-calendar-check-fill"> Fecha:</i>
+                        <p id="hora"></p>
+                       </div>                   
+                    
+                        <div class="col">    
+                            <i class="bi bi-person-video3"> User Cajero:</i>
+                            <p id="hora"></p>
+                        </div>
+                    </div>        
+                  </div>
+                <br> <!--separador-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col">                            
+                            <div class="container">
+                                
+                                <div class="row mb-4">                            
+                                    <div class="col">
+                                        <div class="form-outline">
+                                            <label for="inputRuc" class="form-label">Caja<span style="color:red">*</span></label>
+                                            <input type="text" class="form-control" id="inputRuc" name="ruc" placeholder="Seleccione la caja deseada" required>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <!--Efectivo inicial para apertura de caja-->
+                                <div class="row mb-4">                            
+                                    <div class="col">
+                                        <div class="form-outline">
+                                            <label for="inputRazonSocial" class="form-label">Efectivo</label>
+                                            <input type="text" class="form-control" id="inputRazonSocial" name="razonSocial" placeholder="Introduzca efectivo inicial para la apertura" autofocus>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="col"> 
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
+                                <i class="bi bi-piggy-bank-fill"> Nueva caja</i>
+                            </button>                   
+                            <legend style="color:#21618C">Lista de cajas</legend>
+                            
+                            <div th:if="${permisoVer eq true}" class="table-responsive">
+                                <table id="myTable" class="table table-sm table-bordered table-hover">
+                                    <thead style="background-color: #0a4275;">
+                                        <tr class="text-center">
+                                            <th>Carrito</th><!---->
+                                            <th>Código</th><!---->
+                                            <th>Producto</th><!---->
+                                            <th>Tipo</th><!---->
+                                            <th>Marca</th><!---->
+                                            <th>Impuesto</th><!---->
+                                            
+                                            <th>Cantidad</th><!---->
+                                        </tr><!---->
+                                    </thead><!---->
+                                    <tbody><!---->
+                                        <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
+                                            <td class="text-center fw-bold" ></td><!---->
+                                            <td class="text-center fw-bold" ></td><!---->
+                                            <td class="text-center fw-bold" ></td><!---->
+                                            <td class="text-center fw-bold" >No se encontraron productos</td><!---->
+                                            <td class="text-center fw-bold" ></td><!---->
+                                            <td class="text-center fw-bold" ></td><!---->
+                                            <td class="text-center fw-bold" ></td><!---->
+                                            
+                                        </tr><!---->
+                                        <tr class="text-center" th:each="producto: ${listProduct}">
+                                            <td >
+                                                <a >
+                                                    <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}',this)|"  />
+                                                </a>
+                                            </td>
+                                            <td th:text="${producto.codigo}">Cod</td>
+                                            <td th:text="${producto.nombreProducto}">Name</td>
+                                            <td th:text="${producto.tipoProducto.descripcion}">type</td>
+                                            <td th:text="${producto.marca.nombre}">90</td><!---->
+                                            <td th:text="${producto.impuesto}">black</td>
+                                            <td><!---->
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <button type="button" class="btn btn-secondary">-</button>
+                                                    <input type="text" class="form-control" th:id="${producto.idProducto}" />
+                                                    <button type="button" class="btn btn-secondary">+</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!--termina la tabla-->
+                        </div>
+                    </div>    
+                    
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <a href="javascript:history.back()" class="btn btn-outline-info w-100">
+                                Atrás
+                            </a>
+                        </div>
+                        <div class="col-sm-8"></div>
+                        <div class="col-sm-2">
+                            <button type="submit" class="btn btn-success w-100">Abrir Caja</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+        <!-- MODAL PARA CRUD DE CAJA -->
+      <!-- Modal: myModal | Creación de caja -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+          <div class="modal-content">                                   
+            <!--Header-->                    
+            <div class="modal-header"> 
+              <h5 class="modal-title">Nueva Caja</h5> <!-- Por que si-->
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
+            </div>
+            <!-- Body para modal-->
+            <div class="modal-body">
+              <!-- Tabs navs para modal-->
+              <iframe th:src="@{/aperturaCaja/nuevo}" width="100%" height="400"></iframe>
+              <!-- Pie del modal -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        
+    </div>
+    
+    <script defer>
+        var fechaActual = new Date();
+        var hora = fechaActual.getHours();
+        var minutos = fechaActual.getMinutes();
+        var segundos = fechaActual.getSeconds();
+    
+        hora = agregarCeros(hora);
+        minutos = agregarCeros(minutos);
+        segundos = agregarCeros(segundos);
+    
+        var horaCompleta = hora + ":" + minutos + ":" + segundos;
+        document.write(horaCompleta);
+    
+        function agregarCeros(valor) {
+          if (valor < 10) {
+            return "0" + valor;
+          }
+          return valor;
+        }
+      </script>
+</body>
+</html>

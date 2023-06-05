@@ -6,6 +6,8 @@ import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.model.Venta;
+import com.proyecto.is2.proyecto.Util.ModelAttributes;
+
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
@@ -67,7 +69,7 @@ public class VentaController {
     }
 
     @GetMapping
-    public String mostrarGrilla(Model model) {
+    public String mostrarGrilla(Model model, RedirectAttributes attributes) {
 
         boolean consultar = ventaService.tienePermiso("consultar-" + VIEW);
         boolean crear = ventaService.tienePermiso("crear-" + VIEW);
@@ -85,6 +87,14 @@ public class VentaController {
         } else {
             return FALTA_PERMISO_VIEW;
         }
+        /*PARA TIRAR ALERT EN CASO DE QUE EXISTA CAJA SIN CERRAR O FALTA ABRIR
+        if(consultar) {
+            model.addAttribute(ModelAttributes.ALERT_CAJA_CERRAR, success);
+
+
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }*/
 
         model.addAttribute("permisoVer", consultar);
         model.addAttribute("permisoCrear", crear);

@@ -1,4 +1,6 @@
 package com.proyecto.is2.proyecto.model;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,10 +14,12 @@ import java.util.Set;
 @Entity
 @Table(name = "Usuario", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Usuario {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
-
+    
+    @NotBlank(message = "El nombre es requerido")
     @Column(name = "username")
     private String username;
 

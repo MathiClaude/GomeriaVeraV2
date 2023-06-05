@@ -1,14 +1,22 @@
 package com.proyecto.is2.proyecto.controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
+import com.proyecto.is2.proyecto.Util.ModelAttributes;//se debe agregar para los mensajes de error
+
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.security.access.AuthorizationServiceException;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,6 +41,8 @@ public class UsuarioController {
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
 //    final String RD_ASIGNAR_ROL_VIEW = "redirect:/" + ASIGNAR_ROL_VIEW;
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
+    private final static String ERROR_VIEW = "errorMessage";
+
 
     @Autowired
     private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
@@ -52,12 +62,15 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public String mostrarGrilla(Model model) {
+    public String mostrarGrilla(Model model, RedirectAttributes attributes) {
+        boolean writePer = false;
 
         boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        
+
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
@@ -68,12 +81,25 @@ public class UsuarioController {
         } else {
             return FALTA_PERMISO_VIEW;
         }
-
+        //model.addAttribute(ModelAttributes.SHOW_BUTTONS, writePer);
         model.addAttribute("permisoVer", consultar);
         model.addAttribute("permisoCrear", crear);
         model.addAttribute("permisoEliminar", eliminar);
         model.addAttribute("permisoActualizar", actualizar);
+        /* */
+        try{
 
+        }
+        catch (AuthorizationServiceException e) {
+
+            model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
+            model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
+            model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
+            return ERROR_VIEW;
+        } catch (Exception e) {
+            attributes.addFlashAttribute(ModelAttributes.ALERT_MESSAGE, e.getMessage());
+            attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_ERROR);
+        }
         return FORM_VIEW;
     }
 

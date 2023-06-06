@@ -4,19 +4,24 @@
 <body>
     <div layout:fragment="content">
         
-        <h1 class="text-left mb-4" style="font-family:Trebuchet MS"><b style= "color:#21618C"><i class="bi bi-emoji-frown-fill"></i> Abrir Caja</b></h1> <!--titulo-->
+        <h1 class="text-left mb-4" style="font-family:Trebuchet MS"><b style= "color:#21618C"><lord-icon
+            src="https://cdn.lordicon.com/ptzvfshs.json"
+            trigger="hover"
+            colors="outline:#121331,primary:#f28ba8,secondary:#ffc738"
+            style="width:75px;height:75px">
+        </lord-icon> Abrir Caja</b></h1> <!--titulo-->
         <form method="post" th:action="@{/caja/crear}" th:object="${caja}">
             <fieldset>
                 <div class="container">
                     <div class="row">
                         <div class="col"> 
                             <i class="bi bi-clock"> Hora:</i>
-                            <p id="hora"></p>
+                            <p id="clock"></p>
                         </div>                    
                     
                         <div class="col">
                         <i class="bi bi-calendar-check-fill"> Fecha:</i>
-                        <p id="hora"></p>
+                        <p id="date"></p>
                        </div>                   
                     
                         <div class="col">    
@@ -53,54 +58,51 @@
                             </div>
                         </div>    
                         <div class="col"> 
+                            
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
                                 <i class="bi bi-piggy-bank-fill"> Nueva caja</i>
                             </button>                   
+                            <br>
+                            <br>
                             <legend style="color:#21618C">Lista de cajas</legend>
                             
                             <div th:if="${permisoVer eq true}" class="table-responsive">
                                 <table id="myTable" class="table table-sm table-bordered table-hover">
                                     <thead style="background-color: #0a4275;">
                                         <tr class="text-center">
-                                            <th>Carrito</th><!---->
-                                            <th>Código</th><!---->
-                                            <th>Producto</th><!---->
-                                            <th>Tipo</th><!---->
-                                            <th>Marca</th><!---->
-                                            <th>Impuesto</th><!---->
-                                            
-                                            <th>Cantidad</th><!---->
+                                            <th>Caja</th><!---->
+                                            <th>Estado</th><!---->
+                                            <th>Acción</th><!---->                                        
                                         </tr><!---->
                                     </thead><!---->
                                     <tbody><!---->
-                                        <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
+                                        <tr th:if="${#lists.isEmpty(listCaja)}"><!---->                                            
                                             <td class="text-center fw-bold" ></td><!---->
-                                            <td class="text-center fw-bold" ></td><!---->
-                                            <td class="text-center fw-bold" ></td><!---->
-                                            <td class="text-center fw-bold" >No se encontraron productos</td><!---->
-                                            <td class="text-center fw-bold" ></td><!---->
-                                            <td class="text-center fw-bold" ></td><!---->
-                                            <td class="text-center fw-bold" ></td><!---->
+                                            <td class="text-center fw-bold" >No se encontraron cajas</td><!---->
+                                            <td class="text-center fw-bold" ></td><!---->                                     
                                             
                                         </tr><!---->
-                                        <tr class="text-center" th:each="producto: ${listProduct}">
+                                        <tr class="text-center" th:each="caja: ${listCaja}">
                                             <td >
                                                 <a >
                                                     <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}',this)|"  />
                                                 </a>
                                             </td>
                                             <td th:text="${producto.codigo}">Cod</td>
-                                            <td th:text="${producto.nombreProducto}">Name</td>
-                                            <td th:text="${producto.tipoProducto.descripcion}">type</td>
-                                            <td th:text="${producto.marca.nombre}">90</td><!---->
-                                            <td th:text="${producto.impuesto}">black</td>
+                                            <td th:text="${producto.nombreProducto}">Name</td>                                            
                                             <td><!---->
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-secondary">-</button>
-                                                    <input type="text" class="form-control" th:id="${producto.idProducto}" />
-                                                    <button type="button" class="btn btn-secondary">+</button>
+                                                <div class="btn-group"><!---->
+                                                  <a th:if="${permisoActualizar eq true}" th:href="@{/tipoDocumentos/{id}(id=${doc.idTipoDocumento})}" 
+                                                     class="btn btn-sm btn-outline-primary"><!---->
+                                                    <i class="fa-solid fa-pen-to-square"></i><!---->
+                                                  </a>
+                                                  <a th:if="${permisoEliminar eq true}" th:href="@{/tipoDocumentos/{id}/delete(id=${doc.idTipoDocumento})}">
+                                                    <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                                      <i class="fa-sharp fa-solid fa-trash"></i>
+                                                    </button>
+                                                  </a>
                                                 </div>
-                                            </td>
+                                              </td>
                                         </tr>
                                     </tbody>
                                 </table>

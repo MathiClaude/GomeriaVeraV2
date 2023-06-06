@@ -1,119 +1,233 @@
-<html>
-  <body>
-    <div class="card">
-        <div class="card-body">
-          <div class="container mb-5 mt-3">
-            <div class="row d-flex align-items-baseline">
-              <div class="col-xl-9">
-                <p style="color: #7e8d9f;font-size: 20px;">Invoice >> <strong>ID: #123-123</strong></p>
-              </div>
-              <div class="col-xl-3 float-end">
-                <a class="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark"><i
-                    class="fas fa-print text-primary"></i> Print</a>
-                <a class="btn btn-light text-capitalize" data-mdb-ripple-color="dark"><i
-                    class="far fa-file-pdf text-danger"></i> Export</a>
-              </div>
-              <hr>
-            </div>
-      
-            <div class="container">
-              <div class="col-md-12">
-                <div class="text-center">
-                  <i class="fab fa-mdb fa-4x ms-0" style="color:#5d9fc5 ;"></i>
-                  <p class="pt-0">Factura de venta</p>
-                </div>
-      
-              </div>
-      
-      
-              <div class="row">
-                <div class="col-xl-8">
-                  <ul class="list-unstyled">
-                    <li class="text-muted">To: <span style="color:#5d9fc5 ;">John Lorem</span></li>
-                    <li class="text-muted">Street, City</li>
-                    <li class="text-muted">State, Country</li>
-                    <li class="text-muted"><i class="fas fa-phone"></i> 123-456-789</li>
-                  </ul>
-                </div>
-                <div class="col-xl-4">
-                  <p class="text-muted">Invoice</p>
-                  <ul class="list-unstyled">
-                    <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span
-                        class="fw-bold">ID:</span>#123-456</li>
-                    <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span
-                        class="fw-bold">Creation Date: </span>Jun 23,2021</li>
-                    <li class="text-muted"><i class="fas fa-circle" style="color:#84B0CA ;"></i> <span
-                        class="me-1 fw-bold">Status:</span><span class="badge bg-warning text-black fw-bold">
-                        Unpaid</span></li>
-                  </ul>
-                </div>
-              </div>
-      
-              <div class="row my-2 mx-1 justify-content-center">
-                <table class="table table-striped table-borderless">
-                  <thead style="background-color:#84B0CA ;" class="text-white">
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Qty</th>
-                      <th scope="col">Unit Price</th>
-                      <th scope="col">Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Pro Package</td>
-                      <td>4</td>
-                      <td>$200</td>
-                      <td>$800</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Web hosting</td>
-                      <td>1</td>
-                      <td>$10</td>
-                      <td>$10</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Consulting</td>
-                      <td>1 year</td>
-                      <td>$300</td>
-                      <td>$300</td>
-                    </tr>
-                  </tbody>
-      
-                </table>
-              </div>
-              <div class="row">
-                <div class="col-xl-8">
-                  <p class="ms-3">Add additional notes and payment information</p>
-      
-                </div>
-                <div class="col-xl-3">
-                  <ul class="list-unstyled">
-                    <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>$1110</li>
-                    <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Tax(15%)</span>$111</li>
-                  </ul>
-                  <p class="text-black float-start"><span class="text-black me-3"> Total Amount</span><span
-                      style="font-size: 25px;">$1221</span></p>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-xl-10">
-                  <p>Thank you for your purchase</p>
-                </div>
-                <div class="col-xl-2">
-                  <button type="button" class="btn btn-primary text-capitalize"
-                    style="background-color:#60bdf3 ;">Pay Now</button>
-                </div>
-              </div>
-      
-            </div>
-          </div>
+<body>
+<div layout:fragment="content">
+  <style>
+    .clearfix:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    
+    a {
+      color: #5D6975;
+      text-decoration: underline;
+    }
+    
+    body {
+      position: relative;
+      width: 21cm;  
+      height: 29.7cm; 
+      margin: 0 auto; 
+      color: #001028;
+      background: #FFFFFF; 
+      font-family: Arial, sans-serif; 
+      font-size: 12px; 
+      font-family: Arial;
+    }
+    
+    header {
+      padding: 10px 0;
+      margin-bottom: 30px;
+    }
+    
+    #logo {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    
+    #logo img {
+      width: 90px;
+    }
+    
+    h1 {
+      border-top: 1px solid  #5D6975;
+      border-bottom: 1px solid  #5D6975;
+      color: #5D6975;
+      font-size: 2.4em;
+      line-height: 1.4em;
+      font-weight: normal;
+      text-align: center;
+      margin: 0 0 20px 0;
+      background: url("https://c4.wallpaperflare.com/wallpaper/57/378/382/steam-software-pixel-art-celeste-game-celeste-pixels-hd-wallpaper-preview.jpg" );
+    }
+    
+    #project {
+      float: left;
+    }
+    
+    #project span {
+      color: #5D6975;
+      text-align: right;
+      width: 52px;
+      margin-right: 10px;
+      display: inline-block;
+      font-size: 0.8em;
+    }
+    
+    #company {
+      float: right;
+      text-align: right;
+    }
+    
+    #project div,
+    #company div {
+      white-space: nowrap;        
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin-bottom: 20px;
+    }
+    
+    table tr:nth-child(2n-1) td {
+      background: #F5F5F5;
+    }
+    
+    table th,
+    table td {
+      text-align: center;
+    }
+    
+    table th {
+      padding: 5px 20px;
+      color: #5D6975;
+      border-bottom: 1px solid #C1CED9;
+      white-space: nowrap;        
+      font-weight: normal;
+    }
+    
+    table .service,
+    table .desc {
+      text-align: left;
+    }
+    
+    table td {
+      padding: 20px;
+      text-align: right;
+    }
+    
+    table td.service,
+    table td.desc {
+      vertical-align: top;
+    }
+    
+    table td.unit,
+    table td.qty,
+    table td.total {
+      font-size: 1.2em;
+    }
+    
+    table td.grand {
+      border-top: 1px solid #5D6975;;
+    }
+    
+    #notices .notice {
+      color: #5D6975;
+      font-size: 1.2em;
+    }
+    
+    footer {
+      color: #5D6975;
+      width: 100%;
+      height: 30px;
+      position: absolute;
+      bottom: 0;
+      border-top: 1px solid #C1CED9;
+      padding: 8px 0;
+      text-align: center;
+    }
+  </style>
+
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <title>Example 1</title>    
+    </head>
+    <body>
+      <header class="clearfix">
+        <div id="logo">
+          <img th:src="@{/img/logo.png}" class="center wp-image-4532"/> 
         </div>
-    </div>
-  </body>    
-</html>
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#FFFFFF">Comprobante de Venta</b></h1> <!--titulo-->
+
+        <div id="company" class="clearfix">
+          <div>Gomería Vera</div>
+          <div>455 Foggy Heights,<br /> AZ 85004, US</div>
+          <div>(602) 519-0450</div>
+          <div><a href="mailto:company@example.com">company@example.com</a></div>
+        </div>
+        <div id="project">
+          <div><span>PROJECT</span> Website development</div>
+          <div><span>CLIENT</span> John Doe</div>
+          <div><span>ADDRESS</span> 796 Silver Harbour, TX 79273, US</div>
+          <div><span>EMAIL</span> <a href="mailto:john@example.com">john@example.com</a></div>
+          <div><span>DATE</span> August 17, 2015</div>
+          <div><span>DUE DATE</span> September 17, 2015</div>
+        </div>
+      </header>
+      <main>
+        <table>
+          <thead>
+            <tr>
+              <th class="service">Producto</th>
+              <th class="desc">Descripción</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="service">Design</td>
+              <td class="desc">Creating a recognizable design solution based on the company's existing visual identity</td>
+              <td class="unit">$40.00</td>
+              <td class="qty">26</td>
+              <td class="total">$1,040.00</td>
+            </tr>
+            <tr>
+              <td class="service">Development</td>
+              <td class="desc">Developing a Content Management System-based Website</td>
+              <td class="unit">$40.00</td>
+              <td class="qty">80</td>
+              <td class="total">$3,200.00</td>
+            </tr>
+            <tr>
+              <td class="service">SEO</td>
+              <td class="desc">Optimize the site for search engines (SEO)</td>
+              <td class="unit">$40.00</td>
+              <td class="qty">20</td>
+              <td class="total">$800.00</td>
+            </tr>
+            <tr>
+              <td class="service">Training</td>
+              <td class="desc">Initial training sessions for staff responsible for uploading web content</td>
+              <td class="unit">$40.00</td>
+              <td class="qty">4</td>
+              <td class="total">$160.00</td>
+            </tr>
+            <tr>
+              <td colspan="4">SUBTOTAL</td>
+              <td class="total">$5,200.00</td>
+            </tr>
+            <tr>
+              <td colspan="4">TAX 25%</td>
+              <td class="total">$1,300.00</td>
+            </tr>
+            <tr>
+              <td colspan="4" class="grand total">GRAND TOTAL</td>
+              <td class="grand total">$6,500.00</td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="notices">
+          <div>NOTICE:</div>
+          <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+        </div>
+      </main>
+      <footer>
+        Invoice was created on a computer and is valid without the signature and seal.
+      </footer>
+    </body>
+  </html>

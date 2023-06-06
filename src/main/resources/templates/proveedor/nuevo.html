@@ -8,7 +8,7 @@
         </div>
         <br> 
         <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Proveedor</b></h1> <!--titulo-->
-        <form method="post" th:action="@{/proveedores/crear}" th:object="${proveedor}">
+        <form method="post" th:action="@{/proveedores/crear}" th:object="${proveedor}" id="form-proveedor-update">
             <fieldset>
                 <br> <!--separador-->
                 <div class="container">
@@ -93,6 +93,29 @@
                                 </div>
                             </div>
                         </div>
+                        <fieldset class="border p-3 mb-3">
+                            <legend>Contactos</legend>
+                            <!--  Bootstrap table-->
+                            <div class="table-responsive">
+                                <table id="contactsTable" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Teléfono</th>
+                                        <th scope="col">Correo</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                
+                            <!-- Add rows button-->
+                            <a class="btn btn-primary rounded-0 btn-block" id="insertRow" href="#">Agregar Contacto</a>
+                
+                        </fieldset>
+
                     </div>                    
                     <div class="row">
                         <div class="col-sm-2">
@@ -104,6 +127,12 @@
                         <div class="col-sm-2">
                             <button type="submit" class="btn btn-success w-100">Guardar proveedor</button>
                         </div>
+
+                        <div class="col-sm-6">
+                            <button type="button" onclick="functProveedorUpdate()" th:classappend="${(edit eq true)? 'btn-warning' : 'btn-success'}"
+                                    class="btn w-100">GUARDAR
+                            </button>
+                        </div>
                     </div>
                 </div>
             </fieldset>
@@ -111,6 +140,18 @@
         
         
     </div>
-    
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/proveedor.js}"></script>
+
+    <script th:if="${edit}" th:inline="javascript">
+        let nombre, telefono, correo;
+        let contador = 1;
+        /*[# th:each="item : ${objProveedor.contactos}"]*/
+            addCellValues([[${item.nombre}]], [[${item.telefono}]], [[${item.correo}]], contador);
+            contador++;
+        /*[/]*/
+        counter = contador;
+    </script>
+</th:block>    
 </body>
 </html>

@@ -4,7 +4,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{/layout/basic}">
 <body>
   <div layout:fragment="content">
-    <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Tipo de Documento</b></h1> <!--titulo-->
+    <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Marca</b></h1> <!--titulo-->
     
     <form method="POST" th:action="@{/marcas/{id}(id=${marca.idMarca})}" th:object="${marca}">
       <!--th:block th:include="fragment/error-message.html"></th:block-->

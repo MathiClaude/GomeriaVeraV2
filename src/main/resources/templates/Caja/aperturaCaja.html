@@ -10,50 +10,80 @@
             colors="outline:#121331,primary:#f28ba8,secondary:#ffc738"
             style="width:75px;height:75px">
         </lord-icon> Abrir Caja</b></h1> <!--titulo-->
-        <form method="post" th:action="@{/caja/crear}" th:object="${caja}">
+        <form method="post" th:action="@{/aperturaCaja/abrir}" th:object="${caja}">
             <fieldset>
                 <div class="container">
                     <div class="row">
                         <div class="col"> 
-                            <i class="bi bi-clock"> Hora:</i>
-                            <p id="clock"></p>
+                            <i class="bi bi-clock"> Hora : <span id="clock"></span></i>
                         </div>                    
                     
                         <div class="col">
-                        <i class="bi bi-calendar-check-fill"> Fecha:</i>
-                        <p id="date"></p>
+                        <i class="bi bi-calendar-check-fill"> Fecha : <span id="date"></span></i>
+                        
                        </div>                   
                     
                         <div class="col">    
-                            <i class="bi bi-person-video3"> User Cajero:</i>
-                            <p id="hora"></p>
+                            <i class="bi bi-person-video3"> User Cajero : <span th:text=${usuario}></span></i>
+                            
                         </div>
                     </div>        
                   </div>
                 <br> <!--separador-->
                 <div class="container">
                     <div class="row">
-                        <div class="col">                            
+                        <div class="col" >                            
                             <div class="container">
                                 
                                 <div class="row mb-4">                            
                                     <div class="col">
                                         <div class="form-outline">
                                             <label for="inputRuc" class="form-label">Caja<span style="color:red">*</span></label>
-                                            <input type="text" class="form-control" id="inputRuc" name="ruc" placeholder="Seleccione la caja deseada" required>
+                                            <!-- <input type="text" class="form-control" id="inputRuc" name="ruc" placeholder="Seleccione la caja deseada" required> -->
+                                            <input type="number" style="display:none"  id="idCaja" name="idCaja" />
+                                            <div class="input-group mb-3">
+                                                <input type="text" name="dscCaja" class="form-control" placeholder="Buscar caja..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCaja" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)" autocomplete="off"/>
+                                                <!--a th:href="@{/clientes/nuevo}" >
+                                                <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
+                                                </!a-->
+                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCaja').value=''" onmousedown="document.getElementById('InputCaja').value=''">
+                                                  <i class="bi bi-trash3-fill"></i>
+                                                </button>                                          
+                                            </div>
+                                            <ul class="list-group" style="position:absolute;z-index:20"  >                      
+                                                <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionar(this)"></button>
+                                            </ul>
                                         </div>
                                     </div>
+                                    
                                     
                                 </div>
                                 <!--Efectivo inicial para apertura de caja-->
                                 <div class="row mb-4">                            
                                     <div class="col">
                                         <div class="form-outline">
-                                            <label for="inputRazonSocial" class="form-label">Efectivo</label>
-                                            <input type="text" class="form-control" id="inputRazonSocial" name="razonSocial" placeholder="Introduzca efectivo inicial para la apertura" autofocus>
+                                            <label for="saldoApertura" class="form-label">Saldo de apertura</label>
+                                            <input type="text" class="form-control" id="saldoApertura" name="saldoApertura" placeholder="Introduzca efectivo inicial para la apertura" autofocus>
                                         </div>
                                     </div>
                                     
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-sm-6">
+                                        <a href="javascript:history.back()" class="btn btn-outline-info w-100">
+                                            Atrás
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="submit" class="btn btn-success w-100">Abrir Caja</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>    
@@ -83,20 +113,15 @@
                                             
                                         </tr><!---->
                                         <tr class="text-center" th:each="caja: ${listCaja}">
-                                            <td >
-                                                <a >
-                                                    <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}',this)|"  />
-                                                </a>
-                                            </td>
-                                            <td th:text="${producto.codigo}">Cod</td>
-                                            <td th:text="${producto.nombreProducto}">Name</td>                                            
+                                            <td th:text="${caja.descripcion}">Cod</td>
+                                            <td th:text="${caja.estado}">Name</td>                                                                                  
                                             <td><!---->
                                                 <div class="btn-group"><!---->
-                                                  <a th:if="${permisoActualizar eq true}" th:href="@{/tipoDocumentos/{id}(id=${doc.idTipoDocumento})}" 
+                                                  <a th:if="${permisoActualizar eq true}" th:href="@{/aperturaCaja/{id}(id=${caja.idCaja})}" 
                                                      class="btn btn-sm btn-outline-primary"><!---->
                                                     <i class="fa-solid fa-pen-to-square"></i><!---->
                                                   </a>
-                                                  <a th:if="${permisoEliminar eq true}" th:href="@{/tipoDocumentos/{id}/delete(id=${doc.idTipoDocumento})}">
+                                                  <a th:if="${permisoEliminar eq true}" th:href="@{/aperturaCaja/{id}/delete(id=${caja.idCaja})}">
                                                     <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                                                       <i class="fa-sharp fa-solid fa-trash"></i>
                                                     </button>
@@ -109,18 +134,6 @@
                             </div> <!--termina la tabla-->
                         </div>
                     </div>    
-                    
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <a href="javascript:history.back()" class="btn btn-outline-info w-100">
-                                Atrás
-                            </a>
-                        </div>
-                        <div class="col-sm-8"></div>
-                        <div class="col-sm-2">
-                            <button type="submit" class="btn btn-success w-100">Abrir Caja</button>
-                        </div>
-                    </div>
                 </div>
             </fieldset>
         </form>
@@ -146,28 +159,19 @@
           </div>
         </div>
       </div>
-        
-    </div>
-    
-    <script defer>
-        var fechaActual = new Date();
-        var hora = fechaActual.getHours();
-        var minutos = fechaActual.getMinutes();
-        var segundos = fechaActual.getSeconds();
-    
-        hora = agregarCeros(hora);
-        minutos = agregarCeros(minutos);
-        segundos = agregarCeros(segundos);
-    
-        var horaCompleta = hora + ":" + minutos + ":" + segundos;
-        document.write(horaCompleta);
-    
-        function agregarCeros(valor) {
-          if (valor < 10) {
-            return "0" + valor;
-          }
-          return valor;
-        }
-      </script>
+      <div>
+        <script th:src="@{/js/scriptFecha.js}" type="text/javascript"></script>
+        <script th:src="@{/js/scriptHora.js}" type="text/javascript"></script>
+        <script type="text/javascript" th:inline="javascript">
+            let datos = /*[[${listCaja}]]*/ null;
+            let msg = /*[[${msgCaja}]]*/ null;
+            if(msg != null){
+                alert(msg)
+            }
+          </script>
+        <script th:src="@{/js/buscadorCaja.js}" type="text/javascript"></script>
+      </div>
+    </div>      
+      
 </body>
 </html>

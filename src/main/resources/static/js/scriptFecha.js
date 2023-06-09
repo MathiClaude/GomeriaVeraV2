@@ -1,19 +1,14 @@
-<script>
-    window.addEventListener('DOMContentLoaded', function() {
-    var fechaActual = new Date();
-    var dia = agregarCeros(fechaActual.getDate());
-    var mes = agregarCeros(fechaActual.getMonth() + 1);
-    var anio = fechaActual.getFullYear();
-    
-    var fechaCompleta = dia + "/" + mes + "/" + anio;
-    
-    document.getElementById("fecha").textContent = fechaCompleta;
-    });
+console.log("Incluido mostrar fecha")
+function mostrarFecha() {
+    var fecha = new Date();
+    var dia = fecha.getDate();
+    var mes = fecha.getMonth() + 1; // Los meses en JavaScript van de 0 a 11
+    var anio = fecha.getFullYear();
 
-    function agregarCeros(valor) {
-    if (valor < 10) {
-        return "0" + valor;
-    }
-    return valor;
-    }
-</script>
+    var fechaCompleta = dia + "/" + mes + "/" + anio;
+
+    document.getElementById("date").innerText = fechaCompleta;
+}
+
+  // Actualiza la fecha cada segundo
+  setInterval(mostrarFecha, 1000);

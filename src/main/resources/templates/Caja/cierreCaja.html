@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
+<script src="scriptFecha.js"></script>
+<body>
+    <div layout:fragment="content">
+        
+        <h1 class="text-left mb-4" style="font-family:Trebuchet MS"><b style= "color:#21618C"><lord-icon
+            src="https://cdn.lordicon.com/pimvysaa.json"
+            trigger="hover"
+            colors="outline:#121331,primary:#b26836,secondary:#ffc738"
+            style="width:75px;height:75px">
+        </lord-icon> Cerrar Caja</b></h1> <!--titulo-->
+        <form method="post" th:action="@{/cierreCaja/abrir}" th:object="${caja}">
+            <fieldset>
+                <div class="container">
+                    <div class="row">
+                        <div class="col"> 
+                            <i class="bi bi-clock"> Hora:</i>
+                            <span id="clock"></span></i>
+                        </div>                    
+                    
+                        <div class="col">
+                        <i class="bi bi-calendar-check-fill"> Fecha:<span id="date"></span></i>
+                       </div>                   
+                    
+                       <div class="col">    
+                        <i class="bi bi-person-video3"> User Cajero : <span th:text=${usuario}></span></i>
+                        
+                    </div>
+                    </div>        
+                  </div>
+                <br> <!--separador-->
+                <div class="container">
+                    <div class="row">
+                        <div class="col" >                            
+                            <div class="container">
+                                
+                                <!--Efectivo inicial para apertura de caja-->
+                                <div class="row mb-4">                            
+                                    <div class="col">
+                                        <div class="form-outline">
+                                            <label for="idCaja" class="form-label">Caja</label>
+                                            <input type="text" class="form-control" id="idCaja" name="idCaja" disabled >
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <!--Efectivo inicial para apertura de caja-->
+                                <div class="row mb-4">                            
+                                    <div class="col">
+                                        <div class="form-outline">
+                                            <label for="saldoCierre" class="form-label">Saldo de cierre</label>
+                                            <input type="text" class="form-control" id="saldoCierre" name="saldoCierre" placeholder="Introduzca efectivo de cierre" autofocus>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-sm-6">
+                                        <a href="javascript:history.back()" class="btn btn-outline-info w-100">
+                                            Atrás
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="submit" class="btn btn-success w-100">Cerrar Caja</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="col"> 
+                            
+                            
+                            <legend style="color:#21618C">Lista de movimientos</legend>
+                            
+                            <div th:if="${permisoVer eq true}" class="table-responsive">
+                                <table id="myTable" class="table table-sm table-bordered table-hover">
+                                    <thead style="background-color: #0a4275;">
+                                        <tr class="text-center">
+                                            <th>Caja</th><!---->
+                                            <th>Fecha y Hora</th><!---->
+                                            <th>Cajero</th><!---->
+                                            <th>Concepto</th><!--en caso de ser compra o venta-->
+                                            <th>Total Movimiento</th><!---->
+                                                                                  
+                                        </tr><!---->
+                                    </thead><!---->
+                                    <tbody><!---->
+                                        <tr th:if="${#lists.isEmpty(listMovimiento)}"><!---->                                            
+                                            <td class="text-center fw-bold" ></td><!---->
+                                            <td class="text-center fw-bold" ></td><!---->
+                                            <td class="text-center fw-bold" ></td><!---->
+
+                                            <td class="text-center fw-bold" >No se encontraron movimientos</td><!---->
+                                            <td class="text-center fw-bold" ></td><!---->                                     
+                                            
+                                        </tr><!---->
+                                        <tr class="text-center" th:each="caja: ${listCaja}">
+                                            <td th:text="${caja.descripcion}">Cod</td>
+                                            <td th:text="${caja.estado}"></td> 
+                                            <td th:text="${caja.descripcion}">Cod</td>
+                                            <td th:text="${caja.estado}"></td>
+                                            <td th:text="${caja.descripcion}">Cod</td>
+                                            <td th:text="${caja.estado}">Name</td>                                                                                       
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!--termina la tabla-->
+                        </div>
+                    </div>    
+                </div>
+            </fieldset>
+        </form>
+        <!-- MODAL PARA CRUD DE CAJA -->
+      <!-- Modal: myModal | Creación de caja -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+          <div class="modal-content">                                   
+            <!--Header-->                    
+            <div class="modal-header"> 
+              <h5 class="modal-title">Nueva Caja</h5> <!-- Por que si-->
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
+            </div>
+            <!-- Body para modal-->
+            <div class="modal-body">
+              <!-- Tabs navs para modal-->
+              <iframe th:src="@{/aperturaCaja/nuevo}" width="100%" height="400"></iframe>
+              <!-- Pie del modal -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <script th:src="@{/js/scriptFecha.js}" type="text/javascript"></script>
+        <script th:src="@{/js/scriptHora.js}" type="text/javascript"></script>
+        <script type="text/javascript" th:inline="javascript">
+            let datos = /*[[${listCaja}]]*/ null;
+          </script>
+        <script th:src="@{/js/buscadorCaja.js}" type="text/javascript"></script>
+      </div>
+    </div>      
+      
+</body>
+</html>

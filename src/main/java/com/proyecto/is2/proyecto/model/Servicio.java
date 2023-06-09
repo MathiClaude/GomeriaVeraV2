@@ -28,5 +28,13 @@ public class Servicio {
     @Column(name = "precio")
     private Integer precio;
 
+    @Column(name = "impuesto")
+    private Integer impuesto;
+
+     /** Relación con tipo producto **/
+     @ManyToOne
+     @JoinColumn(name = "tipo_producto_id", referencedColumnName = "idTipoProducto")
+     private TipoProducto tipoProducto;
+ 
 
 } /* Se crea un relacion tambien con Proyecto */

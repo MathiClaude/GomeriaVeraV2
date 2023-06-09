@@ -21,8 +21,12 @@ public class ServicioServiceImp implements ServicioService {
 
     @Override
     public void convertirDTO(Servicio servicio, ServicioDTO objetoDTO) {
+        servicio.setNombre(objetoDTO.getNombre());
+        servicio.setCodigo(objetoDTO.getCodigo());
         servicio.setDescripcionServicio(objetoDTO.getDescripcionServicio());
         servicio.setPrecio(objetoDTO.getPrecio());
+        servicio.setImpuesto(objetoDTO.getImpuesto());             
+
         
         return;
     }

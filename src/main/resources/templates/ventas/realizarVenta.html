@@ -4,7 +4,15 @@
 
 
 <body>
+  
   <div layout:fragment="content">
+    <style>
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    </style>
     <!--logo personita-->
     <div>
       <img th:src="@{/img/realizarVenta.png}" class="center wp-image-4532"/> <!--div center img-->
@@ -24,7 +32,8 @@
       </ul>
       <br/>
       <!-- Tabs content cliente -->
-      <div class="tab-content" id="ex-with-icons-content">
+      
+      <div-- class="tab-content" id="ex-with-icons-content">
         <div class="tab-pane fade show active" id="tabCliente" role="tabpanel" aria-labelledby="tabCliente">
           <legend style="color:#21618C">Cliente</legend>
           <div class="container" >
@@ -72,11 +81,13 @@
                   <input type="text" id="totalProds" disabled/>
                 </div>
               </div> 
+              
             </div>
           </div>
           <hr>
         
           <!--LISTA DE PRODUCTOS EN ITEM PRODUCTO-->
+          <div class="col">
           <div th:if="${permisoVer eq true}" class="table-responsive ">
             <table id="myTable3" class="table table-sm table-bordered table-hover">
               <thead style="background-color: #0a4275;">
@@ -99,6 +110,24 @@
             </table>
           </div> <!--termina la tabla-->
         </div>
+        <!--div class="col"> 
+        <legend style="color:#21618C">Datos de caja</legend>
+        <div class="form-outline">
+          <label for="inputNombre" class="form-label">Fecha:</label>
+          <input type="data" id="data" disabled/>
+        </div>
+        <div class="form-outline">
+          <label for="inputNombre" class="form-label">Caja:</label>
+          <input type="text" id="idCaja" disabled/>
+        </div>
+        <div class="form-outline">
+          <label for="inputNombre" class="form-label">Cajero:</label>
+          <input type="text" id="idUsuario" disabled/>
+        </div>          
+      </!div>
+      </div--> <!--acá-->
+      </div>
+      
         <!--CONTENIDO DE MÉTODO DE PAGO-->
         <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
           <!--opciones de los botones-->
@@ -260,9 +289,9 @@
                           <td th:text="${producto.impuesto}">black</td>
                           <td><!---->
                             <div class="btn-group" role="group" aria-label="Basic example">
-                              <button type="button" class="btn btn-secondary">-</button>
-                              <input type="text" class="form-control" th:id="${producto.idProducto}" />
-                              <button type="button" class="btn btn-secondary">+</button>
+                              <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidades('${producto.idProducto }','-')|">-</button>
+                              <input type="number" class="form-control" th:id="${producto.idProducto}" min="0" />
+                              <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidades('${producto.idProducto }','+')|">+</button>
                             </div>
                           </td>
                         </tr>
@@ -276,40 +305,46 @@
                   <div th:if="${permisoVer eq true}" class="table-responsive">
                     <table id="myTable2" class="table table-sm table-bordered table-hover">
                       <thead style="background-color: #0a4275;">
-                        <tr class="text-center">
+                        <tr class="text-center"><!---->
                           <th>Código</th><!---->
-                          <th>Producto</th><!---->
-                          <th>Tipo</th><!---->
+                          <th>Servicio</th><!---->
+                          <th>Tipo de Servicio</th><!---->
+                          <th>Precio</th><!---->
                           <th>Impuesto</th><!---->
-                          <th>Proveedor</th><!---->
                           <th>Acción</th><!---->
                         </tr><!---->
                       </thead><!---->
                       <tbody><!---->
-                        <tr th:if="${#lists.isEmpty(listServicio)}"><!---->
+                        <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
                           <td class="text-center fw-bold" ></td><!---->
-                          <td class="text-center fw-bold" >No</td><!---->
-                          <td class="text-center fw-bold" >se </td><!---->
-                          <td class="text-center fw-bold" >encontraron</td><!---->
-                          <td class="text-center fw-bold" >Servicios</td><!---->
+                          <td class="text-center fw-bold" >No se encontraron servicios</td><!---->
                           <td class="text-center fw-bold" ></td><!---->
                         </tr><!---->
-                        <tr class="text-center" th:each="servicio: ${listServicio}">
-                          <td th:text="${servicio.codigo}">Cod</td>
-                          <td th:text="${servicio.nombreProducto}">Name</td>
-                          <td th:text="${servicio.marca.nombre}">90</td><!---->
-                          <td th:text="${servicio.tipoProducto.descripcion}">type</td>
-                          <td th:text="${servicio.impuesto}">black</td>
+                        <tr class="text-center" th:each="servicio: ${listServicios}">
+                          <td th:text="${servicio.codigo}"></td>
+                
+                          <td th:text="${servicio.nombre}"></td>
+                          <td th:text="${servicio.tipoProducto.descripcion}"></td>
+                
+                          <td th:text="${servicio.precio}">Precio</td><!---->
+                          <td th:text="${servicio.impuesto}"></td>
+                
                           <td><!---->
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                              <button type="button" class="btn btn-secondary">-</button>
-                              <input type="text" class="form-control"/>
-                              <button type="button" class="btn btn-secondary">+</button>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table> 
+                            <div class="btn-group"><!---->
+                              <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 
+                              class="btn btn-sm btn-outline-primary"><!---->
+                              <i class="fa-solid fa-pen-to-square"></i><!---->
+                            </a>
+                            <a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
+                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-sharp fa-solid fa-trash"></i>
+                              </button>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                   </div> <!--termina la tabla-->
                 </div> <!--termina el tab-->
               </div>
@@ -323,5 +358,26 @@
           </div> 
         </div>
       </div>   
+      <div>
+        <script type="text/javascript" th:inline="javascript">
+          let datos = /*[[${listarCliente}]]*/ null;
+        </script>
+        <script th:src="@{/js/buscadorCliente.js}" th:inline="javascript"></script>
+        <script th:src="@{/js/tablaVenta.js}" type="text/javascript" th:inline="javascript"></script>
+        <script type="text/javascript" th:inline="javascript">
+          // esto es para que se despliegue el contenido de cada buttonradio en Método de pago
+          const checkbox = document.getElementById('mostrar-contenido');
+          const contenido = document.getElementById('contenido');
+          
+          checkbox.addEventListener('click', function() {
+            if (checkbox.checked) {
+              contenido.style.display = 'block';
+            } else {
+              contenido.style.display = 'none';
+            }
+          });
+        </script>
+      </div>
   </body>
+  
 </html>

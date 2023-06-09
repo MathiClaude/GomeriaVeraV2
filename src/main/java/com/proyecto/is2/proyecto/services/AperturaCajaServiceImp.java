@@ -1,11 +1,12 @@
 package com.proyecto.is2.proyecto.services;
 
 import com.proyecto.is2.proyecto.Util.GeneralUtils;
-import com.proyecto.is2.proyecto.controller.dto.CajaDTO;
+import com.proyecto.is2.proyecto.controller.dto.AperturaCajaDTO;
 import com.proyecto.is2.proyecto.model.Permiso;
 import com.proyecto.is2.proyecto.model.Rol;
+import com.proyecto.is2.proyecto.model.AperturaCaja;
 import com.proyecto.is2.proyecto.model.Caja;
-import com.proyecto.is2.proyecto.repository.CajaRepository;
+import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,45 +23,46 @@ import java.util.HashSet;
 import java.util.Collection;
 
 @Service
-public class CajaServiceImp implements CajaService {
+public class AperturaCajaServiceImp implements AperturaCajaService {
 
     @Autowired
-    private CajaRepository cajaRepository;
+    private AperturaCajaRepository AperturaCajaRepository;
 
 
     @Override
-    public void convertirDTO(Caja caja, CajaDTO objetoDTO) {        
-        caja.setDescripcion(objetoDTO.getDescripcion());
-        caja.setPinCaja(objetoDTO.getPinCaja());
-        caja.setEstado(objetoDTO.getEstado());
-        caja.setSaldoInicial(objetoDTO.getSaldoInicial());
+    public void convertirDTO(AperturaCaja aperturaCaja, AperturaCajaDTO objetoDTO) {        
+        aperturaCaja.setFechaApertura(objetoDTO.getFechaApertura());
+        aperturaCaja.setFechaCierre(objetoDTO.getFechaCierre());
+        aperturaCaja.setSaldoApertura(objetoDTO.getSaldoApertura());
+        aperturaCaja.setSaldoCierre(objetoDTO.getSaldoCierre());
+        aperturaCaja.setEstado(objetoDTO.getEstado());
 
         return;
     }
 
     @Override
-    public Caja guardar(Caja caja) {
-        return cajaRepository.save(caja);
+    public AperturaCaja guardar(AperturaCaja aperturaCaja) {
+        return AperturaCajaRepository.save(aperturaCaja);
     }
 
     @Override
-    public List<Caja> listar() {
-        return cajaRepository.findAll();
+    public List<AperturaCaja> listar() {
+        return AperturaCajaRepository.findAll();
     }
 
     @Override
-    public Caja existeCaja(Long id) {
-        return cajaRepository.findByIdCaja(id);
+    public AperturaCaja existeAperturaCaja(Long id) {
+        return AperturaCajaRepository.findByIdAperturaCaja(id);
     }
 
     @Override
-    public Caja obtenerCaja(Long id) {
-        return cajaRepository.findByIdCaja(id);
+    public AperturaCaja obtenerAperturaCaja(Long id) {
+        return AperturaCajaRepository.findByIdAperturaCaja(id);
     }
 
     @Override
-    public void eliminarCaja(Caja caja) {
-        cajaRepository.delete(caja);
+    public void eliminarAperturaCaja(AperturaCaja aperturaCaja) {
+        AperturaCajaRepository.delete(aperturaCaja);
     }
 
     @Override

@@ -1,19 +1,19 @@
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
-import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
+import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
-import com.proyecto.is2.proyecto.model.Cliente;
-import com.proyecto.is2.proyecto.model.Venta;
+import com.proyecto.is2.proyecto.model.Proveedor;
+import com.proyecto.is2.proyecto.model.Compra;
 import com.proyecto.is2.proyecto.Util.ModelAttributes;
 
 import com.proyecto.is2.proyecto.services.RolServiceImp;
-import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
+import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
 import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 
-import com.proyecto.is2.proyecto.services.VentaServiceImp;
+import com.proyecto.is2.proyecto.services.CompraServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +30,15 @@ import java.util.ArrayList;
  * para realizar venta
  */
 @Controller
-@RequestMapping("/realizarVenta")
-public class VentaController {
-    final String VIEW = "ventas"; // identificador de la vista
-    final String VIEW_PATH = "ventas";
+@RequestMapping("/realizarCompra")
+public class CompraController {
+    final String VIEW = "compra"; // identificador de la vista
+    final String VIEW_PATH = "compra";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/realizarVenta";
+    final String FORM_VIEW = VIEW_PATH + "/realizarCompra";
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/ventas";
+    final String RD_FORM_VIEW = "redirect:/compra";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
@@ -46,15 +46,14 @@ public class VentaController {
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
 
     @Autowired
-    private VentaServiceImp ventaService;
+    private CompraServiceImp compraService;
 
      // llamada a los servicios de venta
      @Autowired
      private ProductoServiceImp productoService; // llamada a los servicios de producto
+     
      @Autowired
-     private ServicioServiceImp servicioService; // llamada a los servicios de servicio
-     @Autowired
-     private ClienteServiceImp clienteService; // llamada a los servicios de cliente
+     private ProveedorServiceImp proveedorService; // llamada a los servicios de cliente
 
      @Autowired
      private AperturaCajaServiceImp aperturaCajaService; // llamada a los servicios de cliente
@@ -67,26 +66,26 @@ public class VentaController {
      * Usuario.
      * @return
      */
-    @ModelAttribute("venta")
-    public VentaDTO instanciarObjetoDTO() {
-        return new VentaDTO();
+    @ModelAttribute("compra")
+    public CompraDTO instanciarObjetoDTO() {
+        return new CompraDTO();
     }
 
     @GetMapping
     public String mostrarGrilla(Model model, RedirectAttributes attributes) {
 
-        boolean consultar = ventaService.tienePermiso("consultar-" + VIEW);
-        boolean crear = ventaService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = ventaService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = ventaService.tienePermiso("actualizar-" + VIEW);
-        boolean seleccionar = ventaService.tienePermiso("seleccionar-" + VIEW);
+        boolean consultar = compraService.tienePermiso("consultar-" + VIEW);
+        boolean crear = compraService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = compraService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = compraService.tienePermiso("actualizar-" + VIEW);
+        boolean seleccionar = compraService.tienePermiso("seleccionar-" + VIEW);
 
 
 
         if(consultar) {
             model.addAttribute("listProduct", productoService.listar());//lista los productos
-            model.addAttribute("listServicio", servicioService.listar());//lista los productos
-            model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
+           
+            model.addAttribute("listarProveedor", proveedorService.listar());//lista los clientes
 
         } else {
             return FALTA_PERMISO_VIEW;
@@ -112,8 +111,8 @@ public class VentaController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = ventaService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = ventaService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = compraService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = compraService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -128,14 +127,17 @@ public class VentaController {
     }
 
     @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("venta") VentaDTO objetoDTO,
+    public String crearObjeto(@ModelAttribute("compra") CompraDTO objetoDTO,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
-        if(ventaService.tienePermiso(operacion + VIEW)) {
-            Venta venta = new Venta();
-            ventaService.convertirDTO(venta, objetoDTO);
-            // objetoDTO.getMontoVenta();
+//        if (result.hasErrors()) {
+//            return FORM_NEW;
+//        }
+
+        if(compraService.tienePermiso(operacion + VIEW)) {
+            Compra compra = new Compra();
+            compraService.convertirDTO(compra, objetoDTO);
 
             // si tiene permiso se le asigna el rol con id del formulario
             // sino se le asignar un rol por defecto.
@@ -146,8 +148,8 @@ public class VentaController {
             }*/
 
 
-            ventaService.guardar(venta);
-            attributes.addFlashAttribute("message", "¡Venta creado exitosamente!");
+            compraService.guardar(compra);
+            attributes.addFlashAttribute("message", "¡Compra creada exitosamente!");
 
             return RD_FORM_VIEW;
         } else {
@@ -157,19 +159,19 @@ public class VentaController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = ventaService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = ventaService.tienePermiso("asignar-rol-" + VIEW);
-        Venta venta;
+        boolean eliminar = compraService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = compraService.tienePermiso("asignar-rol-" + VIEW);
+        Compra compra;
 
         // validar el id
         try {
-            Long idVenta = Long.parseLong(id);
-            venta = ventaService.existeVenta(idVenta);
+            Long idCompra = Long.parseLong(id);
+            compra = compraService.existeCompra(idCompra);
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("user", venta);
+        model.addAttribute("user", compra);
 
         // validar si puede cambiar de rol
         if(asignarRol) {
@@ -185,20 +187,20 @@ public class VentaController {
     }
 
     @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("venta") VentaDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("compra") CompraDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        Venta venta;
+        Compra compra;
 
         if (result.hasErrors()) {
 //            studentDTO.setId(id);
             return RD_FORM_VIEW;
         }
 
-        if(ventaService.tienePermiso(operacion + VIEW)) {
-            venta = ventaService.existeVenta(id);
-            if(venta != null) {
-                ventaService.convertirDTO(venta, objetoDTO);
+        if(compraService.tienePermiso(operacion + VIEW)) {
+            compra = compraService.existeCompra(id);
+            if(compra != null) {
+                compraService.convertirDTO(compra, objetoDTO);
 
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
@@ -206,8 +208,8 @@ public class VentaController {
                     venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
                 }*/
 
-                attributes.addFlashAttribute("message", "¡Venta actualizado correctamente!");
-                ventaService.guardar(venta);
+                attributes.addFlashAttribute("message", "¡Compra actualizado correctamente!");
+                compraService.guardar(compra);
                 return RD_FORM_VIEW;
             }
         }
@@ -217,18 +219,18 @@ public class VentaController {
     @GetMapping("/{id}/delete")
         public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
         this.operacion = "eliminar-";
-        Long idVenta;
+        Long idCompra;
 
         try {
-            idVenta = Long.parseLong(id);
+            idCompra = Long.parseLong(id);
         } catch (Exception e) {
             return RD_FORM_VIEW;
         }
 
-        if(ventaService.tienePermiso(operacion + VIEW)) {
-            Venta venta = ventaService.obtenerVenta(idVenta);
-            ventaService.eliminarVenta(venta);
-            attributes.addFlashAttribute("message", "¡Venta eliminado correctamente!");
+        if(compraService.tienePermiso(operacion + VIEW)) {
+            Compra compra = compraService.obtenerCompra(idCompra);
+            compraService.eliminarCompra(compra);
+            attributes.addFlashAttribute("message", "¡Compra eliminado correctamente!");
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;

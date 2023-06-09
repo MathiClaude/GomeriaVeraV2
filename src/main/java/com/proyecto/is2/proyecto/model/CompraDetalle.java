@@ -12,11 +12,11 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "VentaDetalle")
-public class VentaDetalle {
+@Table(name = "CompraDetalle")
+public class CompraDetalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idVentaDetalle;
+    private Long idCompraDetalle;
 
     @Column(name = "cantidad")
     Float cantidad;
@@ -33,6 +33,6 @@ public class VentaDetalle {
     private Producto producto;
 
     @ManyToOne
-    @JoinColumn(name = "venta_id", referencedColumnName = "idVenta")
-    private Venta venta;
+    @JoinColumn(name = "compra_id", referencedColumnName = "idCompra")
+    private Compra compra;
 } 

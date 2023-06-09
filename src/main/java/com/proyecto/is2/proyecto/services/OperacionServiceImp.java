@@ -1,11 +1,12 @@
 package com.proyecto.is2.proyecto.services;
 
 import com.proyecto.is2.proyecto.Util.GeneralUtils;
-import com.proyecto.is2.proyecto.controller.dto.CajaDTO;
+import com.proyecto.is2.proyecto.controller.dto.OperacionDTO;
 import com.proyecto.is2.proyecto.model.Permiso;
 import com.proyecto.is2.proyecto.model.Rol;
-import com.proyecto.is2.proyecto.model.Caja;
-import com.proyecto.is2.proyecto.repository.CajaRepository;
+import com.proyecto.is2.proyecto.model.Operacion;
+import com.proyecto.is2.proyecto.model.Operacion;
+import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,45 +23,46 @@ import java.util.HashSet;
 import java.util.Collection;
 
 @Service
-public class CajaServiceImp implements CajaService {
+public class OperacionServiceImp implements OperacionService {
 
     @Autowired
-    private CajaRepository cajaRepository;
+    private OperacionRepository OperacionRepository;
 
 
     @Override
-    public void convertirDTO(Caja caja, CajaDTO objetoDTO) {        
-        caja.setDescripcion(objetoDTO.getDescripcion());
-        caja.setPinCaja(objetoDTO.getPinCaja());
-        caja.setEstado(objetoDTO.getEstado());
-        caja.setSaldoInicial(objetoDTO.getSaldoInicial());
+    public void convertirDTO(Operacion operacion, OperacionDTO objetoDTO) {        
+        operacion.setConcepto(objetoDTO.getConcepto());
+        operacion.setSaldoAnterior(objetoDTO.getSaldoAnterior());
+        operacion.setMonto(objetoDTO.getMonto());
+        operacion.setSaldoPosterior(objetoDTO.getSaldoPosterior());
+        operacion.setFechaOperacion(objetoDTO.getFechaOperacion());
 
         return;
     }
 
     @Override
-    public Caja guardar(Caja caja) {
-        return cajaRepository.save(caja);
+    public Operacion guardar(Operacion operacion) {
+        return OperacionRepository.save(operacion);
     }
 
     @Override
-    public List<Caja> listar() {
-        return cajaRepository.findAll();
+    public List<Operacion> listar() {
+        return OperacionRepository.findAll();
     }
 
     @Override
-    public Caja existeCaja(Long id) {
-        return cajaRepository.findByIdCaja(id);
+    public Operacion existeOperacion(Long id) {
+        return OperacionRepository.findByIdOperacion(id);
     }
 
     @Override
-    public Caja obtenerCaja(Long id) {
-        return cajaRepository.findByIdCaja(id);
+    public Operacion obtenerOperacion(Long id) {
+        return OperacionRepository.findByIdOperacion(id);
     }
 
     @Override
-    public void eliminarCaja(Caja caja) {
-        cajaRepository.delete(caja);
+    public void eliminarOperacion(Operacion operacion) {
+        OperacionRepository.delete(operacion);
     }
 
     @Override

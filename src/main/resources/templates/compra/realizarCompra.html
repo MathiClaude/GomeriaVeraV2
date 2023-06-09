@@ -7,15 +7,15 @@
   <div layout:fragment="content">
     <!--logo personita-->
     <div>
-      <img th:src="@{/img/realizarVenta.png}" class="center wp-image-4532"/> <!--div center img-->
+      <img th:src="@{/img/sex-shop.png}" class="center wp-image-4532"/> <!--div center img-->
     </div>
     <br> 
-    <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Realizar Venta</b></h1> <!--titulo-->
+    <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Realizar Compra</b></h1> <!--titulo-->
     <br/>
     <!-- Tabs navs -->
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabCliente" type="button" role="tab" aria-controls="tabCliente" aria-selected="true"><i class="fas fa-cart-arrow-down me-2"></i>Datos de venta</button>
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabCliente" type="button" role="tab" aria-controls="tabCliente" aria-selected="true"><i class="fas fa-cart-arrow-down me-2"></i>Datos de compra</button>
       </li>
 
         <li class="nav-item" role="presentation">
@@ -23,23 +23,23 @@
         </li>
       </ul>
       <br/>
-      <!-- Tabs content cliente -->
+      <!-- Tabs content proveedor -->
       <div class="tab-content" id="ex-with-icons-content">
         <div class="tab-pane fade show active" id="tabCliente" role="tabpanel" aria-labelledby="tabCliente">
-          <legend style="color:#21618C">Cliente</legend>
+          <legend style="color:#21618C">Proveedor</legend>
           <div class="container" >
             <div class="row">
               <div class="col-4">
-                <!--Buscador de clientes-->
+                <!--Buscador de proveedor-->
                 <div class="form-group">      
-                  <input type="hidden"  id="InputCliente" name="cliente" />
+                  <input type="hidden"  id="InputProveedor" name="proveedor" />
                   
                   <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Buscar cliente..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCliente" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"/>
+                    <input type="text" class="form-control" placeholder="Buscar proveedor..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorProveedor" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"/>
                     <!--a th:href="@{/clientes/nuevo}" >
                     <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
                     </!a-->
-                    <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCliente').value=''" onmousedown="document.getElementById('InputCliente').value=''">
+                    <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorProveedor').value=''" onmousedown="document.getElementById('InputProveedor').value=''">
                       <i class="bi bi-trash3-fill"></i>
                     </button>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
@@ -48,14 +48,14 @@
                       
                   </div>
                   <ul class="list-group" style="position:absolute;z-index:20"  >                      
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
                   </ul>
                   <!-- <input type="text" placeholder="Buscar Cliente..." id="buscadorCliente" > -->
                 </div>
@@ -197,13 +197,13 @@
           <div class="modal-content">                                   
             <!--Header-->                    
             <div class="modal-header"> 
-              <h5 class="modal-title">Nuevo Cliente</h5> <!-- Por que si-->
+              <h5 class="modal-title">Nuevo Proveedor</h5> <!-- Por que si-->
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
             </div>
             <!-- Body para modal-->
             <div class="modal-body">
               <!-- Tabs navs para modal-->
-              <iframe th:src="@{/clientes/nuevo}" width="100%" height="400"></iframe>
+              <iframe th:src="@{/proveedores/nuevo}" width="100%" height="400"></iframe>
               <!-- Pie del modal -->
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
@@ -219,24 +219,13 @@
           <div class="modal-content">                                   
             <!--Header-->                    
             <div class="modal-header"> 
-              <h5 class="modal-title">Lista de articulos</h5> <!-- Por que si-->
+              <h5 class="modal-title">Lista de productos</h5> <!-- Por que si-->
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
             </div>
             <!-- Body para modal-->
-            <div class="modal-body">
-              <!-- Tabs navs para modal-->
-              <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabListaProd" type="button" role="tab" aria-controls="tabListaProd" aria-selected="true"><i class="fas fa-cart-arrow-down me-2"></i>Productos</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabListaServ" type="button" role="tab" aria-controls="tabListaServ" aria-selected="false"><i class="	fas fa-shuttle-van me-2"></i>Servicios</button>
-                </li>
-              </ul>
+            <div class="modal-body">              
               <!--Lista/tabla de productos-->
-              <div class="tab-content" >
-                <div class="tab-pane fade show active" id="tabListaProd" role="tabpanel" aria-labelledby="tabListaProd">
-                  <legend style="color:#21618C">Lista de productos</legend>
+                  
                   <div th:if="${permisoVer eq true}" class="table-responsive">
                     <table id="myTable" class="table table-sm table-bordered table-hover">
                       <thead style="background-color: #0a4275;">
@@ -283,51 +272,7 @@
                         </tr>
                       </tbody>
                     </table>
-                  </div> <!--termina la tabla-->
-                </div> <!--termina el tab-->
-                <!--Lista/tabla de servicios-->
-                <div class="tab-pane fade show" id="tabListaServ" role="tabpanel" aria-labelledby="tabListaServ">
-                  <legend style="color:#21618C">Lista de servicios</legend>
-                  <div th:if="${permisoVer eq true}" class="table-responsive">
-                    <table id="myTable2" class="table table-sm table-bordered table-hover">
-                      <thead style="background-color: #0a4275;">
-                        <tr class="text-center">
-                          <th>Código</th><!---->
-                          <th>Producto</th><!---->
-                          <th>Tipo</th><!---->
-                          <th>Impuesto</th><!---->
-                          <th>Proveedor</th><!---->
-                          <th>Acción</th><!---->
-                        </tr><!---->
-                      </thead><!---->
-                      <tbody><!---->
-                        <tr th:if="${#lists.isEmpty(listServicio)}"><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                          <td class="text-center fw-bold" >No</td><!---->
-                          <td class="text-center fw-bold" >se </td><!---->
-                          <td class="text-center fw-bold" >encontraron</td><!---->
-                          <td class="text-center fw-bold" >Servicios</td><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                        </tr><!---->
-                        <tr class="text-center" th:each="servicio: ${listServicio}">
-                          <td th:text="${servicio.codigo}">Cod</td>
-                          <td th:text="${servicio.nombreProducto}">Name</td>
-                          <td th:text="${servicio.marca.nombre}">90</td><!---->
-                          <td th:text="${servicio.tipoProducto.descripcion}">type</td>
-                          <td th:text="${servicio.impuesto}">black</td>
-                          <td><!---->
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                              <button type="button" class="btn btn-secondary">-</button>
-                              <input type="text" class="form-control"/>
-                              <button type="button" class="btn btn-secondary">+</button>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table> 
-                  </div> <!--termina la tabla-->
-                </div> <!--termina el tab-->
-              </div>
+                  </div> <!--termina la tabla-->              
               
             </div>  
             <!--Footer-->
@@ -337,6 +282,23 @@
             </div>
           </div> 
         </div>
-      </div>   
+        <div>          
+            <script th:src="@{/js/buscadorProveedor.js}" th:inline="javascript"></script>
+            </script>         
+          
+            <script type="text/javascript" th:inline="javascript">
+              // esto es para que se despliegue el contenido de cada buttonradio en Método de pago
+              const checkbox = document.getElementById('mostrar-contenido');
+              const contenido = document.getElementById('contenido');
+              
+              checkbox.addEventListener('click', function() {
+                if (checkbox.checked) {
+                  contenido.style.display = 'block';
+                } else {
+                  contenido.style.display = 'none';
+                }
+              });
+            </script>
+          </div> 
   </body>
 </html>

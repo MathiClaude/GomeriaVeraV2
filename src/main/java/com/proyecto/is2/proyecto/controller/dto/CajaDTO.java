@@ -7,6 +7,7 @@ public class CajaDTO {
     private Long idCaja;
     private String descripcion;
     private String pinCaja;
+    private String estado;
     private String saldoInicial;
 
     

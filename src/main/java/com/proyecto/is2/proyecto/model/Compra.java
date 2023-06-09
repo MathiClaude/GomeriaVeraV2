@@ -12,17 +12,17 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "Venta")
-public class Venta {
+@Table(name = "Compra")
+public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idVenta;
+    private Long idCompra;
 
-    @Column(name = "montoVenta")
-    private String montoVenta;
+    @Column(name = "montoCompra")
+    private String montoCompra;
 
-    @Column(name = "fechaVenta")
-    private String fechaVenta;
+    @Column(name = "fechaCompra")
+    private String fechaCompra;
 
     @Column(name = "esActual")
     private String esActual;
@@ -30,7 +30,8 @@ public class Venta {
     @Column(name = "montoTotal")
     private BigDecimal montoTotal;
 
-    public Venta() {
+
+    public Compra() {
 
     }
     /*public Venta(String nombre, String descripcion) {
@@ -39,7 +40,7 @@ public class Venta {
     }*/ //constructor aun no definido
 
     public String toString() {
-        return montoVenta;
+        return montoCompra;
     }
 
 
@@ -48,8 +49,8 @@ public class Venta {
     
     /* Relacion con usuario */
     @ManyToOne
-    @JoinColumn(name = "cliente_id", referencedColumnName = "idCliente")
-    private Cliente cliente;
+    @JoinColumn(name = "proveedor_id", referencedColumnName = "idProveedor")
+    private Proveedor proveedor;
 
     /* Relacion con cliente */
     @ManyToOne

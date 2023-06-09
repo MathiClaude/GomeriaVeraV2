@@ -22,8 +22,9 @@ public class Caja {
     @Column(name = "pinCaja")
     private String pinCaja;
 
+    @Column(name = "estado")
+    private String estado;
+
     @Column(name = "saldoInicial")
     private String saldoInicial;
-
-
 } /* Se crea un relacion tambien con Proyecto */

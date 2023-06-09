@@ -95,20 +95,29 @@ layout:decorate="~{/layout/basic}">
     <table id="myTable2" class="table table-sm table-bordered table-hover">
       <thead style="background-color: #0a4275;">
         <tr class="text-center"><!---->
+          <th>Código</th><!---->
           <th>Servicio</th><!---->
+          <th>Tipo de Servicio</th><!---->
           <th>Precio</th><!---->
+          <th>Impuesto</th><!---->
           <th>Acción</th><!---->
         </tr><!---->
       </thead><!---->
       <tbody><!---->
         <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
           <td class="text-center fw-bold" ></td><!---->
-          <td class="text-center fw-bold" >No se encontraron resultados</td><!---->
+          <td class="text-center fw-bold" >No se encontraron servicios</td><!---->
           <td class="text-center fw-bold" ></td><!---->
         </tr><!---->
         <tr class="text-center" th:each="servicio: ${listServicios}">
-          <td th:text="${servicio.descripcionServicio}">Servicio</td>
+          <td th:text="${servicio.codigo}"></td>
+
+          <td th:text="${servicio.nombre}"></td>
+          <td th:text="${servicio.tipoProducto.descripcion}"></td>
+
           <td th:text="${servicio.precio}">Precio</td><!---->
+          <td th:text="${servicio.impuesto}"></td>
+
           <td><!---->
             <div class="btn-group"><!---->
               <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 

@@ -1,17 +1,27 @@
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.ProveedorDTO;
+import com.proyecto.is2.proyecto.controller.dto.CajaDTO;
+import com.proyecto.is2.proyecto.controller.dto.AperturaCajaDTO;
 import com.proyecto.is2.proyecto.model.Proveedor;
 import com.proyecto.is2.proyecto.model.Contacto;
+import com.proyecto.is2.proyecto.model.Caja;
+import com.proyecto.is2.proyecto.model.AperturaCaja;
+import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.TipoDocumentoServiceImp;
 import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
+import com.proyecto.is2.proyecto.services.CajaServiceImp;
+import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 import com.proyecto.is2.proyecto.repository.ContactoRespository;
+import com.proyecto.is2.proyecto.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+// import java.security.Principal;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +39,7 @@ public class CajaController {
     final String FORM_VIEW = VIEW_PATH + "/aperturaCaja";
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
+    final String FORM_VIEW_CIERRE = VIEW_PATH + "/cierreCaja";
     final String RD_FORM_VIEW = "redirect:/aperturaCaja";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
@@ -37,16 +48,22 @@ public class CajaController {
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
 
     @Autowired
-    private ProveedorServiceImp proveedorService; // llamada a los proveedors de proveedor
+    private CajaServiceImp cajaService; // llamada a los proveedors de proveedor
     
-    @Autowired
-    private TipoDocumentoServiceImp tipoDocumentoService; 
 
     @Autowired
     private RolServiceImp rolService;//llamada a proveedors de roles
 
     @Autowired
+    private AperturaCajaServiceImp aperturaCajaService;//llamada a proveedors de Apertura caja
+
+    @Autowired
     ContactoRespository contactoRespository;
+    
+    @Autowired
+    UsuarioRepository usuarioRespository;
+
+    
 
     /**
      * Instancia un UsuarioDTO para rellenar con datos
@@ -54,25 +71,32 @@ public class CajaController {
      * Usuario.
      * @return
      */
-    @ModelAttribute("proveedor")
-    public ProveedorDTO instanciarObjetoDTO() {
-        return new ProveedorDTO();
+    @ModelAttribute("caja")
+    public CajaDTO instanciarObjetoDTO() {
+        return new CajaDTO();
     }
 
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = proveedorService.tienePermiso("consultar-" + VIEW);
-        boolean crear = proveedorService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = proveedorService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = proveedorService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = cajaService.tienePermiso("consultar-" + VIEW);
+        boolean crear = cajaService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = cajaService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = cajaService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
         //        }
 
         if(consultar) {
-            model.addAttribute("listProveedor", proveedorService.listar());//lista los proveedors
+
+            model.addAttribute("listCaja", cajaService.listar());//lista los cajas
+
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Usuario usuario = usuarioRespository.findByEmail(username);
+            model.addAttribute("usuario", usuario.getUsername());//Datos de usuario
+            
+
         } else {
             return FALTA_PERMISO_VIEW;
         }
@@ -85,17 +109,50 @@ public class CajaController {
         return FORM_VIEW;
     }
 
+@GetMapping("/cierre")
+    public String mostrarGrillaCierre(Model model) {
+
+        boolean consultar = cajaService.tienePermiso("consultar-" + VIEW);
+        boolean crear = cajaService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = cajaService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = cajaService.tienePermiso("actualizar-" + VIEW);
+
+        //        if(!crear && !eliminar && !actualizar) {
+        //            return FALTA_PERMISO_VIEW;
+        //        }
+
+        if(consultar) {
+
+            model.addAttribute("listCaja", cajaService.listar());//lista los cajas
+
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Usuario usuario = usuarioRespository.findByEmail(username);
+            model.addAttribute("usuario", usuario.getUsername());//Datos de usuario
+            
+
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+
+        model.addAttribute("permisoVer", consultar);
+        model.addAttribute("permisoCrear", crear);
+        model.addAttribute("permisoEliminar", eliminar);
+        model.addAttribute("permisoActualizar", actualizar);
+
+        return FORM_VIEW_CIERRE;
+    }
+    
+
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = proveedorService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = proveedorService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = cajaService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = cajaService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
         }
         model.addAttribute("permisoAsignarRol", asignarRol);
 
-        model.addAttribute("tiposDocumentos", tipoDocumentoService.listar());
 
         
         if(crear) {
@@ -106,10 +163,7 @@ public class CajaController {
     }
 
     @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("proveedor") ProveedorDTO objetoDTO,
-                        @RequestParam(value = "c-nombres[]", required = false) String[] nombres,
-                        @RequestParam(value = "c-telefonos[]", required = false) String[] telefonos,
-                        @RequestParam(value = "c-correos[]", required = false) String[] correos,
+    public String crearObjeto(@ModelAttribute("caja") CajaDTO objetoDTO,
                         RedirectAttributes attributes, Model model, BindingResult result) {
                         this.operacion = "crear-";
 
@@ -117,66 +171,46 @@ public class CajaController {
         //     return FORM_NEW;
         // }
 
-        if(proveedorService.tienePermiso(operacion + VIEW)) {
-            Proveedor proveedor = new Proveedor();
-            List<Contacto> contactos = null;
-            proveedorService.convertirDTO(proveedor, objetoDTO);
-            contactos = proveedor.getContactos();
+        if(cajaService.tienePermiso(operacion + VIEW)) {
+            Caja caja = new Caja();
+            cajaService.convertirDTO(caja, objetoDTO);
 
-            if(contactos == null) {
-                // si no tiene contactos
-                contactos = new ArrayList<>();
-            } else if(nombres == null) {
-                contactoRespository.deleteAll(contactos);
-                contactos.clear();
-            } else {
-                List<Contacto> newList = new ArrayList<>();
-                // contactos eliminados o modificados se eliminan
-                for(int k=0; k < contactos.size(); k++) {
-                    boolean flat = false;
-                    for(int i=0; i < nombres.length; i++) {
-                        if(contactos.get(k).getNombre().equals(nombres[i]) &&
-                                contactos.get(k).getCorreo().equals(correos[i]) &&
-                                contactos.get(k).getTelefono().equals(telefonos[i])) {
-                            newList.add(contactos.get(k));
-                            flat = true;
-                            break;
-                        }
-                    }
-                    if(!flat) {
-                        contactoRespository.delete(contactos.get(k));
-                        contactos.remove(contactos.get(k));
-                    }
-                }
-                // elementos agregados o no modificados se agregan a la nueva lista
-                for(int i=0; i < nombres.length; i++) {
-                    boolean flat = false;
-                    for(int k=0; k < contactos.size(); k++) {
-                        if(nombres[i].equals(contactos.get(k).getNombre()) &&
-                                telefonos[i].equals(contactos.get(k).getTelefono()) &&
-                                correos[i].equals(contactos.get(k).getCorreo())) {
-                            newList.add(contactos.get(k));
-                            flat = true;
-                            break;
-                        }
-                    }
-                    if(!flat) {
-                        Contacto tmpContacto = new Contacto();
-                        tmpContacto.setNombre(nombres[i]);
-                        tmpContacto.setTelefono(telefonos[i]);
-                        tmpContacto.setCorreo(correos[i]);
-                        tmpContacto.setProveedor(proveedor);
-                        newList.add(contactoRespository.save(tmpContacto));
-                    }
-                }
-                contactos = newList;
-            }
+            cajaService.guardar(caja);
 
-            proveedor.setContactos(contactos);
+            attributes.addFlashAttribute("message", "¡Caja creada exitosamente!");
 
-            proveedorService.guardar(proveedor);
+            return RD_FORM_VIEW;
+        } else {
+            return RD_FALTA_PERMISO_VIEW;
+            
 
-            attributes.addFlashAttribute("message", "¡Proveedor creado exitosamente!");
+        }
+    }
+
+    @PostMapping("/abrir")
+    public String crearApertura(@ModelAttribute("AperturaCaja") AperturaCajaDTO objetoDTO,
+                        RedirectAttributes attributes, Model model, BindingResult result) {
+                        this.operacion = "crear-";
+
+        if(aperturaCajaService.tienePermiso(operacion + VIEW)) {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Usuario usuario = usuarioRespository.findByEmail(username);
+
+            AperturaCaja aperturaCaja = new AperturaCaja();
+
+            // String idCaja = objetoDTO.getIdCaja();
+            objetoDTO.setFechaApertura(java.time.LocalDate.now().toString());
+            objetoDTO.setIdUsuario(usuario.getIdUsuario());
+            aperturaCajaService.convertirDTO(aperturaCaja, objetoDTO);
+
+            aperturaCaja.setIdCaja(objetoDTO.getIdCaja());
+            aperturaCaja.setIdUsuario(usuario.getIdUsuario());
+            aperturaCaja.setEstado("aBrIdO");
+
+            aperturaCajaService.guardar(aperturaCaja);
+
+            attributes.addFlashAttribute("msgCaja", "Caja abrido exitosamente !");
+            
 
             return RD_FORM_VIEW;
         } else {
@@ -308,19 +342,19 @@ public class CajaController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = proveedorService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = proveedorService.tienePermiso("asignar-rol-" + VIEW);
-        Proveedor proveedor;
+        boolean eliminar = cajaService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = cajaService.tienePermiso("asignar-rol-" + VIEW);
+        Caja caja;
 
         // validar el id
         try {
-            Long idProveedor = Long.parseLong(id);
-            proveedor = proveedorService.existeProveedor(idProveedor);
+            Long idCaja = Long.parseLong(id);
+            caja = cajaService.existeCaja(idCaja);
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("proveedor", proveedor);
+        model.addAttribute("caja", caja);
 
 
         if(eliminar) {
@@ -331,23 +365,23 @@ public class CajaController {
     }
 
     @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("proveedor") ProveedorDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("caja") CajaDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        Proveedor proveedor;
+        Caja caja;
 
         if (result.hasErrors()) {
             //studentDTO.setId(id);
             return RD_FORM_VIEW;
         }
 
-        if(proveedorService.tienePermiso(operacion + VIEW)) {
-            proveedor = proveedorService.existeProveedor(id);
-            if(proveedor != null) {
-                proveedorService.convertirDTO(proveedor, objetoDTO);
+        if(cajaService.tienePermiso(operacion + VIEW)) {
+            caja = cajaService.existeCaja(id);
+            if(caja != null) {
+                cajaService.convertirDTO(caja, objetoDTO);
 
-                attributes.addFlashAttribute("message", "¡Proveedor actualizado correctamente!");
-                proveedorService.guardar(proveedor);
+                attributes.addFlashAttribute("message", "¡Caja actualizada correctamente!");
+                cajaService.guardar(caja);
                 return RD_FORM_VIEW;
             }
         }
@@ -357,18 +391,18 @@ public class CajaController {
     @GetMapping("/{id}/delete")
         public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
         this.operacion = "eliminar-";
-        Long idProveedor;
+        Long idCaja;
 
         try {
-            idProveedor = Long.parseLong(id);
+            idCaja = Long.parseLong(id);
         } catch (Exception e) {
             return RD_FORM_VIEW;
         }
 
-        if(proveedorService.tienePermiso(operacion + VIEW)) {
-            Proveedor proveedor = proveedorService.obtenerProveedor(idProveedor);
-            proveedorService.eliminarProveedor(proveedor);
-            attributes.addFlashAttribute("message", "¡Proveedor eliminado correctamente!");
+        if(cajaService.tienePermiso(operacion + VIEW)) {
+            Caja caja = cajaService.obtenerCaja(idCaja);
+            cajaService.eliminarCaja(caja);
+            attributes.addFlashAttribute("message", "¡Caja eliminado correctamente!");
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;

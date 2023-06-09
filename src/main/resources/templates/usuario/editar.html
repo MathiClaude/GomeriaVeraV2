@@ -23,8 +23,8 @@
         <input type="text" class="form-control" id="inputNombre2" name="user" th:value="${user.username}">
       </div>
       <div class="mb-3"> <!-- margen button -->
-        <label for="inputContrasenha2" class="form-label">Contraseña</label>
-        <input type="password" class="form-control" id="inputContrasenha2" name="password" placeholder="Introduzca una nueva Contraseña">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="password" name="password" th:value="${user.password}"><!--ke verga trae la pvta madre-->
       </div>
       <div th:if="${permisoAsignarRol}" class="input-group mb-3">
         <label class="input-group-text" for="inputGroupSelect02">Rol</label>

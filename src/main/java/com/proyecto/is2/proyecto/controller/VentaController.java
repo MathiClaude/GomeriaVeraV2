@@ -1,11 +1,15 @@
 package com.proyecto.is2.proyecto.controller;
+import java.math.BigDecimal;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Cliente;
+import com.proyecto.is2.proyecto.model.Producto;
+import com.proyecto.is2.proyecto.model.AperturaCaja;
 import com.proyecto.is2.proyecto.model.Venta;
+import com.proyecto.is2.proyecto.model.VentaDetalle;
 import com.proyecto.is2.proyecto.Util.ModelAttributes;
 
 import com.proyecto.is2.proyecto.services.RolServiceImp;
@@ -16,14 +20,23 @@ import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 import com.proyecto.is2.proyecto.services.VentaServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
+
+import com.proyecto.is2.proyecto.repository.UsuarioRepository;
+import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
+import com.proyecto.is2.proyecto.repository.ClienteRepository;
+import com.proyecto.is2.proyecto.repository.ProductoRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Controlador encargado de recibir las peticiones
@@ -47,6 +60,18 @@ public class VentaController {
 
     @Autowired
     private VentaServiceImp ventaService;
+    
+    @Autowired
+    UsuarioRepository usuarioRespository;
+
+    @Autowired
+    ClienteRepository clienteRepository;
+
+    @Autowired
+    ProductoRepository productoRepository;
+
+    @Autowired
+    AperturaCajaRepository aperturaCajaRepository;
 
      // llamada a los servicios de venta
      @Autowired
@@ -87,6 +112,19 @@ public class VentaController {
             model.addAttribute("listProduct", productoService.listar());//lista los productos
             model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            Usuario usuario = usuarioRespository.findByEmail(username);
+            List<AperturaCaja> caja = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
+
+            if((caja.get(0).getEstado().toUpperCase().equals("ABRIDO"))){
+                // model.addAttribute("aperturaCaja", caja.get(0).getIdAperturaCaja().toString());//lista los clientes
+                model.addAttribute("aperturaCaja","true"); // CAJA ESTA ABIERTA 
+            }else{
+                model.addAttribute("aperturaCaja","false"); // CAJA NO ESTA ABIERTA :v
+
+            }
+
+
 
         } else {
             return FALTA_PERMISO_VIEW;
@@ -129,27 +167,45 @@ public class VentaController {
 
     @PostMapping("/crear")
     public String crearObjeto(@ModelAttribute("venta") VentaDTO objetoDTO,
+            @RequestParam(value="ventaDetalle") String ventaDetalle,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
+        String[] arrVentaDetalle = ventaDetalle.split("\\|");
 
         if(ventaService.tienePermiso(operacion + VIEW)) {
             Venta venta = new Venta();
-            ventaService.convertirDTO(venta, objetoDTO);
-            // objetoDTO.getMontoVenta();
-
-            // si tiene permiso se le asigna el rol con id del formulario
-            // sino se le asignar un rol por defecto.
-            /*if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
-                venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-            } else {
-                venta.setRol(rolService.existeRol(1L)); // ID 1: Rol sin permisos.
-            }*/
+            Optional<Cliente> cliente = clienteRepository.findById(objetoDTO.getIdCliente());
+            if(cliente.isPresent()){
+                venta.setCliente(cliente.get());
+                venta.setMontoTotal(new BigDecimal(objetoDTO.getMontoVenta()));
+                venta.setMontoVenta(objetoDTO.getMontoVenta());
+                
+                // ventaService.convertirDTO(venta, objetoDTO);
 
 
-            ventaService.guardar(venta);
+            }
+            //GUARDAR LA VENTA
+            Venta nuevaVenta = ventaService.guardar(venta);
+            // OBTENER EL ID DE LA VENTA 
+            Long idVenta = nuevaVenta.getIdVenta();
+            
+            for (String detCrudo : arrVentaDetalle) {
+                String[] elementos= detCrudo.split(";");
+                Optional<Producto>  prod = productoRepository.findById(Long.parseLong(elementos[1]));
+
+
+                VentaDetalle vtaDet = new VentaDetalle();
+                vtaDet.setVenta(nuevaVenta);
+                vtaDet.setCantidad(new Float(elementos[0]));
+                vtaDet.setProducto(prod.get());
+                vtaDet.setPrecio(new Float(elementos[2]));
+                ventaService.guardarDetalle(vtaDet);
+                
+            }
+
             attributes.addFlashAttribute("message", "¡Venta creado exitosamente!");
 
-            return RD_FORM_VIEW;
+            return RD_FORM_VIEW+"/a"+arrVentaDetalle.length+"-e";
         } else {
             return RD_FALTA_PERMISO_VIEW;
         }

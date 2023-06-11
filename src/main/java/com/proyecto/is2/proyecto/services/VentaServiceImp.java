@@ -2,8 +2,10 @@ package com.proyecto.is2.proyecto.services;
 
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Venta;
+import com.proyecto.is2.proyecto.model.VentaDetalle;
 import com.proyecto.is2.proyecto.model.Vista;
 import com.proyecto.is2.proyecto.repository.VentaRepository;
+import com.proyecto.is2.proyecto.repository.VentaDetalleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ public class VentaServiceImp implements VentaService {
 
     @Autowired
     private VentaRepository ventaRepository;
+
+    @Autowired
+    private VentaDetalleRepository VentaDetalleRepository;
 
     //@Autowired
     //private VistaServiceImp vistaService;
@@ -60,6 +65,10 @@ public class VentaServiceImp implements VentaService {
     @Override
     public Venta guardar(Venta venta) {
         return ventaRepository.save(venta);
+    }
+
+    public VentaDetalle guardarDetalle(VentaDetalle ventaDet) {
+        return VentaDetalleRepository.save(ventaDet);
     }
 
     @Override

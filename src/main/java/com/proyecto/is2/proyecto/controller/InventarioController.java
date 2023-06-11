@@ -1,14 +1,23 @@
 
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.MarcaDTO;
+
 import com.proyecto.is2.proyecto.model.Permiso;
 import com.proyecto.is2.proyecto.model.Proyecto;
 import com.proyecto.is2.proyecto.model.Marca;
-import com.proyecto.is2.proyecto.model.Usuario;
-import com.proyecto.is2.proyecto.services.PermisoServiceImp;
-import com.proyecto.is2.proyecto.services.ProyectoServiceImp;
+import com.proyecto.is2.proyecto.model.Producto;
+import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.MarcaServiceImp;
+import com.proyecto.is2.proyecto.services.PermisoServiceImp;
+import com.proyecto.is2.proyecto.services.ProductoServiceImp;
+import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
+import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+import com.proyecto.is2.proyecto.services.ProyectoServiceImp;
+
+import com.proyecto.is2.proyecto.services.TipoProductoServiceImp;
+import com.proyecto.is2.proyecto.services.UnidadMedidaServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +58,25 @@ public class InventarioController {
     @Autowired
     private ProyectoServiceImp proyectoServiceImp;
 
+     @Autowired
+    private ProductoServiceImp productoService; // llamada a los servicios de usuario
+
+    @Autowired
+    private ServicioServiceImp servicioService; // llamada a los servicios de usuario
+
+    @Autowired
+    private RolServiceImp rolService;//llamada a servicios de roles
+
+    //servicios para los selects
+    @Autowired
+    private TipoProductoServiceImp tipoProductoService; 
+    @Autowired
+    private UnidadMedidaServiceImp unidadMedidaService; 
+
+    @Autowired
+    private ProveedorServiceImp proveedorService; 
+
+
     @ModelAttribute("listPermisos")
     public List<Long> listaPermisos() {
         return new ArrayList<>();
@@ -60,16 +88,20 @@ public class InventarioController {
     }
 
     @GetMapping
-    public String mostrarCRUDTemplate(Model model) {
+    public String mostrarGrilla(Model model) {
 
-        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
-        boolean asignar = usuarioService.tienePermiso("asignar-permisos-rol");
+        boolean consultar = productoService.tienePermiso("consultar-" + VIEW);
+        boolean crear = productoService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = productoService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = productoService.tienePermiso("actualizar-" + VIEW);
+
+        //        if(!crear && !eliminar && !actualizar) {
+        //            return FALTA_PERMISO_VIEW;
+        //        }
 
         if(consultar) {
-            model.addAttribute("listMarca", marcaService.listar());
+            model.addAttribute("listProduct", productoService.listar());//lista los productos
+            model.addAttribute("listServicios", servicioService.listar());//lista los productos
         } else {
             return FALTA_PERMISO_VIEW;
         }
@@ -78,7 +110,7 @@ public class InventarioController {
         model.addAttribute("permisoCrear", crear);
         model.addAttribute("permisoEliminar", eliminar);
         model.addAttribute("permisoActualizar", actualizar);
-        model.addAttribute("permisoAsignar", asignar);
+
 
         return FORM_VIEW;
     }

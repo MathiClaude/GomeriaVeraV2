@@ -2,6 +2,7 @@ package com.proyecto.is2.proyecto.services;
 
 
 import com.proyecto.is2.proyecto.model.Venta;
+import com.proyecto.is2.proyecto.model.VentaDetalle;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 
 import java.util.List;

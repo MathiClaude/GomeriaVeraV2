@@ -2,16 +2,16 @@ console.log("Incluido tabla venta")
 let listaProductos =[];
 function moverProducto(idProducto,precio,impuesto,descripcion,elemento){
 	if(elemento.checked){
-		listaProductos.push({"producto_id":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
+		listaProductos.push({"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
 	}else{
-		listaProductos = listaProductos.filter((producto)=>producto.producto_id != idProducto)
+		listaProductos = listaProductos.filter((producto)=>producto.idProducto != idProducto)
 	}
 	// console.log(idProducto,precio,impuesto,"+","test")
 	// console.log(listaProductos)
 }
 function actualizarListaProductos(){
 	for(let elemento of listaProductos){
-		let cantidad = document.getElementById(elemento.producto_id).value
+		let cantidad = document.getElementById(elemento.idProducto).value
 		elemento.cantidad = cantidad
 	}
 	actualizarTabla();
@@ -32,7 +32,7 @@ function actualizarTabla(){
 		let descripcion = document.createElement("td")
 		descripcion.innerHTML = elemento.descripcion;
 		let producto_id = document.createElement("td")
-		producto_id.innerHTML = elemento.producto_id;
+		producto_id.innerHTML = elemento.idProducto;
 		let precio = document.createElement("td")
 		precio.innerHTML = elemento.precio;
 		let impuesto = document.createElement("td")
@@ -91,10 +91,18 @@ async function guardarDatos(){
 	// if(totalVenta == 0){
 	// 	alert('Debe elegir al menos un producto para vender')
 	// }
+	let listaEnviar = "";
+	for(let a of listaProductos){
+		listaEnviar +=`${a.cantidad};${a.idProducto};${a.precio}|`
+	}
+
 
 	const formData = new FormData();
 	formData.append("idCliente", cliente.value );
 	formData.append("montoVenta", totalVenta);
+	formData.append("totalVenta", totalVenta);
+	formData.append("ventaDetalle", listaEnviar);
+
 	console.log(formData)
 	//enviamos la cabecera
 	let resp = await fetch('http://localhost:8080/realizarVenta/crear',{

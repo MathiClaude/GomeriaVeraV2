@@ -24,7 +24,7 @@ function mostrarBuscador(estado){
 }
 function seleccionar(a){
 	console.log(a.getAttribute('data-value'))
-	document.getElementById("opcionesProveedor").value=a.innerHTML
+	document.getElementById("buscadorProveedor").value=a.innerHTML
 	document.getElementById("InputProveedor").value= a.getAttribute('data-value')
 }
 function funcionFiltrar(valor) {

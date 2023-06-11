@@ -19,7 +19,7 @@
       </li>
 
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabPago" type="button" role="tab" aria-controls="tabPago" aria-selected="false"><i class="fas fa-credit-card fa-fw me-2"></i>Método de Pago</button>
+          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabPago" type="button" role="tab" aria-controls="tabPago" aria-selected="false"><i class="fas fa-credit-card fa-fw me-2"></i>Realizar compra</button>
         </li>
       </ul>
       <br/>
@@ -283,6 +283,9 @@
           </div> 
         </div>
         <div>          
+          <script type="text/javascript" th:inline="javascript">
+            let datos = /*[[${listarProveedor}]]*/ null;
+          </script>
             <script th:src="@{/js/buscadorProveedor.js}" th:inline="javascript"></script>
             </script>         
           

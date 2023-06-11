@@ -22,7 +22,8 @@ layout:decorate="~{/layout/basic}">
 <div class="tab-pane fade show active" id="tabProducto" role="tabpanel" aria-labelledby="tabProducto">
   <legend style="color:#21618C">Lista de productos</legend>
   <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-    <table class="table table-striped mb-0" ><!---->
+    <table id="myTable" class="table table-sm table-bordered table-hover">
+
       <thead style="background-color: #0a4275;"><!---->
         <tr class="text-center"><!---->
           <th>Código</th><!---->
@@ -42,10 +43,10 @@ layout:decorate="~{/layout/basic}">
           <td th:text="${producto.nombreProducto}">Name</td>
           <!--td th:text="${producto.precio}">90.000</td-->
           <!--td th:text="${producto.cantidad}">90</td-->
-          <td th:text="${producto.familiaProducto}">90</td><!---->
-          <td th:text="${producto.tipoProducto}">type</td>
-          <td th:text="${producto.unidadMedida}">-</td>
-          <td th:text="${producto.color}">black</td>
+          <td th:text="${producto.familiaProducto}"></td><!---->
+          <td th:text="${producto.tipoProducto}"></td>
+          <td th:text="${producto.unidadMedida}"></td>
+          <td th:text="${producto.color}"></td>
           <td th:text="${producto.procedencia}">py</td>
           <td th:text="${producto.proveedor}">py</td>
           <td><!---->
@@ -70,39 +71,53 @@ layout:decorate="~{/layout/basic}">
 
 <!--TAB contenido de Servicio-->
 <div class="tab-pane fade" id="tabServicio" role="tabpanel" aria-labelledby="tabServicio">
-  <legend style="color:#21618C">Lista de servicios</legend>
-  <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
-    <table class="table table-striped mb-0" ><!---->
-      <thead style="background-color: #0a4275;"><!---->
-        <tr class="text-center"><!---->
-          <th>Servicio</th><!---->
-          <th>Precio</th><!---->
+  <legend style="color:#21618C">Lista de productos</legend>
+  <div th:if="${permisoVer eq true}" class="table-responsive">
+    <table id="myTable" class="table table-sm table-bordered table-hover">
+      <thead style="background-color: #0a4275;">
+        <tr class="text-center">
+          <th>Código</th><!---->
+          <th>Producto</th><!---->
+          <!--th>Precio</th-->
+          <!--th>Cantidad</th-->
+          <th>Marca</th><!---->
+          <th>Tipo</th><!---->
+          <th>U. Medida</th><!---->
+          <th>Impuesto</th><!---->
+          <th>Proveedor</th><!---->
           <th>Acción</th><!---->
         </tr><!---->
       </thead><!---->
       <tbody><!---->
-        <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
-          <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+        <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
+          <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
         </tr><!---->
-        <tr class="text-center" th:each="servicio: ${listServicios}">
-          <td th:text="${servicio.descripcionServicio}">Servicio</td>
-          <td th:text="${servicio.precio}">Precio</td><!---->
+        <tr class="text-center" th:each="producto: ${listProduct}">
+          <td th:text="${producto.codigo}">Cod</td>
+          <td th:text="${producto.nombreProducto}">Name</td>
+          <!--td th:text="${producto.precio}">90.000</td-->
+          <!--td th:text="${producto.cantidad}">90</td-->
+          <td th:text="${producto.marca.nombre}">90</td><!---->
+          <td th:text="${producto.tipoProducto.descripcion}">type</td>
+          <td th:text="${producto.unidadMedida.descripcion}">-</td>
+          <td th:text="${producto.impuesto}">black</td>
+          <td th:text="${producto.proveedor.nombre}">py</td>
           <td><!---->
             <div class="btn-group"><!---->
-              <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 
+              <a th:if="${permisoActualizar eq true}" th:href="@{/productos/{id}(id=${producto.idProducto})}" 
               class="btn btn-sm btn-outline-primary"><!---->
               <i class="fa-solid fa-pen-to-square"></i><!---->
-            </a>
-            <a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
-              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                <i class="fa-sharp fa-solid fa-trash"></i>
-              </button>
-            </a>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+              </a>
+              <a th:if="${permisoEliminar eq true}" th:href="@{/productos/{id}/delete(id=${producto.idProducto})}">
+                <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                  <i class="fa-sharp fa-solid fa-trash"></i>
+                </button>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 </div>
 </div>
 </div>

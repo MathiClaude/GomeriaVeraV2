@@ -25,69 +25,69 @@
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabCliente" type="button" role="tab" aria-controls="tabCliente" aria-selected="true"><i class="fas fa-cart-arrow-down me-2"></i>Datos de venta</button>
       </li>
-
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabPago" type="button" role="tab" aria-controls="tabPago" aria-selected="false"><i class="fas fa-credit-card fa-fw me-2"></i>Método de Pago</button>
-        </li>
-      </ul>
-      <br/>
-      <!-- Tabs content cliente -->
       
-      <div-- class="tab-content" id="ex-with-icons-content">
-        <div class="tab-pane fade show active" id="tabCliente" role="tabpanel" aria-labelledby="tabCliente">
-          <legend style="color:#21618C">Cliente</legend>
-          <div class="container" >
-            <div class="row">
-              <div class="col-4">
-                <!--Buscador de clientes-->
-                <div class="form-group">      
-                  <input type="hidden"  id="InputCliente" name="cliente" />
-                  
-                  <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Buscar cliente..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCliente" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"/>
-                    <!--a th:href="@{/clientes/nuevo}" >
-                    <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
-                    </!a-->
-                    <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCliente').value=''" onmousedown="document.getElementById('InputCliente').value=''">
-                      <i class="bi bi-trash3-fill"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
-                      <i class="bi bi-person-plus-fill"> Nuevo</i>
-                    </button>
-                      
-                  </div>
-                  <ul class="list-group" style="position:absolute;z-index:20"  >                      
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                  </ul>
-                  <!-- <input type="text" placeholder="Buscar Cliente..." id="buscadorCliente" > -->
-                </div>
-              </div>  
-              <!--botón de registro-->
-              <div class="col-4">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
-                  <i class="bi bi-search-heart"> Buscar productos</i>
-                </button>
-              </div>
-              <div class="col-4">
-                <div class="form-outline">
-                  <label for="inputNombre" class="form-label">Total a pagar:</label>
-                  <input type="text" id="totalProds" disabled/>
-                </div>
-              </div> 
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabPago" type="button" role="tab" aria-controls="tabPago" aria-selected="false"><i class="fas fa-credit-card fa-fw me-2"></i>Realizar cobro</button>
+      </li>
+    </ul>
+    <br/>
+    <!-- Tabs content cliente -->
+    
+    <div-- class="tab-content" id="ex-with-icons-content">
+    <div class="tab-pane fade show active" id="tabCliente" role="tabpanel" aria-labelledby="tabCliente">
+      <legend style="color:#21618C">Cliente</legend>
+      <div class="container" >
+        <div class="row">
+          <div class="col-4">
+            <!--Buscador de clientes-->
+            <div class="form-group">      
+              <input type="hidden"  id="InputCliente" name="cliente" />
               
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar cliente..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCliente" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"/>
+                <!--a th:href="@{/clientes/nuevo}" >
+                  <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
+                  </!a-->
+                  <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCliente').value=''" onmousedown="document.getElementById('InputCliente').value=''">
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
+                    <i class="bi bi-person-plus-fill"> Nuevo</i>
+                  </button>
+                  
+                </div>
+                <ul class="list-group" style="position:absolute;z-index:20"  >                      
+                  <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                </ul>
+                <!-- <input type="text" placeholder="Buscar Cliente..." id="buscadorCliente" > -->
+              </div>
+            </div>  
+            <!--botón de registro-->
+            <div class="col-4">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
+                <i class="bi bi-search-heart"> Buscar productos</i>
+              </button>
             </div>
+            <div class="col-4">
+              <div class="form-outline">
+                <label for="inputNombre" class="form-label">Total a pagar:</label>
+                <input type="text" id="totalProds" disabled/>
+              </div>
+            </div> 
+            
           </div>
-          <hr>
+        </div>
+        <hr>
         
-          <!--LISTA DE PRODUCTOS EN ITEM PRODUCTO-->
-          <div class="col">
+        <!--LISTA DE PRODUCTOS EN ITEM PRODUCTO-->
+        <div class="col">
           <div th:if="${permisoVer eq true}" class="table-responsive ">
             <table id="myTable3" class="table table-sm table-bordered table-hover">
               <thead style="background-color: #0a4275;">
@@ -110,241 +110,270 @@
             </table>
           </div> <!--termina la tabla-->
         </div>
-        <!--div class="col"> 
-        <legend style="color:#21618C">Datos de caja</legend>
-        <div class="form-outline">
-          <label for="inputNombre" class="form-label">Fecha:</label>
-          <input type="data" id="data" disabled/>
-        </div>
-        <div class="form-outline">
-          <label for="inputNombre" class="form-label">Caja:</label>
-          <input type="text" id="idCaja" disabled/>
-        </div>
-        <div class="form-outline">
-          <label for="inputNombre" class="form-label">Cajero:</label>
-          <input type="text" id="idUsuario" disabled/>
-        </div>          
-      </!div>
-      </div--> <!--acá-->
+        
       </div>
       
-        <!--CONTENIDO DE MÉTODO DE PAGO-->
-        <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
-          <!--opciones de los botones-->
-          <div class="form-check">
-            <!--opción 1-->
-            <div>
-              <input type="radio" id="mostrar-contenido" name="tipoPago">
-              <label for="mostrar-contenido">Efectivo</label>
-              <div id="contenido" style="display:none">
-                <br>
-                <!--metodo de pago campos-->
-                <div class="container">
-                  <div class="row mb-4">
-                    <div class="col">                    
-                      <div class="form-outline">
-                        <label for="inputNombre" class="form-label">Total a pagar:</label>
-                        <input type="text" id="totalPagar" disabled/>
+      <!--CONTENIDO DE MÉTODO DE PAGO-->
+      <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <legend style="color:#21618C">Datos de caja</legend>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col"> 
+                          <label for="inputNombre" class="form-label">Cajero:</label>
                       </div>
-                    </div>    
-                    <div class="col">
-                      <div class="form-outline">
-                        <label for="inputNombre" class="form-label">IVA:</label>
-                        <input type="text" id="idIva" disabled/>
+                      <div class="col">   
+                        <input type="text" id="cajeroDes" disabled/>
                       </div>
-                    </div>
-                    <br>
-                    <div class="col">
-                      <div class="form-outline">
-                        <label for="inputNombre" class="form-label">Vuelto:</label>
-                        <input type="text" id="idVuelto" disabled/>
+                      <div class="col">
+                        <label for="inputNombre" class="form-label">Caja:</label>
                       </div>
-                    </div>
-                    
-                    <div class="col">                             
-                      <div class="form-outline">
-                        <label for="inputNombre" class="form-label">Total abonado</label>
-                        <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Introduzca pago del cliente" autofocus>
+                      <div class="col">
+                        <input type="text" id="cajaDes" disabled/>
                       </div>
-                    </div>    
+                      <div class="col">
+                        <label for="inputNombre" class="form-label">Fecha:</label>
+                      </div>
+                      <div class="col">
+                        <input type="text" id="fechaDesc" disabled/>
+                      </div>          
+                    </div>          
                   </div>
-                  <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                      Finalizar cobro</button>
-                    </div>
-                  </div>
-                  
-                </div><!--opcion 1-->
-                
-                
-                
-                
-                <!-- Modal para comprobante-->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">        
-                        
-                      </div>
-                      
-                    </div>
-                  </div>
-                  
                 </div>
-                
               </div>
-              
-              
-            
-            
-        </div>
-      </div>  
-
-      <!-- MODAL PARA CRUD DE CLIENTE -->
-      <!-- Modal: myModal | Creacion de producto -->
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-          <div class="modal-content">                                   
-            <!--Header-->                    
-            <div class="modal-header"> 
-              <h5 class="modal-title">Nuevo Cliente</h5> <!-- Por que si-->
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
             </div>
-            <!-- Body para modal-->
-            <div class="modal-body">
-              <!-- Tabs navs para modal-->
-              <iframe th:src="@{/clientes/nuevo}" width="100%" height="400"></iframe>
-              <!-- Pie del modal -->
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-body">
+                  <div class="form-check">
+                    <!--opción 1-->
+                    <div>
+                      <input type="radio" id="mostrar-contenido" name="tipoPago">
+                      <label for="mostrar-contenido">Efectivo</label>
+                      <div id="contenido" style="display:none">
+                        <br>
+                        <!--metodo de pago campos-->
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-md-2">                    
+                              <label for="inputNombre" class="form-label">Total a pagar:</label>
+                            </div>
+                            <div class="col">
+                              <input type="text" id="totalPagar" style="text-align:right;" disabled/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
+                              <label for="inputNombre" class="form-label">IVA:</label>
+                            </div>
+                            <div class="col">
+                              <input type="text" id="idIva" style="text-align:right;" disabled/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">                             
+                              <label for="inputNombre" class="form-label">Total abonado</label>
+                            </div>
+                            <div class="col">
+                              <input type="text"  id="inputNombre" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" autofocus>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
+                                <label for="inputNombre" class="form-label">Vuelto:</label>
+                            </div>
+                            <div class="col">
+                              <input type="text" id="idVuelto" style="text-align:right;" disabled/>
+                            </div>
+                          </div>
+                            
+                          <hr/>
+                          <div class="row">   
+                            <div class="col-sm-6">
+                            </div>
+                            <div class="col-sm-6">
+                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Previsualizar factura
+                              </button>
+                              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Finalizar cobro
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                          
+                      </div><!--opcion 1-->
+                      <!-- Modal para comprobante-->
+                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">        
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+        
+        <!-- acá -->
+        <!--opciones de los botones-->
+        
+      </div>  
+        
+        <!-- MODAL PARA CRUD DE CLIENTE -->
+        <!-- Modal: myModal | Creacion de producto -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">                                   
+              <!--Header-->                    
+              <div class="modal-header"> 
+                <h5 class="modal-title">Nuevo Cliente</h5> <!-- Por que si-->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
+              </div>
+              <!-- Body para modal-->
+              <div class="modal-body">
+                <!-- Tabs navs para modal-->
+                <iframe th:src="@{/clientes/nuevo}" width="100%" height="400"></iframe>
+                <!-- Pie del modal -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Modal: modalCart | Selección de productos y servicios -->
-      <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
-          <div class="modal-content">                                   
-            <!--Header-->                    
-            <div class="modal-header"> 
-              <h5 class="modal-title">Lista de articulos</h5> <!-- Por que si-->
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
-            </div>
-            <!-- Body para modal-->
-            <div class="modal-body">
-              <!-- Tabs navs para modal-->
-              <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabListaProd" type="button" role="tab" aria-controls="tabListaProd" aria-selected="true"><i class="fas fa-cart-arrow-down me-2"></i>Productos</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabListaServ" type="button" role="tab" aria-controls="tabListaServ" aria-selected="false"><i class="	fas fa-shuttle-van me-2"></i>Servicios</button>
-                </li>
-              </ul>
-              <!--Lista/tabla de productos-->
-              <div class="tab-content" >
-                <div class="tab-pane fade show active" id="tabListaProd" role="tabpanel" aria-labelledby="tabListaProd">
-                  <legend style="color:#21618C">Lista de productos</legend>
-                  <div th:if="${permisoVer eq true}" class="table-responsive">
-                    <table id="myTable" class="table table-sm table-bordered table-hover">
-                      <thead style="background-color: #0a4275;">
-                        <tr class="text-center">
-                          <th>Carrito</th><!---->
-                          <th>Código</th><!---->
-                          <th>Producto</th><!---->
-                          <th>Tipo</th><!---->
-                          <th>Marca</th><!---->
-                          <th>Impuesto</th><!---->
-                          
-                          <th>Cantidad</th><!---->
-                        </tr><!---->
-                      </thead><!---->
-                      <tbody><!---->
-                        <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                          <td class="text-center fw-bold" >No se encontraron productos</td><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                          
-                        </tr><!---->
-                        <tr class="text-center" th:each="producto: ${listProduct}">
-                          <td >
-                            <a >
-                              <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}',this)|"  />
-                            </a>
-                          </td>
-                          <td th:text="${producto.codigo}">Cod</td>
-                          <td th:text="${producto.nombreProducto}">Name</td>
-                          <td th:text="${producto.tipoProducto.descripcion}">type</td>
-                          <td th:text="${producto.marca.nombre}">90</td><!---->
-                          <td th:text="${producto.impuesto}">black</td>
-                          <td><!---->
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                              <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidades('${producto.idProducto }','-')|">-</button>
-                              <input type="number" class="form-control" th:id="${producto.idProducto}" min="0" />
-                              <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidades('${producto.idProducto }','+')|">+</button>
+        
+        <!-- Modal: modalCart | Selección de productos y servicios -->
+        <div class="modal fade" id="modalCart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">                                   
+              <!--Header-->                    
+              <div class="modal-header"> 
+                <h5 class="modal-title">Lista de articulos</h5> <!-- Por que si-->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
+              </div>
+              <!-- Body para modal-->
+              <div class="modal-body">
+                <!-- Tabs navs para modal-->
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabListaProd" type="button" role="tab" aria-controls="tabListaProd" aria-selected="true"><i class="fas fa-cart-arrow-down me-2"></i>Productos</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabListaServ" type="button" role="tab" aria-controls="tabListaServ" aria-selected="false"><i class="	fas fa-shuttle-van me-2"></i>Servicios</button>
+                  </li>
+                </ul>
+                <!--Lista/tabla de productos-->
+                <div class="tab-content" >
+                  <div class="tab-pane fade show active" id="tabListaProd" role="tabpanel" aria-labelledby="tabListaProd">
+                    <legend style="color:#21618C">Lista de productos</legend>
+                    <div th:if="${permisoVer eq true}" class="table-responsive">
+                      <table id="myTable" class="table table-sm table-bordered table-hover">
+                        <thead style="background-color: #0a4275;">
+                          <tr class="text-center">
+                            <th>Carrito</th><!---->
+                            <th>Código</th><!---->
+                            <th>Producto</th><!---->
+                            <th>Tipo</th><!---->
+                            <th>Marca</th><!---->
+                            <th>Impuesto</th><!---->
+                            
+                            <th>Cantidad</th><!---->
+                          </tr><!---->
+                        </thead><!---->
+                        <tbody><!---->
+                          <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" >No se encontraron productos</td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            
+                          </tr><!---->
+                          <tr class="text-center" th:each="producto: ${listProduct}">
+                            <td >
+                              <a >
+                                <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}',this)|"  />
+                              </a>
+                            </td>
+                            <td th:text="${producto.codigo}">Cod</td>
+                            <td th:text="${producto.nombreProducto}">Name</td>
+                            <td th:text="${producto.tipoProducto.descripcion}">type</td>
+                            <td th:text="${producto.marca.nombre}">90</td><!---->
+                            <td th:text="${producto.impuesto}">black</td>
+                            <td><!---->
+                              <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidades('${producto.idProducto }','-')|">-</button>
+                                <input type="number" class="form-control" th:id="${producto.idProducto}" min="0" />
+                                <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidades('${producto.idProducto }','+')|">+</button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div> <!--termina la tabla-->
+                  </div> <!--termina el tab-->
+                  <!--Lista/tabla de servicios-->
+                  <div class="tab-pane fade show" id="tabListaServ" role="tabpanel" aria-labelledby="tabListaServ">
+                    <legend style="color:#21618C">Lista de servicios</legend>
+                    <div th:if="${permisoVer eq true}" class="table-responsive">
+                      <table id="myTable2" class="table table-sm table-bordered table-hover">
+                        <thead style="background-color: #0a4275;">
+                          <tr class="text-center"><!---->
+                            <th>Código</th><!---->
+                            <th>Servicio</th><!---->
+                            <th>Tipo de Servicio</th><!---->
+                            <th>Precio</th><!---->
+                            <th>Impuesto</th><!---->
+                            <th>Acción</th><!---->
+                          </tr><!---->
+                        </thead><!---->
+                        <tbody><!---->
+                          <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" >No se encontraron servicios</td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                          </tr><!---->
+                          <tr class="text-center" th:each="servicio: ${listServicios}">
+                            <td th:text="${servicio.codigo}"></td>
+                            
+                            <td th:text="${servicio.nombre}"></td>
+                            <td th:text="${servicio.tipoProducto.descripcion}"></td>
+                            
+                            <td th:text="${servicio.precio}">Precio</td><!---->
+                            <td th:text="${servicio.impuesto}"></td>
+                            
+                            <td><!---->
+                              <div class="btn-group"><!---->
+                                <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 
+                                class="btn btn-sm btn-outline-primary"><!---->
+                                <i class="fa-solid fa-pen-to-square"></i><!---->
+                              </a>
+                              <a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
+                                <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                  <i class="fa-sharp fa-solid fa-trash"></i>
+                                </button>
+                              </a>
                             </div>
                           </td>
                         </tr>
                       </tbody>
                     </table>
-                  </div> <!--termina la tabla-->
-                </div> <!--termina el tab-->
-                <!--Lista/tabla de servicios-->
-                <div class="tab-pane fade show" id="tabListaServ" role="tabpanel" aria-labelledby="tabListaServ">
-                  <legend style="color:#21618C">Lista de servicios</legend>
-                  <div th:if="${permisoVer eq true}" class="table-responsive">
-                    <table id="myTable2" class="table table-sm table-bordered table-hover">
-                      <thead style="background-color: #0a4275;">
-                        <tr class="text-center"><!---->
-                          <th>Código</th><!---->
-                          <th>Servicio</th><!---->
-                          <th>Tipo de Servicio</th><!---->
-                          <th>Precio</th><!---->
-                          <th>Impuesto</th><!---->
-                          <th>Acción</th><!---->
-                        </tr><!---->
-                      </thead><!---->
-                      <tbody><!---->
-                        <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                          <td class="text-center fw-bold" >No se encontraron servicios</td><!---->
-                          <td class="text-center fw-bold" ></td><!---->
-                        </tr><!---->
-                        <tr class="text-center" th:each="servicio: ${listServicios}">
-                          <td th:text="${servicio.codigo}"></td>
-                
-                          <td th:text="${servicio.nombre}"></td>
-                          <td th:text="${servicio.tipoProducto.descripcion}"></td>
-                
-                          <td th:text="${servicio.precio}">Precio</td><!---->
-                          <td th:text="${servicio.impuesto}"></td>
-                
-                          <td><!---->
-                            <div class="btn-group"><!---->
-                              <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 
-                              class="btn btn-sm btn-outline-primary"><!---->
-                              <i class="fa-solid fa-pen-to-square"></i><!---->
-                            </a>
-                            <a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
-                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                                <i class="fa-sharp fa-solid fa-trash"></i>
-                              </button>
-                            </a>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
                   </div> <!--termina la tabla-->
                 </div> <!--termina el tab-->
               </div>
@@ -361,6 +390,14 @@
       <div>
         <script type="text/javascript" th:inline="javascript">
           let datos = /*[[${listarCliente}]]*/ null;
+          let aperturaCaja = /*[[${aperturaCaja}]]*/ null;
+          console.log("Test",aperturaCaja);
+          if(aperturaCaja=="false"){
+            console.log("No posee cajas abiertas");
+            alert("Debe abrir una caja para realizar una venta");
+            window.location.href = "http://localhost:8080/"
+          }
+          
         </script>
         <script th:src="@{/js/buscadorCliente.js}" th:inline="javascript"></script>
         <script th:src="@{/js/tablaVenta.js}" type="text/javascript" th:inline="javascript"></script>
@@ -378,6 +415,6 @@
           });
         </script>
       </div>
-  </body>
-  
-</html>
+    </body>
+    
+    </html>

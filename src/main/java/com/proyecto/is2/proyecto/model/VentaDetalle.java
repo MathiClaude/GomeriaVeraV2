@@ -24,9 +24,6 @@ public class VentaDetalle {
     @Column(name = "precio")
     Float precio;
 
-    /* ************************ */
-    /* RELACIONES ENTRE OBJETOS */
-    /* ************************ */
 
     @ManyToOne
     @JoinColumn(name = "producto_id", referencedColumnName = "idProducto")

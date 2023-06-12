@@ -30,6 +30,12 @@ public class Venta {
     @Column(name = "montoTotal")
     private BigDecimal montoTotal;
 
+    @Column(name = "timbrado")
+    private String timbrado;
+
+    @Column(name = "documento")
+    private String documento;
+
     public Venta() {
 
     }

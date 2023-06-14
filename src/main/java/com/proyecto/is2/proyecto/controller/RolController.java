@@ -2,11 +2,9 @@ package com.proyecto.is2.proyecto.controller;
 
 import com.proyecto.is2.proyecto.controller.dto.RolDTO;
 import com.proyecto.is2.proyecto.model.Permiso;
-import com.proyecto.is2.proyecto.model.Proyecto;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.PermisoServiceImp;
-import com.proyecto.is2.proyecto.services.ProyectoServiceImp;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +44,6 @@ public class RolController {
     @Autowired
     private UsuarioServiceImp usuarioService;
 
-    @Autowired
-    private ProyectoServiceImp proyectoServiceImp;
 
     @ModelAttribute("listPermisos")
     public List<Long> listaPermisos() {

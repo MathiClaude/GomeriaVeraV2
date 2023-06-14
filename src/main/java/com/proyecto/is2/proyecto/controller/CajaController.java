@@ -9,6 +9,7 @@ import com.proyecto.is2.proyecto.model.AperturaCaja;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.TipoDocumentoServiceImp;
+import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import com.proyecto.is2.proyecto.services.CajaServiceImp;
 import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
@@ -50,6 +51,8 @@ public class CajaController {
     @Autowired
     private CajaServiceImp cajaService; // llamada a los proveedors de proveedor
     
+    @Autowired
+    private UsuarioServiceImp usuarioService;
 
     @Autowired
     private RolServiceImp rolService;//llamada a proveedors de roles
@@ -79,10 +82,10 @@ public class CajaController {
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = cajaService.tienePermiso("consultar-" + VIEW);
-        boolean crear = cajaService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = cajaService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = cajaService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
@@ -112,10 +115,10 @@ public class CajaController {
 @GetMapping("/cierre")
     public String mostrarGrillaCierre(Model model) {
 
-        boolean consultar = cajaService.tienePermiso("consultar-" + VIEW);
-        boolean crear = cajaService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = cajaService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = cajaService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
@@ -145,8 +148,8 @@ public class CajaController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = cajaService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = cajaService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -171,7 +174,7 @@ public class CajaController {
         //     return FORM_NEW;
         // }
 
-        if(cajaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Caja caja = new Caja();
             cajaService.convertirDTO(caja, objetoDTO);
 
@@ -192,7 +195,7 @@ public class CajaController {
                         RedirectAttributes attributes, Model model, BindingResult result) {
                         this.operacion = "crear-";
 
-        if(aperturaCajaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             Usuario usuario = usuarioRespository.findByEmail(username);
 
@@ -342,8 +345,8 @@ public class CajaController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = cajaService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = cajaService.tienePermiso("asignar-rol-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         Caja caja;
 
         // validar el id
@@ -375,7 +378,7 @@ public class CajaController {
             return RD_FORM_VIEW;
         }
 
-        if(cajaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             caja = cajaService.existeCaja(id);
             if(caja != null) {
                 cajaService.convertirDTO(caja, objetoDTO);
@@ -399,7 +402,7 @@ public class CajaController {
             return RD_FORM_VIEW;
         }
 
-        if(cajaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Caja caja = cajaService.obtenerCaja(idCaja);
             cajaService.eliminarCaja(caja);
             attributes.addFlashAttribute("message", "¡Caja eliminado correctamente!");

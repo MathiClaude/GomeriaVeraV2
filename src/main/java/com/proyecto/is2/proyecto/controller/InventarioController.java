@@ -3,7 +3,6 @@ package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.MarcaDTO;
 
 import com.proyecto.is2.proyecto.model.Permiso;
-import com.proyecto.is2.proyecto.model.Proyecto;
 import com.proyecto.is2.proyecto.model.Marca;
 import com.proyecto.is2.proyecto.model.Producto;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
@@ -12,7 +11,6 @@ import com.proyecto.is2.proyecto.services.PermisoServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
 import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
-import com.proyecto.is2.proyecto.services.ProyectoServiceImp;
 
 import com.proyecto.is2.proyecto.services.TipoProductoServiceImp;
 import com.proyecto.is2.proyecto.services.UnidadMedidaServiceImp;
@@ -55,9 +53,6 @@ public class InventarioController {
     @Autowired
     private UsuarioServiceImp usuarioService;
 
-    @Autowired
-    private ProyectoServiceImp proyectoServiceImp;
-
      @Autowired
     private ProductoServiceImp productoService; // llamada a los servicios de usuario
 
@@ -90,10 +85,10 @@ public class InventarioController {
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = productoService.tienePermiso("consultar-" + VIEW);
-        boolean crear = productoService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = productoService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = productoService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;

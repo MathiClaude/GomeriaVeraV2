@@ -6,6 +6,8 @@ import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +43,9 @@ public class ServicioController {
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
 
+    @Autowired
+    private UsuarioServiceImp usuarioService;//llamada a servicios de roles
+
     /**
      * Instancia un UsuarioDTO para rellenar con datos
      * del formulario para luego mapearlo a un objeto
@@ -55,10 +60,10 @@ public class ServicioController {
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = servicioService.tienePermiso("consultar-" + VIEW);
-        boolean crear = servicioService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = servicioService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = servicioService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
@@ -80,8 +85,8 @@ public class ServicioController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = servicioService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = servicioService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -104,7 +109,7 @@ public class ServicioController {
 //            return FORM_NEW;
 //        }
 
-        if(servicioService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Servicio servicio = new Servicio();
             servicioService.convertirDTO(servicio, objetoDTO);
 
@@ -122,8 +127,8 @@ public class ServicioController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = servicioService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = servicioService.tienePermiso("asignar-rol-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         Servicio servicio;
 
         // validar el id
@@ -162,7 +167,7 @@ public class ServicioController {
             return RD_FORM_VIEW;
         }
 
-        if(servicioService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             servicio = servicioService.existeServicio(id);
             if(servicio != null) {
                 servicioService.convertirDTO(servicio, objetoDTO);
@@ -194,7 +199,7 @@ public class ServicioController {
             return RD_FORM_VIEW;
         }
 
-        if(servicioService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Servicio servicio = servicioService.obtenerServicio(idServicio);
             servicioService.eliminarServicio(servicio);
             attributes.addFlashAttribute("message", "¡Servicio eliminado correctamente!");

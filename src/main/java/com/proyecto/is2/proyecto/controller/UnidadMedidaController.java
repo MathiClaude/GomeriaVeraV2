@@ -60,10 +60,10 @@ public class UnidadMedidaController {
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = unidadMedidaService.tienePermiso("consultar-" + VIEW);
-        boolean crear = unidadMedidaService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = unidadMedidaService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = unidadMedidaService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
@@ -85,8 +85,8 @@ public class UnidadMedidaController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = unidadMedidaService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = unidadMedidaService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("unidadMedidas", unidadMedidaService.listar());
@@ -109,7 +109,7 @@ public class UnidadMedidaController {
 //            return FORM_NEW;
 //        }
 
-        if(unidadMedidaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             UnidadMedida unidadMedida = new UnidadMedida();
             unidadMedidaService.convertirDTO(unidadMedida, objetoDTO);
 
@@ -127,8 +127,8 @@ public class UnidadMedidaController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = unidadMedidaService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = unidadMedidaService.tienePermiso("asignar-rol-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         UnidadMedida unidadMedida;
 
         // validar el id
@@ -167,7 +167,7 @@ public class UnidadMedidaController {
             return RD_FORM_VIEW;
         }
 
-        if(unidadMedidaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             unidadMedida = unidadMedidaService.existeUnidadMedida(id);
             if(unidadMedida != null) {
                 unidadMedidaService.convertirDTO(unidadMedida, objetoDTO);
@@ -199,7 +199,7 @@ public class UnidadMedidaController {
             return RD_FORM_VIEW;
         }
 
-        if(unidadMedidaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             UnidadMedida unidadMedida = unidadMedidaService.obtenerUnidadMedida(idUnidadMedida);
             unidadMedidaService.eliminarUnidadMedida(unidadMedida);
             attributes.addFlashAttribute("message", "¡Servicio eliminado correctamente!");

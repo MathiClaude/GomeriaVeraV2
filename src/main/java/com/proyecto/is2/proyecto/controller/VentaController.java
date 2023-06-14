@@ -81,6 +81,9 @@ public class VentaController {
      @Autowired
      private ClienteServiceImp clienteService; // llamada a los servicios de cliente
 
+      @Autowired
+     private UsuarioServiceImp usuarioService; // llamada a los servicios de cliente
+
      @Autowired
      private AperturaCajaServiceImp aperturaCajaService; // llamada a los servicios de cliente
     @Autowired
@@ -100,11 +103,11 @@ public class VentaController {
     @GetMapping
     public String mostrarGrilla(Model model, RedirectAttributes attributes) {
 
-        boolean consultar = ventaService.tienePermiso("consultar-" + VIEW);
-        boolean crear = ventaService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = ventaService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = ventaService.tienePermiso("actualizar-" + VIEW);
-        boolean seleccionar = ventaService.tienePermiso("seleccionar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
 
 
 
@@ -116,13 +119,18 @@ public class VentaController {
             Usuario usuario = usuarioRespository.findByEmail(username);
             List<AperturaCaja> caja = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
 
-            if((caja.get(0).getEstado().toUpperCase().equals("ABRIDO"))){
-                // model.addAttribute("aperturaCaja", caja.get(0).getIdAperturaCaja().toString());//lista los clientes
-                model.addAttribute("aperturaCaja","true"); // CAJA ESTA ABIERTA 
+            if(caja.size()>0){
+                if((caja.get(0).getEstado().toUpperCase().equals("ABRIDO"))){
+                    // model.addAttribute("aperturaCaja", caja.get(0).getIdAperturaCaja().toString());//lista los clientes
+                    model.addAttribute("aperturaCaja","true"); // CAJA ESTA ABIERTA 
+                }else{
+                    model.addAttribute("aperturaCaja","false"); // CAJA NO ESTA ABIERTA :v
+
+                }
             }else{
                 model.addAttribute("aperturaCaja","false"); // CAJA NO ESTA ABIERTA :v
-
             }
+            
 
 
 
@@ -150,8 +158,8 @@ public class VentaController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = ventaService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = ventaService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -172,7 +180,7 @@ public class VentaController {
         this.operacion = "crear-";
         String[] arrVentaDetalle = ventaDetalle.split("\\|");
 
-        if(ventaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Venta venta = new Venta();
             Optional<Cliente> cliente = clienteRepository.findById(objetoDTO.getIdCliente());
             if(cliente.isPresent()){
@@ -213,8 +221,8 @@ public class VentaController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = ventaService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = ventaService.tienePermiso("asignar-rol-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         Venta venta;
 
         // validar el id
@@ -251,7 +259,7 @@ public class VentaController {
             return RD_FORM_VIEW;
         }
 
-        if(ventaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             venta = ventaService.existeVenta(id);
             if(venta != null) {
                 ventaService.convertirDTO(venta, objetoDTO);
@@ -281,7 +289,7 @@ public class VentaController {
             return RD_FORM_VIEW;
         }
 
-        if(ventaService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Venta venta = ventaService.obtenerVenta(idVenta);
             ventaService.eliminarVenta(venta);
             attributes.addFlashAttribute("message", "¡Venta eliminado correctamente!");

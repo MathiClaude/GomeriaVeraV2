@@ -99,99 +99,127 @@
           </div> <!--termina la tabla-->
         </div>
         <!--CONTENIDO DE MÉTODO DE PAGO-->
-        <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
-          <!--opciones de los botones-->
-          <div class="form-check">
-            <!--opción 1-->
-            <div>
-              <input type="radio" id="mostrar-contenido" name="tipoPago">
-              <label for="mostrar-contenido">Efectivo</label>
-              <div id="contenido" style="display:none">
-                <br>
-                <!--metodo de pago campos-->
-                <div class="container">
-                  <div class="row mb-4">
-                    <div class="col">                    
-                      <div class="form-outline">
-                        <label for="inputNombre" class="form-label">Total a pagar:</label>
-                        <input type="text" id="totalPagar" disabled/>
+      <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <legend style="color:#21618C">Datos de caja</legend>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col"> 
+                          <label for="inputNombre" class="form-label">Cajero:</label>
                       </div>
-                    </div>    
-                    <div class="col">
-                      <div class="form-outline">
-                        <label for="inputNombre" class="form-label">IVA:</label>
-                        <input type="text" id="idIva" disabled/>
+                      <div class="col">   
+                        <input type="text" id="cajeroDes" disabled/>
                       </div>
-                    </div>
-                    <br>
-                    <div class="col">
-                      <div class="form-outline">
-                        <label for="inputNombre" class="form-label">Vuelto:</label>
-                        <input type="text" id="idVuelto" disabled/>
+                      <div class="col">
+                        <label for="inputNombre" class="form-label">Caja:</label>
                       </div>
-                    </div>
-                    
-                    <div class="col">                             
-                      <div class="form-outline">
-                        <label for="inputNombre" class="form-label">Total abonado</label>
-                        <input type="text" class="form-control" id="inputNombre" name="nombre" placeholder="Introduzca pago del cliente" autofocus>
+                      <div class="col">
+                        <input type="text" id="cajaDes" disabled/>
                       </div>
-                    </div>    
+                      <div class="col">
+                        <label for="inputNombre" class="form-label">Fecha:</label>
+                      </div>
+                      <div class="col">
+                        <input type="text" id="fechaDesc" disabled/>
+                      </div>          
+                    </div>          
                   </div>
-                  <div class="col-sm-6">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                      Finalizar venta</button>
-                    </div>
-                  </div>
-                  
-                </div><!--opcion 1-->
-                
-                
-                
-                
-                <!-- Modal para comprobante-->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">        
-                        <picture>
-                          <img width="150" src="https://img.freepik.com/foto-gratis/mano-3d-factura-confirmacion-pago-seguro_107791-16702.jpg?w=740&t=st=1683733445~exp=1683734045~hmac=0e774142147f08d258e789d191d885e4f5fde8ebf456654d3f05521a42fa7dda">
-                          
-                        </picture>
-                        ¿Desea generar el comprobante de venta?
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Finalizar sin generar pdf</button>
-                        <button type="button" class="btn btn-primary">Generar PDF</button>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div>
-                
-              </div>
-              
-              <br>
-              <div class="row">
-                <div class="col-sm-1">
-                  <a href="javascript:history.back()" class="btn btn-outline-info w-100">
-                    Atrás
-                  </a>
                 </div>
               </div>
-              
             </div>
-            
-            
-        </div>
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-body">
+                  <div class="form-check">
+                    <!--opción 1-->
+                    <div>
+                      <input type="radio" id="mostrar-contenido" name="tipoPago">
+                      <label for="mostrar-contenido">Efectivo</label>
+                      <div id="contenido" style="display:none">
+                        <br>
+                        <!--metodo de pago campos-->
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-md-2">                    
+                              <label for="inputNombre" class="form-label">Total a pagar:</label>
+                            </div>
+                            <div class="col">
+                              <input type="text" id="totalPagar" style="text-align:right;" disabled/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
+                              <label for="inputNombre" class="form-label">IVA:</label>
+                            </div>
+                            <div class="col">
+                              <input type="text" id="idIva" style="text-align:right;" disabled/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">                             
+                              <label for="inputNombre" class="form-label">Total abonado</label>
+                            </div>
+                            <div class="col">
+                              <input type="text"  id="inputNombre" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" autofocus>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-2">
+                                <label for="inputNombre" class="form-label">Vuelto:</label>
+                            </div>
+                            <div class="col">
+                              <input type="text" id="idVuelto" style="text-align:right;" disabled/>
+                            </div>
+                          </div>
+                            
+                          <hr/>
+                          <div class="row">   
+                            <div class="col-sm-6">
+                            </div>
+                            <div class="col-sm-6">
+                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Previsualizar factura
+                              </button>
+                              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Finalizar cobro
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                          
+                      </div><!--opcion 1-->
+                      <!-- Modal para comprobante-->
+                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">        
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+        
+        <!-- acá -->
+        <!--opciones de los botones-->
+        
       </div>  
 
-      <!-- MODAL PARA CRUD DE CLIENTE -->
-      <!-- Modal: myModal | Creacion de producto -->
+      <!-- MODAL PARA CRUD DE PROVEEDOR -->
+      <!-- Modal: myModal | Creacion de proveedor -->
       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
           <div class="modal-content">                                   

@@ -31,13 +31,13 @@ public class PermisoServiceImp implements PermisoService {
         permisos.add(new Permiso("eliminar-miembro-proyecto", "Permite eliminar miembros del proyecto"));
 
         for(Vista vista : vistaService.listar()) {
-            Permiso p1 = new Permiso("crear", "Permiso de creacion");
+            Permiso p1 = new Permiso("crear-"+vista.getNombre(), "Permiso de creacion");
             p1.setVista(vista);
-            Permiso p2 = new Permiso("actualizar", "Permiso de actualizacion");
+            Permiso p2 = new Permiso("actualizar-"+vista.getNombre(), "Permiso de actualizacion");
             p2.setVista(vista);
-            Permiso p3 = new Permiso("eliminar", "Permiso de eliminacion");
+            Permiso p3 = new Permiso("eliminar-"+vista.getNombre(), "Permiso de eliminacion");
             p3.setVista(vista);
-            Permiso p4 = new Permiso("consultar", "Permiso de consulta");
+            Permiso p4 = new Permiso("consultar-"+vista.getNombre(), "Permiso de consulta");
             p4.setVista(vista);
 
             permisos.addAll(Arrays.asList(p1, p2, p3, p4));

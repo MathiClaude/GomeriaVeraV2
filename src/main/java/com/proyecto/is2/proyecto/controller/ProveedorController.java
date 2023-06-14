@@ -4,6 +4,7 @@ import com.proyecto.is2.proyecto.model.Proveedor;
 import com.proyecto.is2.proyecto.model.Contacto;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.TipoDocumentoServiceImp;
+import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import com.proyecto.is2.proyecto.repository.ContactoRespository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class ProveedorController {
 
     @Autowired
     ContactoRespository contactoRespository;
+    
+    @Autowired
+    private UsuarioServiceImp usuarioService;
 
     /**
      * Instancia un UsuarioDTO para rellenar con datos
@@ -63,10 +67,10 @@ public class ProveedorController {
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = proveedorService.tienePermiso("consultar-" + VIEW);
-        boolean crear = proveedorService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = proveedorService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = proveedorService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
@@ -88,8 +92,8 @@ public class ProveedorController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = proveedorService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = proveedorService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -118,7 +122,7 @@ public class ProveedorController {
         //     return FORM_NEW;
         // }
 
-        if(proveedorService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Proveedor proveedor = new Proveedor();
             List<Contacto> contactos = null;
             proveedorService.convertirDTO(proveedor, objetoDTO);
@@ -309,8 +313,8 @@ public class ProveedorController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = proveedorService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = proveedorService.tienePermiso("asignar-rol-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         Proveedor proveedor;
 
         // validar el id
@@ -342,7 +346,7 @@ public class ProveedorController {
             return RD_FORM_VIEW;
         }
 
-        if(proveedorService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             proveedor = proveedorService.existeProveedor(id);
             if(proveedor != null) {
                 proveedorService.convertirDTO(proveedor, objetoDTO);
@@ -366,7 +370,7 @@ public class ProveedorController {
             return RD_FORM_VIEW;
         }
 
-        if(proveedorService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Proveedor proveedor = proveedorService.obtenerProveedor(idProveedor);
             proveedorService.eliminarProveedor(proveedor);
             attributes.addFlashAttribute("message", "¡Proveedor eliminado correctamente!");

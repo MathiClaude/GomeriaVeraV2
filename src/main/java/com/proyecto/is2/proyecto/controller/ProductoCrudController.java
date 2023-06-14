@@ -11,6 +11,7 @@ import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.TipoProductoServiceImp;
 import com.proyecto.is2.proyecto.services.UnidadMedidaServiceImp;
+import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,6 +60,8 @@ public class ProductoCrudController {
     private MarcaServiceImp marcaService; 
     @Autowired
     private ProveedorServiceImp proveedorService; 
+    @Autowired
+    private UsuarioServiceImp usuarioService;
 
     /**
      * Instancia un UsuarioDTO para rellenar con datos
@@ -74,10 +77,10 @@ public class ProductoCrudController {
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = productoService.tienePermiso("consultar-" + VIEW);
-        boolean crear = productoService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = productoService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = productoService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
@@ -100,8 +103,8 @@ public class ProductoCrudController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = productoService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = productoService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -131,7 +134,7 @@ public class ProductoCrudController {
 //            return FORM_NEW;
 //        }
 
-        if(productoService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Producto producto = new Producto();
             productoService.convertirDTO(producto, objetoDTO);
 
@@ -162,8 +165,8 @@ public class ProductoCrudController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = productoService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = productoService.tienePermiso("asignar-rol-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         Producto producto;
 
         // validar el id
@@ -202,7 +205,7 @@ public class ProductoCrudController {
             return RD_FORM_VIEW;
         }
 
-        if(productoService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             producto = productoService.existeProducto(id);
             if(producto != null) {
                 productoService.convertirDTO(producto, objetoDTO);
@@ -234,7 +237,7 @@ public class ProductoCrudController {
             return RD_FORM_VIEW;
         }
 
-        if(productoService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Producto producto = productoService.obtenerProducto(idProducto);
             productoService.eliminarProducto(producto);
             attributes.addFlashAttribute("message", "¡Producto eliminado correctamente!");

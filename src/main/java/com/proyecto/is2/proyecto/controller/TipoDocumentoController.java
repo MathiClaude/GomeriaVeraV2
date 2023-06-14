@@ -3,6 +3,7 @@ import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.model.TipoDocumento;
 import com.proyecto.is2.proyecto.services.TipoDocumentoServiceImp;
+import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.controller.dto.TipoDocumentoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 @Controller
 @RequestMapping("/tipoDocumentos")
 public class TipoDocumentoController {
-    final String VIEW = "tipoDocumento"; // identificador de la vista
+    final String VIEW = "tipoDoc"; // identificador de la vista
     final String VIEW_PATH = "tipoDocumento";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/tipoDocumentos";
@@ -36,6 +37,9 @@ public class TipoDocumentoController {
     @Autowired
     private TipoDocumentoServiceImp tipoDocumentoService; // llamada a los servicios de usuario
 
+    @Autowired
+    private UsuarioServiceImp usuarioService;
+    
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
 
@@ -53,10 +57,10 @@ public class TipoDocumentoController {
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = tipoDocumentoService.tienePermiso("consultar-" + VIEW);
-        boolean crear = tipoDocumentoService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = tipoDocumentoService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = tipoDocumentoService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;

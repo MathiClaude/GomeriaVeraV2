@@ -22,13 +22,34 @@ public class VistaServiceImp {
         List<Vista> vistas = new ArrayList<>();
 
         vistas.add(new Vista(GeneralUtils.USER_CODE));
-        vistas.add(new Vista(GeneralUtils.PROJECT_CODE));
-        vistas.add(new Vista(GeneralUtils.BACKLOG_CODE));
-        vistas.add(new Vista(GeneralUtils.SPRINT_CODE));
-        vistas.add(new Vista(GeneralUtils.STORY_CODE));
         vistas.add(new Vista(GeneralUtils.ROL_CODE));
         vistas.add(new Vista(GeneralUtils.PERMISO_CODE));
         vistas.add(new Vista(GeneralUtils.VIEW_CODE));
+        //Venta
+        vistas.add(new Vista(GeneralUtils.VENTA_CODE));
+        vistas.add(new Vista(GeneralUtils.CAJA_CODE));
+
+        //Producto
+        vistas.add(new Vista(GeneralUtils.PRODUCTO_CODE ));
+        vistas.add(new Vista(GeneralUtils.TIPO_PRODUCTO_CODE ));
+        vistas.add(new Vista(GeneralUtils.UNIDAD_MEDIDA_CODE ));
+        vistas.add(new Vista(GeneralUtils.MARCA_CODE));
+
+        //Stock
+        vistas.add(new Vista(GeneralUtils.INVENTARIO_CODE));
+        vistas.add(new Vista(GeneralUtils.COMPRA_CODE ));
+
+        //Configuración
+        vistas.add(new Vista(GeneralUtils.CLIENTE_CODE ));
+        vistas.add(new Vista(GeneralUtils.TIPO_DOC_CODE ));
+        vistas.add(new Vista(GeneralUtils.PROVEEDOR_CODE));
+
+
+
+        // vistas.add(new Vista(GeneralUtils.PROJECT_CODE));
+        // vistas.add(new Vista(GeneralUtils.BACKLOG_CODE));
+        // vistas.add(new Vista(GeneralUtils.SPRINT_CODE));
+        // vistas.add(new Vista(GeneralUtils.STORY_CODE));
 
         vistaRepository.saveAll(vistas);
     }

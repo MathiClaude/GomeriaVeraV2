@@ -60,10 +60,10 @@ public class TipoProductoController {
     @GetMapping
     public String mostrarGrilla(Model model) {
 
-        boolean consultar = tipoProductoService.tienePermiso("consultar-" + VIEW);
-        boolean crear = tipoProductoService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = tipoProductoService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = tipoProductoService.tienePermiso("actualizar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
         //        if(!crear && !eliminar && !actualizar) {
         //            return FALTA_PERMISO_VIEW;
@@ -85,8 +85,8 @@ public class TipoProductoController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = tipoProductoService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = tipoProductoService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("tipoProductos", tipoProductoService.listar());
@@ -109,7 +109,7 @@ public class TipoProductoController {
 //            return FORM_NEW;
 //        }
 
-        if(tipoProductoService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             TipoProducto tipoProducto = new TipoProducto();
             tipoProductoService.convertirDTO(tipoProducto, objetoDTO);
 
@@ -127,8 +127,8 @@ public class TipoProductoController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = tipoProductoService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = tipoProductoService.tienePermiso("asignar-rol-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         TipoProducto tipoProducto;
 
         // validar el id
@@ -167,7 +167,7 @@ public class TipoProductoController {
             return RD_FORM_VIEW;
         }
 
-        if(tipoProductoService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             tipoProducto = tipoProductoService.existeTipoProducto(id);
             if(tipoProducto != null) {
                 tipoProductoService.convertirDTO(tipoProducto, objetoDTO);
@@ -199,7 +199,7 @@ public class TipoProductoController {
             return RD_FORM_VIEW;
         }
 
-        if(tipoProductoService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             TipoProducto tipoProducto = tipoProductoService.obtenerTipoProducto(idTipoProducto);
             tipoProductoService.eliminarTipoProducto(tipoProducto);
             attributes.addFlashAttribute("message", "¡Servicio eliminado correctamente!");

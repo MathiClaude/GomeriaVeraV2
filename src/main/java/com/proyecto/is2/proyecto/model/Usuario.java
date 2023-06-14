@@ -40,8 +40,8 @@ public class Usuario {
     @JoinColumn(name = "rol_id", referencedColumnName = "idRol")
     private Rol rol;
 
-    /* Relacion con UserStory */
+    /* Relacion con UserStory 
     @OneToMany(mappedBy = "usuario")
-    private Set<UserStory> userStories = new HashSet<>();
+    private Set<UserStory> userStories = new HashSet<>();*/
 
 } /* Se crea un relacion tambien con Proyecto */

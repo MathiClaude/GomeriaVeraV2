@@ -15,6 +15,7 @@ import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 
 import com.proyecto.is2.proyecto.services.CompraServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,9 @@ public class CompraController {
      private ProductoServiceImp productoService; // llamada a los servicios de producto
      
      @Autowired
+    private UsuarioServiceImp usuarioService;
+
+     @Autowired
      private ProveedorServiceImp proveedorService; // llamada a los servicios de cliente
 
      @Autowired
@@ -74,11 +78,11 @@ public class CompraController {
     @GetMapping
     public String mostrarGrilla(Model model, RedirectAttributes attributes) {
 
-        boolean consultar = compraService.tienePermiso("consultar-" + VIEW);
-        boolean crear = compraService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = compraService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = compraService.tienePermiso("actualizar-" + VIEW);
-        boolean seleccionar = compraService.tienePermiso("seleccionar-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
 
 
 
@@ -111,8 +115,8 @@ public class CompraController {
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
-        boolean crear = compraService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = compraService.tienePermiso("asignar-rol-" + VIEW);
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
@@ -135,7 +139,7 @@ public class CompraController {
 //            return FORM_NEW;
 //        }
 
-        if(compraService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Compra compra = new Compra();
             compraService.convertirDTO(compra, objetoDTO);
 
@@ -159,8 +163,8 @@ public class CompraController {
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = compraService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = compraService.tienePermiso("asignar-rol-" + VIEW);
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         Compra compra;
 
         // validar el id
@@ -197,7 +201,7 @@ public class CompraController {
             return RD_FORM_VIEW;
         }
 
-        if(compraService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             compra = compraService.existeCompra(id);
             if(compra != null) {
                 compraService.convertirDTO(compra, objetoDTO);
@@ -227,7 +231,7 @@ public class CompraController {
             return RD_FORM_VIEW;
         }
 
-        if(compraService.tienePermiso(operacion + VIEW)) {
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
             Compra compra = compraService.obtenerCompra(idCompra);
             compraService.eliminarCompra(compra);
             attributes.addFlashAttribute("message", "¡Compra eliminado correctamente!");

@@ -4,8 +4,11 @@ import com.proyecto.is2.proyecto.Util.GeneralUtils;
 import com.proyecto.is2.proyecto.controller.dto.MarcaDTO;
 import com.proyecto.is2.proyecto.model.Permiso;
 import com.proyecto.is2.proyecto.model.Rol;
+import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Marca;
 import com.proyecto.is2.proyecto.repository.MarcaRepository;
+import com.proyecto.is2.proyecto.repository.UsuarioRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,6 +29,9 @@ public class MarcaServiceImp implements MarcaService {
 
     @Autowired
     private MarcaRepository marcaRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
 
     @Override
@@ -61,12 +67,5 @@ public class MarcaServiceImp implements MarcaService {
         marcaRepository.delete(marca);
     }
 
-    @Override
-    public boolean tienePermiso(String permiso) {
-        /*for(Permiso aux : this.verPermisosUsuarioActual()) {
-            if(permiso.equals(aux.toString())) return true;
-        }*/
-        return true;
-    }
 
 }

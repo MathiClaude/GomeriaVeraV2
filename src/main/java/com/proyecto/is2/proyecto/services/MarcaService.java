@@ -2,11 +2,13 @@ package com.proyecto.is2.proyecto.services;
 
 import com.proyecto.is2.proyecto.controller.dto.MarcaDTO;
 import com.proyecto.is2.proyecto.model.Marca;
+import com.proyecto.is2.proyecto.model.Permiso;
 
 import java.util.List;
 import java.util.Set;
 
 public interface MarcaService {
+    
 
     /**
      * Este mÃ©todo mapea los datos de un formulario para convertirlos
@@ -42,5 +44,5 @@ public interface MarcaService {
 
     public Marca obtenerMarca(Long id);
 
-    public boolean tienePermiso(String permiso);
+    
 }

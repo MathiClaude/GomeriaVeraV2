@@ -12,15 +12,41 @@ public class GeneralUtils {
     public final static String ADMIN_EMAIL = "admin@gmail.com";
     public final static String ADMIN_PASS = "12345678";
     public final static String DATE_FORMAT = "yyyy-MM-dd";
+    
+    // LISTA DE VISTAS PARA ASIGNAR PERMISOS
+    //Seguridad
     public final static String USER_CODE ="usuario";
+    public final static String ROL_CODE = "rol";
+    public final static String PERMISO_CODE = "permiso";
+    public final static String VIEW_CODE = "vista";
+
+    //Venta
+    public final static String VENTA_CODE ="venta";
+    public final static String CAJA_CODE = "caja";
+
+    //Producto
+    public final static String PRODUCTO_CODE ="producto";
+    public final static String TIPO_PRODUCTO_CODE ="tipoProducto";
+    public final static String UNIDAD_MEDIDA_CODE ="unidadMedida";
+    public final static String MARCA_CODE ="marca";
+
+    //Stock
+    public final static String INVENTARIO_CODE ="inventario";
+    public final static String COMPRA_CODE ="compra";
+
+    //Configuración
+    public final static String CLIENTE_CODE ="cliente";
+    public final static String TIPO_DOC_CODE ="tipoDoc";
+    public final static String PROVEEDOR_CODE ="proveedor";
+
+    
     public final static String PROJECT_CODE ="proyecto";
     public final static String BACKLOG_CODE ="backlog";
     public final static String SPRINT_CODE ="sprint";
     public final static String STORY_CODE = "user-story";
-    public final static String ROL_CODE = "rol";
-    public final static String PERMISO_CODE = "permiso";
-    public final static String VIEW_CODE = "vista";
+    
     public final static Long EMPTY_VALUE = -1L;
+    
     public final static String FINALIZADO_VALUE = "Finalizado";
     public final static String CANCELADO_VALUE = "Cancelado";
     public final static String PENDIENTE_VALUE = "Pendiente";

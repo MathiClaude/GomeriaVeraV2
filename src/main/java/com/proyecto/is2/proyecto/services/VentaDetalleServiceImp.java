@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 
-/*@Service
+@Service
 public class VentaDetalleServiceImp implements VentaDetalleService {
     @Autowired
     VentaDetalleRepository ventaDetalleRepository;
@@ -31,9 +31,9 @@ public class VentaDetalleServiceImp implements VentaDetalleService {
 
     @Override
     public List<VentaDetalle> listarTodos() {
-        boolean consultar = usuarioService.tienePermiso(Permisos.READ_ADMINISTRATION_PRIVILEGE.name);
+        //boolean consultar = usuarioService.tienePermiso(Permisos.READ_ADMINISTRATION_PRIVILEGE.name);
 
-        if(!consultar) throw new AuthorizationServiceException(ModelAttributes.TITLE_403);
+        //if(!consultar) throw new AuthorizationServiceException(ModelAttributes.TITLE_403);
 
         return ventaDetalleRepository.findAll();
     }
@@ -50,11 +50,10 @@ public class VentaDetalleServiceImp implements VentaDetalleService {
 
     @Override
     public VentaDetalle obtenerInstancia(Long idObj) {
-        boolean consultar = usuarioService.tienePermiso(Permisos.READ_ADMINISTRATION_PRIVILEGE.name);
+        //boolean consultar = usuarioService.tienePermiso(Permisos.READ_ADMINISTRATION_PRIVILEGE.name);
 
-        if(!consultar) throw new AuthorizationServiceException(ModelAttributes.TITLE_403);
+        //if(!consultar) throw new AuthorizationServiceException(ModelAttributes.TITLE_403);
 
-        return ventaDetalleRepository.findByIdItem(idObj);
+        return ventaDetalleRepository.findByIdVentaDetalle(idObj);
     }
 }
-*/

@@ -98,7 +98,8 @@ public class CajaController {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             Usuario usuario = usuarioRespository.findByEmail(username);
             model.addAttribute("usuario", usuario.getUsername());//Datos de usuario
-            
+            //model.addAttribute("usuario", "admin");//Datos de usuario
+
 
         } else {
             return FALTA_PERMISO_VIEW;

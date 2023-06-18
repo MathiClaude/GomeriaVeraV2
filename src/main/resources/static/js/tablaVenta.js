@@ -1,8 +1,8 @@
 console.log("Incluido tabla venta")
 let listaProductos =[];
-function moverProducto(idProducto,precio,impuesto,descripcion,elemento){
+function moverProducto(idProducto,precio,impuesto,descripcion,codigo,elemento){
 	if(elemento.checked){
-		listaProductos.push({"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
+		listaProductos.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
 	}else{
 		listaProductos = listaProductos.filter((producto)=>producto.idProducto != idProducto)
 	}

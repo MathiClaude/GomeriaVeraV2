@@ -92,7 +92,7 @@
             <table id="myTable3" class="table table-sm table-bordered table-hover">
               <thead style="background-color: #0a4275;">
                 <tr class="text-center">
-                  <th>Codigo</th><!---->
+                  <th>Código</th><!---->
                   <th>Artículo</th><!---->
                   <th>Cantidad</th><!---->
                   <th>Precio</th><!---->
@@ -104,7 +104,14 @@
               </thead><!---->
               <tbody id="productosSeleccionados"><!---->
                 <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
-                  <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
+                  <td>No</td><!---->
+                  <td>se</td><!---->
+                  <td>encontraron</td><!---->
+                  <td>pro</td><!---->
+                  <td>duc</td><!---->
+                  <td>t</td><!---->
+                  <td>o</td><!---->
+                  <td>s</td><!---->
                 </tr><!---->
                 
               </tbody>
@@ -128,19 +135,19 @@
                           <label for="inputNombre" class="form-label">Cajero:</label>
                       </div>
                       <div class="col">   
-                        <input type="text" id="cajeroDes" disabled/>
+                        <input type="text" id="cajeroDes" th:value="${nombreCajero}" disabled/>
                       </div>
                       <div class="col">
                         <label for="inputNombre" class="form-label">Caja:</label>
                       </div>
                       <div class="col">
-                        <input type="text" id="cajaDes" disabled/>
+                        <input type="text" id="cajaDes" th:value="${cajaActual}" disabled/>
                       </div>
                       <div class="col">
                         <label for="inputNombre" class="form-label">Fecha:</label>
                       </div>
                       <div class="col">
-                        <input type="text" id="fechaDesc" disabled/>
+                        <input type="text" id="fechaDesc" th:value="${fechaApertura}" disabled/>
                       </div>          
                     </div>          
                   </div>
@@ -200,7 +207,8 @@
                               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Previsualizar factura
                               </button>
-                              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                              <!-- <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"> -->
+                              <button type="button" class="btn btn-success" onclick="guardarDatos()">
                                 Finalizar cobro
                               </button>
                             </div>
@@ -309,7 +317,7 @@
                           <tr class="text-center" th:each="producto: ${listProduct}">
                             <td >
                               <a >
-                                <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}',this)|"  />
+                                <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}','${producto.codigo}',this)|"  />
                               </a>
                             </td>
                             <td th:text="${producto.codigo}">Cod</td>
@@ -347,8 +355,13 @@
                         <tbody><!---->
                           <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
                             <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+
                             <td class="text-center fw-bold" >No se encontraron servicios</td><!---->
                             <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+                            <td class="text-center fw-bold" ></td><!---->
+
                           </tr><!---->
                           <tr class="text-center" th:each="servicio: ${listServicios}">
                             <td th:text="${servicio.codigo}"></td>

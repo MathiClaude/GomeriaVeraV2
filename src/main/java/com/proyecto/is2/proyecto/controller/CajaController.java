@@ -14,6 +14,8 @@ import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import com.proyecto.is2.proyecto.services.CajaServiceImp;
 import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 import com.proyecto.is2.proyecto.repository.ContactoRespository;
+import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
+import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,7 +68,11 @@ public class CajaController {
     @Autowired
     UsuarioRepository usuarioRespository;
 
-    
+    @Autowired
+    AperturaCajaRepository aperturaCajaRepository;
+
+    @Autowired
+    CajaRepository cajaRepository;
 
     /**
      * Instancia un UsuarioDTO para rellenar con datos
@@ -87,20 +93,11 @@ public class CajaController {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
 
-        //        if(!crear && !eliminar && !actualizar) {
-        //            return FALTA_PERMISO_VIEW;
-        //        }
-
         if(consultar) {
-
             model.addAttribute("listCaja", cajaService.listar());//lista los cajas
-
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            Usuario usuario = usuarioRespository.findByEmail(username);
-            model.addAttribute("usuario", usuario.getUsername());//Datos de usuario
-            //model.addAttribute("usuario", "admin");//Datos de usuario
-
-
+            String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+            Usuario usuario = usuarioRespository.findByEmail(username);// Obtener todos los datos del usuario 
+            
         } else {
             return FALTA_PERMISO_VIEW;
         }
@@ -120,19 +117,30 @@ public class CajaController {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Usuario usuario = usuarioRespository.findByEmail(username);// Obtener todos los datos del usuario 
+        model.addAttribute("nombreCajero", usuario.getUsername());//Nombre del cajero
 
-        //        if(!crear && !eliminar && !actualizar) {
-        //            return FALTA_PERMISO_VIEW;
-        //        }
+        List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
+
 
         if(consultar) {
 
             model.addAttribute("listCaja", cajaService.listar());//lista los cajas
 
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            Usuario usuario = usuarioRespository.findByEmail(username);
-            model.addAttribute("usuario", usuario.getUsername());//Datos de usuario
             
+            model.addAttribute("usuario", usuario.getUsername());//Datos de usuario
+            if(cajaApertura.size()>0){
+                if((cajaApertura.get(0).getEstado().toUpperCase().equals("ABRIDO"))){
+                    
+                    model.addAttribute("aperturaCaja","true"); // CAJA ESTA ABIERTA 
+                    
+                    Caja cajaActual = cajaRepository.findByIdCaja(cajaApertura.get(0).getIdCaja());
+                    model.addAttribute("cajaActual", cajaActual.getDescripcion());//lista las cajas
+                    //model.addAttribute("saldoCierre", cajaActual.getSaldoCierre());//lista los productos
+                    model.addAttribute("fechaCierre", cajaApertura.get(0).getFechaCierre() );//lista los productos
+                }
+            }    
 
         } else {
             return FALTA_PERMISO_VIEW;

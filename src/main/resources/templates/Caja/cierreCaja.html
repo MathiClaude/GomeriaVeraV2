@@ -10,7 +10,7 @@
             colors="outline:#121331,primary:#b26836,secondary:#ffc738"
             style="width:75px;height:75px">
         </lord-icon> Cerrar Caja</b></h1> <!--titulo-->
-        <form method="post" th:action="@{/cierreCaja/abrir}" th:object="${caja}">
+        <form method="post" th:action="@{/aperturaCaja/cerrar}" th:object="${caja}">
             <fieldset>
                 <div class="container">
                     <div class="row">
@@ -39,8 +39,17 @@
                                 <div class="row mb-4">                            
                                     <div class="col">
                                         <div class="form-outline">
-                                            <label for="inputNombre" class="form-label">Caja:</label>
-                                            <input type="text" id="cajaDes" th:value="${cajaActual}" disabled/>
+                                            <label for="saldoCierre" class="form-label">Caja</label>
+                                            <input type="text" class="form-control" id="cajaDes" name="cajaDes" th:value="${cajaActual}"  disabled>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row mb-4">                            
+                                    <div class="col">
+                                        <div class="form-outline">
+                                            <label for="saldoCierre" class="form-label">Saldo Apertura</label>
+                                            <input type="text" class="form-control" id="saldoApertura" name="saldoApertura" th:value="${saldoApertura}" disabled>
                                         </div>
                                     </div>
                                     

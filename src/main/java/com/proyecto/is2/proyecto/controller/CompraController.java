@@ -3,8 +3,12 @@ import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
+import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
+import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Proveedor;
+import com.proyecto.is2.proyecto.model.AperturaCaja;
+import com.proyecto.is2.proyecto.model.Caja;
 import com.proyecto.is2.proyecto.model.Compra;
 import com.proyecto.is2.proyecto.Util.ModelAttributes;
 
@@ -13,11 +17,17 @@ import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
 import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 
+import com.proyecto.is2.proyecto.repository.UsuarioRepository;
+import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
+import com.proyecto.is2.proyecto.repository.CajaRepository;
+
+
 import com.proyecto.is2.proyecto.services.CompraServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controlador encargado de recibir las peticiones
@@ -61,9 +72,17 @@ public class CompraController {
 
      @Autowired
      private AperturaCajaServiceImp aperturaCajaService; // llamada a los servicios de cliente
+
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
+        @Autowired
+    AperturaCajaRepository aperturaCajaRepository;
 
+    @Autowired
+    CajaRepository cajaRepository;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
     /**
      * Instancia un UsuarioDTO para rellenar con datos
      * del formulario para luego mapearlo a un objeto
@@ -90,7 +109,30 @@ public class CompraController {
             model.addAttribute("listProduct", productoService.listar());//lista los productos
            
             model.addAttribute("listarProveedor", proveedorService.listar());//lista los clientes
+            String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+            Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
+            model.addAttribute("nombreCajero", usuario.getUsername());//Nombre del cajero
+
+            List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
+            
+
+            if(cajaApertura.size()>0){
+                if((cajaApertura.get(0).getEstado().toUpperCase().equals("ABRIDO"))){
+                    // model.addAttribute("aperturaCaja", caja.get(0).getIdAperturaCaja().toString());//lista los clientes
+                    model.addAttribute("aperturaCaja","true"); // CAJA ESTA ABIERTA 
+                    
+                    Caja cajaActual = cajaRepository.findByIdCaja(cajaApertura.get(0).getIdCaja());
+                    model.addAttribute("cajaActual", cajaActual.getDescripcion());//lista las cajas
+                    model.addAttribute("fechaApertura", cajaApertura.get(0).getFechaApertura() );//fecha de apertura caja : v
+                }else{
+                    model.addAttribute("aperturaCaja","false"); // CAJA NO ESTA ABIERTA :v
+
+                }
+
+        } else{
+                model.addAttribute("aperturaCaja","false"); // CAJA NO ESTA ABIERTA :v
+        }
         } else {
             return FALTA_PERMISO_VIEW;
         }

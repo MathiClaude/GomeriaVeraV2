@@ -82,7 +82,7 @@ public class VentaController {
     private OperacionServiceImp operacionMov  ;
     
     @Autowired
-    UsuarioRepository usuarioRespository;
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     ClienteRepository clienteRepository;
@@ -148,7 +148,7 @@ public class VentaController {
             model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
             String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-            Usuario usuario = usuarioRespository.findByEmail(username);// Obtener todos los datos del usuario 
+            Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
             model.addAttribute("nombreCajero", usuario.getUsername());//Nombre del cajero
 
@@ -219,7 +219,7 @@ public class VentaController {
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRespository.findByEmail(username);// Obtener todos los datos del usuario 
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
         List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
         List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
         BigDecimal montoVenta = new BigDecimal(objetoDTO.getMontoVenta());

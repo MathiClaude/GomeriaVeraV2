@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Creación de Timbrados</b></h1> <!--titulo-->
+
+  <!--th:block th:include="fragment/success-message.html"></th:block-->
+
+  <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#timbradoModal" >
+    <i class="bi bi-person-plus-fill"> Nuevo</i>
+  </button>
+  </th:block> <!--modificar front-->
+
+  <div th:if="${permisoVer eq false}">
+    <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+  </div><!---->
+  <div th:if="${permisoVer eq true}" class="table-responsive">
+    <table id="myTable" class="table table-sm table-bordered table-hover">
+      <thead style="background-color: #0a4275;">
+      <tr class="text-center"><!---->
+        <th>Nro. Timbrado</th><!---->
+        <th>Estado</th><!---->
+        <th>Válido desde</th><!---->
+        <th>Válido hasta</th><!---->
+        <th>Numeración desde</th><!---->
+        <th>Numeración hasta</th><!---->
+        <th>Acción</th><!---->
+      </tr><!---->
+      </thead><!---->
+      <tbody><!---->
+      <tr th:if="${#lists.isEmpty(listTimbrado)}"><!---->
+        <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+      </tr><!---->
+      <tr class="text-center" th:each="timbrado: ${listTimbrado}">
+        <td th:text="${timbrado.numero}"></td>
+        <td th:text="${timbrado.estado}"></td><!---->
+        <td th:text="${timbrado.valiDesde}"></td><!---->
+        <td th:text="${timbrado.valiHasta}"></td><!---->
+        <td th:text="${timbrado.enumDesde}"></td><!---->
+        <td th:text="${timbrado.enumHasta}"></td><!---->
+        <td><!---->
+          <div class="btn-group"><!---->
+            <a th:if="${permisoActualizar eq true}" th:href="@{/timbrados/{id}(id=${timbrado.idTimbradoa})}" 
+               class="btn btn-sm btn-outline-primary"><!---->
+              <i class="fa-solid fa-pen-to-square"></i><!---->
+            </a>
+            <a th:if="${permisoEliminar eq true}" th:href="@{/timbrados/{id}/delete(id=${timbrado.idTimbradoa})}">
+              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  <br>  
+  </div>
+  <div class="modal fade" id="timbradoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Timbrado</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="form-timbrado" class="needs-validation" novalidate>
+            <fieldset class="mb-3">
+              <div class="mb-3">
+                <label for="timbrado" class="form-label">Nro. Timbrado<span class="text-danger">*</span></label>
+                <input id="timbrado" name="timbrado" type="text" maxlength="8" class="form-control" placeholder="Introduzca un número de timbrado" />
+                <div class="valid-feedback">
+                  Ok!
+                </div>
+                <div class="invalid-feedback">
+                  Este campo es obligatorio.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label name="fchDesde" class="form-label">Vigente desde<span class="text-danger">*</span></label>
+                <input id="fchDesde" name="fchDesde" type="date" class="form-control"
+                       placeholder="Introduzca la fecha inicial de vigencia" required/>
+                <div class="valid-feedback">
+                  Ok!
+                </div>
+                <div class="invalid-feedback">
+                  Este campo es obligatorio.
+                </div>
+              </div>
+              <!--
+                  SE DEBE DE VERIFICAR QUE NO SEA MENOR QUE LA FECHA DESDE
+                  EL TIMBRADO DURA 1 AÑO
+              -->
+              <div class="mb-3">
+                <label name="fchHasta" class="form-label">Vigente hasta<span class="text-danger">*</span></label>
+                <input id="fchHasta" name="fchHasta" type="date" class="form-control"
+                       placeholder="Introduzca la fecha final de vigencia" required/>
+                <div class="valid-feedback">
+                  Ok!
+                </div>
+                <div class="invalid-feedback">
+                  Este campo es obligatorio.
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" onclick="functTimbradoUpdate()">Guardar</button>
+        </div>
+      </div>
+    </div>
+    <th:block layout:fragment="scripts">
+      <script th:src="@{/js/ventas/timbrado.js}"></script>
+      <script>
+        $(document).ready(function(){
+            $("#fchDesde").on("change", function() {
+                var fchDesde = $(this).val();
+                var fchHasta = $("#fchHasta").val();
+                if(new Date(fchDesde) > new Date(fchHasta)) {
+                    $("#fchHasta").val(fchDesde);
+                }
+                $("#fchHasta").prop("min", $(this).val());
+            });
+        });
+    </script>
+    </th:block>
+  </div>
+    <a href="javascript:history.back()" class="btn btn-outline-primary">
+      <i class="fa fa-backward" aria-hidden="true"></i> Atrás 
+    </a>
+  </th:block> <!--modificar front-->
+</div>
+
+</body>
+</html>

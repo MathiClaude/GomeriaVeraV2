@@ -112,19 +112,19 @@
                           <label for="inputNombre" class="form-label">Cajero:</label>
                       </div>
                       <div class="col">   
-                        <input type="text" id="cajeroDes" disabled/>
+                        <input type="text" id="cajeroDes" th:value="${nombreCajero}" disabled/>
                       </div>
                       <div class="col">
                         <label for="inputNombre" class="form-label">Caja:</label>
                       </div>
                       <div class="col">
-                        <input type="text" id="cajaDes" disabled/>
+                        <input type="text" id="cajaDes" th:value="${cajaActual}" disabled/>
                       </div>
                       <div class="col">
                         <label for="inputNombre" class="form-label">Fecha:</label>
                       </div>
                       <div class="col">
-                        <input type="text" id="fechaDesc" disabled/>
+                        <input type="text" id="fechaDesc" th:value="${fechaApertura}" disabled/>
                       </div>          
                     </div>          
                   </div>

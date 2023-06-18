@@ -140,7 +140,7 @@ public class CajaController {
                     //model.addAttribute("saldoCierre", cajaActual.getSaldoCierre());//lista los productos
                     model.addAttribute("fechaCierre", cajaApertura.get(0).getFechaCierre() );//lista los productos
                 }
-            }    
+            }  //  
 
         } else {
             return FALTA_PERMISO_VIEW;

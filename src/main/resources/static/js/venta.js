@@ -1,5 +1,6 @@
 
     var table;
+    var tablaDatos;  
     var items = []; // SE USA PARA EL INPUT DE AUTOCOMPLETE
     var itemProducto = 1;
 
@@ -398,6 +399,32 @@
          var observacion = $("#iptObservacion").val();
 
          count = table.rows()['0'].length;
+
+         //$("#myTable3 tbody tr").each(function(){  console.log($(this)[0].cells[0].innerHTML + "-" + $(this)[0].cells[2].innerHTML); });
+
+
+         //$("#myTable3 tbody tr").length
+
+         var index = 0;
+         var arr = [];
+         //cargo datos de detalles
+         $("#myTable3 tbody tr").each(function(){  
+            arr[index] =  $(this)[0].cells[index].innerHTML + "-" + $(this)[0].cells[index].innerHTML;
+            index ++; 
+        });
+        console.log("arr:" + arr);
+
+        //cargo datos de cabecera
+        var cliente = $("#buscadorCliente").val();
+        var montoTotal = $("#montoTotal").html();
+        var proveedor = $('#selProveedor').val();
+        var moneda = $("#selMoneda").val();
+        var tipoPago = $("#selTipoPago").val();
+        var direccion = $("#iptDireccion").val();
+        var observacion = $("#iptObservacion").val();
+
+        //
+
 
          if (count > 0) {
 

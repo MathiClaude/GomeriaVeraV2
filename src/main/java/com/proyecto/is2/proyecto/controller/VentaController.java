@@ -321,17 +321,19 @@ public class VentaController {
     @Transactional
     @PostMapping(DATA_CREATE_URL)
     public String crearObjeto(@RequestParam(name = "arr[]") String[] arr,
-                              @RequestParam(name = "moneda") String[] moneda,
-                              @RequestParam(name = "proveedor") Long proveedor,
-                              @RequestParam(name = "tipo_pago") String tipoPago,
-                              @RequestParam(name = "total_operacion") String total,
-                              @RequestParam(name = "direccion") String direccion,
-                              @RequestParam(name = "observacion") String observacion,
+                              @RequestParam(name = "moneda", required = false) String[] moneda,
+                              @RequestParam(name = "proveedor", required = false) Long proveedor,
+                              @RequestParam(name = "tipo_pago", required = false) String tipoPago,
+                              @RequestParam(name = "total_operacion", required = false) String total,
+                              @RequestParam(name = "direccion", required = false) String direccion,
+                              @RequestParam(name = "observacion", required = false) String observacion,
                               Model model, RedirectAttributes attributes) {
 
         boolean privillege = usuarioService.tienePermiso(Permisos.WRITE_COMPRAS_PRIVILEGE.name);
-
-        if (privillege) {
+        for(int i=0; i < arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+        if (false) {
 
             try {
                 Venta obj = ventaService.guardar(new Venta());

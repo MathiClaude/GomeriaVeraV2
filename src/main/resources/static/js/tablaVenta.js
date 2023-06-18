@@ -39,11 +39,14 @@ function actualizarTabla(){
 		impuesto.innerHTML = elemento.impuesto;
 		let cantidad = document.createElement("td")
 		cantidad.innerHTML = elemento.cantidad;
+		let codigo = document.createElement("td")
+		codigo.innerHTML = elemento.codigo;
 		let total =document.createElement("td")
 		total.innerHTML = totalMonto
 		let totalImpuesto =document.createElement("td")
 		totalImpuesto.innerHTML = sumaIva
 		
+		fila.appendChild(codigo)
 		fila.appendChild(descripcion)
 		fila.appendChild(cantidad)
 		fila.appendChild(precio)

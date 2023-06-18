@@ -1,5 +1,7 @@
 package com.proyecto.is2.proyecto.controller;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
@@ -7,14 +9,18 @@ import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.model.Producto;
+import com.proyecto.is2.proyecto.model.Proveedor;
 import com.proyecto.is2.proyecto.model.AperturaCaja;
 import com.proyecto.is2.proyecto.model.Venta;
 import com.proyecto.is2.proyecto.model.VentaDetalle;
 import com.proyecto.is2.proyecto.Util.ModelAttributes;
-
+import com.proyecto.is2.proyecto.Util.Permisos;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
+import com.proyecto.is2.proyecto.services.VentaDetalleService;
+import com.proyecto.is2.proyecto.services.VentaDetalleServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
+import com.proyecto.is2.proyecto.services.ProveedorService;
 import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 
 import com.proyecto.is2.proyecto.services.VentaServiceImp;
@@ -26,12 +32,15 @@ import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
 
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.ArrayList;
@@ -55,9 +64,13 @@ public class VentaController {
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
+    //endpoint
+    private final static String DATA_CREATE_URL = "/data-create";
+
 //    final String RD_ASIGNAR_ROL_VIEW = "redirect:/" + ASIGNAR_ROL_VIEW;
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
 
+    
     @Autowired
     private VentaServiceImp ventaService;
     
@@ -69,6 +82,12 @@ public class VentaController {
 
     @Autowired
     ProductoRepository productoRepository;
+
+    @Autowired
+    ProveedorService proveedorService;
+
+     @Autowired
+    VentaDetalleService ventaDetalleService;
 
     @Autowired
     AperturaCajaRepository aperturaCajaRepository;
@@ -296,6 +315,84 @@ public class VentaController {
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @Transactional
+    @PostMapping(DATA_CREATE_URL)
+    public String crearObjeto(@RequestParam(name = "arr[]") String[] arr,
+                              @RequestParam(name = "moneda", required = false) String[] moneda,
+                              @RequestParam(name = "proveedor", required = false) Long proveedor,
+                              @RequestParam(name = "tipo_pago", required = false) String tipoPago,
+                              @RequestParam(name = "total_operacion", required = false) String total,
+                              @RequestParam(name = "direccion", required = false) String direccion,
+                              @RequestParam(name = "observacion", required = false) String observacion,
+                              Model model, RedirectAttributes attributes) {
+
+        boolean privillege = usuarioService.tienePermiso(Permisos.WRITE_COMPRAS_PRIVILEGE.name);
+        for(int i=0; i < arr.length; i++) {
+            System.out.println(arr[i]);
+        }
+        if (false) {
+
+            try {
+                Venta obj = ventaService.guardar(new Venta());
+                List<Item> listItems = new ArrayList<>();
+                Proveedor objProveedor = proveedorService.obtenerProveedor(proveedor);
+                String username = SecurityContextHolder.getContext().getAuthentication().getName();
+                Usuario usuario = usuarioService.existeUsuario(username);
+
+                for(int i=0; i < arr.length; i++) {
+                    String[] items = arr[i].split("-");
+                    Long idProducto = Long.valueOf(items[0]);
+                    Float cantidad = Float.valueOf(items[1]);
+                    Float costo = Float.valueOf(items[2]);
+
+                    VentaDetalle item = new VentaDetalle();
+                    item.setProducto(productoService.obtenerProducto(idProducto));
+                    item.setCantidad(cantidad);
+                   // item.setCosto(costo);
+                   // item.setOrdenCompra(obj);
+                   // item = itemService.guardar(item);
+                    //listItems.add(item);
+                }
+
+                /*obj.setItems(listItems);
+                obj.setProveedor(objProveedor);
+                obj.setRegistradoPor(usuario);
+                obj.setObservacion(observacion);
+                obj.setEstado(Estados.PENDIENTE.name());
+                obj.setFechaEntrega(null);
+                obj.setDireccionEntrega(direccion);
+                obj.setFechaEmision(LocalDate.now());*/
+
+                ventaService.guardar(obj);
+
+                attributes.addFlashAttribute(ModelAttributes.ALERT_MESSAGE, "Venta registrada correctamente!");
+                attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_SUCCESS);
+
+                //return REDIRECT_VIEW + ORDEN_COMPRA_URL;
+                return VIEW;
+
+            } catch (AuthorizationServiceException e) {
+                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
+                model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
+                model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
+                //return ERROR_VIEW;
+                return VIEW;
+            } catch (Exception e) {
+                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.ERROR_GENERIC);
+                model.addAttribute(ModelAttributes.ERROR_MSG, "");
+                model.addAttribute(ModelAttributes.ERROR_TITLE, e.getMessage());
+                //return ERROR_VIEW;
+                return VIEW;
+            }
+        } else {
+            model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
+            model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
+            model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
+            //return ERROR_VIEW;
+            return VIEW;
         }
     }
 

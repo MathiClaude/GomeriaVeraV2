@@ -216,17 +216,212 @@
                         </div>
                           
                       </div><!--opcion 1-->
-                      <!-- Modal para comprobante-->
+                      <!-- Modal para comprobante previsualización-->
                       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Comprobante</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Previsualización del comprobante de venta</h5>
                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">        
-                            </div>
+                            <!--cuerpo del modal | comprobante-->
+                            <div class="modal-body">
+                              <!--metodo de pago campos-->
+                              <div class="container">
+                                <div style="text-align: center;">
+                                  <img th:src="@{/img/logo.png}" class="wp-image-4532" width="100" height="100"/> <!--div center img-->                                  
+                                </div>
+                                <!---->
+                                <div class="row" style="text-align: center;">
+                                  <div class="col">
+                                    <div class="col">
+                                      <div class="col">
+                                        <label for="inputNombre" class="form-label"><strong>CASA CENTRAL</strong></label>                                                                               
+                                      </div>  
+                                    </div>  
+                                  </div>                                  
+                                </div>
+                                <!---->
+                                <div class="row" style="text-align: center;">
+                                  <div class="col">
+                                    <div class="col">
+                                      <div class="col">                                        
+                                        <label for="inputNombre" class="form-label"><strong>Villa Elisa</strong></label>                                        
+                                      </div>  
+                                    </div>  
+                                  </div>                                  
+                                </div>
+                                <!---->
+                                <div class="row" style="text-align: center;">
+                                  <div class="col">
+                                    <div class="col">
+                                      <div class="col">                                        
+                                        <label for="inputNombre" class="form-label"><strong>***IVA INCLUIDO***</strong></label>
+                                      </div>  
+                                    </div>  
+                                  </div>                                  
+                                </div>                              
+                                <!---->                                
+                                <div class="row">
+                                  <div class="col">                    
+                                    <label for="inputNombre" class="form-label"><strong>Timbrado:</strong></label>
+                                    <span id="nroTimbrado" th:text="${nroTimbrado}"></span>
+                                  </div>                                  
+                                  <div class="col">                    
+                                    <label for="inputNombre" class="form-label"><strong>Válido desde:</strong></label>
+                                    <span id="fechaApertura" th:text="${fechaApertura}"></span>
+                                  </div>                                  
+                                </div>                                
+                                <!---->
+                                <div class="row" style="text-align: center;">
+                                  <div class="col">
+                                    <div class="col">
+                                      <div class="col">
+                                        <label for="inputNombre" class="form-label"><strong>Documento electrónico contado</strong></label>                                    
+                                      </div>
+                                    </div>
+                                  </div>                                  
+                                </div>
+                                <!---->
+                                <div class="row">
+                                  <div class="col">                    
+                                    <label for="inputNombre" class="form-label"><strong>NRO:</strong></label>
+                                    <span id="fechaApertura" th:text="${fechaApertura}"></span>
+                                  </div>                                  
+                                </div>
+                                <!---->
+                                <div class="row">
+                                  <div class="col">                    
+                                    <label for="inputNombre" class="form-label"><strong>FECHA:</strong></label>
+                                    <span id="fechaApertura" th:text="${fechaApertura}"></span>
+                                  </div>                                  
+                                </div>
+                                <!---->
+                                <div class="row">
+                                  <div class="col">                    
+                                    <label for="inputNombre" class="form-label"><strong>RUC/CI:</strong></label>
+                                    <span id="ruc" th:text="${ruc}"></span>
+                                  </div>                                  
+                                </div>
+                                <!---->
+                                <div class="row">
+                                  <div class="col">                    
+                                    <label for="inputNombre" class="form-label"><strong>Cliente:</strong></label>
+                                    <span id="idCliente" th:text="${idCliente}"></span>
+                                  </div>                                  
+                                </div>
+                                <!---->
+                                <hr>
+                                <!---->    
+                                <div class="row">
+                                  <div class="col">                    
+                                    <label for="inputNombre" class="form-label"><strong>Cajero:</strong></label>
+                                    <span id="cajeroDes" th:text="${nombreCajero}"></span>
+                                  </div>                                
+                                  <div class="col">                    
+                                    <label for="inputNombre" class="form-label"><strong>Caja:</strong></label>
+                                    <span id="cajaActual" th:text="${cajaActual}"></span>
+                                  </div>                                  
+                                </div>
+                                <!---->
+                                <hr>
+                                <!--tabla de productos seleccionados para la venta-->
+                                <div th:if="${permisoVer eq true}" class="table-responsive">
+                                  <table class="table">
+                                    <thead style="background-color: #0a4275;">
+                                      <tr class="text-center"><!---->
+                                        <th>Código</th><!---->
+                                        <th>Servicio</th><!---->
+                                        <th>Tipo de Servicio</th><!---->
+                                        <th>Precio</th><!---->
+                                        <th>Impuesto</th><!---->                                        
+                                      </tr><!---->
+                                    </thead><!---->
+                                    <tbody><!---->
+                                      <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
+                                        <td class="text-center fw-bold" ></td><!---->
+                                        <td class="text-center fw-bold" ></td><!---->
+            
+                                        <td class="text-center fw-bold" >No se encontraron servicios</td><!---->
+                                        <td class="text-center fw-bold" ></td><!---->
+                                        <td class="text-center fw-bold" ></td><!---->                                        
+            
+                                      </tr><!---->
+                                      <tr class="text-center" th:each="servicio: ${listServicios}">
+                                        <td th:text="${servicio.codigo}"></td>
+                                        
+                                        <td th:text="${servicio.nombre}"></td>
+                                        <td th:text="${servicio.tipoProducto.descripcion}"></td>
+                                        
+                                        <td th:text="${servicio.precio}">Precio</td><!---->
+                                        <td th:text="${servicio.impuesto}"></td>
+                                        
+                                        <td><!---->
+                                          <div class="btn-group"><!---->
+                                            <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 
+                                            class="btn btn-sm btn-outline-primary"><!---->
+                                            <i class="fa-solid fa-pen-to-square"></i><!---->
+                                          </a>
+                                          <a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
+                                            <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                              <i class="fa-sharp fa-solid fa-trash"></i>
+                                            </button>
+                                          </a>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div> <!--termina la tabla-->
+                              <hr>
+                              <!---->    
+                              <div class="row">
+                                <div class="col">                    
+                                  <label for="inputNombre" class="form-label"><strong>Total items:</strong></label>
+                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
+                                </div>                                
+                              </div>
+                              <!---->
+                              <!---->    
+                              <div class="row">
+                                <div class="col">                    
+                                  <label for="inputNombre" class="form-label"><strong>Total a pagar:</strong></label>
+                                  <span id="totalPagar"></span>
+                                </div>                                
+                              </div>
+                              <!---->
+                              <div class="row">
+                                <div class="col">                    
+                                  <label for="inputNombre" class="form-label"><strong>Descuentos:</strong></label>
+                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
+                                </div>                                
+                              </div>
+                              <!---->
+                              <div class="row">
+                                <div class="col">                    
+                                  <label for="inputNombre" class="form-label"><strong>NETO A PAGAR:</strong></label>
+                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
+                                </div>                                
+                              </div>
+                              <!---->
+                              <div class="row">
+                                <div class="col">                    
+                                  <label for="inputNombre" class="form-label"><strong>Total efectivo:</strong></label>
+                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
+                                </div>                                
+                              </div>
+                              <!---->
+                              <div class="row">
+                                <div class="col">                    
+                                  <label for="inputNombre" class="form-label"><strong>Cambio:</strong></label>
+                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
+                                </div> 
+                              </div>
+                              <!---->
+
+                            </div> <!--fin del cuerpo del modal-->
                           </div>
+                        </div>
                         </div>
                       </div>
                     </div>

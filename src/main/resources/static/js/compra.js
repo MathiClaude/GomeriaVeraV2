@@ -9,18 +9,18 @@ function moverProducto(idProducto,precio,impuesto,descripcion,codigo,elemento){
 	// console.log(idProducto,precio,impuesto,"+","test")
 	// console.log(listaProductos)
 }
-function actualizarListaProductos(){
+function actualizarListaProductosCompras(){
 	for(let elemento of listaProductos){
 		let cantidad = document.getElementById(elemento.idProducto).value
 		elemento.cantidad = cantidad
 	}
-	actualizarTabla();
+	actualizarCompra();
 }
-function actualizarTabla(){
-	const TABLA = document.getElementById("productosSeleccionados");
-	const TOTAL_PRODS = document.getElementById("totalProds");
-	const TOTAL_PRODS2 = document.getElementById("totalPagar");
-	const TOTAL_IVA = document.getElementById("idIva");
+function actualizarCompra(){
+	const TABLA = document.getElementById("productosSeleccionadosCompras");
+	const TOTAL_PRODS = document.getElementById("totalProdsCompras");
+	const TOTAL_PRODS2 = document.getElementById("totalPagarCompra");
+	const TOTAL_IVA = document.getElementById("idIvaCompra");
 	TABLA.innerHTML = "";
 	let totalProds = 0;
 	let totalIva = 0;
@@ -63,7 +63,7 @@ function actualizarTabla(){
 	
 }
 
-function modificarCantidades(id,op){
+function modificarCantidadesPrd(id,op){
 	const campo = document.getElementById(id);
 	console.log(campo.value)
 	if(campo.value<1){
@@ -74,7 +74,7 @@ function modificarCantidades(id,op){
 	}
 }
 
-async function guardarDatos(){
+async function guardarDatosCompra(){
 	//Obtenemos la cabecera
 	/*private String montoVenta;
     private String fechaVenta;
@@ -83,9 +83,9 @@ async function guardarDatos(){
 	cliente ;
 	usuario;
 	*/
-	const cliente = document.getElementById('InputCliente')
-	if (cliente.value == ""){
-		//alert('debe elegir un cliente');
+	const proveedor = document.getElementById('InputProveedor')
+	if (proveedor.value == ""){
+		//alert('Debe elegir un proveedor');//cambiar
 		Swal.fire({
 			title: "Debe elegir un proveedor"
 		});
@@ -104,14 +104,14 @@ async function guardarDatos(){
 
 
 	const formData = new FormData();
-	formData.append("idCliente", cliente.value );
-	formData.append("montoVenta", totalVenta);
-	formData.append("totalVenta", totalVenta);
-	formData.append("ventaDetalle", listaEnviar);
+	formData.append("idProveedor", proveedor.value );
+	formData.append("montoCompra", totalVenta);
+	formData.append("totalCompra", totalVenta);
+	formData.append("compraDetalle", listaEnviar);
 
 	console.log(formData)
 	//enviamos la cabecera
-	let resp = await fetch('http://localhost:8080/realizarVenta/crear',{
+	let resp = await fetch('http://localhost:8080/realizarCompra/crear',{
 		method:'POST',
 		body: formData,
 	})

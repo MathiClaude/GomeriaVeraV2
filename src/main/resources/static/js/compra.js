@@ -1,16 +1,19 @@
-console.log("Incluido tabla venta")
-let listaProductos =[];
-function moverProducto(idProducto,precio,impuesto,descripcion,codigo,elemento){
+console.log("Incluido tabla coimpra")
+let listaProductosCompra =[];
+function moverProductoCompra(idProducto,precio,impuesto,descripcion,codigo,elemento){
 	if(elemento.checked){
-		listaProductos.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
+		listaProductosCompra.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
 	}else{
-		listaProductos = listaProductos.filter((producto)=>producto.idProducto != idProducto)
+		listaProductosCompra = listaProductosCompra.filter((producto)=>producto.idProducto != idProducto)
 	}
 	// console.log(idProducto,precio,impuesto,"+","test")
-	// console.log(listaProductos)
+	// console.log(listaProductosCompra)
 }
 function actualizarListaProductosCompras(){
-	for(let elemento of listaProductos){
+	/*Swal.fire({
+		title: "Actuzalizando..."
+	});*/
+	for(let elemento of listaProductosCompra){
 		let cantidad = document.getElementById(elemento.idProducto).value
 		elemento.cantidad = cantidad
 	}
@@ -24,7 +27,7 @@ function actualizarCompra(){
 	TABLA.innerHTML = "";
 	let totalProds = 0;
 	let totalIva = 0;
-	for(let elemento of listaProductos){
+	for(let elemento of listaProductosCompra){
 		let totalMonto = elemento.cantidad * elemento.precio
 		let sumaIva = totalMonto*elemento.impuesto/100
 		
@@ -91,14 +94,14 @@ async function guardarDatosCompra(){
 		});
 	}
 	let totalVenta = 0 ;
-	listaProductos.forEach((prod)=>{
+	listaProductosCompra.forEach((prod)=>{
 		totalVenta+=prod.cantidad*prod.precio
 	})
 	// if(totalVenta == 0){
 	// 	alert('Debe elegir al menos un producto para vender')
 	// }
 	let listaEnviar = "";
-	for(let a of listaProductos){
+	for(let a of listaProductosCompra){
 		listaEnviar +=`${a.cantidad};${a.idProducto};${a.precio}|`
 	}
 

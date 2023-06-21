@@ -82,12 +82,14 @@
             <table id="myTable3" class="table table-sm table-bordered table-hover">
               <thead style="background-color: #0a4275;">
                 <tr class="text-center">
+                  <th>Código</th><!---->
                   <th>Artículo</th><!---->
                   <th>Cantidad</th><!---->
                   <th>Precio</th><!---->
                   <th>Impuesto</th><!---->
                   <th>Total</th><!---->
                   <th>Total Impuesto</th><!---->
+                  <th>Acción</th><!---->
                 </tr><!---->
               </thead><!---->
               <tbody id="productosSeleccionadosCompras"><!---->
@@ -185,7 +187,7 @@
                               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Previsualizar factura
                               </button>
-                              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                              <button type="button" class="btn btn-success" onclick="guardarDatosCompra()">
                                 Finalizar cobro
                               </button>
                             </div>
@@ -283,7 +285,7 @@
                         <tr class="text-center" th:each="producto: ${listProduct}">
                           <td >
                             <a >
-                              <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}',this)|"  />
+                              <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProductoCompra('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}','${producto.codigo}',this)|"  />
                             </a>
                           </td>
                           <td th:text="${producto.codigo}">Cod</td>
@@ -321,7 +323,8 @@
             let datos = /*[[${listarProveedor}]]*/ null;
           </script>
             <script th:src="@{/js/buscadorProveedor.js}" th:inline="javascript"></script>
-            </script>         
+            <script th:src="@{/js/compra.js}" th:inline="javascript"></script>
+          </script>         
           
             <script type="text/javascript" th:inline="javascript">
               // esto es para que se despliegue el contenido de cada buttonradio en Método de pago

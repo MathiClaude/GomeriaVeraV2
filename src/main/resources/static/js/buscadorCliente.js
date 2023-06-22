@@ -22,11 +22,13 @@ function mostrarBuscador(estado){
 		
 	}
 }
+
 function seleccionar(a){
 	console.log(a.getAttribute('data-value'))
 	document.getElementById("buscadorCliente").value=a.innerHTML
 	document.getElementById("InputCliente").value= a.getAttribute('data-value')
 }
+
 function funcionFiltrar(valor) {
 	if(datos == []){
 		

@@ -260,11 +260,12 @@ public class VentaController {
                 saldoAnterior = new BigDecimal("0");
 
             }
-
+            
             opEstructura.setConcepto("Venta de Productos");
             opEstructura.setIdCaja(cajaApertura.get(0).getIdCaja());
             opEstructura.setIdUsuario(usuario.getIdUsuario());
             opEstructura.setMonto(objetoDTO.getMontoVenta());
+            opEstructura.setFechaOperacion(LocalDate.now().toString());
             opEstructura.setSaldoAnterior(saldoAnterior.toString());
             opEstructura.setSaldoPosterior(saldoAnterior.add( montoVenta).toString());
 

@@ -85,31 +85,24 @@
                                 <table id="myTable" class="table table-sm table-bordered table-hover">
                                     <thead style="background-color: #0a4275;">
                                         <tr class="text-center">
-                                            <th>Caja</th><!---->
+                                            <!-- <th>Caja</th> -->
                                             <th>Fecha y Hora</th><!---->
-                                            <th>Cajero</th><!---->
                                             <th>Concepto</th><!--en caso de ser compra o venta-->
-                                            <th>Total Movimiento</th><!---->
+                                            <th>Monto</th><!---->
                                                                                   
                                         </tr><!---->
                                     </thead><!---->
                                     <tbody><!---->
-                                        <tr th:if="${#lists.isEmpty(listMovimiento)}"><!---->                                            
+                                        <tr th:if="${#lists.isEmpty(movimientosCaja)}"><!---->                                            
                                             <td class="text-center fw-bold" ></td><!---->
-                                            <td class="text-center fw-bold" ></td><!---->
-                                            <td class="text-center fw-bold" ></td><!---->
-
                                             <td class="text-center fw-bold" >No se encontraron movimientos</td><!---->
                                             <td class="text-center fw-bold" ></td><!---->                                     
                                             
                                         </tr><!---->
-                                        <tr class="text-center" th:each="caja: ${listCaja}">
-                                            <td th:text="${caja.descripcion}">Cod</td>
-                                            <td th:text="${caja.estado}"></td> 
-                                            <td th:text="${caja.descripcion}">Cod</td>
-                                            <td th:text="${caja.estado}"></td>
-                                            <td th:text="${caja.descripcion}">Cod</td>
-                                            <td th:text="${caja.estado}">Name</td>                                                                                       
+                                        <tr class="text-center" th:each="caja: ${movimientosCaja}">
+                                            <td th:text="${caja.fechaOperacion}">Cod</td>
+                                            <td th:text="${caja.concepto}">Cod</td>
+                                            <td th:text="${caja.monto}">Cod</td>
                                             
                                         </tr>
                                     </tbody>
@@ -143,10 +136,26 @@
         </div>
       </div>
       <div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
         <script th:src="@{/js/scriptFecha.js}" type="text/javascript"></script>
         <script th:src="@{/js/scriptHora.js}" type="text/javascript"></script>
         <script type="text/javascript" th:inline="javascript">
             let datos = /*[[${listCaja}]]*/ null;
+            inicializar()
+
+          async function inicializar(){
+            console.log("test")
+            if(aperturaCaja=="false"){
+            console.log("No posee cajas abiertas");
+            Swal.fire({
+              title: "No tiene caja abrida "
+            });
+            await new Promise(r => setTimeout(r, 1000));
+
+            // alert("Debe abrir una caja para realizar una venta");
+            window.location.href = "http://localhost:8080/"
+          }
+          }
           </script>
         <script th:src="@{/js/buscadorCaja.js}" type="text/javascript"></script>
       </div>

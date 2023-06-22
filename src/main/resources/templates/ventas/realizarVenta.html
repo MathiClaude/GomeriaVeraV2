@@ -204,7 +204,7 @@
                             <div class="col-sm-6">
                             </div>
                             <div class="col-sm-6">
-                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="mostrarComprobante()">
                                 Previsualizar factura
                               </button>
                               <!-- <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal"> -->
@@ -246,7 +246,7 @@
                                   <div class="col">
                                     <div class="col">
                                       <div class="col">                                        
-                                        <label for="inputNombre" class="form-label"><strong>Villa Elisa</strong></label>                                        
+                                        <label for="inputNombre" class="form-label"><strong>Villa Elisa, Ingavi y Von Poleski</strong></label>                                        
                                       </div>  
                                     </div>  
                                   </div>                                  
@@ -284,31 +284,25 @@
                                 </div>
                                 <!---->
                                 <div class="row">
-                                  <div class="col">                    
+                                  <div class="col-4">                    
                                     <label for="inputNombre" class="form-label"><strong>NRO:</strong></label>
                                     <span id="fechaApertura" th:text="${fechaApertura}"></span>
-                                  </div>                                  
+                                  </div>     
+                                  <div class="col-8">                    
+                                    <label for="inputNombre" class="form-label"><strong>RUC/CI:</strong></label>
+                                    <span id="rucComprobante" ></span>
+                                  </div>                                
                                 </div>
                                 <!---->
                                 <div class="row">
-                                  <div class="col">                    
+                                  <div class="col-4">                    
                                     <label for="inputNombre" class="form-label"><strong>FECHA:</strong></label>
                                     <span id="fechaApertura" th:text="${fechaApertura}"></span>
-                                  </div>                                  
-                                </div>
-                                <!---->
-                                <div class="row">
-                                  <div class="col">                    
-                                    <label for="inputNombre" class="form-label"><strong>RUC/CI:</strong></label>
-                                    <span id="ruc" th:text="${ruc}"></span>
-                                  </div>                                  
-                                </div>
-                                <!---->
-                                <div class="row">
-                                  <div class="col">                    
+                                  </div>        
+                                  <div class="col-8">                    
                                     <label for="inputNombre" class="form-label"><strong>Cliente:</strong></label>
-                                    <span id="idCliente" th:text="${idCliente}"></span>
-                                  </div>                                  
+                                    <span id="descClienteComprobante" ></span>
+                                  </div>                                 
                                 </div>
                                 <!---->
                                 <hr>
@@ -330,91 +324,51 @@
                                   <table class="table">
                                     <thead style="background-color: #0a4275;">
                                       <tr class="text-center"><!---->
-                                        <th>Código</th><!---->
-                                        <th>Servicio</th><!---->
-                                        <th>Tipo de Servicio</th><!---->
+                                        <th>Artículo</th><!---->
+                                        <th>Cantidad</th><!---->
                                         <th>Precio</th><!---->
-                                        <th>Impuesto</th><!---->                                        
+                                        <th>Total</th><!---->
                                       </tr><!---->
                                     </thead><!---->
-                                    <tbody><!---->
-                                      <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
-                                        <td class="text-center fw-bold" ></td><!---->
-                                        <td class="text-center fw-bold" ></td><!---->
-            
-                                        <td class="text-center fw-bold" >No se encontraron servicios</td><!---->
-                                        <td class="text-center fw-bold" ></td><!---->
-                                        <td class="text-center fw-bold" ></td><!---->                                        
-            
-                                      </tr><!---->
-                                      <tr class="text-center" th:each="servicio: ${listServicios}">
-                                        <td th:text="${servicio.codigo}"></td>
-                                        
-                                        <td th:text="${servicio.nombre}"></td>
-                                        <td th:text="${servicio.tipoProducto.descripcion}"></td>
-                                        
-                                        <td th:text="${servicio.precio}">Precio</td><!---->
-                                        <td th:text="${servicio.impuesto}"></td>
-                                        
-                                        <td><!---->
-                                          <div class="btn-group"><!---->
-                                            <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 
-                                            class="btn btn-sm btn-outline-primary"><!---->
-                                            <i class="fa-solid fa-pen-to-square"></i><!---->
-                                          </a>
-                                          <a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
-                                            <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                                              <i class="fa-sharp fa-solid fa-trash"></i>
-                                            </button>
-                                          </a>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
+                                    <tbody id="tablaProductosComprobante"><!---->
+                                    </tbody>
+                                  </table>
                               </div> <!--termina la tabla-->
                               <hr>
                               <!---->    
                               <div class="row">
-                                <div class="col">                    
+                                <div class="col-6">                    
                                   <label for="inputNombre" class="form-label"><strong>Total items:</strong></label>
-                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
-                                </div>                                
-                              </div>
-                              <!---->
-                              <!---->    
-                              <div class="row">
-                                <div class="col">                    
+                                  <span id="cantidadItemsComprobante" th:text="${nombreCajero}"></span>
+                                </div>  
+                                <div class="col-6">                    
                                   <label for="inputNombre" class="form-label"><strong>Total a pagar:</strong></label>
-                                  <span id="totalPagar"></span>
-                                </div>                                
+                                  <span id="totalPagarComprobante"></span>
+                                </div>                                                              
                               </div>
                               <!---->
                               <div class="row">
-                                <div class="col">                    
-                                  <label for="inputNombre" class="form-label"><strong>Descuentos:</strong></label>
-                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
-                                </div>                                
-                              </div>
-                              <!---->
-                              <div class="row">
-                                <div class="col">                    
+                                <div class="col-6">                    
+                                  <label for="inputNombre" class="form-label"><strong>Total I.V.A.:</strong></label>
+                                  <span id="totalIvaComprobante"></span>
+                                </div> 
+                                <div class="col-6">                    
                                   <label for="inputNombre" class="form-label"><strong>NETO A PAGAR:</strong></label>
-                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
-                                </div>                                
-                              </div>
+                                  <span id="netoPagarComprobante" th:text="${nombreCajero}"></span>
+                                </div>                                  
+                              </div>                              
                               <!---->
                               <div class="row">
                                 <div class="col">                    
                                   <label for="inputNombre" class="form-label"><strong>Total efectivo:</strong></label>
-                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
+                                  <span id="totalEfectivoComprobante" th:text="${nombreCajero}"></span>
                                 </div>                                
                               </div>
                               <!---->
                               <div class="row">
                                 <div class="col">                    
                                   <label for="inputNombre" class="form-label"><strong>Cambio:</strong></label>
-                                  <span id="cajeroDes" th:text="${nombreCajero}"></span>
+                                  <span id="vueltoComprobante" th:text="${nombreCajero}"></span>
                                 </div> 
                               </div>
                               <!---->
@@ -597,15 +551,27 @@
         </div>
       </div>   
       <div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
         <script type="text/javascript" th:inline="javascript">
           let datos = /*[[${listarCliente}]]*/ null;
           let aperturaCaja = /*[[${aperturaCaja}]]*/ null;
           console.log("Test",aperturaCaja);
-          if(aperturaCaja=="false"){
+          inicializar()
+
+          async function inicializar(){
+            console.log("test")
+            if(aperturaCaja=="false"){
             console.log("No posee cajas abiertas");
-            alert("Debe abrir una caja para realizar una venta");
+            Swal.fire({
+              title: "No tiene caja abrida "
+            });
+            await new Promise(r => setTimeout(r, 1000));
+
+            // alert("Debe abrir una caja para realizar una venta");
             window.location.href = "http://localhost:8080/"
           }
+          }
+          
           
         </script>
         <script th:src="@{/js/buscadorCliente.js}" th:inline="javascript"></script>
@@ -623,7 +589,7 @@
             }
           });
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+        
       </div>
 
     </body>

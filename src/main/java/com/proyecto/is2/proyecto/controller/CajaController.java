@@ -14,6 +14,7 @@ import com.proyecto.is2.proyecto.services.ProveedorServiceImp;
 import com.proyecto.is2.proyecto.services.CajaServiceImp;
 import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 import com.proyecto.is2.proyecto.repository.ContactoRespository;
+import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
@@ -65,6 +66,9 @@ public class CajaController {
     @Autowired
     ContactoRespository contactoRespository;
     
+    @Autowired
+    OperacionRepository operacionRepository;
+
     @Autowired
     UsuarioRepository usuarioRespository;
 
@@ -137,7 +141,7 @@ public class CajaController {
                     
                     Caja cajaActual = cajaRepository.findByIdCaja(cajaApertura.get(0).getIdCaja());
                     model.addAttribute("cajaActual", cajaActual.getDescripcion());//lista las cajas
-                    //model.addAttribute("saldoCierre", cajaActual.getSaldoCierre());//lista los productos
+                    model.addAttribute("movimientosCaja", operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja()));//lista los productos
                     model.addAttribute("saldoApertura", cajaApertura.get(0).getSaldoApertura() );//lista los productos
                 }
             }  //  

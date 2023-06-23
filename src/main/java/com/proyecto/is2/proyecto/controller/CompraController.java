@@ -1,15 +1,25 @@
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
+import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
+import com.proyecto.is2.proyecto.model.Compra;
+import com.proyecto.is2.proyecto.model.CompraDetalle;
 import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
+import com.proyecto.is2.proyecto.repository.ClienteRepository;
+import com.proyecto.is2.proyecto.repository.OperacionRepository;
+import com.proyecto.is2.proyecto.repository.ProductoRepository;
+import com.proyecto.is2.proyecto.repository.ProveedorRepository;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Proveedor;
 import com.proyecto.is2.proyecto.model.AperturaCaja;
 import com.proyecto.is2.proyecto.model.Caja;
+import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.model.Compra;
+import com.proyecto.is2.proyecto.model.Operacion;
+import com.proyecto.is2.proyecto.model.Producto;
 import com.proyecto.is2.proyecto.Util.ModelAttributes;
 
 import com.proyecto.is2.proyecto.services.RolServiceImp;
@@ -34,12 +44,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controlador encargado de recibir las peticiones
- * para realizar venta
+ * para realizar compra
  */
 @Controller
 @RequestMapping("/realizarCompra")
@@ -60,7 +73,7 @@ public class CompraController {
     @Autowired
     private CompraServiceImp compraService;
 
-     // llamada a los servicios de venta
+     // llamada a los servicios de compra
      @Autowired
      private ProductoServiceImp productoService; // llamada a los servicios de producto
      
@@ -72,6 +85,18 @@ public class CompraController {
 
      @Autowired
      private AperturaCajaServiceImp aperturaCajaService; // llamada a los servicios de cliente
+
+     @Autowired
+    ClienteRepository clienteRepository;
+
+    @Autowired
+    ProductoRepository productoRepository;
+
+    @Autowired
+    OperacionRepository operacionRepository;
+
+    @Autowired
+    ProveedorRepository proveedorRepository;
 
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
@@ -174,30 +199,67 @@ public class CompraController {
 
     @PostMapping("/crear")
     public String crearObjeto(@ModelAttribute("compra") CompraDTO objetoDTO,
+            @RequestParam(value="compraDetalle") String compraDetalle,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
-//        if (result.hasErrors()) {
-//            return FORM_NEW;
-//        }
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
+        List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        BigDecimal montoCompra = new BigDecimal(objetoDTO.getMontoCompra());
+
+        String[] arrCompraDetalle = compraDetalle.split("\\|");
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             Compra compra = new Compra();
-            compraService.convertirDTO(compra, objetoDTO);
+            Proveedor proveedor = proveedorRepository.findByIdProveedor(objetoDTO.getIdProveedor());
+            compra.setProveedor(proveedor);
+            compra.setMontoTotal(montoCompra);
+            compra.setMontoCompra(montoCompra.toString());
 
-            // si tiene permiso se le asigna el rol con id del formulario
-            // sino se le asignar un rol por defecto.
-            /*if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
-                venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-            } else {
-                venta.setRol(rolService.existeRol(1L)); // ID 1: Rol sin permisos.
-            }*/
+            //GUARDAR LA VENTA
+            Compra nuevaCompra = compraService.guardar(compra);
+            // OBTENER EL ID DE LA VENTA 
+            Long idCompra = nuevaCompra.getIdCompra();
+            
+            for (String detCrudo : arrCompraDetalle) {
+                String[] elementos= detCrudo.split(";");
+                Optional<Producto>  prod = productoRepository.findById(Long.parseLong(elementos[1]));
 
+                CompraDetalle vtaDet = new CompraDetalle();
+                vtaDet.setCompra(nuevaCompra);
+                vtaDet.setCantidad(new Float(elementos[0]));
+                vtaDet.setProducto(prod.get());
+                vtaDet.setPrecio(new Float(elementos[2]));
+                compraService.guardarDetalle(vtaDet);
+    
+            }
+            // CREAR ESTRUCTURA PARA LA OPERACION A GUARDAR
+            Operacion opEstructura = new Operacion();
 
-            compraService.guardar(compra);
+            BigDecimal saldoAnterior = null;
+            if(ultMov.size()>0){
+                saldoAnterior = new BigDecimal(ultMov.get(0).getSaldoPosterior());
+            }else{
+                saldoAnterior = new BigDecimal("0");
+
+            }
+            
+            opEstructura.setConcepto("Compra de Productos");
+            opEstructura.setIdCaja(cajaApertura.get(0).getIdCaja());
+            opEstructura.setIdUsuario(usuario.getIdUsuario());
+            opEstructura.setMonto(objetoDTO.getMontoCompra());
+            opEstructura.setFechaOperacion(LocalDate.now().toString());
+            opEstructura.setSaldoAnterior(saldoAnterior.toString());
+            opEstructura.setSaldoPosterior(saldoAnterior.add( montoCompra).toString());
+
+            //Aun no guarda
+            //operacionMov.guardar(opEstructura);
+
             attributes.addFlashAttribute("message", "¡Compra creada exitosamente!");
 
-            return RD_FORM_VIEW;
+            return RD_FORM_VIEW+"/a"+arrCompraDetalle.length+"-e";
         } else {
             return RD_FALTA_PERMISO_VIEW;
         }

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div-- layout:fragment="content">
+    <!--Buscador de cajero-->
+     <!--div class="form-group">      
+        <input type="hidden"  id="InputCajero" name="cajero" />
+        
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Buscar cajero..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCajero" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"/>
+          
+            <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCajero').value=''" onmousedown="document.getElementById('InputCajero').value=''">
+              <i class="bi bi-trash3-fill"></i>
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
+              <i class="bi bi-search"></i>
+            </button>
+            
+          </div>
+          <ul class="list-group" style="position:absolute;z-index:20"  >                      
+            <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
+            <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
+            <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
+            <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
+            <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
+            <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
+            <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
+            <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
+          </ul>
+          
+        </div>
+    </div-->
+  
+  <hr>
+
+  <div th:if="${permisoVer eq false}">
+    <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+  </div><!---->
+  <div th:if="${permisoVer eq true}" class="table-responsive table-scroll">
+    <table id="myTable" class="table table-striped mb-0" ><!---->
+      <thead style="background-color: #0a4275;"><!---->
+      <tr class="text-center"><!---->
+        <th>Nro. Factura</th><!---->
+        <th>Cliente</th><!---->
+        <th>Fecha</th><!---->
+        <th>Vendedor</th><!---->
+        <th>Total a pagar</th><!---->
+        <th>IVA</th><!---->
+        <th>Acción</th><!---->
+      </tr><!---->
+      </thead><!---->
+      <tbody><!---->
+      <tr th:if="${#lists.isEmpty(listClientes)}"><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold">No se encontraron resultados</td><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold"></td><!---->
+        <td class="text-center fw-bold"></td><!---->
+
+      </tr><!---->
+      <tr class="text-center" th:each="cliente: ${listClientes}">
+        <td th:text="${cliente.name}">Nombre</td>
+        <td th:text="${cliente.lastName}">Razón Social</td>
+        <td th:text="${cliente.tipoDocumento.nombre}">Doc</td><!---->
+        <td th:text="${cliente.documentNumber}">Doc</td><!---->
+        <td th:text="${cliente.email}">Mail</td><!---->
+        <td th:text="${cliente.telephone}">Teléfono</td><!---->
+
+        <td><!---->
+          <div class="btn-group"><!---->
+            <a th:if="${permisoActualizar eq true}" th:href="@{/clientes/{id}(id=${cliente.idCliente})}" 
+               class="btn btn-sm btn-outline-primary"><!---->
+              <i class="fa-solid fa-pen-to-square"></i><!---->
+            </a>
+            <a th:if="${permisoEliminar eq true}" th:href="@{/clientes/{id}/delete(id=${cliente.idCliente})}">
+              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+            </a>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  <br>  
+  </div>
+  <script th:src="@{/js/buscadorCajero.js}" th:inline="javascript"></script>
+    <a href="javascript:history.back()" class="btn btn-outline-primary">
+      <i class="fa fa-backward" aria-hidden="true"></i> Atrás 
+    </a>
+  </th:block> <!--modificar front-->
+</div>
+
+</body>
+</html>

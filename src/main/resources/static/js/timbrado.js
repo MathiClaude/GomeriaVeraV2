@@ -38,7 +38,7 @@ function functTimbradoUpdate() {
 
      $.ajax({
          type: 'POST',
-         url: appname + "ventas/timbrado-create",
+         url: appname + "timbrado/timbradoCrear",
          data: { timbrado : timbrado.val(), fchDesde : fchDesde.val(), fchHasta : fchHasta.val() },
          async: true,
      }).done(function(data) {
@@ -67,7 +67,7 @@ function functTimbradoUpdate() {
 function crearTimbrado() {
 
     $.ajax({
-        url: appname + "ventas/timbrado-create",
+        url: appname + "timbrado/timbradoCrear",
         method: "GET",
         dataType: 'json',
         success: function(respuesta) {

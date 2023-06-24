@@ -6,9 +6,10 @@
         
         
         <div style="display: flex; align-items: right;">
-            <img th:src="@{/img/report.png}" class="wp-image-4532" width="50" height="50" style="float: left; margin-right: 10px;">
-            <h1 class="text mb-4" style="font-family:Trebuchet MS"><b style= "color:#21618C">REPORTE DE VENTAS</b></h1> 
+            <img th:src="@{/img/report.png}" class="wp-image" width="40" height="40" style="float: left; margin-right: 5px;">
+            <h1 class="text" style="font-family:Trebuchet MS"><b style= "color:#21618C">REPORTE DE VENTAS</b></h1> 
         </div>
+        <hr>
         <!--titulo-->
         <form method="post" th:action="@{/venta}" th:object="${reporte}">
             <fieldset>

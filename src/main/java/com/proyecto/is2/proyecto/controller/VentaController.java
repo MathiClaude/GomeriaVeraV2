@@ -79,7 +79,7 @@ public class VentaController {
     private VentaServiceImp ventaService;
 
     @Autowired
-    private OperacionServiceImp operacionMov  ;
+    private OperacionServiceImp operacionMov;
     
     @Autowired
     UsuarioRepository usuarioRepository;

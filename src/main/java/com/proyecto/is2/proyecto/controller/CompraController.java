@@ -33,6 +33,7 @@ import com.proyecto.is2.proyecto.repository.CajaRepository;
 
 
 import com.proyecto.is2.proyecto.services.CompraServiceImp;
+import com.proyecto.is2.proyecto.services.OperacionServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
@@ -85,6 +86,9 @@ public class CompraController {
 
      @Autowired
      private AperturaCajaServiceImp aperturaCajaService; // llamada a los servicios de cliente
+
+    @Autowired
+    private OperacionServiceImp operacionMov;
 
      @Autowired
     ClienteRepository clienteRepository;
@@ -255,7 +259,8 @@ public class CompraController {
             opEstructura.setSaldoPosterior(saldoAnterior.add( montoCompra).toString());
 
             //Aun no guarda
-            //operacionMov.guardar(opEstructura);
+            System.out.println("llega hasta la guardacion");
+            operacionMov.guardar(opEstructura);
 
             attributes.addFlashAttribute("message", "¡Compra creada exitosamente!");
 

@@ -76,7 +76,27 @@ function modificarCantidadesPrd(id,op){
 		campo.value = parseInt((campo.value===""?0:campo.value)) + (op=="+"?1:-1)
 	}
 }
-
+function confirmarCompra(){
+	Swal.fire({
+		title: 'Finalizar Compra?',
+		text: "Al confirmar la compra, ya no podra cambiar los datos",
+		icon: 'warning',
+		showCancelButton: true,
+		cancelButtonText: 'Cancelar Compra',
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		confirmButtonText: 'Finalizar Compra'
+	  }).then((result) => {
+		if (result.isConfirmed) {
+			guardarDatosCompra();
+			Swal.fire(
+			'Compra Finalizada!',
+			'Su compra se registro correctamente',
+			'success'
+		  )
+		}
+	  })
+}
 async function guardarDatosCompra(){
 	//Obtenemos la cabecera
 	/*private String montoVenta;

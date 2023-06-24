@@ -2,6 +2,12 @@ console.log("Incluido tabla venta")
 let listaProductos =[];
 function moverProducto(idProducto,precio,impuesto,descripcion,codigo,elemento){
 	if(elemento.checked){
+		if(parseInt(precio) < 1 ){
+			Swal.fire({
+				title: "No se puede seleccionar un producto con precio 0 "
+			});
+			elemento.checked=false;
+		}
 		listaProductos.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
 	}else{
 		listaProductos = listaProductos.filter((producto)=>producto.idProducto != idProducto)
@@ -193,4 +199,10 @@ async function guardarDatos(){
 	console.log(resp)
 	console.log(resp.text())
 
+}
+
+function calcularVuelto(campoCliente,campoTotal){
+	const CAMPO_VUELTO = document.getElementById('idVuelto')
+	CAMPO_VUELTO.value = campoTotal.value - campoCliente.value
+	console.log(campoCliente.value , campoTotal.value)
 }

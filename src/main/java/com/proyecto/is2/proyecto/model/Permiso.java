@@ -32,7 +32,7 @@ public class Permiso {
 
     public String toString() {
         if(this.vista != null) {
-            return this.nombre + "-" + this.getVista().getNombre();
+            return this.nombre ; //+ "-" + this.getVista().getNombre();
         }
         return this.nombre;
     }

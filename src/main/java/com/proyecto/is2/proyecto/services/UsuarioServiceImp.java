@@ -123,8 +123,9 @@ public class UsuarioServiceImp implements UsuarioService {
     @Override
     public boolean tienePermiso(String permiso) {
         for(Permiso aux : this.verPermisosUsuarioActual()) {
-            if(permiso.equals(aux.toString())) return true;
+            if(permiso.equals(aux.getNombre())) return true;
         }
+        // return false;
         return true;
     }
 

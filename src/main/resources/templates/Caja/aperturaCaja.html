@@ -88,8 +88,10 @@
                             </div>
                         </div>    
                         <div class="col"> 
-                            
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
+                            <div th:if="${permisoCrear eq true}" th:text="${permisosActual}">
+                                test
+                            </div>
+                            <button type="button" th:if="${permisoCrear eq true}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
                                 <i class="bi bi-piggy-bank-fill"> Nueva caja</i>
                             </button>                   
                             <br>
@@ -160,13 +162,17 @@
         </div>
       </div>
       <div>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
         <script th:src="@{/js/scriptFecha.js}" type="text/javascript"></script>
-        <script th:src="@{/js/scriptHora.js}" type="text/javascript"></script>
+        <script th:src="@{/js/scriptHora.js}" type="text/javascript"></script>        
         <script type="text/javascript" th:inline="javascript">
             let datos = /*[[${listCaja}]]*/ null;
             let msg = /*[[${msgCaja}]]*/ null;
             if(msg != null){
-                alert(msg)
+                Swal.fire({
+                    title: msg
+                });
+                //alert(msg)
             }
           </script>
         <script th:src="@{/js/buscadorCaja.js}" type="text/javascript"></script>

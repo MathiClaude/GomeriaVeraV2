@@ -187,7 +187,7 @@
                               <label for="inputNombre" class="form-label">Total abonado</label>
                             </div>
                             <div class="col">
-                              <input type="text"  id="inputNombre" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" autofocus>
+                              <input type="text"  id="inputMontoCliente" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" onchange="calcularVuelto(this,document.getElementById('totalPagar') )" autofocus>
                             </div>
                           </div>
                           <div class="row">

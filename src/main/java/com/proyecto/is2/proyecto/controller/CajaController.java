@@ -101,6 +101,8 @@ public class CajaController {
             model.addAttribute("listCaja", cajaService.listar());//lista los cajas
             String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
             Usuario usuario = usuarioRespository.findByEmail(username);// Obtener todos los datos del usuario 
+            model.addAttribute("usuario", usuario.getUsername());//lista los cajas
+            model.addAttribute("permisosActual", usuarioService.verPermisosUsuarioActual());//lista los cajas
             
         } else {
             return FALTA_PERMISO_VIEW;
@@ -214,7 +216,19 @@ public class CajaController {
 
             AperturaCaja aperturaCaja = new AperturaCaja();
 
-            // String idCaja = objetoDTO.getIdCaja();
+            Long idCaja = objetoDTO.getIdCaja();
+            List<AperturaCaja> aperturas = aperturaCajaRepository.findByIdCajaOrderByIdAperturaCajaDesc(idCaja);
+            if(aperturas.get(0).getEstado().equals("aBrIdO")){
+                attributes.addFlashAttribute("msgCaja", "No se puede abrir una caja ya abierta");
+                return RD_FORM_VIEW;
+            }
+
+            aperturas = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
+            if(aperturas.get(0).getEstado().equals("aBrIdO")){
+                attributes.addFlashAttribute("msgCaja", "El usuario ya tiene una caja abierta actualmente");
+                return RD_FORM_VIEW;
+            }
+
             objetoDTO.setFechaApertura(java.time.LocalDate.now().toString());
             objetoDTO.setIdUsuario(usuario.getIdUsuario());
             aperturaCajaService.convertirDTO(aperturaCaja, objetoDTO);
@@ -231,8 +245,6 @@ public class CajaController {
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;
-            
-
         }
     }
 

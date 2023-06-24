@@ -8,6 +8,7 @@ import java.util.List;
 public interface AperturaCajaRepository extends JpaRepository<AperturaCaja, Long> {
     public AperturaCaja findByIdAperturaCaja(Long idAperturaCaja);
     public List<AperturaCaja> findByIdUsuarioOrderByIdAperturaCajaDesc(Long idUsuario);
+    public List<AperturaCaja> findByIdCajaOrderByIdAperturaCajaDesc(Long idCaja);
     //public Caja findByDescripcion(String descripcion);    
     //public Caja findByPinCaja(String pinCaja);
     //public Caja findBySaldoInicialCaja(String saldoInicial);

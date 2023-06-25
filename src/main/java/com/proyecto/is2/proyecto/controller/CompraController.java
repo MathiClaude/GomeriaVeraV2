@@ -220,6 +220,7 @@ public class CompraController {
             Proveedor proveedor = proveedorRepository.findByIdProveedor(objetoDTO.getIdProveedor());
             compra.setProveedor(proveedor);
             compra.setMontoTotal(montoCompra);
+            compra.setEstado("PENDIENTE");
             compra.setMontoCompra(montoCompra.toString());
 
             //GUARDAR LA VENTA

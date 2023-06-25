@@ -50,6 +50,10 @@ public class Factura {
 
     /* RELACIONES DE BASE DE DATOS */
 
+    /* Relacion con compra */
+    @ManyToOne
+    @JoinColumn(name = "compra_id", referencedColumnName = "idCompra")
+    private Compra compra;
     
     /* Relacion con usuario */
     /*@ManyToOne

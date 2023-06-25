@@ -31,6 +31,9 @@ public class Compra {
     @Column(name = "montoTotal")
     private BigDecimal montoTotal;
 
+    @Column(name = "estado")
+    private String estado;
+
 
     public Compra() {
 

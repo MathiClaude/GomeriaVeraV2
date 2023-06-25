@@ -12,6 +12,7 @@ public class CompraDTO {
     private String montoCompra;
     private String fechaCompra;
     private String esActual;
+    private String estado;
     private BigDecimal montoTotal;
     private Long idUsuario;
     private Long idProveedor;

@@ -70,6 +70,29 @@ $(document).ready(function() {
             searching: true,
         });
     }
+    // table de compras
+    let existTableCR = document.querySelector("#myTableCr");
+    if(existTableCR != null) {
+        var table = new DataTable('#myTableCr', {
+            language: {
+                //                search: "Buscar:",
+                //                lengthMenu: "Mostrar _MENU_ registros",
+                //                emptyTable: "No hay resultados",
+                //                zeroRecords: "No hay resultados",
+                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json',
+            },
+            //            paginate: {
+            //                "first": "Primero",
+            //                "last": "Ultimo",
+            //                "next": "Siguiente",
+            //                "previous": "Anterior"
+            //            },
+            retrieve: true,
+            "lengthChange": true,
+            info: true,
+            searching: true,
+        });
+    }
     // table con input
     let existTableList = document.querySelector("#myTableList");
     if(existTableList != null) {

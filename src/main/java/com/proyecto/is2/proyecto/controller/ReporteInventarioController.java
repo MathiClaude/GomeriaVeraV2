@@ -56,15 +56,15 @@ import java.util.Optional;
  * para realizar venta
  */
 @Controller
-@RequestMapping("/venta")
-public class ReporteVentaController {
+@RequestMapping("/inventario")
+public class ReporteInventarioController {
     final String VIEW = "reporte"; // identificador de la vista
     final String VIEW_PATH = "reporte";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/venta";
-    final String FORM_NEW = VIEW_PATH + "/ventaReporte";
+    final String FORM_VIEW = VIEW_PATH + "/inventario";
+    final String FORM_NEW = VIEW_PATH + "/inventarioReporte";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/venta";
+    final String RD_FORM_VIEW = "redirect:/inventario";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
@@ -196,7 +196,7 @@ public class ReporteVentaController {
         return FORM_VIEW;
     }
 
-    @GetMapping("/ventaReporte")
+    @GetMapping("/inventarioReporte")
     public String formNuevo(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);

@@ -196,7 +196,7 @@ public class ReporteCompraController {
         return FORM_VIEW;
     }
 
-    @GetMapping("/nuevo")
+    @GetMapping("/compraReporte")
     public String formNuevo(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);

@@ -29,6 +29,7 @@ import com.proyecto.is2.proyecto.services.VentaServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import com.proyecto.is2.proyecto.services.OperacionServiceImp;
+
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
 import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
@@ -106,18 +107,19 @@ public class VentaController {
     OperacionRepository operacionRepository;
 
      // llamada a los servicios de venta
-     @Autowired
-     private ProductoServiceImp productoService; // llamada a los servicios de producto
-     @Autowired
-     private ServicioServiceImp servicioService; // llamada a los servicios de servicio
-     @Autowired
-     private ClienteServiceImp clienteService; // llamada a los servicios de cliente
+    @Autowired
+    private ProductoServiceImp productoService; // llamada a los servicios de producto
+    @Autowired
+    private ServicioServiceImp servicioService; // llamada a los servicios de servicio
+    @Autowired
+    private ClienteServiceImp clienteService; // llamada a los servicios de cliente
 
-      @Autowired
-     private UsuarioServiceImp usuarioService; // llamada a los servicios de cliente
+    @Autowired
+    private UsuarioServiceImp usuarioService; // llamada a los servicios de cliente
 
-     @Autowired
-     private AperturaCajaServiceImp aperturaCajaService; // llamada a los servicios de cliente
+    @Autowired
+    private AperturaCajaServiceImp aperturaCajaService; // llamada a los servicios de cliente
+    
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
 

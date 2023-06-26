@@ -1,19 +1,49 @@
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.ServicioDTO;
+
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
+import com.proyecto.is2.proyecto.model.Venta;
+import com.proyecto.is2.proyecto.model.VentaDetalle;
 import com.proyecto.is2.proyecto.model.Servicio;
+import com.proyecto.is2.proyecto.model.AperturaCaja;
+import com.proyecto.is2.proyecto.model.Caja;
+
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+
+import com.proyecto.is2.proyecto.repository.VentaRepository;
+import com.proyecto.is2.proyecto.repository.VentaDetalleRepository;
+import com.proyecto.is2.proyecto.repository.UsuarioRepository;
+import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
+import com.proyecto.is2.proyecto.repository.CajaRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.TemplateEngine;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.io.ByteArrayOutputStream;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 
 /**
  * Controlador encargado de recibir las peticiones
@@ -26,6 +56,7 @@ public class ComprobanteController {
     final String VIEW_PATH = "comprobante";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/comprobante";
+    final String COMPROBANTE_VIEW = VIEW_PATH + "/prueba";
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
     final String RD_FORM_VIEW = "redirect:/comprobante";
@@ -47,6 +78,31 @@ public class ComprobanteController {
      * Usuario.
      * @return
      */
+
+     @Autowired
+    ServletContext servletContext;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
+    @Autowired
+    AperturaCajaRepository aperturaCajaRepository;
+
+    @Autowired
+    VentaRepository ventaRepository;
+
+    @Autowired
+    VentaDetalleRepository ventaDetalleRepository;
+
+    @Autowired
+    CajaRepository cajaRepository;
+
+    private final TemplateEngine templateEngine;
+
+    public ComprobanteController(TemplateEngine templateEngine) {
+        this.templateEngine = templateEngine;
+    }
+    
     @ModelAttribute("servicio")
     public ServicioDTO instanciarObjetoDTO() {
         return new ServicioDTO();
@@ -60,12 +116,13 @@ public class ComprobanteController {
         boolean eliminar = servicioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = servicioService.tienePermiso("actualizar-" + VIEW);
 
-        //        if(!crear && !eliminar && !actualizar) {
-        //            return FALTA_PERMISO_VIEW;
-        //        }
+        //obtenerdatos de venta 
+        // Venta ventaObtenida = ventaRepository.findByIdVenta(Long.parseLong(id));
 
         if(consultar) {
             model.addAttribute("listServicios", servicioService.listar());//lista los servicios
+            // model.addAttribute("datosVenta", ventaObtenida);//lista los servicios
+
         } else {
             return FALTA_PERMISO_VIEW;
         }
@@ -77,6 +134,48 @@ public class ComprobanteController {
 
         return FORM_VIEW;
     }
+
+
+    @GetMapping("/{id}/pdf")
+    public String generarPdfReporte(@PathVariable String id,Model model) {
+
+        boolean consultar = servicioService.tienePermiso("consultar-" + VIEW);
+        boolean crear = servicioService.tienePermiso("crear-" + VIEW);
+        boolean eliminar = servicioService.tienePermiso("eliminar-" + VIEW);
+        boolean actualizar = servicioService.tienePermiso("actualizar-" + VIEW);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+
+
+        //obtenerdatos de venta 
+        Venta ventaObtenida = ventaRepository.findByIdVenta(Long.parseLong(id));
+        List<VentaDetalle> detalleVenta = ventaDetalleRepository.findByVenta(ventaObtenida);
+        model.addAttribute("nombreCajero", usuario.getUsername());//Nombre del cajero
+        List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
+
+
+        if(consultar) {
+            model.addAttribute("listServicios", servicioService.listar());//lista los servicios
+            model.addAttribute("datosVenta", ventaObtenida);//lista los servicios
+            model.addAttribute("datosVentaDetalle", detalleVenta);//lista los servicios
+            model.addAttribute("cantidadDetalle",detalleVenta.size());
+            Caja cajaActual = cajaRepository.findByIdCaja(cajaApertura.get(0).getIdCaja());
+            model.addAttribute("cajaActual", cajaActual.getDescripcion());//lista las cajas
+            model.addAttribute("fechaApertura", cajaApertura.get(0).getFechaApertura() );//fecha de apertura caja : v
+
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+
+        model.addAttribute("permisoVer", consultar);
+        model.addAttribute("permisoCrear", crear);
+        model.addAttribute("permisoEliminar", eliminar);
+        model.addAttribute("permisoActualizar", actualizar);
+
+        return FORM_VIEW;
+    }
+
+
 
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
@@ -100,9 +199,9 @@ public class ComprobanteController {
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
-//        if (result.hasErrors()) {
-//            return FORM_NEW;
-//        }
+        // if (result.hasErrors()) {
+        //     return FORM_NEW;
+        // }
 
         if(servicioService.tienePermiso(operacion + VIEW)) {
             Servicio servicio = new Servicio();

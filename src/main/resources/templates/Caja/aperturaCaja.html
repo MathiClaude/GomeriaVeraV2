@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-sm-6">
-                                        <a href="javascript:history.back()" class="btn btn-outline-info w-100">
+                                        <a th:href="@{http://localhost:8080/}" class="btn btn-outline-info w-100">
                                             Atrás
                                         </a>
                                     </div>
@@ -88,9 +88,9 @@
                             </div>
                         </div>    
                         <div class="col"> 
-                            <div th:if="${permisoCrear eq true}" th:text="${permisosActual}">
+                            <!-- <div th:if="${permisoCrear eq true}" th:text="${permisosActual}">
                                 test
-                            </div>
+                            </div> -->
                             <button type="button" th:if="${permisoCrear eq true}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
                                 <i class="bi bi-piggy-bank-fill"> Nueva caja</i>
                             </button>                   

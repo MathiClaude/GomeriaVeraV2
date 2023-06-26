@@ -7,6 +7,7 @@ function moverProducto(idProducto,precio,impuesto,descripcion,codigo,elemento){
 				title: "No se puede seleccionar un producto con precio 0 "
 			});
 			elemento.checked=false;
+			return;
 		}
 		listaProductos.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
 	}else{
@@ -165,7 +166,7 @@ async function guardarDatos(){
 		Swal.fire({
 			title: "Debe elegir un cliente"
 		});
-		return
+		return;
 	}
 	let totalVenta = 0 ;
 	listaProductos.forEach((prod)=>{
@@ -175,7 +176,7 @@ async function guardarDatos(){
 		Swal.fire({
 			title: "Debe elegir al menos un producto para vender"
 		});
-		return
+		return;
 		// alert('Debe elegir al menos un producto para vender')
 	}
 	let listaEnviar = "";
@@ -198,6 +199,8 @@ async function guardarDatos(){
 	})
 	console.log(resp)
 	console.log(resp.text())
+	const myModalAlternative = new bootstrap.Modal('#cobroModal',{})
+	myModalAlternative.show(document.getElementById('cobroModal'));
 
 }
 

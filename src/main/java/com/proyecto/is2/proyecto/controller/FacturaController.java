@@ -110,20 +110,20 @@ public class FacturaController {
     @Autowired
     CajaRepository cajaRepository;
 
-    @Autowired
-    UsuarioRepository usuarioRepository;
+    /*@Autowired
+    UsuarioRepository usuarioRepository;*/
     /**
      * Instancia un UsuarioDTO para rellenar con datos
      * del formulario para luego mapearlo a un objeto
      * Usuario.
      * @return
      */
-    @ModelAttribute("compra")
+   /*  @ModelAttribute("compra")
     public CompraDTO instanciarObjetoDTO() {
         return new CompraDTO();
-    }
+    }*/
 
-    @GetMapping
+    /*@GetMapping
     public String mostrarGrilla(Model model, RedirectAttributes attributes) {
 
         boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
@@ -132,9 +132,9 @@ public class FacturaController {
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
         boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
 
+*/
 
-
-        if(consultar) {
+        /*if(consultar) {
             model.addAttribute("listProduct", productoService.listar());//lista los productos
            
             model.addAttribute("listarProveedor", proveedorService.listar());//lista los clientes
@@ -164,7 +164,7 @@ public class FacturaController {
         }
         } else {
             return FALTA_PERMISO_VIEW;
-        }
+        } */
         /*PARA TIRAR ALERT EN CASO DE QUE EXISTA CAJA SIN CERRAR O FALTA ABRIR
         if(consultar) {
             model.addAttribute(ModelAttributes.ALERT_CAJA_CERRAR, success);
@@ -174,7 +174,7 @@ public class FacturaController {
             return FALTA_PERMISO_VIEW;
         }*/
 
-        model.addAttribute("permisoVer", consultar);
+       /* model.addAttribute("permisoVer", consultar);
         model.addAttribute("permisoCrear", crear);
         model.addAttribute("permisoEliminar", eliminar);
         model.addAttribute("permisoActualizar", actualizar);
@@ -182,9 +182,9 @@ public class FacturaController {
     
 
         return FORM_VIEW;
-    }
+    }*/
 
-    @GetMapping("/nuevo")
+    /*@GetMapping("/nuevo")
     public String formNuevo(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
@@ -199,9 +199,9 @@ public class FacturaController {
         } else {
             return FALTA_PERMISO_VIEW;
         }
-    }
+    }*/
 
-    @PostMapping("/crear")
+   /* @PostMapping("/crear")
     public String crearObjeto(@ModelAttribute("compra") CompraDTO objetoDTO,
             @RequestParam(value="compraDetalle") String compraDetalle,
                               RedirectAttributes attributes) {
@@ -269,9 +269,9 @@ public class FacturaController {
         } else {
             return RD_FALTA_PERMISO_VIEW;
         }
-    }
+    }*/
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
@@ -298,9 +298,9 @@ public class FacturaController {
         } else {
             return FALTA_PERMISO_VIEW;
         }
-    }
+    }*/
 
-    @PostMapping("/{id}")
+   /*  @PostMapping("/{id}")
     public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("compra") CompraDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
@@ -314,7 +314,7 @@ public class FacturaController {
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             compra = compraService.existeCompra(id);
             if(compra != null) {
-                compraService.convertirDTO(compra, objetoDTO);
+                compraService.convertirDTO(compra, objetoDTO);*/
 
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
@@ -322,15 +322,15 @@ public class FacturaController {
                     venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
                 }*/
 
-                attributes.addFlashAttribute("message", "¡Compra actualizado correctamente!");
+                /*attributes.addFlashAttribute("message", "¡Compra actualizado correctamente!");
                 compraService.guardar(compra);
                 return RD_FORM_VIEW;
             }
         }
         return RD_FALTA_PERMISO_VIEW;
-    }
+    }*/
 
-    @GetMapping("/{id}/delete")
+    /*@GetMapping("/{id}/delete")
         public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
         this.operacion = "eliminar-";
         Long idCompra;
@@ -349,6 +349,6 @@ public class FacturaController {
         } else {
             return RD_FALTA_PERMISO_VIEW;
         }
-    }
+    }*/
 
 }

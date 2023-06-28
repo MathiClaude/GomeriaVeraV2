@@ -4,19 +4,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{/layout/basic}">
 <body>
   <div layout:fragment="content">
-    <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Productos</b></h1> <!--titulo-->
+    <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Inventario de Productos</b></h1> <!--titulo-->
     
-    
-    <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
-    <a th:href="@{/productos/nuevo}" class="btn btn-success mb-4">
-      <i class="	fas fa-shopping-cart"></i> Crear nuevo producto
-    </a>
-  </th:block> <!--modificar front-->
-  
-  <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
-  <a th:href="@{/servicios/nuevo}" class="btn btn-success mb-4">
-    <i class="fa-solid fa-hammer"></i> Crear nuevo servicio
-  </a>
 </th:block> <!--modificar front-->
 
 <div th:if="${permisoVer eq false}">
@@ -55,9 +44,9 @@ layout:decorate="~{/layout/basic}">
         </tr><!---->
       </thead><!---->
       <tbody><!---->
-        <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
-          <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
-        </tr><!---->
+        <!--tr th:if="${#lists.isEmpty(listProduct)}">
+          <td class="text-center fw-bold" colspan="10">No se encontraron productos</td>
+        </tr-->
         <tr class="text-center" th:each="producto: ${listProduct}">
           <td th:text="${producto.codigo}">Cod</td>
           <td th:text="${producto.nombreProducto}">Name</td>
@@ -104,11 +93,11 @@ layout:decorate="~{/layout/basic}">
         </tr><!---->
       </thead><!---->
       <tbody><!---->
-        <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
-          <td class="text-center fw-bold" ></td><!---->
-          <td class="text-center fw-bold" >No se encontraron servicios</td><!---->
-          <td class="text-center fw-bold" ></td><!---->
-        </tr><!---->
+        <!--tr th:if="${#lists.isEmpty(listServicios)}">
+          <td class="text-center fw-bold" ></td>
+          <td class="text-center fw-bold" >No se encontraron servicios</td>
+          <td class="text-center fw-bold" ></td>
+        </tr-->
         <tr class="text-center" th:each="servicio: ${listServicios}">
           <td th:text="${servicio.codigo}"></td>
 

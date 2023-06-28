@@ -42,8 +42,8 @@ function actualizarCompra(){
 		producto_id.innerHTML = elemento.idProducto;
 		let precio = document.createElement("td")
 		precio.innerHTML = elemento.precio;
-		let impuesto = document.createElement("td")
-		impuesto.innerHTML = elemento.impuesto;
+		/*let impuesto = document.createElement("td")
+		impuesto.innerHTML = elemento.impuesto;*/
 		let cantidad = document.createElement("td")
 		cantidad.innerHTML = elemento.cantidad;
 		let codigo = document.createElement("td")
@@ -57,7 +57,7 @@ function actualizarCompra(){
 		fila.appendChild(descripcion)
 		fila.appendChild(cantidad)
 		fila.appendChild(precio)
-		fila.appendChild(impuesto)
+		//fila.appendChild(impuesto)
 		fila.appendChild(total)
 		fila.appendChild(totalImpuesto)
 		TABLA.appendChild(fila)

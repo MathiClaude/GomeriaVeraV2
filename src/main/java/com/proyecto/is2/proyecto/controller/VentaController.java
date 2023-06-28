@@ -66,6 +66,11 @@ public class VentaController {
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
     final String RD_FORM_VIEW = "redirect:/ventas";
+    final String COMPROBANTE = "/comprobante/";
+    //final String COMPROBANTE = "redirect:/comprobante/";
+
+    
+
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
@@ -274,8 +279,11 @@ public class VentaController {
             operacionMov.guardar(opEstructura);
 
             attributes.addFlashAttribute("message", "¡Venta creada exitosamente!");
+            //return RD_FORM_VIEW+"/a"+idVenta+arrVentaDetalle.length+"-e";
+            //return "http://localhost:8080/comprobante/"+idVenta+"/pdf";
 
-            return RD_FORM_VIEW+"/a"+arrVentaDetalle.length+"-e";
+            return COMPROBANTE + idVenta+ "/pdf";
+            
         } else {
             return RD_FALTA_PERMISO_VIEW;
         }

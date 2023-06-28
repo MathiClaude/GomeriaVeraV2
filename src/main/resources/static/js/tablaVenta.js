@@ -206,6 +206,6 @@ async function guardarDatos(){
 
 function calcularVuelto(campoCliente,campoTotal){
 	const CAMPO_VUELTO = document.getElementById('idVuelto')
-	CAMPO_VUELTO.value = campoTotal.value - campoCliente.value
+	CAMPO_VUELTO.value = campoCliente.value - campoTotal.value
 	console.log(campoCliente.value , campoTotal.value)
 }

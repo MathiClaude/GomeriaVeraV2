@@ -167,7 +167,7 @@
                               <label for="inputNombre" class="form-label">Total abonado</label>
                             </div>
                             <div class="col">
-                              <input type="text"  id="inputNombre" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" autofocus>
+                              <input type="text"  id="inputPago" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" autofocus onchange="validarPago(this.value)">
                             </div>
                           </div>
                           <div class="row">
@@ -293,16 +293,7 @@
                           <td th:text="${producto.nombreProducto}">Name</td>
                           <td th:text="${producto.tipoProducto.descripcion}">type</td>
                           <td th:text="${producto.marca.nombre}">90</td><!---->
-                          <!--td th:text="${producto.impuesto}">black</!td-->
-                          <td>
-                            <div class="form-outline">
-                              <select class="form-select" id="impuestoValueId" name="impuesto">
-                                  <option value="10">I.V.A. 10%</option>
-                                  <option value="5">I.V.A. 5%</option>
-                                  <option value="0">Sin I.V.A</option>
-                              </select>   
-                            </div>
-                          </td>
+                          <td th:text="${producto.impuesto}">black</td>
                           <td>
                             <!--div class="btn-group" role="group" aria-label="Basic example">
                               <button type="button" class="btn btn-secondary">-</button>
@@ -317,7 +308,7 @@
                           </td>
                           <td>
                             <div class="form-outline">
-                              <input type="number" class="form-control" th:id="precioCompraId" min="0" />  
+                              <input type="number" class="form-control" th:id="${producto.precio}" min="0" />  
                             </div>
                           </td>
                         </tr>

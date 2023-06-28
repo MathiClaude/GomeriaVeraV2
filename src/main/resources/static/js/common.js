@@ -222,3 +222,15 @@ function generarPDF(id, name) {
     // Generar el PDF
     html2pdf().set(options).from(htmlElement).save();
 }
+
+function validarMonto(monto){
+    if(monto <= 0){
+        Swal.fire({
+        icon: 'error',
+        title: 'Algo salio mal...',
+        text: 'Monto ingresado no valido!',
+        })
+        return 0;
+    }
+    return monto;
+}

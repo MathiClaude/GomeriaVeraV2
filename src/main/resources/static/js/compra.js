@@ -15,6 +15,10 @@ function actualizarListaProductosCompras(){
 	});*/
 	for(let elemento of listaProductosCompra){
 		let cantidad = document.getElementById(elemento.idProducto).value
+		let precioUnidad = document.getElementById(elemento.precio).value
+		alert (cantidad)
+		alert(precioUnidad)
+		elemento.precio = precioUnidad
 		elemento.cantidad = cantidad
 	}
 	actualizarCompra();
@@ -97,6 +101,7 @@ function confirmarCompra(){
 		}
 	  })
 }
+
 async function guardarDatosCompra(){
 	//Obtenemos la cabecera
 	/*private String montoVenta;
@@ -140,5 +145,24 @@ async function guardarDatosCompra(){
 	})
 	console.log(resp)
 	console.log(resp.text())
+
+}
+
+function validarPago(monto){
+	var totalPagar = document.getElementById("totalPagarCompra").value;
+	//alert(totalPagar)
+	if(validarMonto(monto) == 0){
+		document.getElementById('inputPago').value = totalPagar;
+	}else{
+		if(monto < totalPagar){
+			//retirar para multipagos
+			Swal.fire({
+				icon: 'Error',
+				text: 'Monto ingresado inferior al monto total!',
+			})
+			document.getElementById('inputPago').value = totalPagar;
+		}
+		
+	}
 
 }

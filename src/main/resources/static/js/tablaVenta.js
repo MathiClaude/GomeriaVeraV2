@@ -153,13 +153,7 @@ function mostrarComprobante(){
 
 async function guardarDatos(){
 	//Obtenemos la cabecera
-	/*private String montoVenta;
-    private String fechaVenta;
-    private String esActual;
-    private BigDecimal montoTotal;
-	cliente ;
-	usuario;
-	*/
+	const TOTAL_EFECTIVO = document.getElementById('inputMontoCliente');
 	const cliente = document.getElementById('InputCliente')
 	if (cliente.value == ""){
 		//alert('debe elegir un cliente');
@@ -179,13 +173,28 @@ async function guardarDatos(){
 		return;
 		// alert('Debe elegir al menos un producto para vender')
 	}
+	
 	let listaEnviar = "";
 	for(let a of listaProductos){
 		listaEnviar +=`${a.cantidad};${a.idProducto};${a.precio}|`
 	}
-
-
+	//VALIDACION DEL MONTO INGRESADO POR EL CLIENTE 
+	validarMonto(TOTAL_EFECTIVO.value);
+	if(parseInt(TOTAL_EFECTIVO.value) < 1 || TOTAL_EFECTIVO.value == ''  ){
+		return;
+	} 
+	console.log(TOTAL_EFECTIVO.value,'test');
+	if((parseInt(TOTAL_EFECTIVO.value) - parseInt(totalVenta)) <0) {
+		Swal.fire({
+			icon: 'error',
+			title: 'Algo salió mal...',
+			text: 'Monto ingresado menor al valor de la venta!',
+		})
+		console.log("testing")
+		return;
+	}
 	const formData = new FormData();
+
 	formData.append("idCliente", cliente.value );
 	formData.append("montoVenta", totalVenta);
 	formData.append("totalVenta", totalVenta);
@@ -197,8 +206,11 @@ async function guardarDatos(){
 		method:'POST',
 		body: formData,
 	})
-	console.log(resp)
-	console.log(resp.text())
+	let respParseado = await resp.json();
+	console.log(respParseado)
+	let idVenta = respParseado.path.split("/")[2];
+	console.log("http://localhost:8080/comprobante/"+idVenta+"/pdf");
+	document.getElementById("datoComprobante").src="http://localhost:8080/comprobante/"+idVenta+"/pdf";
 	const myModalAlternative = new bootstrap.Modal('#cobroModal',{})
 	myModalAlternative.show(document.getElementById('cobroModal'));
 
@@ -208,4 +220,24 @@ function calcularVuelto(campoCliente,campoTotal){
 	const CAMPO_VUELTO = document.getElementById('idVuelto')
 	CAMPO_VUELTO.value = campoCliente.value - campoTotal.value
 	console.log(campoCliente.value , campoTotal.value)
+}
+
+//función para la validación de nros negativos y 0
+function validarPago(monto){
+	var totalPagar = document.getElementById("totalPagarCompra").value;
+	//alert(totalPagar)
+	if(validarMonto(monto) == 0){
+		document.getElementById('inputPago').value = totalPagar;
+	}else{
+		if(monto < totalPagar){
+			//retirar para multipagos
+			Swal.fire({
+				icon: 'Error',
+				text: 'Monto ingresado inferior al monto total!',
+			})
+			document.getElementById('inputPago').value = totalPagar;
+		}
+		
+	}
+
 }

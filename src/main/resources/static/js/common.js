@@ -227,8 +227,8 @@ function validarMonto(monto){
     if(monto <= 0 || monto == ''){
         Swal.fire({
         icon: 'error',
-        title: 'Algo salio mal...',
-        text: 'Monto ingresado no valido!',
+        title: 'Algo salió mal...',
+        text: 'Monto ingresado no válido!',
         })
         return 0;
     }

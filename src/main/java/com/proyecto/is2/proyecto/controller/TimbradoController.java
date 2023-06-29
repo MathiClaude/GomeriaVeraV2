@@ -1,11 +1,15 @@
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.ServicioDTO;
+import com.proyecto.is2.proyecto.controller.dto.TimbradoDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
+import com.proyecto.is2.proyecto.model.Timbrado;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+import com.proyecto.is2.proyecto.services.TimbradoServiceImp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +26,13 @@ import java.util.ArrayList;
 @Controller
 @RequestMapping("/timbrados")
 public class TimbradoController {
-        final String VIEW = "timbrado"; // identificador de la vista
+    final String VIEW = "timbrado"; // identificador de la vista
     final String VIEW_PATH = "timbrado";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/timbrados";
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/timbrado";
+    final String RD_FORM_VIEW = "redirect:/timbrados";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
@@ -37,6 +41,9 @@ public class TimbradoController {
     
     @Autowired
     private ServicioServiceImp servicioService; // llamada a los servicios de servicio
+
+      @Autowired
+    private TimbradoServiceImp timbradoService; // llamada a los servicios de servicio
 
     @Autowired
     private RolServiceImp rolService;//llamada a servicios de roles
@@ -65,7 +72,7 @@ public class TimbradoController {
         //        }
 
         if(consultar) {
-            model.addAttribute("listServicios", servicioService.listar());//lista los servicios
+            model.addAttribute("listTimbrado", timbradoService.listar());//lista los servicios
         } else {
             return FALTA_PERMISO_VIEW;
         }
@@ -96,25 +103,22 @@ public class TimbradoController {
     }
 
     @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("servicio") ServicioDTO objetoDTO,
+    public String crearObjeto(@ModelAttribute("timbrado") TimbradoDTO objetoDTO,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
-//        if (result.hasErrors()) {
-//            return FORM_NEW;
-//        }
-
         if(servicioService.tienePermiso(operacion + VIEW)) {
-            Servicio servicio = new Servicio();
-            servicioService.convertirDTO(servicio, objetoDTO);
 
-            servicioService.guardar(servicio);
+            Timbrado timbrado = new Timbrado();
+            timbradoService.convertirDTO(timbrado, objetoDTO);
+            timbrado.setNro_actual(objetoDTO.getNroDesde()+"");
+            timbradoService.guardar(timbrado);
 
             attributes.addFlashAttribute("message", "¡Servicio creado exitosamente!");
 
             return RD_FORM_VIEW;
         } else {
-            return RD_FALTA_PERMISO_VIEW;
+            return RD_FALTA_PERMISO_VIEW+"/test";
             
 
         }

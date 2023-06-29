@@ -7,7 +7,7 @@
         
         <div style="display: flex; align-items: right;">
             <img th:src="@{/img/report.png}" class="wp-image" width="40" height="40" style="float: left; margin-right: 5px;">
-            <h1 class="text" style="font-family:Trebuchet MS"><b style= "color:#21618C">REPORTE DE INVENTARIO</b></h1> 
+            <h1 class="text" style="font-family:Trebuchet MS"><b style= "color:#21618C">REPORTE DE STOCK</b></h1> 
         </div>
         <hr>
         <!--titulo-->
@@ -51,36 +51,38 @@
                                         
                                         
                                     </div>
-                                    <!--Filtrar reporte por cliente-->
-                                    <!--Buscador de clientes-->
-                                    <div class="form-group">      
-                                        <input type="hidden"  id="InputCliente" name="cliente" />
+                                    <!--Filtrar reporte por proveedor-->
+                                    <!--Buscador de proveedor-->
+                                    <div class="form-group">
+                                        <label name="proveedor" class="form-label">Proveedor</label>   
+                                        <input type="hidden"  id="InputProveedor" name="proveedor" />
                                         
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Seleccionar cliente..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCliente" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"disabled/>
+                                            <input type="text" class="form-control" placeholder="Seleccionar proveedor..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorProveedor" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"disabled/>
                                             <!--a th:href="@{/clientes/nuevo}" >
                                                 <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
                                                 </!a-->
-                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCliente').value=''" onmousedown="document.getElementById('InputCliente').value=''">
+                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorProveedor').value=''" onmousedown="document.getElementById('InputProveedor').value=''">
                                                     <i class="bi bi-trash3-fill"></i>
                                                 </button>
                                                 <div class="input-group-text">
-                                                    <input type="checkbox" id="checkboxCliente" onclick="habilitarInput('buscadorCliente', 'checkboxCliente')">
+                                                    <input type="checkbox" id="checkboxCliente" onclick="habilitarInput('buscadorProveedor', 'checkboxCliente')">
                                                 </div>                   
                                                 
                                             </div>
                                             <ul class="list-group" style="position:absolute;z-index:20"  >                      
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
                                             </ul>
                                             
                                         </div>
+                                        
                                         
                                         
                                         

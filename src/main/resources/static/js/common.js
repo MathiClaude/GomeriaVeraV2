@@ -224,7 +224,7 @@ function generarPDF(id, name) {
 }
 
 function validarMonto(monto){
-    if(monto <= 0){
+    if(monto <= 0 || monto == ''){
         Swal.fire({
         icon: 'error',
         title: 'Algo salio mal...',
@@ -232,5 +232,6 @@ function validarMonto(monto){
         })
         return 0;
     }
+
     return monto;
 }

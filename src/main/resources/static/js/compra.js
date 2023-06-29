@@ -82,14 +82,14 @@ function modificarCantidadesPrd(id,op){
 }
 function confirmarCompra(){
 	Swal.fire({
-		title: 'Finalizar Compra?',
-		text: "Al confirmar la compra, ya no podra cambiar los datos",
+		title: 'Finalizar Pedido?',
+		text: "Al confirmar el pedido, ya no podra cambiar los datos",
 		icon: 'warning',
 		showCancelButton: true,
-		cancelButtonText: 'Cancelar Compra',
-		confirmButtonColor: '#3085d6',
-		cancelButtonColor: '#d33',
-		confirmButtonText: 'Finalizar Compra'
+		cancelButtonText: 'Regresar al pedido',
+		confirmButtonColor: '#40A33C',
+		cancelButtonColor: '#003EFE',
+		confirmButtonText: 'Finalizar Pedido'
 	  }).then((result) => {
 		if (result.isConfirmed) {
 			guardarDatosCompra();
@@ -100,6 +100,20 @@ function confirmarCompra(){
 		  )
 		}
 	  })
+}
+
+function validarPedido(){
+	var totalPagar = document.getElementById("totalProdsCompras").value;
+	//alert(totalPagar)
+	if(validarMonto(totalPagar) == 0 ){	
+		Swal.fire({
+			icon: 'Error',
+			text: 'Pedido no valido!',
+		})
+	}else{
+		confirmarCompra();
+	}
+
 }
 
 async function guardarDatosCompra(){

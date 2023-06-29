@@ -187,7 +187,7 @@
                               <label for="inputNombre" class="form-label">Total abonado</label>
                             </div>
                             <div class="col">
-                              <input type="text"  id="inputMontoCliente" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" onchange="calcularVuelto(this,document.getElementById('totalPagar') )" autofocus>
+                              <input type="text"  id="inputMontoCliente" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" onchange="calcularVuelto(this,document.getElementById('totalPagar') )" autofocus >
                             </div>
                           </div>
                           <div class="row">
@@ -426,10 +426,10 @@
               <!-- Body para modal-->
               <div class="modal-body">
                 <!-- Tabs navs para modal-->
-                <iframe th:src="@{/comprobante/comprobante}" width="100%" height="400"></iframe>
+                <iframe th:src="@{/comprobante/comprobante}" width="100%" height="400" id="datoComprobante"></iframe>
                 <!-- Pie del modal -->
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
               </div>
             </div>

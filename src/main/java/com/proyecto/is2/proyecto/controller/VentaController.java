@@ -63,8 +63,10 @@ public class VentaController {
     final String VIEW_PATH = "ventas";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/realizarVenta";
-    final String FORM_NEW = VIEW_PATH + "/nuevo";
+    final String FORM_NEW = VIEW_PATH + "/listaVentas";
     final String FORM_EDIT = VIEW_PATH + "/editar";
+    //final String LISTA_VENTA = "/listaVentas";
+
     final String RD_FORM_VIEW = "redirect:/ventas";
     final String COMPROBANTE = "/comprobante/";
     //final String COMPROBANTE = "redirect:/comprobante/";
@@ -279,12 +281,14 @@ public class VentaController {
             operacionMov.guardar(opEstructura);
 
             attributes.addFlashAttribute("message", "¡Venta creada exitosamente!");
-            //return RD_FORM_VIEW+"/a"+idVenta+arrVentaDetalle.length+"-e";
+            attributes.addFlashAttribute("valor", idVenta);
             //return "http://localhost:8080/comprobante/"+idVenta+"/pdf";
 
-            return COMPROBANTE + idVenta+ "/pdf";
+            // return new Respuesta("http://localhost:8080/comprobante/"+idVenta+"/pdf");
+            return RD_FORM_VIEW+"/"+idVenta;
             
         } else {
+            // return new Respuesta("Error");
             return RD_FALTA_PERMISO_VIEW;
         }
     }
@@ -447,4 +451,12 @@ public class VentaController {
         }
     }
 
+}
+
+class Respuesta{
+    String mensaje;
+
+    public Respuesta(String msg){
+        this.mensaje=msg;
+    }
 }

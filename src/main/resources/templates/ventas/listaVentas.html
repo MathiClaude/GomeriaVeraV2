@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Lista de ventas</b></h1> <!--titulo-->
+
+  <!--th:block th:include="fragment/success-message.html"></th:block-->
+
+  <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
+    <a th:href="@{/realizarVenta}" class="btn btn-success mb-4">
+      <i class="fa-solid fa-hammer"></i> Nueva venta
+    </a>
+  </th:block> <!--modificar front-->
+
+  <div th:if="${permisoVer eq false}">
+    <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
+  </div><!---->
+  <div th:if="${permisoVer eq true}" class="table-responsive">
+    <table id="myTable" class="table table-sm table-bordered table-hover">
+      <thead style="background-color: #0a4275;">
+        <tr class="text-center">
+          <th>Factura N°</th><!---->
+          <th>Cliente</th><!---->
+          <th>Fecha</th><!---->
+          <th>Vendedor</th><!---->
+          <th>Total</th><!---->
+          <th>Acción</th><!---->
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:if="${#lists.isEmpty(listVenta)}"><!---->
+          <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
+        </tr><!---->
+        <tr class="text-center" th:each="tDoc: ${listTipDoc}">
+          <td th:text="${tDoc.idTipoProducto}"></td>
+          <td th:text="${tDoc.descripcion}"></td><!---->
+          <td><!---->
+            <div class="btn-group"><!---->
+              <a th:if="${permisoActualizar eq true}" th:href="@{/tipoProductos/{id}(id=${tDoc.idTipoProducto})}" 
+                 class="btn btn-sm btn-outline-primary"><!---->
+                <i class="fa-solid fa-pen-to-square"></i><!---->
+              </a>
+              <a th:if="${permisoEliminar eq true}" th:href="@{/tipoProductos/{id}/delete(id=${tDoc.idTipoProducto})}">
+                <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                  <i class="fa-sharp fa-solid fa-trash"></i>
+                </button>
+              </a>
+            </div>
+          </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+    <a href="javascript:history.back()" class="btn btn-outline-primary">
+      <i class="fa fa-backward" aria-hidden="true"></i> Atrás 
+    </a>
+  </th:block> <!--modificar front-->
+</div>
+
+</body>
+</html>

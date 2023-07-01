@@ -4,24 +4,22 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Lista de ventas</b></h1> <!--titulo-->
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Listado de ventas</b></h1> <!--titulo-->
 
   <!--th:block th:include="fragment/success-message.html"></th:block-->
 
-  <th:block th:if="${permisoCrear eq true}"><!--permisos user-->
+  
     <a th:href="@{/realizarVenta}" class="btn btn-success mb-4">
-      <i class="fa-solid fa-hammer"></i> Nueva venta
+      <i class="bi bi-cart-check-fill"></i> Realizar venta
     </a>
-  </th:block> <!--modificar front-->
+ 
 
-  <div th:if="${permisoVer eq false}">
-    <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
-  </div><!---->
-  <div th:if="${permisoVer eq true}" class="table-responsive">
+  
+  <div class="table-responsive">
     <table id="myTable" class="table table-sm table-bordered table-hover">
       <thead style="background-color: #0a4275;">
         <tr class="text-center">
-          <th>Factura N°</th><!---->
+          <th>N° de Facturas</th><!---->
           <th>Cliente</th><!---->
           <th>Fecha</th><!---->
           <th>Vendedor</th><!---->
@@ -33,13 +31,17 @@
         <tr th:if="${#lists.isEmpty(listVenta)}"><!---->
           <td class="text-center fw-bold" colspan="10">No se encontraron resultados</td><!---->
         </tr><!---->
-        <tr class="text-center" th:each="tDoc: ${listTipDoc}">
-          <td th:text="${tDoc.idTipoProducto}"></td>
-          <td th:text="${tDoc.descripcion}"></td><!---->
+        <tr class="text-center" th:each="listVenta: ${listVenta}">
+          <td th:text="${listVenta.idComprobante}"></td>
+          <td th:text="${listVenta.idCliente}"></td><!---->
+          <td th:text="${listVenta.descripcion}"></td><!---->
+          <td th:text="${listVenta.idUser}"></td><!---->
+          <td th:text="${listVenta.totalPagar}"></td><!---->
+          <td></td><!---->
           <td><!---->
             <div class="btn-group"><!---->
-              <a th:if="${permisoActualizar eq true}" th:href="@{/tipoProductos/{id}(id=${tDoc.idTipoProducto})}" 
-                 class="btn btn-sm btn-outline-primary"><!---->
+              <a th:if="${permisoActualizar eq true}" th:href="@{/tipoProductos/{id}(id=${listVenta.idTipoProducto})}" 
+                 class="bi bi-printer-fill"><!---->
                 <i class="fa-solid fa-pen-to-square"></i><!---->
               </a>
               <a th:if="${permisoEliminar eq true}" th:href="@{/tipoProductos/{id}/delete(id=${tDoc.idTipoProducto})}">

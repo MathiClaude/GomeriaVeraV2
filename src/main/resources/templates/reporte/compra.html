@@ -83,20 +83,21 @@
                                             
                                         </div>
                                         
-                                        
-                                        
-                                        
-                                        <!--Fecha de la venta-->
+                                        <!--fecha seleccionable en rango-->
                                         <div class="row mb-4">                            
                                             <div class="col">
                                                 <div class="form-outline">
                                                     <label name="fecha" class="form-label">Fecha</label>
                                                     <div class="input-group">
-                                                        <input id="fecha" name="fecha" type="date" class="form-control"
-                                                        placeholder="Introduzca la fecha que se desea generar" disabled/>
-                                                        <div class="input-group-text">
-                                                            <input type="checkbox" id="checkboxFecha" onclick="habilitarInput('fecha', 'checkboxFecha')">
-                                                        </div>
+
+                                                            <input id="fechaDesde" class="form-control datepicker" disabled/>
+                                                            <div class="input-group-text">a</div>
+                                                            <input id="fechaHasta" class="form-control datepicker" disabled/>
+                                                            <div class="input-group-text">
+                                                                <input type="checkbox" id="checkboxFecha" onclick="habilitarInput('fechaDesde', 'checkboxFecha'); habilitarInput('fechaHasta', 'checkboxFecha')" >
+                                                            </div>
+                                                            
+                                                        
                                                     </div>        
                                                     
                                                 </div>
@@ -106,14 +107,37 @@
                                             
                                         </div>
                                         <div class="row mb-4">
-                                            <div class="col-sm-6">
-                                                <a href="javascript:history.back()" class="btn btn-outline-info w-100">
+                                            <div class="col-sm-4">
+                                                <a href="javascript:void(0);" class="btn btn-outline-info w-100" onclick="confirmarRegreso()">
                                                     Atrás
                                                 </a>
                                             </div>
-                                            <div class="col-sm-6">
+                                            
+                                            <div class="col-sm-4">
                                                 <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#myModal" >
-                                                    <i class="bi bi-printer">  Ver reporte</i>
+                                                    <i class="bi bi-printer" id="download-button" onclick="generatePDF()">  Generar informe </i>
+                                                </button>  
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#modalChart" >
+                                                    <i class="bi bi-bar-chart" id="download-button" onclick="generatePDF()">  Generar gráfico</i>
+                                                </button>  
+                                            </div>
+                                        </div>
+                                        <!--reportes específicos-->
+                                        <hr>
+                                        
+                                        <p style="color: #21618C; text-align: center;"><strong>Reportes específicos</strong></p>
+
+                                        <div class="row  mb-4 justify-content-center">                                 
+                                            <div class="col-sm-4">
+                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#myModal" >
+                                                    <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()">  Informe productos más vendidos</i>
+                                                </button>  
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#modalChart" >
+                                                    <i class="bi bi-shop-window" id="download-button" onclick="generatePDF()">  Informe servicios más frecuentes</i>
                                                 </button>  
                                             </div>
                                         </div>
@@ -152,6 +176,7 @@
                 <script th:src="@{/js/buscadorProveedor.js}" type="text/javascript"></script>
                 
                 <script th:src="@{/js/habillitarInput.js}" type="text/javascript"></script>
+                <script th:src="@{/js/confirmarRegreso.js}" type="text/javascript"></script>
                 
             </div>
         </div>      

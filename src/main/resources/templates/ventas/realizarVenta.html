@@ -69,12 +69,25 @@
                 <!-- <input type="text" placeholder="Buscar Cliente..." id="buscadorCliente" > -->
               </div>
             </div>  
-            <!--botón de registro-->
+            
             <div class="col-4">
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
-                <i class="bi bi-search-heart"> Buscar productos</i>
-              </button>
+              <div class="d-flex">
+                <!-- botón de registro -->
+                <div class="flex-grow-1">
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart">
+                    <i class="bi bi-search-heart"></i> Buscar productos
+                  </button>
+                </div>
+                <!-- botón de listado de ventas para la impresión de facturas -->
+                <div class="ml-1">
+                  <a th:href="@{/realizarVenta/nuevo}" class="btn btn-secondary mb-3">
+                    <i class="bi bi-card-list"></i> Listado de ventas
+                  </a>
+                </div>
+              </div>
             </div>
+            
+
             <div class="col-4">
               <div class="form-outline">
                 <label for="inputNombre" class="form-label">Total a pagar:</label>
@@ -611,6 +624,7 @@
             }
           });
         </script>
+        <script type="text/javascript" th:inline="javascript">
         
       </div>
 

@@ -59,10 +59,10 @@ layout:decorate="~{/layout/basic}">
           <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
         </tr><!---->
         <tr class="text-center" th:each="producto: ${listProduct}">
-          <td th:text="${producto.codigo}">Cod</td>
+          <td th:text="${producto.codigo}">Cod</td>          
           <td th:text="${producto.nombreProducto}">Name</td>
-          <!--td th:text="${producto.precio}">90.000</td-->
-          <!--td th:text="${producto.cantidad}">90</td-->
+          <!--td th:text="${producto.precio}">90.000</!td-->
+          <!--tdth:text="${producto.cantidad}">90</!tdth:text-->
           <td th:text="${producto.marca.nombre}">90</td><!---->
           <td th:text="${producto.tipoProducto.descripcion}">type</td>
           <td th:text="${producto.unidadMedida.descripcion}">-</td>

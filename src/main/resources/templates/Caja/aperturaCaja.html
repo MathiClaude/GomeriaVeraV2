@@ -77,7 +77,10 @@
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-sm-6">
-                                        <a th:href="@{http://localhost:8080/}" class="btn btn-outline-info w-100">
+                                        <!--a th:href="@{http://localhost:8080/}" class="btn btn-outline-info w-100">
+                                            Atrás
+                                        </a-->
+                                        <a href="javascript:void(0);" class="btn btn-secondary w-100" onclick="confirmarRegreso()">
                                             Atrás
                                         </a>
                                     </div>
@@ -176,6 +179,8 @@
             }
           </script>
         <script th:src="@{/js/buscadorCaja.js}" type="text/javascript"></script>
+        <script th:src="@{/js/confirmarRegreso.js}" type="text/javascript"></script>
+
       </div>
     </div>      
       

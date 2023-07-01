@@ -2,6 +2,8 @@ package com.proyecto.is2.proyecto.controller;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.proyecto.is2.proyecto.controller.dto.DatoGraficoVentaDTO;
+import com.proyecto.is2.proyecto.controller.dto.ParametrosDonaDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
@@ -30,6 +32,7 @@ import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import com.proyecto.is2.proyecto.services.OperacionServiceImp;
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
+import com.proyecto.is2.proyecto.repository.VentaRepository;
 import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
@@ -50,6 +53,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.Tuple;
 
 /**
  * Controlador encargado de recibir las peticiones
@@ -68,6 +72,7 @@ public class ReporteVentaController {
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
+    final String GRAFICO_ESTADISTICO = "/reporte/ventaChart";
     //endpoint
     private final static String DATA_CREATE_URL = "/data-create";
 
@@ -92,6 +97,9 @@ public class ReporteVentaController {
 
     @Autowired
     ProveedorService proveedorService;
+
+    @Autowired
+    VentaRepository ventaRepository;
 
      @Autowired
     VentaDetalleService ventaDetalleService;
@@ -213,71 +221,34 @@ public class ReporteVentaController {
         }
     }
 
-    @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("venta") VentaDTO objetoDTO,
-            @RequestParam(value="ventaDetalle") String ventaDetalle,
-                              RedirectAttributes attributes) {
+    @GetMapping("/graficoDona")
+    public String verReporte(Model model) {
+        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
         this.operacion = "crear-";
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
         List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
-        List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-        BigDecimal montoVenta = new BigDecimal(objetoDTO.getMontoVenta());
+        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        List<Tuple> datosGrafico = ventaRepository.findGraphNative();
+        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
 
-        String[] arrVentaDetalle = ventaDetalle.split("\\|");
+        for (Tuple elemento : datosGrafico) {
+            Integer temp = Integer.parseInt(elemento.get(0).toString().split("\\.")[0]);
+            lista.add(new DatoGraficoVentaDTO(meses[temp==0?1:temp], elemento.get(1).toString()));
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Venta venta = new Venta();
-            Cliente cliente = clienteRepository.findByIdCliente(objetoDTO.getIdCliente());
-            venta.setCliente(cliente);
-            venta.setMontoTotal(montoVenta);
-            venta.setMontoVenta(montoVenta.toString());
+            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+            model.addAttribute("datos", lista);
 
-            //GUARDAR LA VENTA
-            Venta nuevaVenta = ventaService.guardar(venta);
-            // OBTENER EL ID DE LA VENTA 
-            Long idVenta = nuevaVenta.getIdVenta();
-            
-            for (String detCrudo : arrVentaDetalle) {
-                String[] elementos= detCrudo.split(";");
-                Optional<Producto>  prod = productoRepository.findById(Long.parseLong(elementos[1]));
-
-                VentaDetalle vtaDet = new VentaDetalle();
-                vtaDet.setVenta(nuevaVenta);
-                vtaDet.setCantidad(new Float(elementos[0]));
-                vtaDet.setProducto(prod.get());
-                vtaDet.setPrecio(new Float(elementos[2]));
-                ventaService.guardarDetalle(vtaDet);
-    
-            }
-            // CREAR ESTRUCTURA PARA LA OPERACION A GUARDAR
-            Operacion opEstructura = new Operacion();
-
-            BigDecimal saldoAnterior = null;
-            if(ultMov.size()>0){
-                saldoAnterior = new BigDecimal(ultMov.get(0).getSaldoPosterior());
-            }else{
-                saldoAnterior = new BigDecimal("0");
-
-            }
-            
-            opEstructura.setConcepto("Venta de Productos");
-            opEstructura.setIdCaja(cajaApertura.get(0).getIdCaja());
-            opEstructura.setIdUsuario(usuario.getIdUsuario());
-            opEstructura.setMonto(objetoDTO.getMontoVenta());
-            opEstructura.setFechaOperacion(LocalDate.now().toString());
-            opEstructura.setSaldoAnterior(saldoAnterior.toString());
-            opEstructura.setSaldoPosterior(saldoAnterior.add( montoVenta).toString());
-
-            operacionMov.guardar(opEstructura);
-
-            attributes.addFlashAttribute("message", "¡Venta creada exitosamente!");
-
-            return RD_FORM_VIEW+"/a"+arrVentaDetalle.length+"-e";
+            return GRAFICO_ESTADISTICO;
         } else {
-            return RD_FALTA_PERMISO_VIEW;
+            return GRAFICO_ESTADISTICO;
         }
     }
+
 
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {

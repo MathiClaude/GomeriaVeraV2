@@ -46,8 +46,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -214,6 +216,9 @@ public class CompraController {
         BigDecimal montoCompra = new BigDecimal(objetoDTO.getMontoCompra());
 
         String[] arrCompraDetalle = compraDetalle.split("\\|");
+        Date fechaHoraActual = new Date();//para persistir la fecha de compra
+        SimpleDateFormat formatoFechaHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String fechaHoraFormateada = formatoFechaHora.format(fechaHoraActual);
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             Compra compra = new Compra();
@@ -222,6 +227,7 @@ public class CompraController {
             compra.setMontoTotal(montoCompra);
             compra.setEstado("PENDIENTE");
             compra.setMontoCompra(montoCompra.toString());
+            compra.setFechaCompra(fechaHoraFormateada);
 
             //GUARDAR LA VENTA
             Compra nuevaCompra = compraService.guardar(compra);

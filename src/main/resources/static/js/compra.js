@@ -89,13 +89,13 @@ function confirmarCompra(){
 		cancelButtonText: 'Regresar al pedido',
 		confirmButtonColor: '#40A33C',
 		cancelButtonColor: '#003EFE',
-		confirmButtonText: 'Finalizar Pedido'
+		confirmButtonText: 'Finalizar'
 	  }).then((result) => {
 		if (result.isConfirmed) {
 			guardarDatosCompra();
 			Swal.fire(
-			'Compra Finalizada!',
-			'Su compra se registro correctamente',
+			'Pedido Finalizado!',
+			'Su pedido se registro correctamente',
 			'success'
 		  )
 		}

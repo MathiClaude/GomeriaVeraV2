@@ -14,7 +14,7 @@
     <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Realizar Pedido</b></h1> <!--titulo-->
     <br/>
     <!-- Tabs navs -->
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <!--ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
         <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#tabProveedor" type="button" role="tab" aria-controls="tabProveedor" aria-selected="true"><i class="fas fa-cart-arrow-down me-2"></i>Datos de compra</button>
       </li>
@@ -22,91 +22,91 @@
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabPago" type="button" role="tab" aria-controls="tabPago" aria-selected="false"><i class="fas fa-credit-card fa-fw me-2"></i>Realizar compra</button>
         </li>
-      </ul>
-      <br/>
+    </ul-->
+    <br/>
       <!-- Tabs content proveedor -->
-      <div class="tab-content" id="ex-with-icons-content">
-        <div class="tab-pane fade show active" id="tabProveedor" role="tabpanel" aria-labelledby="tabProveedor">
-          <legend style="color:#21618C">Proveedor</legend>
-          <div class="container" >
-            <div class="row">
-              <div class="col-4">
-                <!--Buscador de proveedor-->
-                <div class="form-group">      
-                  <input type="hidden"  id="InputProveedor" name="proveedor" />
-                  
-                  <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Buscar proveedor..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorProveedor" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"/>
-                    <!--a th:href="@{/clientes/nuevo}" >
-                    <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
-                    </!a-->
-                    <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorProveedor').value=''" onmousedown="document.getElementById('InputProveedor').value=''">
-                      <i class="bi bi-trash3-fill"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
-                      <i class="bi bi-person-plus-fill"> Nuevo</i>
-                    </button>
-                      
-                  </div>
-                  <ul class="list-group" style="position:absolute;z-index:20"  >                      
-                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                    <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                  </ul>
-                  <!-- <input type="text" placeholder="Buscar Proveedor..." id="buscadorProveedor" > -->
+    <div class="tab-content" id="ex-with-icons-content">
+      <div class="tab-pane fade show active" id="tabProveedor" role="tabpanel" aria-labelledby="tabProveedor">
+        <legend style="color:#21618C">Proveedor</legend>
+        <div class="container" >
+          <div class="row">
+            <div class="col-4">
+              <!--Buscador de proveedor-->
+              <div class="form-group">      
+                <input type="hidden"  id="InputProveedor" name="proveedor" />
+                
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Buscar proveedor..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorProveedor" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"/>
+                  <!--a th:href="@{/clientes/nuevo}" >
+                  <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
+                  </!a-->
+                  <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorProveedor').value=''" onmousedown="document.getElementById('InputProveedor').value=''">
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" >
+                    <i class="bi bi-person-plus-fill"> Nuevo</i>
+                  </button>
+                    
                 </div>
-              </div>  
-              <!--botón de registro-->
-              <div class="col-4">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
-                  <i class="bi bi-search-heart"> Buscar productos</i>
+                <ul class="list-group" style="position:absolute;z-index:20"  >                      
+                  <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                  <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                </ul>
+                <!-- <input type="text" placeholder="Buscar Proveedor..." id="buscadorProveedor" > -->
+              </div>
+            </div>  
+            <!--botón de registro-->
+            <div class="col-4">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart" >
+                <i class="bi bi-search-heart"> Buscar productos</i>
+              </button>
+            </div>
+            <div class="col-4">
+              <div class="form-outline">
+                <label for="inputNombre" class="form-label">Monto total del Pedido:</label>
+                <input type="text" id="totalProdsCompras" disabled/>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-success" onclick="validarPedido()">
+                  Finalizar Pedido
                 </button>
               </div>
-              <div class="col-4">
-                <div class="form-outline">
-                  <label for="inputNombre" class="form-label">Monto total del Pedido:</label>
-                  <input type="text" id="totalProdsCompras" disabled/>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button type="button" class="btn btn-success" onclick="validarPedido()">
-                    Finalizar cobro
-                  </button>
-                </div>
-              </div> 
-            </div>
+            </div> 
           </div>
-          <hr>
-        
-          <!--LISTA DE PRODUCTOS EN ITEM PRODUCTO-->
-          <div th:if="${permisoVer eq true}" class="table-responsive">
-            <table id="myTableCr" class="table table-sm table-bordered table-hover">
-              <thead style="background-color: #0a4275;">
-                <tr class="text-center">
-                  <th>Código</th><!---->
-                  <th>Artículo</th><!---->
-                  <th>Cantidad</th><!---->
-                  <th>Precio</th><!---->
-                  <!--th>Impuesto</th-->
-                  <th>Total</th><!---->
-                  <!--th>Acción</th-->
-                  <th>Total Impuesto</th><!---->
-                </tr><!---->
-              </thead><!---->
-              <tbody id="productosSeleccionadosCompras"><!---->
-                <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
-                  <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
-                </tr><!---->
-                
-              </tbody>
-            </table>
-          </div> <!--termina la tabla-->
         </div>
-        <!--CONTENIDO DE MÉTODO DE PAGO-->
-      <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
+        <hr>
+      
+        <!--LISTA DE PRODUCTOS EN ITEM PRODUCTO-->
+        <div th:if="${permisoVer eq true}" class="table-responsive">
+          <table id="myTableCr" class="table table-sm table-bordered table-hover">
+            <thead style="background-color: #0a4275;">
+              <tr class="text-center">
+                <th>Código</th><!---->
+                <th>Artículo</th><!---->
+                <th>Cantidad</th><!---->
+                <th>Precio</th><!---->
+                <!--th>Impuesto</th-->
+                <th>Total</th><!---->
+                <!--th>Acción</th-->
+                <th>Total Impuesto</th><!---->
+              </tr><!---->
+            </thead><!---->
+            <tbody id="productosSeleccionadosCompras"><!---->
+              <tr th:if="${#lists.isEmpty(listProduct)}"><!---->
+                <td class="text-center fw-bold" colspan="10">No se encontraron productos</td><!---->
+              </tr><!---->
+              
+            </tbody>
+          </table>
+        </div> <!--termina la tabla-->
+      </div>
+      <!--CONTENIDO DE MÉTODO DE PAGO-->
+    <div class="tab-pane fade" id="tabPago" role="tabpanel" aria-labelledby="tabPago">
         <div class="container">
           <div class="row">
             <div class="col-md-4">

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.proyecto.is2.proyecto.controller.dto.DatoGraficoVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.ParametrosDonaDTO;
+import com.proyecto.is2.proyecto.controller.dto.ReporteVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
@@ -204,15 +205,13 @@ public class ReporteVentaController {
         return FORM_VIEW;
     }
 
-    @GetMapping("/ventaReporte")
-    public String formNuevo(Model model) {
+    @GetMapping("/ventaReporte/c/{cliente_id}")
+    public String reporteVentaCliente(Model model,@PathVariable String cliente_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-
-        if(asignarRol) {
-            model.addAttribute("roles", rolService.listar());
-        }
-        model.addAttribute("permisoAsignarRol", asignarRol);
+        List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(cliente_id));
+        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        model.addAttribute("datos", listaDatos);
 
         if(crear) {
             return FORM_NEW;
@@ -220,6 +219,33 @@ public class ReporteVentaController {
             return FALTA_PERMISO_VIEW;
         }
     }
+
+    @GetMapping("/ventaReporte/u/{usuario_id}")
+    public String reporteVentaUsuario(Model model,@PathVariable String usuario_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+
+        List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(usuario_id));
+        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        model.addAttribute("datos", listaDatos);
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    private List<ReporteVentaDTO> parsearDatosReporteVenta(List<Tuple> datosCrudo){
+        List<ReporteVentaDTO> lista = new ArrayList<>();
+        for (Tuple elemento : datosCrudo) {
+            lista.add( new ReporteVentaDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString()) );
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+        return lista;
+    }
+
+
 
     @GetMapping("/graficoDona")
     public String verReporte(Model model) {

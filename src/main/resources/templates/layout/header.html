@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="h-100"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:fragment="head">
+    <title>Dobby</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+</head>
+
+<body class="d-flex flex-column h-100">
+
+<th:block th:fragment="header">
+    <header>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <div>
+                    <img th:src="@{/img/logo.png}" class="wp-image-4532" width="40" height="30" alt="Logo"/>
+                </div>
+                <a class="navbar-brand" th:href="@{/}" >Gomería Vera</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+                <div sec:authorize="isAuthenticated()" class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="d-flex justify-content-center mr-2">
+                            <div class="dropdown">
+                                <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuCompras" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-basket-shopping"></i>
+                                    Compras
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuCompras">
+                                    <a class="dropdown-item" th:href="@{/compra/realizarCompra}"><i class="fa-solid fa-cart-plus"></i> Realizar Compra</a>
+                                    <!--<a class="dropdown-item" th:href="@{/facturas/compras}">Facturas</a>-->                                    
+                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item" th:href="@{/proveedor/proveedores}"><i class="fa-solid fa-truck-fast"></i> Ver proveedores</a>
+                                </div>
+                            </div>
+                        </li>
+                        <!--li class="d-flex justify-content-center mr-2">
+                            <div class="dropdown">
+                                <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuStock" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-shop"></i>
+                                    Stock
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuStock">
+                                    <a class="dropdown-item" th:href="@{/stock}">Ver Existencia</a>
+                                    <a class="dropdown-item" th:href="@{/stock/pendientes}">Operaciones pendientes</a>
+                                    <a class="dropdown-item" th:href="@{/stock/historial}" >Historial de Transacciones</a>
+                                    <a class="dropdown-item" th:href="@{/stock/baja}">Generar Transaccion</a>
+                                </div>
+                            </div>
+                        </!li-->
+                        <li class="d-flex justify-content-center mr-2">
+                            <div class="dropdown">
+                                <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuCaja" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-cash-register"></i>
+                                    Caja
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuStock">           
+                                    <a class="dropdown-item" th:href="@{/caja/aperturaCaja}">Apertura de Caja</a>
+                                    <a class="dropdown-item" th:href="@/caja/cierreCaja}">Cerrar Caja</a>                                    
+                                </div>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-center mr-2">
+                            <div class="dropdown">
+                                <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuVentas" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-credit-card"></i>
+                                    Ventas
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuVentas">
+                                    <a class="dropdown-item" th:href="@{/ventas/realizarVenta}"><i class="fa-solid fa-money-bill-1"></i> Realizar Venta</a>
+<!--                                    <a class="dropdown-item" th:href="@{/facturas/ventas}">Facturas</a>-->
+                                    <a class="dropdown-item" th:href="@{/ventas/listaVentas}"><i class="fa-solid fa-list"></i> Ver Ventas</a>
+                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item" th:href="@{/cliente/clientes}"><i class="fa-solid fa-user-group"></i> Ver clientes</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="d-flex justify-content-center mr-2">
+                            <div class="dropdown">
+                                <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuAdministrador" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-users"></i>
+                                    Administrador
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuAdministrador">
+                                    <a class="dropdown-item" th:href="@{/usuario/usuarios}">Usuarios</a>
+                                    <a class="dropdown-item" th:href="@{/rol/roles}">Roles</a>
+                                    <a class="dropdown-item" th:href="@{/permiso/permisos}">Permisos</a>
+                                    <hr class="dropdown-divider">                                    
+                                </div>
+                            </div>
+                        </li>                        
+                        <li th:if="${false}" class="nav-item">
+                            <a th:href="@{/logout}" class="nav-link text-white text-center">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                Cerrar Sesión
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+</th:block>
+
+</body>
+</html>

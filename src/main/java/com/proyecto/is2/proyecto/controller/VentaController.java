@@ -239,6 +239,7 @@ public class VentaController {
             Venta venta = new Venta();
             Cliente cliente = clienteRepository.findByIdCliente(objetoDTO.getIdCliente());
             venta.setCliente(cliente);
+            venta.setFechaVenta(java.time.LocalDate.now().toString());
             venta.setMontoTotal(montoVenta);
             venta.setMontoVenta(montoVenta.toString());
 

@@ -73,6 +73,7 @@ public class ReporteVentaController {
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
+    
     final String GRAFICO_ESTADISTICO = "/reporte/ventaChart";
     //endpoint
     private final static String DATA_CREATE_URL = "/data-create";
@@ -236,6 +237,39 @@ public class ReporteVentaController {
         }
     }
 
+    @GetMapping("/ventaReporte/a/{fechaVenta}")
+    public String reporteVentaFeha(Model model,@PathVariable String fechaVenta) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+
+        List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(fechaVenta));
+        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        model.addAttribute("datos", listaDatos);
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    /* 
+    @GetMapping("/ventaReporte/c/{cliente_id}/u/{usuario_id}/a/{fechaVenta}")
+    public String reporteVentaFeha(Model model,@PathVariable String cliente_id, String usuario_id,  String fechaVenta) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+
+        List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(fechaVenta));
+        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        model.addAttribute("datos", listaDatos);
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+    */
     private List<ReporteVentaDTO> parsearDatosReporteVenta(List<Tuple> datosCrudo){
         List<ReporteVentaDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {

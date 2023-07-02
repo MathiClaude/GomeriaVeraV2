@@ -218,11 +218,12 @@ public class CajaController {
 
             Long idCaja = objetoDTO.getIdCaja();
             List<AperturaCaja> aperturas = aperturaCajaRepository.findByIdCajaOrderByIdAperturaCajaDesc(idCaja);
-            if(aperturas.get(0).getEstado().equals("aBrIdO")){
-                attributes.addFlashAttribute("msgCaja", "No se puede abrir una caja ya abierta");
-                return RD_FORM_VIEW;
+            if (aperturas.size()>0){
+                if(aperturas.get(0).getEstado().equals("aBrIdO")){
+                    attributes.addFlashAttribute("msgCaja", "No se puede abrir una caja ya abierta");
+                    return RD_FORM_VIEW;
+                }
             }
-
             aperturas = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
             if(aperturas.get(0).getEstado().equals("aBrIdO")){
                 attributes.addFlashAttribute("msgCaja", "El usuario ya tiene una caja abierta actualmente");

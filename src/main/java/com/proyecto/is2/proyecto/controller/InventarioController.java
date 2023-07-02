@@ -29,15 +29,15 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/stock")
+@RequestMapping("/stocks")
 public class InventarioController {
     final String VIEW = "gestionProducto"; // identificador de la vista
     final String VIEW_PATH = "gestionProducto";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/stock";
+    final String FORM_VIEW = VIEW_PATH + "/stocks";
     final String FORM_NEW = VIEW_PATH + "/nuevo";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/stock";
+    final String RD_FORM_VIEW = "redirect:/stocks";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String LISTA_VIEW = VIEW + "/listar";

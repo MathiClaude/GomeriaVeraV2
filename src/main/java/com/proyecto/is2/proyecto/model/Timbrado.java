@@ -39,10 +39,12 @@ public class Timbrado {
     @Column(name = "estado")
     private String estado;
 
+    @Column(name = "nro_actual")
+    private String nro_actual;
+
+
     public Timbrado() {
         this.estado = EstadosTimbrado.ACTIVO.name();
-        this.nroDesde = 0;
-        this.nroHasta = 999;
     }
 
     /* ************************ */

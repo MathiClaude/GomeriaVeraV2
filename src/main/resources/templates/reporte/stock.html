@@ -7,11 +7,11 @@
         
         <div style="display: flex; align-items: right;">
             <img th:src="@{/img/report.png}" class="wp-image" width="40" height="40" style="float: left; margin-right: 5px;">
-            <h1 class="text" style="font-family:Trebuchet MS"><b style= "color:#21618C">REPORTE DE COMPRAS</b></h1> 
+            <h1 class="text" style="font-family:Trebuchet MS"><b style= "color:#21618C">REPORTE DE STOCK</b></h1> 
         </div>
         <hr>
         <!--titulo-->
-        <form method="post" th:action="@{/compra}" th:object="${reporte}">
+        <form method="post" th:action="@{/inventario}" th:object="${reporte}">
             <fieldset>
                 
                 <br> <!--separador-->
@@ -24,7 +24,7 @@
                                     <div class="row mb-4">                            
                                         <div class="col">
                                             <div class="form-outline">
-                                                <label for="inputRuc" class="form-label">Cajero</label>                                           
+                                                <label for="inputRuc" class="form-label">Marca</label>                           
                                                 <input type="number" style="display:none"  id="idCajero" name="idCajero" />
                                                 <div class="input-group mb-3">
                                                     <input type="text" name="dscCaja" class="form-control" placeholder="Seleccionar cajero..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCajero" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)" autocomplete="off" disabled/>
@@ -51,10 +51,10 @@
                                         
                                         
                                     </div>
-                                    <!--Filtrar reporte por proveedor-->
-                                    <!--Buscador de proveedor-->
+                                    <!--Filtrar reporte por tipo de producto-->
+                                    <!--Buscador de tipo de productos-->
                                     <div class="form-group">
-                                        <label name="proveedor" class="form-label">Proveedor</label>   
+                                        <label name="tipoProducto" class="form-label">Tipo de producto</label>   
                                         <input type="hidden"  id="InputProveedor" name="proveedor" />
                                         
                                         <div class="input-group mb-3">
@@ -82,6 +82,41 @@
                                             </ul>
                                             
                                         </div>
+                                    <!--Filtrar reporte por proveedor-->
+                                    <!--Buscador de proveedor-->
+                                    <div class="form-group">
+                                        <label name="proveedor" class="form-label">Proveedor</label>   
+                                        <input type="hidden"  id="InputProveedor" name="proveedor" />
+                                        
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Seleccionar tipo de producto..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorProveedor" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.va2023-06-30lue)"disabled/>
+                                            <!--a th:href="@{/clientes/nuevo}" >
+                                                <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
+                                                </!a-->
+                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorProveedor').value=''" onmousedown="document.getElementById('InputProveedor').value=''">
+                                                    <i class="bi bi-trash3-fill"></i>
+                                                </button>
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" id="checkboxCliente" onclick="habilitarInput('buscadorProveedor', 'checkboxCliente')">
+                                                </div>                   
+                                                
+                                            </div>
+                                            <ul class="list-group" style="position:absolute;z-index:20"  >                      
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                            </ul>
+                                            
+                                        </div>
+                                        
+                                        
+                                        
+                                        
                                         
                                         <!--fecha seleccionable en rango-->
                                         <div class="row mb-4">                            
@@ -106,63 +141,68 @@
                                             
                                             
                                         </div>
-                                        <div class="row mb-4">
+                                        <!---->
+                                        <div class="row mb-4 justify-content-end">
                                             <div class="col-sm-4">
-                                                <a href="javascript:void(0);" class="btn btn-outline-info w-100" onclick="confirmarRegreso()">
+                                                <a href="javascript:void(0);" class="btn btn-secondary w-100" onclick="confirmarRegreso()">
                                                     Atrás
                                                 </a>
                                             </div>
-                                            
                                             <div class="col-sm-4">
-                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#myModal" >
-                                                    <i class="bi bi-printer" id="download-button" onclick="generatePDF()">  Generar informe </i>
-                                                </button>  
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#modalChart" >
-                                                    <i class="bi bi-bar-chart" id="download-button" onclick="generatePDF()">  Generar gráfico</i>
+                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#myModal">
+                                                    <i class="bi bi-printer" id="download-button" onclick="generatePDF()"> Generar informe</i>
                                                 </button>  
                                             </div>
                                         </div>
-                                        <!--reportes específicos-->
-                                        <hr>
                                         
+                                    </div>
+                                </div>    
+                                
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <!--reportes específicos-->
                                         <p style="color: #21618C; text-align: center;"><strong>Reportes específicos</strong></p>
-
-                                        <div class="row  mb-4 justify-content-center">                                 
-                                            <div class="col-sm-4">
-                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#myModal" >
-                                                    <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()">  Informe productos más vendidos</i>
+                                        <hr>                                     
+                                        <div class="row mb-4 justify-content-center">
+                                            <div class="col-sm-12 mb-2">
+                                                <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
+                                                    <i class="bi bi-pie-chart-fill" id="download-button" onclick="generatePDF()"> Generar gráfico</i>
+                                                </button>  
+                                            </div>                               
+                                            <div class="col-sm-12 mb-2">
+                                                <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#myModal">
+                                                    <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Informe productos de mayor cantidad</i>
                                                 </button>  
                                             </div>
-                                            <div class="col-sm-4">
-                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#modalChart" >
-                                                    <i class="bi bi-shop-window" id="download-button" onclick="generatePDF()">  Informe servicios más frecuentes</i>
+                                            <div class="col-sm-12 mb-2">
+                                                <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
+                                                    <i class="bi bi-shop-window" id="download-button" onclick="generatePDF()"> Informe productos de menor cantidad</i>
                                                 </button>  
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
-                                
+                                </div>
                             </div>   
                         </div>    <!---->
                     </div>
                 </fieldset>
             </form>
-            <!-- MODAL PARA CRUD DE CAJA -->
-            <!-- Modal: myModal | Creación de caja -->
+            <!-- MODAL PARA IMPRIMIR EL REPORTE -->
+            <!-- Modal: myModal | Ver reporte -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
                     <div class="modal-content">                                   
                         <!--Header-->                    
                         <div class="modal-header"> 
-                            <h5 class="modal-title">Reporte compra</h5> <!-- Por que si-->
+                            <h5 class="modal-title">Reporte venta</h5> <!-- Por que si-->
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
                         </div>
                         <!-- Body para modal-->
                         <div class="modal-body">
                             <!-- Tabs navs para modal-->
-                            <iframe th:src="@{/compra/compraReporte}" width="100%" height="400"></iframe>
+                            <iframe th:src="@{/venta/ventaReporte}" width="100%" height="400"></iframe>
                             <!-- Pie del modal -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
@@ -173,12 +213,11 @@
             </div>
             <div>
                 <script th:src="@{/js/buscadorCajero.js}" type="text/javascript"></script>
-                <script th:src="@{/js/buscadorProveedor.js}" type="text/javascript"></script>
+                <script th:src="@{/js/buscadorCliente.js}" type="text/javascript"></script>
                 
-                <script th:src="@{/js/habillitarInput.js}" type="text/javascript"></script>
-                <script th:src="@{/js/confirmarRegreso.js}" type="text/javascript"></script>
-                
-            </div>
+                <script th:src="@{/js/habillitarInput.js}" type="text/javascript"></script>             
+                <script th:src="@{/js/confirmarRegreso.js}" type="text/javascript"></script>             
+            </div>            
         </div>      
         
     </body>

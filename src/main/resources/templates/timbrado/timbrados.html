@@ -42,16 +42,12 @@
         <td th:text="${timbrado.nroDesde}"></td><!---->
         <td th:text="${timbrado.nroHasta}"></td><!---->
         <!---->
-        <div class="btn-group">
-          <a th:if="${false}" href="#" class="btn btn-sm btn-outline-primary">
-            <i class="fa-solid fa-info-circle" style="cursor:pointer;" title="Detalles"></i>
-          </a>
-          <button th:if="${timbrado.estado eq 'ACTIVO'}" type="button" id="btnEliminar" th:onclick="editarTimbrado([[${timbrado.nroTimbrado}]])"
-                  class="btn btn-sm btn-outline-danger" title="Desactivar Timbrado"
-                  style="cursor:pointer;" data-bs-toggle="tooltip" data-bs-placement="top">
-            <i class="fa-sharp fa-solid fa-trash"></i>
-          </button>
-        </div>
+        <td>
+          <div class="btn-group">
+            <a href="#" class="btn btn-sm btn-outline-primary">
+              <i class="fa-solid fa-info-circle" style="cursor:pointer;" title="Detalles"></i>
+            </a>
+          </div>
         </td>
       </tr>
       </tbody>
@@ -66,70 +62,72 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div id="form-timbrado" class="needs-validation" novalidate>
-            <fieldset class="mb-3">
-              <div class="mb-3">
-                <label for="timbrado" class="form-label">Nro. Timbrado<span class="text-danger" required>*</span></label>
-                <input id="timbrado" name="timbrado" type="text" maxlength="8" class="form-control" placeholder="Introduzca un número de timbrado" />
-                <div class="valid-feedback">
-                  Ok!
+          <form method="POST" onsubmit="return functTimbradoUpdate()" id="form-timbrado" th:action="@{/timbrados/crear}">
+            <div id="form-timbrado" class="needs-validation" novalidate>
+              <fieldset class="mb-3">
+                <div class="mb-3">
+                  <label for="nroTimbrado" class="form-label">Nro. Timbrado<span class="text-danger" required>*</span></label>
+                  <input id="nroTimbrado" name="nroTimbrado" type="text" maxlength="8" class="form-control" placeholder="Introduzca un número de timbrado" />
+                  <div class="valid-feedback">
+                    Ok!
+                  </div>
+                  <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                  </div>
                 </div>
-                <div class="invalid-feedback">
-                  Este campo es obligatorio.
+                <div class="mb-3">
+                  <label for="nroDesde" class="form-label">Numeración desde<span class="text-danger">*</span></label>
+                  <input id="nroDesde" name="nroDesde" type="text" maxlength="8" class="form-control" placeholder="Introduzca numeración inicial" />
+                  <div class="valid-feedback">
+                    Ok!
+                  </div>
+                  <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                  </div>
                 </div>
-              </div>
-              <div class="mb-3">
-                <label for="timbrado" class="form-label">Numeración desde<span class="text-danger">*</span></label>
-                <input id="timbrado" name="timbrado" type="text" maxlength="8" class="form-control" placeholder="Introduzca numeración inicial" />
-                <div class="valid-feedback">
-                  Ok!
+                <div class="mb-3">
+                  <label for="nroHasta" class="form-label">Numeración hasta<span class="text-danger">*</span></label>
+                  <input id="nroHasta" name="nroHasta" type="text" maxlength="8" class="form-control" placeholder="Introduzca numeración final" />
+                  <div class="valid-feedback">
+                    Ok!
+                  </div>
+                  <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                  </div>
                 </div>
-                <div class="invalid-feedback">
-                  Este campo es obligatorio.
+                <div class="mb-3">
+                  <label name="fchDesde" class="form-label">Vigente desde<span class="text-danger">*</span></label>
+                  <input id="fchDesde" name="fchDesde" type="date" class="form-control"
+                        placeholder="Introduzca la fecha inicial de vigencia" required/>
+                  <div class="valid-feedback">
+                    Ok!
+                  </div>
+                  <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                  </div>
                 </div>
-              </div>
-              <div class="mb-3">
-                <label for="timbrado" class="form-label">Numeración hasta<span class="text-danger">*</span></label>
-                <input id="timbrado" name="timbrado" type="text" maxlength="8" class="form-control" placeholder="Introduzca numeración final" />
-                <div class="valid-feedback">
-                  Ok!
+                <!--
+                    SE DEBE DE VERIFICAR QUE NO SEA MENOR QUE LA FECHA DESDE
+                    EL TIMBRADO DURA 1 AÑO
+                -->
+                <div class="mb-3">
+                  <label name="fchHasta" class="form-label">Vigente hasta<span class="text-danger">*</span></label>
+                  <input id="fchHasta" name="fchHasta" type="date" class="form-control"
+                        placeholder="Introduzca la fecha final de vigencia" required/>
+                  <div class="valid-feedback">
+                    Ok!
+                  </div>
+                  <div class="invalid-feedback">
+                    Este campo es obligatorio.
+                  </div>
                 </div>
-                <div class="invalid-feedback">
-                  Este campo es obligatorio.
-                </div>
-              </div>
-              <div class="mb-3">
-                <label name="fchDesde" class="form-label">Vigente desde<span class="text-danger">*</span></label>
-                <input id="fchDesde" name="fchDesde" type="date" class="form-control"
-                       placeholder="Introduzca la fecha inicial de vigencia" required/>
-                <div class="valid-feedback">
-                  Ok!
-                </div>
-                <div class="invalid-feedback">
-                  Este campo es obligatorio.
-                </div>
-              </div>
-              <!--
-                  SE DEBE DE VERIFICAR QUE NO SEA MENOR QUE LA FECHA DESDE
-                  EL TIMBRADO DURA 1 AÑO
-              -->
-              <div class="mb-3">
-                <label name="fchHasta" class="form-label">Vigente hasta<span class="text-danger">*</span></label>
-                <input id="fchHasta" name="fchHasta" type="date" class="form-control"
-                       placeholder="Introduzca la fecha final de vigencia" required/>
-                <div class="valid-feedback">
-                  Ok!
-                </div>
-                <div class="invalid-feedback">
-                  Este campo es obligatorio.
-                </div>
-              </div>
-            </fieldset>
-          </div>
+              </fieldset>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" onclick="functTimbradoUpdate()">Guardar</button>
+          <button type="submit" class="btn btn-primary" form="form-timbrado">Guardar</button>
         </div>
       </div>
     </div>

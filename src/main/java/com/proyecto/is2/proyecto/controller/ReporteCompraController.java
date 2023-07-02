@@ -3,7 +3,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
+import com.proyecto.is2.proyecto.controller.dto.DatoGraficoVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
+
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
@@ -15,8 +17,10 @@ import com.proyecto.is2.proyecto.model.AperturaCaja;
 import com.proyecto.is2.proyecto.model.Caja;
 import com.proyecto.is2.proyecto.model.Venta;
 import com.proyecto.is2.proyecto.model.VentaDetalle;
+
 import com.proyecto.is2.proyecto.Util.ModelAttributes;
 import com.proyecto.is2.proyecto.Util.Permisos;
+
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
 import com.proyecto.is2.proyecto.services.VentaDetalleService;
@@ -35,6 +39,7 @@ import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
+import com.proyecto.is2.proyecto.repository.VentaRepository;
 
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +55,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.Tuple;
 
 /**
  * Controlador encargado de recibir las peticiones
@@ -68,6 +74,8 @@ public class ReporteCompraController {
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
+    final String GRAFICO_ESTADISTICO = "/reporte/ventaChart";
+
     //endpoint
     private final static String DATA_CREATE_URL = "/data-create";
 
@@ -104,6 +112,9 @@ public class ReporteCompraController {
 
     @Autowired
     OperacionRepository operacionRepository;
+
+    @Autowired
+    VentaRepository ventaRepository;
 
      // llamada a los servicios de venta
      @Autowired
@@ -210,6 +221,34 @@ public class ReporteCompraController {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @GetMapping("/graficoDona")
+    public String verReporte(Model model) {
+        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        this.operacion = "crear-";
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
+        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        List<Tuple> datosGrafico = ventaRepository.findGraphNative();
+        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
+
+        for (Tuple elemento : datosGrafico) {
+            Integer temp = Integer.parseInt(elemento.get(0).toString().split("\\.")[0]);
+            lista.add(new DatoGraficoVentaDTO(meses[temp==0?1:temp], elemento.get(1).toString()));
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+
+
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+            model.addAttribute("datos", lista);
+
+            return GRAFICO_ESTADISTICO;
+        } else {
+            return GRAFICO_ESTADISTICO;
         }
     }
 

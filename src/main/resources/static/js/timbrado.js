@@ -2,7 +2,7 @@
 function functTimbradoUpdate() {
     let isValid = true;
     // timbrado
-    let timbrado = $("#timbrado");
+    let timbrado = $("#nroTimbrado");
     if(timbrado.val() == null || timbrado.val() == undefined || timbrado.val() === "") {
         timbrado.removeClass("is-valid");
         timbrado.addClass("is-invalid");
@@ -10,6 +10,28 @@ function functTimbradoUpdate() {
     } else {
         timbrado.removeClass("is-invalid");
         timbrado.addClass("is-valid");
+    }
+
+    // nroDesde
+    let nroDesde = $("#nroDesde");
+    if(nroDesde.val() == null || nroDesde.val() == undefined || nroDesde.val() === "") {
+        nroDesde.removeClass("is-valid");
+        nroDesde.addClass("is-invalid");
+        isValid = false;
+    } else {
+        nroDesde.removeClass("is-invalid");
+        nroDesde.addClass("is-valid");
+    }
+
+    // nroHasta
+    let nroHasta = $("#nroHasta");
+    if(nroHasta.val() == null || nroHasta.val() == undefined || nroHasta.val() === "") {
+        nroHasta.removeClass("is-valid");
+        nroHasta.addClass("is-invalid");
+        isValid = false;
+    } else {
+        nroHasta.removeClass("is-invalid");
+        nroHasta.addClass("is-valid");
     }
 
     // fchDesde
@@ -36,32 +58,32 @@ function functTimbradoUpdate() {
 
     if(!isValid) return false;
 
-     $.ajax({
-         type: 'POST',
-         url: appname + "timbrado/timbradoCrear",
-         data: { timbrado : timbrado.val(), fchDesde : fchDesde.val(), fchHasta : fchHasta.val() },
-         async: true,
-     }).done(function(data) {
-         console.log(data);
-         if(data.code !== "OK") {
-             showAlert('danger', data.message );
-         } else {
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: data.message,
-              showConfirmButton: false,
-              timer: 2000
-            });
-            setTimeout(() => {
-                location.reload();
-            }, 2000);
-         }
+    //  $.ajax({
+    //      type: 'POST',
+    //      url: appname + "timbrado/timbradoCrear",
+    //      data: { timbrado : timbrado.val(), fchDesde : fchDesde.val(), fchHasta : fchHasta.val() },
+    //      async: true,
+    //  }).done(function(data) {
+    //      console.log(data);
+    //      if(data.code !== "OK") {
+    //          showAlert('danger', data.message );
+    //      } else {
+    //         Swal.fire({
+    //           position: 'top-end',
+    //           icon: 'success',
+    //           title: data.message,
+    //           showConfirmButton: false,
+    //           timer: 2000
+    //         });
+    //         setTimeout(() => {
+    //             location.reload();
+    //         }, 2000);
+    //      }
 
-     }).fail(function(request, status, error) {
-         showAlert('danger', "Ha ocurrido un error inesperado." );
-     });
-
+    //  }).fail(function(request, status, error) {
+    //      showAlert('danger', "Ha ocurrido un error inesperado." );
+    //  });
+    return true;
 }
 
 function crearTimbrado() {

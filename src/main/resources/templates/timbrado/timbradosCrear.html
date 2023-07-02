@@ -5,7 +5,7 @@
 <body>
   <div th:fragment="apertura" layout:fragment="content">
     <!--    <h1 class="text-center mb-4" >Nuevo Timbrado</h1>-->
-    
+        <form method="POST" onsubmit="return functTimbradoUpdate()">
             <fieldset class="mb-3">
                 <div class="mb-3">
                     <label for="timbrado" class="form-label">Nro. Timbrado*</label>
@@ -67,7 +67,6 @@
                     </div>
                 </div>
             </fieldset>
-    
             <fieldset th:if="${false}" class="border p-3 mb-3">
                 <legend>Estado del Timbrado</legend>
                 <div class="form-check form-switch">
@@ -88,11 +87,13 @@
                     </a>
                 </div>
                 <div class="col-sm-6">
-                    <button type="button" th:classappend="${(edit eq true)? 'btn-warning' : 'btn-success'}"
-                            class="btn w-100" onclick="functTimbradoUpdate()">GUARDAR
+                    <button type="submit" th:classappend="${(edit eq true)? 'btn-warning' : 'btn-success'}"
+                            class="btn w-100" >GUARDAR
                     </button>
                 </div>
             </div>
+        </form>
+            
         <!-- </form> -->
     </div>
     <th:block layout:fragment="scripts">

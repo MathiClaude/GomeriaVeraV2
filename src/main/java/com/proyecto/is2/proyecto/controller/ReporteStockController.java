@@ -56,15 +56,15 @@ import java.util.Optional;
  * para realizar venta
  */
 @Controller
-@RequestMapping("/inventario")
-public class ReporteInventarioController {
+@RequestMapping("/stock")
+public class ReporteStockController {
     final String VIEW = "reporte"; // identificador de la vista
     final String VIEW_PATH = "reporte";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/inventario";
-    final String FORM_NEW = VIEW_PATH + "/inventarioReporte";
+    final String FORM_VIEW = VIEW_PATH + "/stock";
+    final String FORM_NEW = VIEW_PATH + "/stockReporte";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/inventario";
+    final String RD_FORM_VIEW = "redirect:/stock";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";

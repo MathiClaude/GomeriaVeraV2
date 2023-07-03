@@ -46,22 +46,22 @@ function actualizarTabla(){
 		producto_id.innerHTML = elemento.idProducto;
 
 		let precio = document.createElement("td")
-		precio.innerHTML = elemento.precio;
+		precio.innerHTML = addCommas(elemento.precio);
 
 		let impuesto = document.createElement("td")
-		impuesto.innerHTML = elemento.impuesto;
+		impuesto.innerHTML = addCommas(elemento.impuesto);
 
 		let cantidad = document.createElement("td")
-		cantidad.innerHTML = elemento.cantidad;
+		cantidad.innerHTML = addCommas(elemento.cantidad);
 
 		let codigo = document.createElement("td")
 		codigo.innerHTML = elemento.codigo;
 
 		let total =document.createElement("td")
-		total.innerHTML = totalMonto
+		total.innerHTML = addCommas(totalMonto)
 
 		let totalImpuesto =document.createElement("td")
-		totalImpuesto.innerHTML = sumaIva
+		totalImpuesto.innerHTML = addCommas(sumaIva)
 
 		
 		fila.appendChild(codigo)
@@ -76,9 +76,9 @@ function actualizarTabla(){
 		totalProds+=totalMonto;
 		totalIva+=sumaIva;
 	}
-	TOTAL_PRODS.value = totalProds;
-	TOTAL_PRODS2.value = totalProds;
-	TOTAL_IVA.value = totalIva;
+	TOTAL_PRODS.value = addCommas(totalProds);
+	TOTAL_PRODS2.value = addCommas(totalProds);
+	TOTAL_IVA.value = addCommas(totalIva);
 	
 }
 
@@ -127,13 +127,13 @@ function mostrarComprobante(){
 		descripcionComprobante.innerHTML = elemento.descripcion;
 
 		let precioComprobante = document.createElement("td")
-		precioComprobante.innerHTML = elemento.precio;
+		precioComprobante.innerHTML = addCommas(elemento.precio);
 
 		let cantidadComprobante = document.createElement("td")
 		cantidadComprobante.innerHTML = elemento.cantidad;
 
 		let totalComprobante =document.createElement("td")
-		totalComprobante.innerHTML = totalMonto
+		totalComprobante.innerHTML = addCommas(totalMonto)
 		
 		filaComprobante.appendChild(descripcionComprobante)
 		filaComprobante.appendChild(cantidadComprobante)
@@ -144,10 +144,10 @@ function mostrarComprobante(){
 		totalProds+=totalMonto;
 		totalIva+=sumaIva;
 	}
-	TOTAL_PRODS_COMPROBANTE.innerHTML = totalProds;
-	TOTAL_IVA.innerHTML = totalIva;
+	TOTAL_PRODS_COMPROBANTE.innerHTML = addCommas(totalProds);
+	TOTAL_IVA.innerHTML = addCommas(totalIva);
 	CANTIDAD_ITEMS.innerHTML = listaProductos.length;
-	NETO_PAGAR.innerHTML = totalProds;
+	NETO_PAGAR.innerHTML = addCommas(totalProds);
 
 }
 
@@ -218,7 +218,7 @@ async function guardarDatos(){
 
 function calcularVuelto(campoCliente,campoTotal){
 	const CAMPO_VUELTO = document.getElementById('idVuelto')
-	CAMPO_VUELTO.value = campoCliente.value - campoTotal.value
+	CAMPO_VUELTO.value = removeNonNumeric(campoCliente.value) - removeNonNumeric(campoTotal.value)
 	console.log(campoCliente.value , campoTotal.value)
 }
 
@@ -241,3 +241,6 @@ function validarPago(monto){
 	}
 
 }
+
+const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");

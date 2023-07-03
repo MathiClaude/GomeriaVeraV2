@@ -8,15 +8,21 @@ function convertirNumerosALetras(numero) {
     return 'cero';
   }
 
-  if (numero < 0 || numero >= 1000000) {
+  if (numero < 0 || numero >= 50000000) {
     return 'Número fuera de rango';
   }
 
   let resultado = '';
 
+  if (numero >= 1000000) {
+    const millones = Math.floor(numero / 1000000);
+    resultado += (millones === 1 ? 'un millón' : convertirNumerosALetras(millones) + ' millones') + ' ';
+    numero %= 1000000;
+  }
+
   if (numero >= 1000) {
     const miles = Math.floor(numero / 1000);
-    resultado += convertirNumerosALetras(miles) + ' mil ';
+    resultado += convertirNumerosALetras(miles) + (miles === 1 ? ' mil ' : ' mil ');
     numero %= 1000;
   }
 
@@ -35,6 +41,13 @@ function convertirNumerosALetras(numero) {
   if (numero > 0) {
     if (numero >= 10 && numero <= 15) {
       resultado += especiales[numero - 10] + ' ';
+    } else if (numero === 1) {
+      resultado += 'uno ';
+    } else if (numero === 21) {
+      resultado += 'veintiuno ';
+    } else if (numero > 30 && numero < 100) {
+      const unidad = numero % 10;
+      resultado += decenas[1] + ' y ' + unidades[unidad] + ' ';
     } else {
       resultado += unidades[numero] + ' ';
     }

@@ -112,6 +112,7 @@ public class TimbradoController {
             Timbrado timbrado = new Timbrado();
             timbradoService.convertirDTO(timbrado, objetoDTO);
             timbrado.setNro_actual(objetoDTO.getNroDesde()+"");
+            timbrado.setEstado("ACTIVO");
             timbradoService.guardar(timbrado);
 
             attributes.addFlashAttribute("message", "¡Servicio creado exitosamente!");

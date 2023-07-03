@@ -28,15 +28,15 @@ function seleccionar(a){
 	document.getElementById("InputCajero").value= a.getAttribute('data-value')
 }
 function funcionFiltrar(valor) {
-	if(datos == []){
+	if(datosUsuario == []){
 		
 	}
 	let datosFiltrados =[]
 	let listaOpciones = document.getElementsByClassName("opcionesCajero");
 	if(valor==""){
-		datosFiltrados = datos
+		datosFiltrados = datosUsuario
 	}else{
-		datosFiltrados = datos.filter((elemento)=>{return ((elemento.ruc.toString()+""+elemento.nombre.toUpperCase()+" "+elemento.razonSocial.toUpperCase()).includes(valor.toUpperCase()) )})
+		datosFiltrados = datosUsuario.filter((elemento)=>{return ((elemento.ruc.toString()+""+elemento.nombre.toUpperCase()+" "+elemento.razonSocial.toUpperCase()).includes(valor.toUpperCase()) )})
 	} 
 	// console.log(datosFiltrados)
 	// console.log(listaOpciones)

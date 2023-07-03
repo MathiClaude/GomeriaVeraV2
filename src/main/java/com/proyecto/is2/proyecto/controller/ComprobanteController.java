@@ -9,6 +9,7 @@ import com.proyecto.is2.proyecto.model.VentaDetalle;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.AperturaCaja;
 import com.proyecto.is2.proyecto.model.Caja;
+import com.proyecto.is2.proyecto.model.Timbrado;
 
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
@@ -18,6 +19,7 @@ import com.proyecto.is2.proyecto.repository.VentaDetalleRepository;
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
 import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
+import com.proyecto.is2.proyecto.repository.TimbradoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -89,6 +91,9 @@ public class ComprobanteController {
     AperturaCajaRepository aperturaCajaRepository;
 
     @Autowired
+    TimbradoRepository timbradoRepository;
+
+    @Autowired
     VentaRepository ventaRepository;
 
     @Autowired
@@ -145,6 +150,7 @@ public class ComprobanteController {
         boolean actualizar = servicioService.tienePermiso("actualizar-" + VIEW);
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        Timbrado timbradoActual = timbradoRepository.findByEstado("ACTIVO");
 
 
         //obtenerdatos de venta 
@@ -161,6 +167,7 @@ public class ComprobanteController {
             model.addAttribute("cantidadDetalle",detalleVenta.size());
             Caja cajaActual = cajaRepository.findByIdCaja(cajaApertura.get(0).getIdCaja());
             model.addAttribute("cajaActual", cajaActual.getDescripcion());//lista las cajas
+            model.addAttribute("timbradoActual", timbradoActual);//lista las cajas
             model.addAttribute("fechaApertura", cajaApertura.get(0).getFechaApertura() );//fecha de apertura caja : v
 
         } else {

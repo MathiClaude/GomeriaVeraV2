@@ -7,6 +7,7 @@ import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
+import com.proyecto.is2.proyecto.model.Timbrado;
 import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.model.Operacion;
 import com.proyecto.is2.proyecto.model.Producto;
@@ -31,11 +32,13 @@ import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import com.proyecto.is2.proyecto.services.OperacionServiceImp;
 
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
+import com.proyecto.is2.proyecto.repository.VentaRepository;
 import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
+import com.proyecto.is2.proyecto.repository.TimbradoRepository;
 
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +102,12 @@ public class VentaController {
     ProductoRepository productoRepository;
 
     @Autowired
+    VentaRepository ventaRepository;
+    
+    @Autowired
+    TimbradoRepository timbradoRepository;
+
+    @Autowired
     ProveedorService proveedorService;
 
      @Autowired
@@ -149,13 +158,15 @@ public class VentaController {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
         boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
-
+        Timbrado timbradoActual = timbradoRepository.findByEstado("ACTIVO");
 
 
         if(consultar) {
             model.addAttribute("listProduct", productoService.listar());//lista los productos
             model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
+            model.addAttribute("timbradoActual", timbradoActual);//lista las cajas
+
             String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
             Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
@@ -209,9 +220,11 @@ public class VentaController {
     public String formNuevo(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Venta> ventas = ventaRepository.findAll();
 
         if(asignarRol) {
             model.addAttribute("roles", rolService.listar());
+            model.addAttribute("listVentas",ventas);
         }
         model.addAttribute("permisoAsignarRol", asignarRol);
 
@@ -239,6 +252,7 @@ public class VentaController {
             Venta venta = new Venta();
             Cliente cliente = clienteRepository.findByIdCliente(objetoDTO.getIdCliente());
             venta.setCliente(cliente);
+            venta.setUsuario(usuario);
             venta.setFechaVenta(java.time.LocalDate.now().toString());
             venta.setMontoTotal(montoVenta);
             venta.setMontoVenta(montoVenta.toString());
@@ -371,84 +385,6 @@ public class VentaController {
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;
-        }
-    }
-
-    @Transactional
-    @PostMapping(DATA_CREATE_URL)
-    public String crearObjeto(@RequestParam(name = "arr[]") String[] arr,
-                              @RequestParam(name = "moneda", required = false) String[] moneda,
-                              @RequestParam(name = "proveedor", required = false) Long proveedor,
-                              @RequestParam(name = "tipo_pago", required = false) String tipoPago,
-                              @RequestParam(name = "total_operacion", required = false) String total,
-                              @RequestParam(name = "direccion", required = false) String direccion,
-                              @RequestParam(name = "observacion", required = false) String observacion,
-                              Model model, RedirectAttributes attributes) {
-
-        boolean privillege = usuarioService.tienePermiso(Permisos.WRITE_COMPRAS_PRIVILEGE.name);
-        for(int i=0; i < arr.length; i++) {
-            System.out.println(arr[i]);
-        }
-        if (false) {
-
-            try {
-                Venta obj = ventaService.guardar(new Venta());
-                List<Item> listItems = new ArrayList<>();
-                Proveedor objProveedor = proveedorService.obtenerProveedor(proveedor);
-                String username = SecurityContextHolder.getContext().getAuthentication().getName();
-                Usuario usuario = usuarioService.existeUsuario(username);
-
-                for(int i=0; i < arr.length; i++) {
-                    String[] items = arr[i].split("-");
-                    Long idProducto = Long.valueOf(items[0]);
-                    Float cantidad = Float.valueOf(items[1]);
-                    Float costo = Float.valueOf(items[2]);
-
-                    VentaDetalle item = new VentaDetalle();
-                    item.setProducto(productoService.obtenerProducto(idProducto));
-                    item.setCantidad(cantidad);
-                   // item.setCosto(costo);
-                   // item.setOrdenCompra(obj);
-                   // item = itemService.guardar(item);
-                    //listItems.add(item);
-                }
-
-                /*obj.setItems(listItems);
-                obj.setProveedor(objProveedor);
-                obj.setRegistradoPor(usuario);
-                obj.setObservacion(observacion);
-                obj.setEstado(Estados.PENDIENTE.name());
-                obj.setFechaEntrega(null);
-                obj.setDireccionEntrega(direccion);
-                obj.setFechaEmision(LocalDate.now());*/
-
-                ventaService.guardar(obj);
-
-                attributes.addFlashAttribute(ModelAttributes.ALERT_MESSAGE, "Venta registrada correctamente!");
-                attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_SUCCESS);
-
-                //return REDIRECT_VIEW + ORDEN_COMPRA_URL;
-                return VIEW;
-
-            } catch (AuthorizationServiceException e) {
-                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
-                model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
-                model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
-                //return ERROR_VIEW;
-                return VIEW;
-            } catch (Exception e) {
-                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.ERROR_GENERIC);
-                model.addAttribute(ModelAttributes.ERROR_MSG, "");
-                model.addAttribute(ModelAttributes.ERROR_TITLE, e.getMessage());
-                //return ERROR_VIEW;
-                return VIEW;
-            }
-        } else {
-            model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
-            model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
-            model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
-            //return ERROR_VIEW;
-            return VIEW;
         }
     }
 

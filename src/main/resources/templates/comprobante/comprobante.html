@@ -288,6 +288,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               console.log(convertirNumerosALetras(/*[[${datosVenta.montoTotal}]]*/ null))
               document.getElementById("totalPagarComprobanteLetras").innerHTML=convertirNumerosALetras(/*[[${datosVenta.montoTotal}]]*/null)
               
+              const datosDetalle = /*[[${datosVentaDetalle}]]*/ null;
+              console.log(datosDetalle)
               let listaCampos =[
                 "cantidadItemsComprobante",
                 "totalPagarComprobante",
@@ -298,12 +300,39 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 listaCampos.forEach((elemento)=>{
                   convertirValorCampo(elemento)
                 })
+                // crearTabla(datosDetalle);
               }
 
               function convertirValorCampo(elemento){
                 let obj = document.getElementById(elemento)
                 console.log(obj)
                 obj.innerHTML = addCommas(obj.innerHTML.split(".")[0]);
+              }
+              function crearTabla(lista){
+                const TABLA = document.getElementById("tablaProductosComprobante");
+                console.log(lista)
+                for(let datos  of lista){
+                  let fila = document.createElement("tr")
+                  let codigo = document.createElement("td")
+                  let nProd = document.createElement("td")
+                  let cant = document.createElement("td")
+                  let precio = document.createElement("td")
+                  let precioTot = document.createElement("td")
+
+                  codigo.innerHTML = datos.producto.codigo
+                  nProd.innerHTML = datos.producto.nombreProducto
+                  cant.innerHTML = datos.cantidad
+                  precio.innerHTML = datos.producto.precio
+                  precioTot.innerHTML = datos.precio
+
+                  fila.appendChild(codigo);
+                  fila.appendChild(nProd);
+                  fila.appendChild(cant);
+                  fila.appendChild(precio);
+                  fila.appendChild(precioTot);
+
+                  TABLA.appendChild(fila)
+                }
               }
 
               const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");

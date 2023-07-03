@@ -6,42 +6,58 @@
 <div layout:fragment="content">
   <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Gesionar Pedido</b></h1> <!--titulo-->
 
-  <form method="POST" th:action="@{/gestionarFacturas/{id}(id=${listCr.idCompra})}" th:object="${listCr}">
+  <form method="POST" th:action="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" th:object="${compra}">
     <!--th:block th:include="fragment/error-message.html"></th:block-->
 
     <fieldset>
       <legend>Información del Pedido</legend>
+      <div class="mb-3">
+        <label class="form-label"><strong>Id Pedido:</strong> <em>[[${compra.idCompra}]]</em></label>
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><strong>Monto del Pedido: </strong> <em id="montoCompraFormatted"></em></label>
+        <input type="hidden" name="montoCompra" th:value="${compra.montoCompra}" />
+      </div>
+      
+      <script>
+        var montoCompra = document.querySelector("[name='montoCompra']").value;
+        var montoCompraFormatted = Number(montoCompra).toLocaleString();
+        document.getElementById("montoCompraFormatted").textContent = montoCompraFormatted;
+      </script>
+
       <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Id Producto: [[${listCr.idProducto}]]</label>
+        <label for="inputCantidad" class="form-label"><strong>Fecha del Pedido: </strong>  <em>[[${compra.fechaCompra}]]</em></label>
+        <!--input type="hidden" class="form-control" id="inputCantidad" name="fechaCompra" th:value="${compra.fechaCompra}"-->
       </div>
       <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Nombre de Producto: [[${listCr.nombreProducto}]]</label>
-        <input type="hidden" name="nombreProducto" th:value="${listCr.nombreProducto}" />
+        <label for="inputCantidad" class="form-label"><strong> Proveedor: </strong><em>[[${compra.proveedor.nombre}]]</em></label>
       </div>
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputCantidad" class="form-label">Cantidad</label>
-        <input type="text" class="form-control" id="inputCantidad" name="cantidad" th:value="${listCr.cantidad}">
-      </div>
-      <div class="mb-3"> <!-- margen button -->
+      <!--div class="mb-3">
         <label for="inputPrecio" class="form-label">Precio</label>
         <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
-      </div>
+      </div-->
 
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputPrecio" class="form-label">Fecha de Ingreso</label>
-        <input type="date" id="inputFecha" name="fecha" class="form-control"placeholder="Introduzca nueva fecha">
-      </div>
 
+      <div>
+        <label for="inputGroupSelect02" class="form-label">Estado del Pedido</label>
+        <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="estado">
+          <option style="background-color: yellow;" value="pendiente">PENDIENTE</option>
+          <option style="background-color: blue; color: white;" value="parcialmente-entregado">PARCIALMENTE ENTREGADO</option>
+          <option style="background-color: red; color: white;" value="anulado">ANULADO</option>
+          <option style="background-color: green; color: white;" value="recepcionado">RECEPCIONADO</option>
+        </select>
+      </div>
+      <br>
     </fieldset>
 
     <div class="row">
       <div class="col-sm-6">
-        <a th:href="@{/productos}" class="btn btn-outline-secondary w-100">
+        <a th:href="@{/gestionarFacturas}" class="btn btn-outline-secondary w-100">
           Atrás
         </a>
       </div>
       <div class="col-sm-6">
-        <button type="submit" class="btn btn-warning w-100">Modificar Producto</button>
+        <button type="submit" class="btn btn-warning w-100">Guardar Cambios</button>
       </div>
     </div>
   </form>

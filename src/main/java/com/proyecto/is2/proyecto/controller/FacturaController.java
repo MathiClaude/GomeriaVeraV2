@@ -2,12 +2,14 @@ package com.proyecto.is2.proyecto.controller;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Cliente;
+import com.proyecto.is2.proyecto.model.Compra;
 import com.proyecto.is2.proyecto.model.Operacion;
 import com.proyecto.is2.proyecto.model.Producto;
 import com.proyecto.is2.proyecto.model.Proveedor;
@@ -128,9 +130,9 @@ public class FacturaController {
      * Usuario.
      * @return
      */
-    @ModelAttribute("venta")
-    public VentaDTO instanciarObjetoDTO() {
-        return new VentaDTO();
+    @ModelAttribute("compra")
+    public CompraDTO instanciarObjetoDTO() {
+        return new CompraDTO();
     }
 
     @GetMapping
@@ -285,17 +287,18 @@ public class FacturaController {
     public String formEditar(@PathVariable String id, Model model) {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        Venta venta;
+        //Venta venta;
+        Compra compra;
 
         // validar el id
         try {
-            Long idVenta = Long.parseLong(id);
-            venta = ventaService.existeVenta(idVenta);
+            Long idCompra = Long.parseLong(id);
+            compra = compraService.existeCompra(idCompra);
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("user", venta);
+        model.addAttribute("compra", compra);
 
         // validar si puede cambiar de rol
         if(asignarRol) {
@@ -311,10 +314,11 @@ public class FacturaController {
     }
 
     @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("venta") VentaDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("compra") CompraDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        Venta venta;
+        Compra venta;
+        Compra compra;
 
         if (result.hasErrors()) {
 //            studentDTO.setId(id);
@@ -322,9 +326,9 @@ public class FacturaController {
         }
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
-            venta = ventaService.existeVenta(id);
-            if(venta != null) {
-                ventaService.convertirDTO(venta, objetoDTO);
+            compra = compraService.existeCompra(id);
+            if(compra != null) {
+                compraService.convertirDTO(compra, objetoDTO);
 
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
@@ -332,8 +336,8 @@ public class FacturaController {
                     venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
                 }*/
 
-                attributes.addFlashAttribute("message", "¡Venta actualizado correctamente!");
-                ventaService.guardar(venta);
+                attributes.addFlashAttribute("message", "¡Compra actualizado correctamente!");
+                compraService.guardar(compra);
                 return RD_FORM_VIEW;
             }
         }
@@ -343,18 +347,18 @@ public class FacturaController {
     @GetMapping("/{id}/delete")
         public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
         this.operacion = "eliminar-";
-        Long idVenta;
+        Long idCompra;
 
         try {
-            idVenta = Long.parseLong(id);
+            idCompra = Long.parseLong(id);
         } catch (Exception e) {
             return RD_FORM_VIEW;
         }
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Venta venta = ventaService.obtenerVenta(idVenta);
-            ventaService.eliminarVenta(venta);
-            attributes.addFlashAttribute("message", "¡Venta eliminado correctamente!");
+            Compra compra = compraService.obtenerCompra(idCompra);
+            compraService.eliminarCompra(compra);
+            attributes.addFlashAttribute("message", "¡Compra eliminado correctamente!");
             return RD_FORM_VIEW;
         } else {
             return RD_FALTA_PERMISO_VIEW;
@@ -411,7 +415,7 @@ public class FacturaController {
 
                 ventaService.guardar(obj);
 
-                attributes.addFlashAttribute(ModelAttributes.ALERT_MESSAGE, "Venta registrada correctamente!");
+                attributes.addFlashAttribute(ModelAttributes.ALERT_MESSAGE, "Compra registrada correctamente!");
                 attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_SUCCESS);
 
                 //return REDIRECT_VIEW + ORDEN_COMPRA_URL;

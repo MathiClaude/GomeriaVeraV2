@@ -3,7 +3,54 @@
 <script src="scriptFecha.js"></script>
 <body>
     <div layout:fragment="content">
-        
+        <!--div id="scripts">
+            <script>
+                function abrirComprobante(evento){
+                    let url = ""
+                    evento.preventDefault();
+                    console.log("Llego a la función");
+                    console.log(evento.target.idCajero.value,"Cajero id")
+                    console.log(evento.target.InputCliente.value,"Cliente id")
+                    console.log(evento.target.fechaDesde.value,"Fecha rango desde")
+                    console.log(evento.target.fechaHasta.value,"Fecha rango hasta")
+                    
+                    //rango de todes
+                    if(evento.target.idCajero.value !="" && evento.target.InputCliente.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){
+                        url= "http://localhost:8080/venta/ventaReporte/"+ "rangoAll/" + evento.target.fechaDesde.value +"/"+ evento.target.fechaHasta.value + "/"+evento.target.InputCliente.value +"/"+ evento.target.idCajero.value
+                    
+                    // rango de usuario y proveedor  
+                    } else if (evento.target.idCajero.value !="" && evento.target.InputCliente.value !=""){
+                        url= "http://localhost:8080/venta/ventaReporte/"+ "usuarioCliente/"+ evento.target.idCajero.value +"/"+ evento.target.InputCliente.value
+                    
+                        
+                    // por rango de user y fecha    
+                    } else if (evento.target.idCajero.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
+                        url= "http://localhost:8080/venta/ventaReporte/"+ "rangoUsuario/"+ evento.target.fechaDesde.value +"/"+ evento.target.fechaHasta.value + "/" + evento.target.idCajero.value
+                    
+                    // por rango de proveedor y fecha
+                    } else if (evento.target.InputCliente.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
+                        url= "http://localhost:8080/venta/ventaReporte/" + + "rangoCliente/"+ evento.target.fechaDesde.value + "/" + evento.target.fechaHasta.value + "/" + evento.target.InputCliente.value
+                    
+                    // por cajero (user)
+                    } else if(evento.target.idCajero.value !=""){
+                        url= "http://localhost:8080/venta/ventaReporte/" + "u/" + evento.target.idCajero.value
+                    
+                    // por proveedor
+                    } else if (evento.target.InputCliente.value !=""){
+                        url= "http://localhost:8080/venta/ventaReporte/" + "c/" +  evento.target.InputCliente.value
+                    
+                    //rango de fechas  
+                    } else if (evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){ 
+                        url= "http://localhost:8080/venta/ventaReporte/"+ "rangoFecha/"+ evento.target.fechaDesde.value.replaceAll("/","-") + "/" + evento.target.fechaHasta.value.replaceAll("/","-") 
+                    }
+                    
+                    document.getElementById("datoReporte").src=url;
+                    const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
+                    myModalAlternative.show(document.getElementById('modalReporte'));
+                    return false
+                }
+            </script>
+        </div-->
         
         <div style="display: flex; align-items: right;">
             <img th:src="@{/img/report.png}" class="wp-image" width="40" height="40" style="float: left; margin-right: 5px;">
@@ -125,22 +172,7 @@
                                             </div>
                                         </div>
                                         <!--reportes específicos-->
-                                        <hr>
                                         
-                                        <p style="color: #21618C; text-align: center;"><strong>Reportes específicos</strong></p>
-
-                                        <div class="row  mb-4 justify-content-center">                                 
-                                            <div class="col-sm-4">
-                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#myModal" >
-                                                    <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()">  Informe productos más vendidos</i>
-                                                </button>  
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <button type="button" class="btn btn-outline-info w-100" data-bs-toggle="modal" data-bs-target="#modalChart" >
-                                                    <i class="bi bi-shop-window" id="download-button" onclick="generatePDF()">  Informe servicios más frecuentes</i>
-                                                </button>  
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>    
                                 

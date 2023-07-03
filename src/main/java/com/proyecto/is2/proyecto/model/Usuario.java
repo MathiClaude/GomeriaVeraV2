@@ -36,7 +36,7 @@ public class Usuario {
     /* RELACIONES DE BASE DE DATOS */
 
     /** Relacion con Rol **/
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rol_id", referencedColumnName = "idRol")
     private Rol rol;
 

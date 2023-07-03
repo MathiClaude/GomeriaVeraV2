@@ -116,26 +116,21 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <div class="col-5">
                 <div>
                   <label for="inputNombre" class="form-label"><strong>Timbrado:</strong></label>
-                  <span id="nroTimbrado" th:text="${nroTimbrado}">                
+                  <span id="nroTimbrado" th:text="${timbradoActual.nroTimbrado}">                
                   </span>
                 </div>
                 <div>
                   <label for="inputNombre" class="form-label"><strong>Fecha Inicio de Vigencia:</strong></label>
-                  <span id="nroTimbrado" th:text="${nroTimbrado}">                
+                  <span id="nroTimbrado" th:text="${timbradoActual.fchDesde}">                
                   </span>
                 </div><div>
                   <label for="inputNombre" class="form-label"><strong>Fecha Fin de Vigencia:</strong></label>
-                  <span id="nroTimbrado" th:text="${nroTimbrado}">                
-                  </span>
-                </div>
-                <div>
-                  <label for="inputNombre" class="form-label"><strong>Válido desde:</strong></label>
-                  <span id="fechaApertura" th:text="${fechaApertura}">
+                  <span id="nroTimbrado" th:text="${timbradoActual.fchHasta}">                
                   </span>
                 </div>
                 <div>
                   <label for="inputNombre" class="form-label"><strong>Nro:</strong></label>
-                  <span id="fechaApertura" th:text="${fechaApertura}"></span>
+                  <span id="fechaApertura" th:text="${datosVenta.nroFactura}"></span>
                 </div>
               </div>        
             </div>
@@ -230,11 +225,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             </thead><!---->
             <tbody id="tablaProductosComprobante"><!---->
               <tr class="text-center" th:each="detalle: ${datosVentaDetalle}">
-                <td th:text="${detalle.producto.codigo}"></td>
-                <td th:text="${detalle.producto.nombreProducto}"></td>
-                <td th:text="${detalle.cantidad}"></td>   
-                <td th:text="${detalle.producto.precio}"></td>
-                <td th:text="${detalle.precio}"></td>      
+                <td th:text="${detalle.producto.codigo}"  ></td>
+                <td th:text="${detalle.producto.nombreProducto}" ></td>
+                <td th:text="${detalle.cantidad}" ></td>   
+                <td th:text="${detalle.producto.precio}" ></td>
+                <td th:text="${detalle.precio}" ></td>      
               </tr>
             </tbody>
           </table>
@@ -278,7 +273,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <th>
                 <div class="row">
                   <div class="col-6">
-                    <span id="totalPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></span>
+                    <span id="totalPagarComprobanteLetras" ></span>
                   </div>        
                 </div>                
               </th>
@@ -287,9 +282,63 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           <div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             <script th:src="@{/js/convertirPdf.js}" th:inline="javascript"></script>
-            <script th:src="@{/js/convertirLetra.js}" th:inline="javascript"></script>           
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/numero-a-letras/1.1.0/numero-a-letras.min.js"></script>
+            <script th:src="@{/js/convertirLetras.js}" th:inline="javascript"></script>           
+            <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/numero-a-letras/1.1.0/numero-a-letras.min.js"></script> -->
+            <script th:inline="javascript">
+              console.log(convertirNumerosALetras(/*[[${datosVenta.montoTotal}]]*/ null))
+              document.getElementById("totalPagarComprobanteLetras").innerHTML=convertirNumerosALetras(/*[[${datosVenta.montoTotal}]]*/null)
+              
+              const datosDetalle = /*[[${datosVentaDetalle}]]*/ null;
+              console.log(datosDetalle)
+              let listaCampos =[
+                "cantidadItemsComprobante",
+                "totalPagarComprobante",
+                "totalIvaComprobante",
+                "netoPagarComprobante"
+              ]
+              window.onload=()=>{
+                listaCampos.forEach((elemento)=>{
+                  convertirValorCampo(elemento)
+                })
+                // crearTabla(datosDetalle);
+              }
 
+              function convertirValorCampo(elemento){
+                let obj = document.getElementById(elemento)
+                console.log(obj)
+                obj.innerHTML = addCommas(obj.innerHTML.split(".")[0]);
+              }
+              function crearTabla(lista){
+                const TABLA = document.getElementById("tablaProductosComprobante");
+                console.log(lista)
+                for(let datos  of lista){
+                  let fila = document.createElement("tr")
+                  let codigo = document.createElement("td")
+                  let nProd = document.createElement("td")
+                  let cant = document.createElement("td")
+                  let precio = document.createElement("td")
+                  let precioTot = document.createElement("td")
+
+                  codigo.innerHTML = datos.producto.codigo
+                  nProd.innerHTML = datos.producto.nombreProducto
+                  cant.innerHTML = datos.cantidad
+                  precio.innerHTML = datos.producto.precio
+                  precioTot.innerHTML = datos.precio
+
+                  fila.appendChild(codigo);
+                  fila.appendChild(nProd);
+                  fila.appendChild(cant);
+                  fila.appendChild(precio);
+                  fila.appendChild(precioTot);
+
+                  TABLA.appendChild(fila)
+                }
+              }
+
+              const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+              const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
+
+            </script>
             </div>
           </div>  
         </body>

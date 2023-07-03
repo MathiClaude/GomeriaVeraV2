@@ -154,9 +154,10 @@ public class ReporteVentaController {
 
 
         if(consultar) {
-            model.addAttribute("listProduct", productoService.listar());//lista los productos
-            model.addAttribute("listServicio", servicioService.listar());//lista los productos
+            // model.addAttribute("listProduct", productoService.listar());//lista los productos
+            // model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
+            // model.addAttribute("listarUsuario", usuarioService.listarUsuarios());//lista los clientes
             String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
             Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
@@ -209,8 +210,8 @@ public class ReporteVentaController {
     @GetMapping("/ventaReporte/c/{cliente_id}")
     public String reporteVentaCliente(Model model,@PathVariable String cliente_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(cliente_id));
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosVenta = ventaRepository.findVentasByClienteNative(new Long(cliente_id));
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
         model.addAttribute("datos", listaDatos);
 
@@ -224,7 +225,7 @@ public class ReporteVentaController {
     @GetMapping("/ventaReporte/u/{usuario_id}")
     public String reporteVentaUsuario(Model model,@PathVariable String usuario_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(usuario_id));
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
@@ -237,12 +238,12 @@ public class ReporteVentaController {
         }
     }
 
-    @GetMapping("/ventaReporte/a/{fechaVenta}")
-    public String reporteVentaFeha(Model model,@PathVariable String fechaVenta) {
+    @GetMapping("/ventaReporte/usuarioCliente/{usuario_id}/{cliente_id}")
+    public String reporteVentaUsuarioCliente(Model model,@PathVariable String usuario_id, @PathVariable String cliente_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
-        List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(fechaVenta));
+        List<Tuple> datosVenta = ventaRepository.findVentasUsuarioClienteByNative(new Long(usuario_id), new Long(cliente_id));
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
         model.addAttribute("datos", listaDatos);
 
@@ -253,14 +254,14 @@ public class ReporteVentaController {
         }
     }
 
-    /* 
-    @GetMapping("/ventaReporte/c/{cliente_id}/u/{usuario_id}/a/{fechaVenta}")
-    public String reporteVentaFeha(Model model,@PathVariable String cliente_id, String usuario_id,  String fechaVenta) {
+    @GetMapping("/ventaReporte/rangoFecha/{fechaDesde}/{fechaHasta}")
+    public String reporteVentaFecha(Model model,@PathVariable String fechaDesde, @PathVariable String fechaHasta) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
-        List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(fechaVenta));
+        List<Tuple> datosVenta = ventaRepository.findVentasByRangoNative(fechaDesde,fechaHasta);
+
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+
         model.addAttribute("datos", listaDatos);
 
         if(crear) {
@@ -269,7 +270,60 @@ public class ReporteVentaController {
             return FALTA_PERMISO_VIEW;
         }
     }
-    */
+
+    @GetMapping("/ventaReporte/rangoCliente/{fechaDesde}/{fechaHasta}/{cliente_id}")
+    public String reporteVentaFechaCliente(Model model, @PathVariable String fechaDesde,@PathVariable String fechaHasta, @PathVariable String cliente_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+
+        List<Tuple> datosVenta = ventaRepository.findVentasByRangoClienteNative(new Long(cliente_id), fechaDesde, fechaHasta);
+
+        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+
+        model.addAttribute("datos", listaDatos);
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+
+
+    @GetMapping("/ventaReporte/rangoUsuario/{fechaDesde}/{fechaHasta}/{usuario_id}")
+    public String reporteVentaFechaUsuario(Model model,@PathVariable String usuario_id, @PathVariable String fechaDesde, @PathVariable String fechaHasta) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+
+        List<Tuple> datosVenta = ventaRepository.findVentasByRangoUsuarioNative(new Long(usuario_id), fechaDesde, fechaHasta);
+
+        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+
+        model.addAttribute("datos", listaDatos);
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @GetMapping("/ventaReporte/rangoAll/{fechaDesde}/{fechaHasta}/{usuario_id}/{cliente_id}")
+    public String reporteVentaRangoAll(Model model,@PathVariable String usuario_id, @PathVariable String cliente_id,@PathVariable String fechaDesde, @PathVariable String fechaHasta) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+
+        List<Tuple> datosVenta = ventaRepository.findVentasByRangoAllNative(new Long(usuario_id), new Long(cliente_id),fechaDesde, fechaHasta);
+
+        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+
+        model.addAttribute("datos", listaDatos);
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+    
     private List<ReporteVentaDTO> parsearDatosReporteVenta(List<Tuple> datosCrudo){
         List<ReporteVentaDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {

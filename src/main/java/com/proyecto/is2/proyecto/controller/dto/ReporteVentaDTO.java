@@ -17,6 +17,9 @@ public class ReporteVentaDTO {
         this.fechaVenta = fechaVenta;
         this.montoTotal = montoTotal;
         this.usuario = usuario;
+        this.nroFactura = "";
+        this.timbrado = "";
+        this.impuesto = "";
     }
 
    

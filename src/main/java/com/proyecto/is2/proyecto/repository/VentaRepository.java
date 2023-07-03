@@ -19,10 +19,10 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
     /*Reporte de Venta {cliente,fechaVenta,nFactura,vendedor,total,impuesto}[cajero,fecha,cliente]*/
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total ,COALESCE(u.username,'admin') as username "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
-                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
+                "LEFT JOIN usuario u ON u.id_usuario = v.usuario_id "+
                 "WHERE v.cliente_id = ?1 ",nativeQuery = true)
     List<Tuple>  findVentasByClienteNative( Long cliente_id); 
 
@@ -34,6 +34,16 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
                 "WHERE v.usuario_id = ?1 ",nativeQuery = true)
     List<Tuple>  findVentasByUsuarioNative( Long usuario_id); 
 
+
+    @Query(value="SELECT "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "FROM venta v "+
+                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
+                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
+                "WHERE fecha_venta between  ?1 AND ?2 ",nativeQuery = true)
+    List<Tuple>  findVentasUsuarioClienteByNative( Long usuario_id,Long cliente_id);
+
+    
     @Query(value="SELECT "+
                 "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
                 "FROM venta v "+
@@ -65,8 +75,16 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
                 "WHERE v.cliente_id = ?1 ,v.usuario_id = ?2 AND fecha_venta between  ?3 AND ?4 ",nativeQuery = true)
-    List<Tuple>  findVentasByRangoClienteUsuarioNative( Long cliente_id,Long usuario_id,String fechaDesde,String fechaHasta);
+    List<Tuple>  findVentasByRangoClienteUsuarioNative( Long cliente_id,Long usuario_id);
 
+
+    @Query(value="SELECT "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "FROM venta v "+
+                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
+                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
+                "WHERE v.cliente_id = ?1 ,v.usuario_id = ?2 AND fecha_venta between  ?3 AND ?4 ",nativeQuery = true)
+    List<Tuple>  findVentasByRangoAllNative( Long cliente_id,Long usuario_id,String fechaDesde,String fechaHasta);
 
 
 }

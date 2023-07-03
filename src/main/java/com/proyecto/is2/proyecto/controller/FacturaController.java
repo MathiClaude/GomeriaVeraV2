@@ -290,6 +290,8 @@ public class FacturaController {
         //Venta venta;
         Compra compra;
 
+        //System.out.println("SE ESTA REALIZANDO LA ENTRADA DE LA FACTURA");  
+
         // validar el id
         try {
             Long idCompra = Long.parseLong(id);
@@ -317,8 +319,10 @@ public class FacturaController {
     public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("compra") CompraDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        Compra venta;
+        //Compra venta;
         Compra compra;
+
+        //System.out.println("SE ESTA REALIZANDO LA ACTUALIZACION DE LA FACTURA");                            
 
         if (result.hasErrors()) {
 //            studentDTO.setId(id);

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.DatoGraficoVentaDTO;
+import com.proyecto.is2.proyecto.controller.dto.ReporteVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 
 import com.proyecto.is2.proyecto.model.Rol;
@@ -40,6 +41,8 @@ import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
 import com.proyecto.is2.proyecto.repository.VentaRepository;
+import com.proyecto.is2.proyecto.repository.CompraRepository;
+
 
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -207,6 +210,7 @@ public class ReporteCompraController {
         return FORM_VIEW;
     }
 
+
     @GetMapping("/compraReporte")
     public String formNuevo(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
@@ -223,6 +227,45 @@ public class ReporteCompraController {
             return FALTA_PERMISO_VIEW;
         }
     }
+
+    /* 
+    @GetMapping("/compraReporte/p/{proveedor_id}")
+    public String reporteCompraProveedor(Model model,@PathVariable String proveedor_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = compraRepository.findVentasByProveedorNative(new Long(proveedor_id));
+        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+        model.addAttribute("datos", listaDatos);
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+
+    @GetMapping("/compraReporte/user/{usuario_id}")
+    public String reporteCompraUser(Model model,@PathVariable String usuario_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = compraRepository.findVentasByProveedorNative(new Long(usuario_id));
+        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+        model.addAttribute("datos", listaDatos);
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    } */
+
+
+    
+
+
+
+
 
     @GetMapping("/graficoDona")
     public String verReporte(Model model) {

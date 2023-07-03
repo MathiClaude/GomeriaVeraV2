@@ -165,17 +165,19 @@ public class InventarioController {
     public String formEditar(@PathVariable String id, Model model) {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         Marca marca;
+        Producto producto;
 
         // validar el id
         try {
-            Long idMarca = Long.parseLong(id);
-            marca = marcaService.existeMarca(idMarca);
+            Long idProducto = Long.parseLong(id);
+            producto = productoService.existeProducto(idProducto);
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
 
+        model.addAttribute("product", producto);
         if(eliminar) {
-            model.addAttribute("marca", marca);
+            //model.addAttribute("marca", marca);
             return FORM_EDIT;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -183,7 +185,7 @@ public class InventarioController {
     }
 
     @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("marca") MarcaDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("producto") MarcaDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
         Marca marca;

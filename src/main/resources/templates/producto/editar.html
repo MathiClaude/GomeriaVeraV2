@@ -15,8 +15,16 @@
         <label class="form-label">Id Producto: [[${product.idProducto}]]</label>
       </div>
       <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Nombre de Producto: [[${product.nombreProducto}]]</label>
-        <input type="hidden" name="nombreProducto" th:value="${product.nombreProducto}" />
+        <label class="form-label">Codigo del Producto: [[${product.codigo}]]</label>
+      </div>
+      <!--Aca los que van a ser hidden-->
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputNombreProducto" class="form-label">Nombre de Producto</label>
+        <input type="text" class="form-control" id="inputNombreProducto" name="nombreProducto" th:value="${product.nombreProducto}" />
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputDescripcion" class="form-label">Descripcion</label>
+        <input type="text" class="form-control" id="inputDescripcion" name="descripcion" th:value="${product.descripcion}" />
       </div>
       <div class="mb-3"> <!-- margen button -->
         <label for="inputCantidad" class="form-label">Cantidad</label>
@@ -26,11 +34,19 @@
         <label for="inputPrecio" class="form-label">Precio</label>
         <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
       </div>
-
-      <div class="mb-3"> <!-- margen button -->
+      <div>
+        <input type="hidden" name="unidadMedida" th:value="${product.unidadMedida}" />
+        <input type="hidden" name="impuesto" th:value="${product.impuesto}" />
+        <input type="hidden" name="proveedor" th:value="${product.proveedor}" />
+        <!--input type="hidden" name="idTipoProducto" th:value="${product.idTipoProducto}" />
+        <input type="hidden" name="idMarca" th:value="${product.idMarca}" />
+        <input type="hidden" name="idUnidadMedida" th:value="${product.idUnidadMedida}" />
+        <input type="hidden" name="idProveedor" th:value="${product.idProveedor}" /-->
+      </div>
+      <!--div class="mb-3">
         <label for="inputPrecio" class="form-label">Fecha de Ingreso</label>
         <input type="date" id="inputFecha" name="fecha" class="form-control"placeholder="Introduzca nueva fecha">
-      </div>
+      </div-->
 
     </fieldset>
 

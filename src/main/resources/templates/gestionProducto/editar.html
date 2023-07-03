@@ -4,39 +4,43 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Producto</b></h1> <!--titulo-->
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Existencias y Precio</b></h1> <!--titulo-->
 
-  <form method="POST" th:action="@{/productos/{id}(id=${producto.idProducto})}" th:object="${producto}">
+  <form method="POST" th:action="@{/stocks/{id}(id=${product.idProducto})}" th:object="${producto}">
     <!--th:block th:include="fragment/error-message.html"></th:block-->
 
     <fieldset>
       <legend>Información del Producto</legend>
       <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Id Producto: [[${producto.idProducto}]]</label>
+        <label class="form-label">Id Producto: [[${product.idProducto}]]</label>
       </div>
       <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Nombre de Producto: [[${producto.nombreProducto}]]</label>
-        <input type="hidden" name="nombreProducto" th:value="${producto.nombreProducto}" />
+        <label class="form-label">Codigo de Producto: [[${product.codigo}]]</label>
+        <input type="hidden" name="codigo" th:value="${product.codigo}" />
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label class="form-label">Nombre de Producto: [[${product.nombreProducto}]]</label>
+        <input type="hidden" name="nombreProducto" th:value="${product.nombreProducto}" />
       </div>
       <div class="mb-3"> <!-- margen button -->
         <label for="inputCantidad" class="form-label">Cantidad</label>
-        <input type="text" class="form-control" id="inputCantidad" name="cantidad" th:value="${producto.cantidad}">
+        <input type="text" class="form-control" id="inputCantidad" name="cantidad" th:value="${product.cantidad}">
       </div>
       <div class="mb-3"> <!-- margen button -->
-        <label for="inputPrecio" class="form-label">Precio</label>
-        <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
+        <label for="inputPrecio" class="form-label">Precio Venta</label>
+        <input type="text" class="form-control" id="inputPrecio" name="precio" th:value="${product.precio}">
       </div>
 
-      <div class="mb-3"> <!-- margen button -->
+      <!--div class="mb-3">
         <label for="inputPrecio" class="form-label">Fecha de Ingreso</label>
         <input type="date" id="inputFecha" name="fecha" class="form-control"placeholder="Introduzca nueva fecha">
-      </div>
+      </div-->
 
     </fieldset>
 
     <div class="row">
       <div class="col-sm-6">
-        <a th:href="@{/productos}" class="btn btn-outline-secondary w-100">
+        <a th:href="@{/stocks}" class="btn btn-outline-secondary w-100">
           Atrás
         </a>
       </div>

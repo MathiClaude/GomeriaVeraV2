@@ -4,7 +4,7 @@
       layout:decorate="~{/layout/basic}">
 <body>
 <div layout:fragment="content">
-  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Gesionar Pedido</b></h1> <!--titulo-->
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Gestionar Pedido</b></h1> <!--titulo-->
 
   <form method="POST" th:action="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" th:object="${compra}">
     <!--th:block th:include="fragment/error-message.html"></th:block-->
@@ -39,13 +39,13 @@
 
 
       <div>
-        <label for="inputGroupSelect02" class="form-label">Estado del Pedido</label>
-        <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="estado">
-          <option style="background-color: yellow;" value="pendiente">PENDIENTE</option>
-          <option style="background-color: blue; color: white;" value="parcialmente-entregado">PARCIALMENTE ENTREGADO</option>
-          <option style="background-color: red; color: white;" value="anulado">ANULADO</option>
-          <option style="background-color: green; color: white;" value="recepcionado">RECEPCIONADO</option>
-        </select>
+        <label for="inputSelectEstado" class="form-label">Estado del Pedido:</label>
+        <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado" onclick="validarEstadoCompra(this.value)">
+          <option style="background-color: yellow;" value="PENDIENTE">PENDIENTE</option>
+          <option style="background-color: blue; color: white;" value="PARCIALMENTE_ENTREGADO">PARCIALMENTE ENTREGADO</option>
+          <option style="background-color: red; color: white;" value="ANULADO">ANULADO</option>
+          <option style="background-color: green; color: white;" value="RECEPCIONADO">RECEPCIONADO</option>
+        </select>  
       </div>
       <br>
     </fieldset>
@@ -60,8 +60,9 @@
         <button type="submit" class="btn btn-warning w-100">Guardar Cambios</button>
       </div>
     </div>
-  </form>
-</div>
-
+    </form>
+  </div>
+  <script th:src="@{/js/compra.js}" th:inline="javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
 </body>
 </html>

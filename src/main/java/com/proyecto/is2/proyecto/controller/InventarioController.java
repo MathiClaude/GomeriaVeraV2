@@ -1,7 +1,7 @@
 
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.MarcaDTO;
-
+import com.proyecto.is2.proyecto.controller.dto.ProductoDTO;
 import com.proyecto.is2.proyecto.model.Permiso;
 import com.proyecto.is2.proyecto.model.Marca;
 import com.proyecto.is2.proyecto.model.Producto;
@@ -185,24 +185,24 @@ public class InventarioController {
     }
 
     @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("producto") MarcaDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("producto") ProductoDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        Marca marca;
+        Producto producto;
 
         if (result.hasErrors()) {
             return RD_FORM_VIEW;
         }
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
-            marca = marcaService.existeMarca(id);
-            if(marca != null) {
-                marcaService.convertirDTO(marca, objetoDTO);
-                attributes.addFlashAttribute("message", "Marca actualizado correctamente!");
-                marcaService.guardar(marca);
+            producto = productoService.existeProducto(id);
+            if(producto != null) {
+                productoService.convertirDTO(producto, objetoDTO);
+                attributes.addFlashAttribute("message", "Producto actualizado correctamente!");
+                productoService.guardar(producto);
                 return RD_FORM_VIEW;
             } else {
-                attributes.addFlashAttribute("message", "¡Id del marca no existe!");
+                attributes.addFlashAttribute("message", "¡Id del producto no existe!");
                 return RD_FORM_VIEW;
             }
         }

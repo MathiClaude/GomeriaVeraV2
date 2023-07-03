@@ -180,3 +180,15 @@ function validarPago(monto){
 	}
 
 }
+
+function validarEstadoCompra(estado){
+	//console.log("ESTRAAAAAAA")
+	var estadoFinal = estado;
+	if(estadoFinal == 'RECEPCIONADO'){
+		alert("RECEPCIONADO");
+	}else if(estadoFinal == 'ANULADO'){
+		alert("ANULADO");
+	}
+	document.getElementById('inputEstado').innerHTML = estadoFinal;
+	return;
+}

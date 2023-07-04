@@ -18,6 +18,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   <script th:src="@{/js/proveedor.js}" type="text/javascript"></script>
   <script th:src="@{/dataTables/datatables.min.js}" type="text/javascript"></script>
   <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+  <script th:src="@{/js/convertirPdf.js}" th:inline="javascript"></script>          
   <link th:href="@{/dataTables/datatables.min.css}" rel="stylesheet"><!---->
   
   <!-- Agregar los scripts de Bootstrap 5 -->
@@ -25,113 +26,198 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   
 </head>
 <body class="d-flex flex-column h-100">
-    <div class="d-grid gap-2 d-md-block">
-        <button class="btn btn-sm btn-primary float-start" id="download-button" onclick="generatePDF()">
-          <i class="bi bi-arrow-bar-down"></i> Descargar PDF
-        </button>
-      </div>
+  <div class="d-grid gap-2 d-md-block">
+    <button class="btn btn-sm btn-primary float-start" id="download-button" onclick="generatePDF()">
+      <i class="bi bi-arrow-bar-down"></i> Descargar PDF
+    </button>
+  </div>
   <div id="impresion" style="padding:30px">
-  <div layout:fragment="content">
-    <style>
-      .clearfix:after {
-        content: "";
-        display: table;
-        clear: both;
-      }
-      
-      a {
-        color: #5D6975;
-        text-decoration: underline;
-      }
-      
-      body {
-        position: relative;
-        width: 21cm;  
-        height: 29.7cm; 
-        margin: 0 auto; 
-        color: #001028;
-        background: #FFFFFF; 
-        font-family: Arial, sans-serif; 
-        font-size: 12px; 
-        font-family: Arial;
-      }
-      
-      header {
-        padding: 10px 0;
-        margin-bottom: 30px;
-      }
-      
-      
-      h1 {
-        border-top: 1px solid  #5D6975;
-        border-bottom: 1px solid  #5D6975;
-        color: #5D6975;
-        font-size: 2.4em;
-        line-height: 1.4em;
-        font-weight: normal;
-        text-align: center;
-        margin: 0 0 20px 0;
-        background: url("http://localhost:8080/img/fondo_report_venta.jpg" );
-      }
-      
-      
-      
-      footer {
-        color: #5D6975;
-        width: 100%;
-        height: 30px;
-        position: absolute;
-        bottom: 0;
-        border-top: 1px solid #C1CED9;
-        padding: 8px 0;
-        text-align: center;
-      }
-    </style>
-    
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <title>Gomería Vera - Reporte de venta</title>    
-    </head>
-    <body>
+    <div layout:fragment="content">
+      <style>
+        .clearfix:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
         
-      <header class="clearfix">        
-        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#FFFFFF">Reporte de venta</b></h1> <!--titulo-->        
-        <hr>      
-        <!-- <span th:text="${datos}"></span> -->
+        a {
+          color: #5D6975;
+          text-decoration: underline;
+        }
+        
+        body {
+          position: relative;
+          width: 21cm;  
+          height: 29.7cm; 
+          margin: 0 auto; 
+          color: #001028;
+          background: #FFFFFF; 
+          font-family: Arial, sans-serif; 
+          font-size: 12px; 
+          font-family: Arial;
+        }
+        
+        header {
+          padding: 10px 0;
+          margin-bottom: 30px;
+        }
+        
+        
+        h1 {
+          border-top: 1px solid  #5D6975;
+          border-bottom: 1px solid  #5D6975;
+          color: #5D6975;
+          font-size: 2.4em;
+          line-height: 1.4em;
+          font-weight: normal;
+          text-align: center;
+          margin: 0 0 20px 0;
+          background: url("http://localhost:8080/img/fondo_report_venta.jpg" );
+        }
+        
+        
+        
+        footer {
+          color: #5D6975;
+          width: 100%;
+          height: 30px;
+          position: absolute;
+          bottom: 0;
+          border-top: 1px solid #C1CED9;
+          padding: 8px 0;
+          text-align: center;
+        }
+      </style>
+      
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <title>Gomería Vera - Reporte de venta</title>    
+      </head>
+      <body>
+        
+        <header class="clearfix">        
+          <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#FFFFFF">Reporte de venta</b></h1>
+          <div class="container">
+            <div class="row">
+              <div class="col-7">
+                <img th:src="@{/img/logo_comprobante.png}" style="float: left; width: 180px; height: 80px;">
+                
+              </div>
+              <div class="col-4">
+                <div>
+                  <div><strong>Gomería Vera</strong></div>
+                  <div><strong>Villa Elisa</strong><br /> <strong>Ingavi y Von Poleski</strong></div>
+                  <div><strong>(021) 576-185</strong></div>
+                  <div><a href="mailto:gomeriaVera@gmail.com"><strong>gomeriaVera@gmail.com</strong></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>      
+          <!--titulo-->       
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRC}"></h3>
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRU}"></h3>
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRCU}"></h3>
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRF}"></h3>
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFC}"></h3>
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFU}"></h3>
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRepAll}"></h3>
+          
+          <!--descripción--> 
+          <p style="font-weight: bold; text-align: center;" th:text="${dRC}"></p>
+          <p style="font-weight: bold; text-align: center;" th:text="${dRU}"></p>
+          <p style="font-weight: bold; text-align: center;" th:text="${dRCU}"></p>
+          <p style="font-weight: bold; text-align: center;" th:text="${dRF}"></p>
+          <p style="font-weight: bold; text-align: center;" th:text="${dRFU}"></p>
+          <p style="font-weight: bold; text-align: center;" th:text="${dRAll}"></p>
+          
+          <!---->
+          <div class="container"> 
+            <div class="row">
+              <div class="col">                    
+                <h6 style="font-weight: bold;" th:text="${pCU}"></h6>
+              </div> 
+              <div class="col" th:unless='${pCU2=="" }'>                    
+                <h6 style="font-weight: bold;" th:text="${pCU2}"></h6>
+              </div>                                  
+              <div class="col">                    
+                <h6 style="font-weight: bold;" th:text="${pDesHas}"></h6>            
+              </div>
+              <div class="col">                    
+                <h6 style="font-weight: bold;" th:text="${pFechaEmision}"></h6>            
+              </div>      
+            </div>
+          </div>
+
+          <!---->
+          
+          <hr>      
+          <!-- <span th:text="${datos}"></span> -->
         </table>
         <!--tabla de productos seleccionados para la venta-->
-          <table class="table">
-            <thead style="background-color: #0a4275;">
-              <tr class="text-center"><!---->
-                <th>Factura</th><!---->
-                <th>Cliente</th><!---->
-                <th>Fecha</th><!---->
-                <th>Vendedor</th><!---->
-                <th>Total</th><!---->
-                <th>Impuesto</th><!---->                
-              </tr><!---->
-            </thead><!---->
-            <tbody id="datos"><!---->
-              <tr class="text-center" th:each="datos: ${datos}">
-                <td th:text="${datos.nroFactura}"></td>
-                <td th:text="${datos.cliente}"></td>
-                <td th:text="${datos.fechaVenta}"></td>   
-                <td th:text="${datos.usuario}"></td>
-                <td th:text="${datos.montoTotal}"></td>      
-              </tr>
-            </tbody>
-          </table>
-          <hr>
+        <table class="table">
+          <thead style="background-color: #0a4275;">
+            <tr class="text-center"><!---->
+              <th>Factura</th><!---->
+              <th>Cliente</th><!---->
+              <th>Fecha</th><!---->
+              <th>Vendedor</th><!---->
+              <th>Total</th><!---->
+              <th>Impuesto</th><!---->                
+            </tr><!---->
+          </thead><!---->
+          <tbody id="datos"><!---->
+            <tr class="text-center" th:each="datos: ${datos}">
+              <td th:text="${datos.nroFactura}"></td>
+              <td th:text="${datos.cliente}"></td>
+              <td th:text="${datos.fechaVenta}"></td>   
+              <td th:text="${datos.usuario}"></td>
+              <td th:text="${datos.montoTotal}"></td>      
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <!--subtotales-->
+        <table class="table table-bordered border-primary">
+          <tr>
+            <th><strong>SUBTOTALES</strong></th>            
+          </tr>
+          <tr>
+            <th>
+              <div class="row">
+                <div class="col-6">                    
+                  <label for="inputNombre" class="form-label">TOTAL ITEMS:</label>
+                  <span id="cantidadItemsComprobante" th:text="${cantidadDetalle}"></span>
+                </div>  
+                <div class="col-6">                    
+                  <label for="inputNombre" class="form-label">TOTAL A PAGAR:</label>
+                  <!--span id="totalPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
+                </div>                                                              
+              </div>
+              <!---->
+              <div class="row">
+                <div class="col-6">                    
+                  <label for="inputNombre" class="form-label">TOTAL I.V.A.:</label>
+                  <!--span id="totalIvaComprobante"  th:text="${datosVenta.montoTotal}" ></!span-->
+                </div> 
+                <div class="col-6">                    
+                  <label for="inputNombre" class="form-label">NETO A PAGAR:</label>
+                  <!--span id="netoPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
+                </div>                                  
+              </div>                              
+            </th>
+          </tr>    
+          
+        </table>
         <div>
           <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js" ></script> -->
-            <script th:src="@{/js/convertirPdf.js}" th:inline="javascript"></script>          
-            <script th:src="@{/js/chartJs.js}" th:inline="javascript"></script>          
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+          <script th:src="@{/js/chartJs.js}" th:inline="javascript"></script>          
         </div>
-                 
         
       </div>  
-      </body>
-
-      </html>
+    </body>
+    
+    </html>

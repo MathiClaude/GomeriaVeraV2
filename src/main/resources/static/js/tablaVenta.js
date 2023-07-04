@@ -145,7 +145,7 @@ function mostrarComprobante(){
 		totalIva+=sumaIva;
 	}
 	TOTAL_PRODS_COMPROBANTE.innerHTML = addCommas(totalProds);
-	TOTAL_IVA.innerHTML = addCommas(totalIva);
+	TOTAL_IVA.innerHTML = addCommas(parseInt(totalIva));
 	CANTIDAD_ITEMS.innerHTML = listaProductos.length;
 	NETO_PAGAR.innerHTML = addCommas(totalProds);
 
@@ -179,12 +179,12 @@ async function guardarDatos(){
 		listaEnviar +=`${a.cantidad};${a.idProducto};${a.precio}|`
 	}
 	//VALIDACION DEL MONTO INGRESADO POR EL CLIENTE 
-	validarMonto(TOTAL_EFECTIVO.value);
-	if(parseInt(TOTAL_EFECTIVO.value) < 1 || TOTAL_EFECTIVO.value == ''  ){
+	validarMonto(removeNonNumeric(TOTAL_EFECTIVO.value));
+	if(parseInt(removeNonNumeric(TOTAL_EFECTIVO.value)) < 1 || removeNonNumeric(TOTAL_EFECTIVO.value) == ''  ){
 		return;
 	} 
 	console.log(TOTAL_EFECTIVO.value,'test');
-	if((parseInt(TOTAL_EFECTIVO.value) - parseInt(totalVenta)) <0) {
+	if((parseInt(removeNonNumeric(TOTAL_EFECTIVO.value)) - parseInt(removeNonNumeric(totalVenta))) <0) {
 		Swal.fire({
 			icon: 'error',
 			title: 'Algo salió mal...',
@@ -196,8 +196,8 @@ async function guardarDatos(){
 	const formData = new FormData();
 
 	formData.append("idCliente", cliente.value );
-	formData.append("montoVenta", totalVenta);
-	formData.append("totalVenta", totalVenta);
+	formData.append("montoVenta", removeNonNumeric(totalVenta));
+	formData.append("totalVenta", removeNonNumeric(totalVenta));
 	formData.append("ventaDetalle", listaEnviar);
 
 	console.log(formData)
@@ -218,7 +218,7 @@ async function guardarDatos(){
 
 function calcularVuelto(campoCliente,campoTotal){
 	const CAMPO_VUELTO = document.getElementById('idVuelto')
-	CAMPO_VUELTO.value = removeNonNumeric(campoCliente.value) - removeNonNumeric(campoTotal.value)
+	CAMPO_VUELTO.value = addCommas(parseInt(removeNonNumeric(campoCliente.value)) - parseInt(removeNonNumeric(campoTotal.value)))
 	console.log(campoCliente.value , campoTotal.value)
 }
 

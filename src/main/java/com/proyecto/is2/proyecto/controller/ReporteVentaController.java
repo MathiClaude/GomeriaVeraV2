@@ -225,11 +225,30 @@ public class ReporteVentaController {
         model.addAttribute("cantidadDetalles", listaDatos.size());
         model.addAttribute("totalMonto", total);
         // para cabecera del reporte
-        model.addAttribute("tituloReporte","Reporte de venta por cliente");
-        model.addAttribute("descripcionReporte","Este reporte de venta se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");
+        //título
+        model.addAttribute("tRC","Reporte de venta por cliente");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","Este reporte de venta se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRU",""); // título reporte usuario
+        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRF",""); //título fecha
+        model.addAttribute("dRFC",""); //título fecha y cliente
+        model.addAttribute("dRFU",""); //título fecha y usuario
+        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","Cliente: ");
         model.addAttribute("pCU","");
         model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+        model.addAttribute("fF","");
         model.addAttribute("pFechaEmision","Fecha emisión: ");
 
         
@@ -259,11 +278,30 @@ public class ReporteVentaController {
         model.addAttribute("totalMonto", total);
 
         // para cabecera del reporte
-        model.addAttribute("tituloReporte","Reporte de venta por vendedor");
-        model.addAttribute("descripcionReporte","Este reporte de venta se basa en todas las ventas realizadas por el vendedor/cajero seleccionado, el mismo cuenta con los siguientes parámetros:");
-        model.addAttribute("pCU","Vendedor: ");
+        //título
+        model.addAttribute("tRC","");
+        model.addAttribute("tRU","Reporte de venta por vendedor");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU","Este reporte de venta se basa en todas las ventas realizadas por el vendedor/cajero seleccionado, el mismo cuenta con los siguientes parámetros:"); // descripción reporte usuario
+        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRF",""); //descripción fecha
+        model.addAttribute("dRFC",""); //descripción fecha y cliente
+        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","");
+        model.addAttribute("pCU2","Vendedor");
         model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+        model.addAttribute("fF","");
         model.addAttribute("pFechaEmision","Fecha emisión: ");
 
         if(crear) {
@@ -288,14 +326,33 @@ public class ReporteVentaController {
         model.addAttribute("cantidadDetalles", listaDatos.size());
         model.addAttribute("totalMonto", total);
 
-        // para cabecera del reporte
-        model.addAttribute("tituloReporte","Reporte de venta por vendedor");
-        model.addAttribute("descripcionReporte","Este reporte de venta se basa en todas las ventas realizadas por el vendedor/cajero seleccionado para con el cliente respectivamente, el mismo cuenta con los siguientes parámetros:");
-        model.addAttribute("pCU","Vendedor: ");
-        model.addAttribute("pCU2","Cliente: ");
-        model.addAttribute("pDesHas","Desde: ");
-        model.addAttribute("pFechaEmision","Fecha emisión: ");
 
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","Reporte de venta por vendedor y cliente");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU",""); // descripción reporte usuario
+        model.addAttribute("dRCU","Este reporte de venta se basa en todas las ventas realizadas por el vendedor/cajero seleccionado para con el cliente respectivamente, el mismo cuenta con los siguientes parámetros:"); // descripción reporte usuario y cliente
+        model.addAttribute("dRF",""); //descripción fecha
+        model.addAttribute("dRFC",""); //descripción fecha y cliente
+        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Cliente:");
+        model.addAttribute("pCU2","Vendedor:");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+        model.addAttribute("fF","");
+        model.addAttribute("pFechaEmision","Fecha emisión: ");
 
         if(crear) {
             return FORM_NEW;
@@ -320,9 +377,27 @@ public class ReporteVentaController {
         model.addAttribute("cantidadDetalles", listaDatos.size());
         model.addAttribute("totalMonto", total);
 
+
         // para cabecera del reporte
-        model.addAttribute("tituloReporte","Reporte de venta por Fecha");
-        model.addAttribute("descripcionReporte","Este reporte de venta se basa en el rango de fechas seleccionadas, el mismo cuenta con los siguientes parámetros:");
+        //título
+        model.addAttribute("tRC","");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","Reporte de venta por Fecha");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU",""); // descripción reporte usuario
+        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRF","Este reporte de venta se basa en el rango de fechas seleccionadas, el mismo cuenta con los siguientes parámetros:"); //descripción fecha
+        model.addAttribute("dRFC",""); //descripción fecha y cliente
+        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","");
         model.addAttribute("pCU2","");
         model.addAttribute("pDesHas","");
@@ -539,9 +614,13 @@ public class ReporteVentaController {
         // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
         List<Tuple> datosGrafico = ventaRepository.findGraphProductoNative();
         List<DatoGraficoVentaDTO> lista = new ArrayList<>();
-
+        int c = 0;
         for (Tuple elemento : datosGrafico) {
+            if(c>=10){
+                break;
+            }
             lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0]));
+            c++;
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
 

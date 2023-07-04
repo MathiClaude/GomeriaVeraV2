@@ -200,7 +200,7 @@
                               <label for="inputNombre" class="form-label">Total abonado</label>
                             </div>
                             <div class="col">
-                              <input type="text"  id="inputMontoCliente" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" onchange="calcularVuelto(this,document.getElementById('totalPagar') )" autofocus >
+                              <input type="text"  id="inputMontoCliente" name="nombre" placeholder="Introduzca pago del cliente" style="text-align:right;" onchange="calcularVuelto(this,document.getElementById('totalPagar') )" onkeyup="formatearCampo(this)" autofocus >
                             </div>
                           </div>
                           <div class="row">
@@ -371,7 +371,7 @@
                               <div class="row">
                                 <div class="col">                    
                                   <label for="inputNombre" class="form-label"><strong>Total efectivo:</strong></label>
-                                  <span id="totalEfectivoComprobante" th:text="${nombreCajero}"></span>
+                                  <span id="totalEfectivoComprobante" th:text="${nombreCajero}" ></span>
                                 </div>                                
                               </div>
                               <!---->
@@ -439,7 +439,7 @@
                 <iframe th:src="@{/comprobante/comprobante}" width="100%" height="400" id="datoComprobante"></iframe>
                 <!-- Pie del modal -->
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
                 </div>
               </div>
             </div>
@@ -593,15 +593,18 @@
           async function inicializar(){
             console.log("test")
             if(aperturaCaja=="false"){
-            console.log("No posee cajas abiertas");
-            Swal.fire({
-              title: "No tiene caja abrida "
-            });
-            await new Promise(r => setTimeout(r, 1000));
+              console.log("No posee cajas abiertas");
+              Swal.fire({
+                title: "No tiene caja abrida "
+              });
+              await new Promise(r => setTimeout(r, 1000));
 
-            // alert("Debe abrir una caja para realizar una venta");
-            window.location.href = "http://localhost:8080/"
+              // alert("Debe abrir una caja para realizar una venta");
+              window.location.href = "http://localhost:8080/"
+            }
           }
+          function formatearCampo (campo) {
+            campo.value = addCommas(removeNonNumeric(campo.value));
           }
           
           

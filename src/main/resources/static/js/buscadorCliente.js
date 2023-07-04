@@ -1,7 +1,7 @@
 console.log("Incluido buscador de cliente")
 /*Datos para buscador*/
 
-window.onload=()=>{
+window.addEventListener("load",()=>{
 	mostrarBuscador(false)
 	let opciones = document.getElementsByClassName("opcionesCliente");
 	console.log(opciones);
@@ -9,7 +9,7 @@ window.onload=()=>{
 		opcion.addEventListener("click",()=>console.log("test"));
 		
 	}
-}
+})
 
 // Funcion para buscar y seleccionar un cliente del buscador
 

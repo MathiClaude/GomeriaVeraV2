@@ -150,14 +150,17 @@ public class ReporteVentaController {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
         boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
-
-
+        List<Tuple> listaCruda = usuarioService.listarUsuariosBuscador();
+        List<UsuarioDTO> usuarios = new ArrayList<>();
+        for (Tuple user : listaCruda) {
+            usuarios.add(new UsuarioDTO(user.get(1).toString(),Integer.parseInt(user.get(0).toString()),user.get(3).toString()));
+        }
 
         if(consultar) {
             // model.addAttribute("listProduct", productoService.listar());//lista los productos
             // model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
-            // model.addAttribute("listarUsuario", usuarioService.listarUsuarios());//lista los clientes
+            model.addAttribute("listarUsuario",usuarios );//lista los clientes
             String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
             Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
@@ -213,7 +216,24 @@ public class ReporteVentaController {
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         List<Tuple> datosVenta = ventaRepository.findVentasByClienteNative(new Long(cliente_id));
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        Float total = new Float(0);
+        for (ReporteVentaDTO venta : listaDatos) {
+            total += Float.parseFloat(venta.getMontoTotal());
+        }
+        //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        // para cabecera del reporte
+        model.addAttribute("tituloReporte","Reporte de venta por cliente");
+        model.addAttribute("descripcionReporte","Este reporte de venta se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");
+        model.addAttribute("pCU","Cliente: ");
+        model.addAttribute("pCU","");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: ");
+
+        
+
 
         if(crear) {
             return FORM_NEW;
@@ -230,6 +250,21 @@ public class ReporteVentaController {
         List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(usuario_id));
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
         model.addAttribute("datos", listaDatos);
+        Float total = new Float(0);
+        for (ReporteVentaDTO venta : listaDatos) {
+            total += Float.parseFloat(venta.getMontoTotal());
+        }
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+        // para cabecera del reporte
+        model.addAttribute("tituloReporte","Reporte de venta por vendedor");
+        model.addAttribute("descripcionReporte","Este reporte de venta se basa en todas las ventas realizadas por el vendedor/cajero seleccionado, el mismo cuenta con los siguientes parámetros:");
+        model.addAttribute("pCU","Vendedor: ");
+        model.addAttribute("pCU","");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: ");
 
         if(crear) {
             return FORM_NEW;
@@ -245,7 +280,22 @@ public class ReporteVentaController {
 
         List<Tuple> datosVenta = ventaRepository.findVentasUsuarioClienteByNative(new Long(usuario_id), new Long(cliente_id));
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        Float total = new Float(0);
+        for (ReporteVentaDTO venta : listaDatos) {
+            total += Float.parseFloat(venta.getMontoTotal());
+        }
         model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+        // para cabecera del reporte
+        model.addAttribute("tituloReporte","Reporte de venta por vendedor");
+        model.addAttribute("descripcionReporte","Este reporte de venta se basa en todas las ventas realizadas por el vendedor/cajero seleccionado para con el cliente respectivamente, el mismo cuenta con los siguientes parámetros:");
+        model.addAttribute("pCU","Vendedor: ");
+        model.addAttribute("pCU2","Cliente: ");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: ");
+
 
         if(crear) {
             return FORM_NEW;
@@ -262,7 +312,24 @@ public class ReporteVentaController {
 
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
 
+        Float total = new Float(0);
+        for (ReporteVentaDTO venta : listaDatos) {
+            total += Float.parseFloat(venta.getMontoTotal());
+        }
         model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+        // para cabecera del reporte
+        model.addAttribute("tituloReporte","Reporte de venta por Fecha");
+        model.addAttribute("descripcionReporte","Este reporte de venta se basa en el rango de fechas seleccionadas, el mismo cuenta con los siguientes parámetros:");
+        model.addAttribute("pCU","");
+        model.addAttribute("pCU2","");
+        model.addAttribute("pDesHas","");
+        model.addAttribute("fI","Fecha Inicial: ");
+        model.addAttribute("fF","Fecha Fin: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: ");
+
 
         if(crear) {
             return FORM_NEW;
@@ -279,7 +346,25 @@ public class ReporteVentaController {
 
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
 
+        Float total = new Float(0);
+        for (ReporteVentaDTO venta : listaDatos) {
+            total += Float.parseFloat(venta.getMontoTotal());
+        }
         model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+       // para cabecera del reporte
+        model.addAttribute("tituloReporte","Reporte de venta por Cliente y Fecha seleccionada");
+        model.addAttribute("descripcionReporte","Este reporte de venta se basa en el rango de fechas seleccionadas con respecto al cliente, el mismo cuenta con los siguientes parámetros:");
+        model.addAttribute("pCU","Cliente: ");
+        model.addAttribute("pCU2","");
+        model.addAttribute("pDesHas","");
+        model.addAttribute("fI","Fecha Inicial: ");
+        model.addAttribute("fF","Fecha Fin: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: ");
+
+
 
         if(crear) {
             return FORM_NEW;
@@ -287,8 +372,6 @@ public class ReporteVentaController {
             return FALTA_PERMISO_VIEW;
         }
     }
-
-
 
     @GetMapping("/ventaReporte/rangoUsuario/{fechaDesde}/{fechaHasta}/{usuario_id}")
     public String reporteVentaFechaUsuario(Model model,@PathVariable String usuario_id, @PathVariable String fechaDesde, @PathVariable String fechaHasta) {
@@ -298,7 +381,23 @@ public class ReporteVentaController {
 
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
 
+        Float total = new Float(0);
+        for (ReporteVentaDTO venta : listaDatos) {
+            total += Float.parseFloat(venta.getMontoTotal());
+        }
         model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+        // para cabecera del reporte
+        model.addAttribute("tituloReporte","Reporte de venta por Vendedor y Fecha seleccionada");
+        model.addAttribute("descripcionReporte","Este reporte de venta se basa en el rango de fechas seleccionadas con respecto al vendedor, el mismo cuenta con los siguientes parámetros:");
+        model.addAttribute("pCU","");
+        model.addAttribute("pCU2","Vendedor:");
+        model.addAttribute("pDesHas","");
+        model.addAttribute("fI","Fecha Inicial: ");
+        model.addAttribute("fF","Fecha Fin: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: ");
 
         if(crear) {
             return FORM_NEW;
@@ -315,7 +414,23 @@ public class ReporteVentaController {
 
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
 
+        Float total = new Float(0);
+        for (ReporteVentaDTO venta : listaDatos) {
+            total += Float.parseFloat(venta.getMontoTotal());
+        }
         model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        // para cabecera del reporte
+        model.addAttribute("tituloReporte","Reporte General de venta");
+        model.addAttribute("descripcionReporte","Este reporte de venta se basa en el vendedor, cliente y rango de fecha seleccionados, sería un reporte completo de acuerdo a lo seleccionado, el mismo cuenta con los siguientes parámetros:");
+        model.addAttribute("pCU","Cliente: ");
+        model.addAttribute("pCU2","Vendedor:");
+        model.addAttribute("pDesHas","");
+        model.addAttribute("fI","Fecha Inicial: ");
+        model.addAttribute("fF","Fecha Fin: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: ");
+
 
         if(crear) {
             return FORM_NEW;
@@ -352,6 +467,83 @@ public class ReporteVentaController {
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
 
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+            model.addAttribute("datos", lista);
+
+            return GRAFICO_ESTADISTICO;
+        } else {
+            return GRAFICO_ESTADISTICO;
+        }
+    }
+
+    @GetMapping("/graficoDona/cajeros")
+    public String verReporteCajeros(Model model) {
+        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        this.operacion = "crear-";
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
+        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        List<Tuple> datosGrafico = ventaRepository.findGraphCajeroNative();
+        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
+
+        for (Tuple elemento : datosGrafico) {
+            lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0] ));
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+            model.addAttribute("datos", lista);
+
+            return GRAFICO_ESTADISTICO;
+        } else {
+            return GRAFICO_ESTADISTICO;
+        }
+    }
+
+    @GetMapping("/graficoDona/clientes")
+    public String verReporteClientes(Model model) {
+        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        this.operacion = "crear-";
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        
+        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        List<Tuple> datosGrafico = ventaRepository.findGraphClienteNative();
+        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
+
+        for (Tuple elemento : datosGrafico) {
+            lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0]));
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+            model.addAttribute("datos", lista);
+
+            return GRAFICO_ESTADISTICO;
+        } else {
+            return GRAFICO_ESTADISTICO;
+        }
+    }
+
+    @GetMapping("/graficoDona/productos")
+    public String verReporteProductos(Model model) {
+        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        this.operacion = "crear-";
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        
+        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        List<Tuple> datosGrafico = ventaRepository.findGraphProductoNative();
+        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
+
+        for (Tuple elemento : datosGrafico) {
+            lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0]));
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
@@ -364,162 +556,6 @@ public class ReporteVentaController {
     }
 
 
-    @GetMapping("/{id}")
-    public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        Venta venta;
-
-        // validar el id
-        try {
-            Long idVenta = Long.parseLong(id);
-            venta = ventaService.existeVenta(idVenta);
-        } catch(Exception e) {
-            return RD_FORM_VIEW;
-        }
-
-        model.addAttribute("user", venta);
-
-        // validar si puede cambiar de rol
-        if(asignarRol) {
-            model.addAttribute("roles", rolService.listar());
-        }
-        model.addAttribute("permisoAsignarRol", asignarRol);
-
-        if(eliminar) {
-            return FORM_EDIT;
-        } else {
-            return FALTA_PERMISO_VIEW;
-        }
-    }
-
-    @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("venta") VentaDTO objetoDTO,
-                                   BindingResult result, RedirectAttributes attributes) {
-        this.operacion = "actualizar-";
-        Venta venta;
-
-        if (result.hasErrors()) {
-//            studentDTO.setId(id);
-            return RD_FORM_VIEW;
-        }
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            venta = ventaService.existeVenta(id);
-            if(venta != null) {
-                ventaService.convertirDTO(venta, objetoDTO);
-
-                // si tiene permiso se le asigna el rol con id del formulario
-                // sino se queda con el mismo rol.
-                /*if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
-                    venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-                }*/
-
-                attributes.addFlashAttribute("message", "¡Venta actualizado correctamente!");
-                ventaService.guardar(venta);
-                return RD_FORM_VIEW;
-            }
-        }
-        return RD_FALTA_PERMISO_VIEW;
-    }
-
-    @GetMapping("/{id}/delete")
-        public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
-        this.operacion = "eliminar-";
-        Long idVenta;
-
-        try {
-            idVenta = Long.parseLong(id);
-        } catch (Exception e) {
-            return RD_FORM_VIEW;
-        }
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Venta venta = ventaService.obtenerVenta(idVenta);
-            ventaService.eliminarVenta(venta);
-            attributes.addFlashAttribute("message", "¡Venta eliminado correctamente!");
-            return RD_FORM_VIEW;
-        } else {
-            return RD_FALTA_PERMISO_VIEW;
-        }
-    }
-
-    @Transactional
-    @PostMapping(DATA_CREATE_URL)
-    public String crearObjeto(@RequestParam(name = "arr[]") String[] arr,
-                              @RequestParam(name = "moneda", required = false) String[] moneda,
-                              @RequestParam(name = "proveedor", required = false) Long proveedor,
-                              @RequestParam(name = "tipo_pago", required = false) String tipoPago,
-                              @RequestParam(name = "total_operacion", required = false) String total,
-                              @RequestParam(name = "direccion", required = false) String direccion,
-                              @RequestParam(name = "observacion", required = false) String observacion,
-                              Model model, RedirectAttributes attributes) {
-
-        boolean privillege = usuarioService.tienePermiso(Permisos.WRITE_COMPRAS_PRIVILEGE.name);
-        for(int i=0; i < arr.length; i++) {
-            System.out.println(arr[i]);
-        }
-        if (false) {
-
-            try {
-                Venta obj = ventaService.guardar(new Venta());
-                List<Item> listItems = new ArrayList<>();
-                Proveedor objProveedor = proveedorService.obtenerProveedor(proveedor);
-                String username = SecurityContextHolder.getContext().getAuthentication().getName();
-                Usuario usuario = usuarioService.existeUsuario(username);
-
-                for(int i=0; i < arr.length; i++) {
-                    String[] items = arr[i].split("-");
-                    Long idProducto = Long.valueOf(items[0]);
-                    Float cantidad = Float.valueOf(items[1]);
-                    Float costo = Float.valueOf(items[2]);
-
-                    VentaDetalle item = new VentaDetalle();
-                    item.setProducto(productoService.obtenerProducto(idProducto));
-                    item.setCantidad(cantidad);
-                   // item.setCosto(costo);
-                   // item.setOrdenCompra(obj);
-                   // item = itemService.guardar(item);
-                    //listItems.add(item);
-                }
-
-                /*obj.setItems(listItems);
-                obj.setProveedor(objProveedor);
-                obj.setRegistradoPor(usuario);
-                obj.setObservacion(observacion);
-                obj.setEstado(Estados.PENDIENTE.name());
-                obj.setFechaEntrega(null);
-                obj.setDireccionEntrega(direccion);
-                obj.setFechaEmision(LocalDate.now());*/
-
-                ventaService.guardar(obj);
-
-                attributes.addFlashAttribute(ModelAttributes.ALERT_MESSAGE, "Venta registrada correctamente!");
-                attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_SUCCESS);
-
-                //return REDIRECT_VIEW + ORDEN_COMPRA_URL;
-                return VIEW;
-
-            } catch (AuthorizationServiceException e) {
-                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
-                model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
-                model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
-                //return ERROR_VIEW;
-                return VIEW;
-            } catch (Exception e) {
-                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.ERROR_GENERIC);
-                model.addAttribute(ModelAttributes.ERROR_MSG, "");
-                model.addAttribute(ModelAttributes.ERROR_TITLE, e.getMessage());
-                //return ERROR_VIEW;
-                return VIEW;
-            }
-        } else {
-            model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
-            model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
-            model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
-            //return ERROR_VIEW;
-            return VIEW;
-        }
-    }
+    
 
 }

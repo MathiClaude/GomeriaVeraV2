@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Collection;
+import javax.persistence.Tuple;
 
 @Service
 public class UsuarioServiceImp implements UsuarioService {
@@ -69,6 +70,11 @@ public class UsuarioServiceImp implements UsuarioService {
     public List<Usuario> listarUsuarios() {
         /* retorna una lista con todos los usuarios */
         return usuarioRepository.findAll();
+    }
+
+    public List<Tuple> listarUsuariosBuscador() {
+        /* retorna una lista con todos los usuarios */
+        return usuarioRepository.findUsuariosNative();
     }
 
     @Override

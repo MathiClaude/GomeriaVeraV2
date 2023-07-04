@@ -59,7 +59,7 @@
         <legend>Documentos</legend>
         <!--  Bootstrap table-->
         <div class="table-responsive">
-          <table id="documentTable" class="table table-primary">
+          <table id="documentTable" class="table">
               <thead>
               <tr>
                   <th scope="col">#</th>
@@ -74,8 +74,8 @@
         </div>
 
         <!-- Add rows button-->
-        <a class="btn btn-primary rounded-0 btn-block" id="insertRow" href="#">Agregar Documento</a>
-
+        <a class="btn btn-primary rounded-0 btn-block" id="insertDocRow" href="#">Agregar Documento</a>
+        <script th:src="@{/js/factura.js}"></script>
     </fieldset>
 
       <br>
@@ -96,13 +96,13 @@
   <script th:src="@{/js/compra.js}" th:inline="javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
   <th:block layout:fragment="scripts">
-    <script th:src="@{/js/factura.js}"></script>
+   
 
     <script th:if="${edit}" th:inline="javascript">
-        let documento, tipo, monto;
+        let doc, tipo, monto;
         let contador = 1;
         /*[# th:each="item : ${objProveedor.contactos}"]*/
-          addCellValuesInvoice([[${item.documento}]], [[${item.tipo}]], [[${item.monto}]], contador);
+          addCellValuesInvoice([[${item.doc}]], [[${item.tipo}]], [[${item.monto}]], contador);
           contador++;
         /*[/]*/
         counter = contador;

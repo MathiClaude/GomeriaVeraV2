@@ -84,7 +84,7 @@ function validEmail(email) {
 
 $(function () {
 
-    $("#insertRow").on("click", function (event) {
+    $("#insertDocRow").on("click", function (event) {
         event.preventDefault();
 
         var newRow = $("<tr>");
@@ -92,10 +92,10 @@ $(function () {
 
         // Table columns
         cols += '<th scrope="row">' + counter + '</th>';
-        cols += '<td><input class="form-control rounded-0" type="text" name="c-nombres[]" placeholder="Nombre"></td>';
-        cols += '<td><input class="form-control rounded-0" type="text" name="c-telefonos[]" placeholder="Tipo Doc."></td>';
-        cols += '<td><input class="form-control rounded-0" type="text" name="c-correos[]" placeholder="Correo"></td>';
-        cols += '<td><button class="btn btn-danger rounded-0" id ="deleteRow"><i class="fa fa-trash"></i></button</td>';
+        cols += '<td><input class="form-control rounded-0" type="text" name="c-documentos[]" placeholder="Documento"></td>';
+        cols += '<td><input class="form-control rounded-0" type="text" name="c-tipos[]" placeholder="Tipo Doc."></td>';
+        cols += '<td><input class="form-control rounded-0" type="text" name="c-montos[]" placeholder="Monto"></td>';
+        cols += '<td><button class="btn btn-danger rounded-0" id ="deleteDocRow"><i class="fa fa-trash"></i></button</td>';
 
         // Insert the columns inside a row
         newRow.append(cols);
@@ -108,22 +108,22 @@ $(function () {
     });
 
     // Remove row when delete btn is clicked
-    $("table").on("click", "#deleteRow", function (event) {
+    $("table").on("click", "#deleteDocRow", function (event) {
         $(this).closest("tr").remove();
         counter -= 1
     });
 });
 
-function addCellValuesInvoice(nombre, telefono, correo, counter) {
+function addCellValuesInvoice(doc, tipo, monto, counter) {
         var newRow = $("<tr>");
         var cols = '';
 
         // Table columns
         cols += '<th scrope="row">' + counter + '</th>';
-        cols += '<td><input class="form-control rounded-0" type="text" name="c-nombres[]" placeholder="Documento" value="' + nombre + '"></td>';
-        cols += '<td><input class="form-control rounded-0" type="text" name="c-telefonos[]" placeholder="Tipo Doc." value="' + telefono + '"></td>';
-        cols += '<td><input class="form-control rounded-0" type="text" name="c-correos[]" placeholder="Monto" value="' + correo + '"></td>';
-        cols += '<td><button class="btn btn-danger rounded-0" id ="deleteRow"><i class="fa fa-trash"></i></button</td>';
+        cols += '<td><input class="form-control rounded-0" type="text" name="c-documentos[]" placeholder="Documento" value="' + doc + '"></td>';
+        cols += '<td><input class="form-control rounded-0" type="text" name="c-tipos[]" placeholder="Tipo Doc." value="' + tipo + '"></td>';
+        cols += '<td><input class="form-control rounded-0" type="text" name="c-montos[]" placeholder="Monto" value="' + monto + '"></td>';
+       cols += '<td><button class="btn btn-danger rounded-0" id ="deleteDocRow"><i class="fa fa-trash"></i></button</td>';
 
         // Insert the columns inside a row
         newRow.append(cols);

@@ -14,6 +14,22 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     public Venta findByIdVenta(Long idVenta);
 
 
+     // Informe de producto mas vendido por cantidad
+    @Query(value="SELECT p.codigo, p.nombre_producto, count(1) cantidad "+
+                 "FROM venta_detalle v "+
+                 "JOIN producto p ON p.id_producto = v.producto_id "+
+                 "GROUP BY nombre_producto,codigo ORDER BY cantidad LIMT 10 ",nativeQuery = true)
+    List<Tuple>  findInformeProductoCantNative(); 
+
+    // Informe de producto mas vendido por montoVentas
+    @Query(value="SELECT p.codigo,p.nombre_producto,count(1) AS cantidad, sum(precio) AS monto "+
+                 "FROM venta_detalle v "+
+                 "JOIN producto p ON p.id_producto = v.producto_id "+
+                 "GROUP BY nombre_producto,codigo ORDER BY monto LIMIT 10 ",nativeQuery = true)
+    List<Tuple>  findInformeProductoMontoNative(); 
+
+
+
     // reporte del gráfico POR CAJERO
     @Query(value="SELECT u.username ,sum(monto_total) total "+
                  "FROM venta v "+

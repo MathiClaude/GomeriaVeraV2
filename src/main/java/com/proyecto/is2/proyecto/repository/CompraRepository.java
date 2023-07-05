@@ -34,8 +34,8 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
     @Query(value="SELECT "+
                 "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
-                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
-                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
                 "WHERE c.estado = ?1",nativeQuery = true)
     List<Tuple>  findComprasByEstadoNative( String estado); 
 
@@ -43,8 +43,8 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
     @Query(value="SELECT "+
                 "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
-                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
-                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
                 "WHERE c.estado = ?1 AND c.proveedor_id = ?2",nativeQuery = true)
     List<Tuple>  findComprasByEstadoProveedorNative( String estado, Long proveedor_id); 
 
@@ -52,35 +52,35 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
      @Query(value="SELECT "+
                 "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
-                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
-                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
-                "WHERE TO_DATE(fecha_compra,'YYYY-MM-DD') between  TO_DATE(?1,'MM-DD-YYYY') AND TO_DATE(?2,'MM-DD-YYYY') ",nativeQuery = true)
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
+                "WHERE TO_DATE(fecha_compra,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?1,'MM-DD-YYYY') AND TO_DATE(?2,'MM-DD-YYYY') ",nativeQuery = true)
     List<Tuple>  findComprasByRangoNative( String fechaDesde,String fechaHasta);
 
     //QUERY PARA REPORTE DE COMPRA POR PROVEEDOR Y RANGO DE FECHAS
     @Query(value="SELECT "+
                 "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
-                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
-                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
-                "WHERE c.proveedor_id = ?1 AND TO_DATE(fecha_compra,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
+                "WHERE c.proveedor_id = ?1 AND TO_DATE(fecha_compra,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
     List<Tuple>  findComprasByRangoProveedorNative( Long proveedor_id,String fechaDesde,String fechaHasta);
 
     //QUERY PARA REPORTE DE COMPRA POR ESTADO Y RANGO DE FECHAS
     @Query(value="SELECT "+
                 "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
-                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
-                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
-                "WHERE c.estado = ?1 AND TO_DATE(fecha_compra,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
+                "WHERE c.estado = ?1 AND TO_DATE(fecha_compra,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
     List<Tuple>  findComprasByRangoEstadoNative( String estado,String fechaDesde,String fechaHasta);
 
     @Query(value="SELECT "+
                 "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
-                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
-                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
-                "WHERE c.proveedor_id = ?1 AND c.estado = ?2 AND AND TO_DATE(fecha_compra,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
+                "WHERE c.proveedor_id = ?1 AND c.estado = ?2 AND TO_DATE(fecha_compra,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?3,'MM-DD-YYYY') AND TO_DATE(?4,'MM-DD-YYYY') ",nativeQuery = true)
     List<Tuple>  findVentasByRangoAllNative( Long proveedor_id,String estado, String fechaDesde, String fechaHasta);
 
 

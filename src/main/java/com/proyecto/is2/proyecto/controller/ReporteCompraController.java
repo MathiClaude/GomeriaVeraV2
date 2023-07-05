@@ -118,7 +118,7 @@ public class ReporteCompraController {
     OperacionRepository operacionRepository;
 
     @Autowired
-    CompraRepository ventaRepository;
+    CompraRepository compraRepository;
 
      // llamada a los servicios de venta
      @Autowired
@@ -214,17 +214,17 @@ public class ReporteCompraController {
     private List<ReporteCompraDTO> parsearDatosReporteCompra(List<Tuple> datosCrudo){        
         List<ReporteCompraDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {
-            lista.add( new ReporteCompraDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString()) );
+            lista.add( new ReporteCompraDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString()));
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
         return lista;
     }
 
-    @GetMapping("/compraReporte/{proveedor_id}")
+    @GetMapping("/compraReporte/p/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR
     public String reporteCompraProveedor(Model model,@PathVariable String proveedor_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        List<Tuple> datosCompra = ventaRepository.findComprasByProveedorNative(new Long(proveedor_id));
+        List<Tuple> datosCompra = compraRepository.findComprasByProveedorNative(new Long(proveedor_id));
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
         Cliente cliente = clienteRepository.findByIdCliente(new Long(proveedor_id));
@@ -274,35 +274,295 @@ public class ReporteCompraController {
         }
     }
 
-    
+    @GetMapping("/compraReporte/e/{estado}") // REPORTE DE COMPRA CONDICIONADO POR ESTADO
+    public String reporteCompraEstado(Model model,@PathVariable String estado) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = compraRepository.findComprasByEstadoNative(estado);
+        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
-    @GetMapping("/graficoDona")
-    public String verReporte(Model model) {
-        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        this.operacion = "crear-";
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-        List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
-        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-        List<Tuple> datosGrafico = ventaRepository.findGraphNative();
-        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
-
-        for (Tuple elemento : datosGrafico) {
-            Integer temp = Integer.parseInt(elemento.get(0).toString().split("\\.")[0]);
-            lista.add(new DatoGraficoVentaDTO(meses[temp==0?1:temp], elemento.get(1).toString()));
-            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        Float total = new Float(0);
+        for (ReporteCompraDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getMontoTotal());
         }
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRU",""); // título reporte usuario
+        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRF",""); //título fecha
+        model.addAttribute("dRFC",""); //título fecha y cliente
+        model.addAttribute("dRFU",""); //título fecha y usuario
+        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Estado: " + estado);
+        model.addAttribute("pCU2","");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
+        
 
 
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
-            model.addAttribute("datos", lista);
-
-            return GRAFICO_ESTADISTICO;
+        if(crear) {
+            return FORM_NEW;
         } else {
-            return GRAFICO_ESTADISTICO;
+            return FALTA_PERMISO_VIEW;
         }
     }
+
+    @GetMapping("/compraReporte/rango/{fDesde}/{fHasta}") // REPORTE DE COMPRA CONDICIONADO POR ESTADO
+    public String reporteCompraRango(Model model,@PathVariable String fDesde,@PathVariable String fHasta) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = compraRepository.findComprasByRangoNative(fDesde,fHasta);
+        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+
+        Float total = new Float(0);
+        for (ReporteCompraDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getMontoTotal());
+        }
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRU",""); // título reporte usuario
+        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRF",""); //título fecha
+        model.addAttribute("dRFC",""); //título fecha y cliente
+        model.addAttribute("dRFU",""); //título fecha y usuario
+        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Estado: ");
+        model.addAttribute("pCU2","");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
+        
+
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @GetMapping("/compraReporte/rangoProv/{fDesde}/{fHasta}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
+    public String reporteCompraRangoProveedor(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String proveedor_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = compraRepository.findComprasByRangoProveedorNative(new Long(proveedor_id), fDesde,fHasta);
+        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+
+        Float total = new Float(0);
+        for (ReporteCompraDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getMontoTotal());
+        }
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRU",""); // título reporte usuario
+        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRF",""); //título fecha
+        model.addAttribute("dRFC",""); //título fecha y cliente
+        model.addAttribute("dRFU",""); //título fecha y usuario
+        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Estado: ");
+        model.addAttribute("pCU2","");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
+        
+
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @GetMapping("/compraReporte/rangoEst/{fDesde}/{fHasta}/{estado}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
+    public String reporteCompraRangoEstado(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String estado) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = compraRepository.findComprasByRangoEstadoNative(estado, fDesde,fHasta);
+        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+
+        Float total = new Float(0);
+        for (ReporteCompraDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getMontoTotal());
+        }
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRU",""); // título reporte usuario
+        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRF",""); //título fecha
+        model.addAttribute("dRFC",""); //título fecha y cliente
+        model.addAttribute("dRFU",""); //título fecha y usuario
+        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Estado: ");
+        model.addAttribute("pCU2","");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
+        
+
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @GetMapping("/compraReporte/all/{fDesde}/{fHasta}/{estado}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
+    public String reporteCompraAll(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String estado,@PathVariable String proveedor_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = compraRepository.findVentasByRangoAllNative( new Long(proveedor_id), estado, fDesde,fHasta);
+        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+
+        Float total = new Float(0);
+        for (ReporteCompraDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getMontoTotal());
+        }
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRU",""); // título reporte usuario
+        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRF",""); //título fecha
+        model.addAttribute("dRFC",""); //título fecha y cliente
+        model.addAttribute("dRFU",""); //título fecha y usuario
+        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Estado: ");
+        model.addAttribute("pCU2","");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
+        
+
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    
+
+    // @GetMapping("/graficoDona")
+    // public String verReporte(Model model) {
+    //     String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+    //     this.operacion = "crear-";
+    //     String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+    //     Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+    //     List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
+    //     // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+    //     List<Tuple> datosGrafico = ventaRepository.findGraphNative();
+    //     List<DatoGraficoVentaDTO> lista = new ArrayList<>();
+
+    //     for (Tuple elemento : datosGrafico) {
+    //         Integer temp = Integer.parseInt(elemento.get(0).toString().split("\\.")[0]);
+    //         lista.add(new DatoGraficoVentaDTO(meses[temp==0?1:temp], elemento.get(1).toString()));
+    //         // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+    //     }
+
+
+    //     if(usuarioService.tienePermiso(operacion + VIEW)) {
+    //         model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+    //         model.addAttribute("datos", lista);
+
+    //         return GRAFICO_ESTADISTICO;
+    //     } else {
+    //         return GRAFICO_ESTADISTICO;
+    //     }
+    // }
 
     @PostMapping("/crear")
     public String crearObjeto(@ModelAttribute("venta") VentaDTO objetoDTO,

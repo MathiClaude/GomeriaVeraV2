@@ -110,11 +110,19 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 <th>Fecha</th><!---->
                 <th>Vendedor</th><!---->
                 <th>Total</th><!---->
-                <th>Impuesto</th><!---->
+                <th>Estado</th><!---->
                 
               </tr><!---->
             </thead><!---->
             <tbody id="tablaProductosComprobante"><!---->
+              <tr class="text-center" th:each="datos: ${datos}">
+                <td ></td>
+                <td th:text="${datos.proveedor}"></td>
+                <td th:text="${datos.fechaCompra}"></td>   
+                <td th:text="${datos.usuario}"></td>
+                <td th:text="${datos.montoTotal}"></td>   
+                <td th:text="${datos.estado}"></td>   
+              </tr>
             </tbody>
           </table>
           <hr>

@@ -216,6 +216,9 @@ public class ReporteVentaController {
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         List<Tuple> datosVenta = ventaRepository.findVentasByClienteNative(new Long(cliente_id));
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+
+        Cliente cliente = clienteRepository.findByIdCliente(new Long(cliente_id));
+
         Float total = new Float(0);
         for (ReporteVentaDTO venta : listaDatos) {
             total += Float.parseFloat(venta.getMontoTotal());
@@ -244,12 +247,12 @@ public class ReporteVentaController {
         model.addAttribute("dRAll","");  //título fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Cliente: ");
-        model.addAttribute("pCU","");
+        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
+        model.addAttribute("pCU2","");
         model.addAttribute("pDesHas","Desde: ");
         model.addAttribute("fI","");
-        model.addAttribute("fF","");
-        model.addAttribute("pFechaEmision","Fecha emisión: ");
+       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         
 
@@ -268,6 +271,9 @@ public class ReporteVentaController {
 
         List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(usuario_id));
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+
+        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(usuario_id));
+        
         model.addAttribute("datos", listaDatos);
         Float total = new Float(0);
         for (ReporteVentaDTO venta : listaDatos) {
@@ -294,15 +300,15 @@ public class ReporteVentaController {
         model.addAttribute("dRF",""); //descripción fecha
         model.addAttribute("dRFC",""); //descripción fecha y cliente
         model.addAttribute("dRFU",""); //descripción fecha y usuario
-        model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
+        model.addAttribute("dRAll",""); //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","");
-        model.addAttribute("pCU2","Vendedor");
+        model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());
         model.addAttribute("pDesHas","Desde: ");
         model.addAttribute("fI","");
-        model.addAttribute("fF","");
-        model.addAttribute("pFechaEmision","Fecha emisión: ");
+        
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         if(crear) {
             return FORM_NEW;
@@ -318,6 +324,11 @@ public class ReporteVentaController {
 
         List<Tuple> datosVenta = ventaRepository.findVentasUsuarioClienteByNative(new Long(usuario_id), new Long(cliente_id));
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+
+        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(usuario_id));
+        
+        Cliente cliente = clienteRepository.findByIdCliente(new Long(cliente_id));
+        
         Float total = new Float(0);
         for (ReporteVentaDTO venta : listaDatos) {
             total += Float.parseFloat(venta.getMontoTotal());
@@ -347,12 +358,12 @@ public class ReporteVentaController {
         model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Cliente:");
-        model.addAttribute("pCU2","Vendedor:");
+        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
+        model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());
         model.addAttribute("pDesHas","Desde: ");
         model.addAttribute("fI","");
-        model.addAttribute("fF","");
-        model.addAttribute("pFechaEmision","Fecha emisión: ");
+        
+       model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         if(crear) {
             return FORM_NEW;
@@ -398,12 +409,12 @@ public class ReporteVentaController {
         model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","");
-        model.addAttribute("pCU2","");
+        model.addAttribute("pCU","Cantidad de clientes: ");
+        model.addAttribute("pCU2","Cantidad de vendedores: ");
         model.addAttribute("pDesHas","");
-        model.addAttribute("fI","Fecha Inicial: ");
-        model.addAttribute("fF","Fecha Fin: ");
-        model.addAttribute("pFechaEmision","Fecha emisión: ");
+        model.addAttribute("fI", ""+ fechaDesde + " - " + fechaHasta+"");
+        
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
         if(crear) {
@@ -421,6 +432,8 @@ public class ReporteVentaController {
 
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
 
+        Cliente cliente = clienteRepository.findByIdCliente(new Long(cliente_id));
+
         Float total = new Float(0);
         for (ReporteVentaDTO venta : listaDatos) {
             total += Float.parseFloat(venta.getMontoTotal());
@@ -429,16 +442,32 @@ public class ReporteVentaController {
         model.addAttribute("cantidadDetalles", listaDatos.size());
         model.addAttribute("totalMonto", total);
 
-       // para cabecera del reporte
-        model.addAttribute("tituloReporte","Reporte de venta por Cliente y Fecha seleccionada");
-        model.addAttribute("descripcionReporte","Este reporte de venta se basa en el rango de fechas seleccionadas con respecto al cliente, el mismo cuenta con los siguientes parámetros:");
-        model.addAttribute("pCU","Cliente: ");
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","Reporte de venta por Cliente y Fecha seleccionada");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU",""); // descripción reporte usuario
+        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRF",""); //descripción fecha
+        model.addAttribute("dRFC","Este reporte de venta se basa en el rango de fechas seleccionadas con respecto al cliente, el mismo cuenta con los siguientes parámetros:"); //descripción fecha y cliente
+        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
         model.addAttribute("pCU2","");
         model.addAttribute("pDesHas","");
-        model.addAttribute("fI","Fecha Inicial: ");
-        model.addAttribute("fF","Fecha Fin: ");
-        model.addAttribute("pFechaEmision","Fecha emisión: ");
-
+        model.addAttribute("fI", ""+ fechaDesde + " - " + fechaHasta+"");
+        
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
         if(crear) {
@@ -456,6 +485,9 @@ public class ReporteVentaController {
 
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
 
+        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(usuario_id));        
+        
+
         Float total = new Float(0);
         for (ReporteVentaDTO venta : listaDatos) {
             total += Float.parseFloat(venta.getMontoTotal());
@@ -464,15 +496,34 @@ public class ReporteVentaController {
         model.addAttribute("cantidadDetalles", listaDatos.size());
         model.addAttribute("totalMonto", total);
 
-        // para cabecera del reporte
-        model.addAttribute("tituloReporte","Reporte de venta por Vendedor y Fecha seleccionada");
-        model.addAttribute("descripcionReporte","Este reporte de venta se basa en el rango de fechas seleccionadas con respecto al vendedor, el mismo cuenta con los siguientes parámetros:");
+
+          // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","Reporte de venta por Vendedor y Fecha seleccionada");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU",""); // descripción reporte usuario
+        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRF",""); //descripción fecha
+        model.addAttribute("dRFC",""); //descripción fecha y cliente
+        model.addAttribute("dRFU","Este reporte de venta se basa en el rango de fechas seleccionadas con respecto al vendedor, el mismo cuenta con los siguientes parámetros:"); //descripción fecha y usuario
+        model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","");
-        model.addAttribute("pCU2","Vendedor:");
+        model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());
         model.addAttribute("pDesHas","");
-        model.addAttribute("fI","Fecha Inicial: ");
-        model.addAttribute("fF","Fecha Fin: ");
-        model.addAttribute("pFechaEmision","Fecha emisión: ");
+        model.addAttribute("fI", ""+ fechaDesde + " - " + fechaHasta+"");
+        
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
 
         if(crear) {
             return FORM_NEW;
@@ -482,12 +533,16 @@ public class ReporteVentaController {
     }
 
     @GetMapping("/ventaReporte/rangoAll/{fechaDesde}/{fechaHasta}/{usuario_id}/{cliente_id}")
-    public String reporteVentaRangoAll(Model model,@PathVariable String usuario_id, @PathVariable String cliente_id,@PathVariable String fechaDesde, @PathVariable String fechaHasta) {
+    public String reporteVentaRangoAll(Model model ,@PathVariable String fechaDesde, @PathVariable String fechaHasta,@PathVariable String usuario_id, @PathVariable String cliente_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
 
-        List<Tuple> datosVenta = ventaRepository.findVentasByRangoAllNative(new Long(usuario_id), new Long(cliente_id),fechaDesde, fechaHasta);
+        List<Tuple> datosVenta = ventaRepository.findVentasByRangoAllNative(new Long(cliente_id), new Long(usuario_id),fechaDesde, fechaHasta);
 
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+
+        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(usuario_id));
+        
+        Cliente cliente = clienteRepository.findByIdCliente(new Long(cliente_id));
 
         Float total = new Float(0);
         for (ReporteVentaDTO venta : listaDatos) {
@@ -496,16 +551,35 @@ public class ReporteVentaController {
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
         model.addAttribute("totalMonto", total);
-        // para cabecera del reporte
-        model.addAttribute("tituloReporte","Reporte General de venta");
-        model.addAttribute("descripcionReporte","Este reporte de venta se basa en el vendedor, cliente y rango de fecha seleccionados, sería un reporte completo de acuerdo a lo seleccionado, el mismo cuenta con los siguientes parámetros:");
-        model.addAttribute("pCU","Cliente: ");
-        model.addAttribute("pCU2","Vendedor:");
-        model.addAttribute("pDesHas","");
-        model.addAttribute("fI","Fecha Inicial: ");
-        model.addAttribute("fF","Fecha Fin: ");
-        model.addAttribute("pFechaEmision","Fecha emisión: ");
 
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","Reporte General de venta");
+
+        //descripción del reporte
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU",""); // descripción reporte usuario
+        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRF",""); //descripción fecha
+        model.addAttribute("dRFC",""); //descripción fecha y cliente
+        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRAll","Este reporte de venta se basa en el vendedor, cliente y rango de fechas seleccionadas, es un reporte completo de acuerdo a lo seleccionado, el mismo cuenta con los siguientes parámetros:");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
+        model.addAttribute("pCU2", "Vendedor: " );   
+        model.addAttribute("pDesHas","");
+        model.addAttribute("fI", ""+fechaDesde + " - " + fechaHasta+"");
+        model.addAttribute("fF","Fecha Fin: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         if(crear) {
             return FORM_NEW;
@@ -567,6 +641,31 @@ public class ReporteVentaController {
             lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0] ));
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tGCajero","Ranking de vendedores");
+        model.addAttribute("tGCliente","");        
+        model.addAttribute("tGProducto","");
+        model.addAttribute("tGAll","");
+
+        //descripción del gráfico
+        model.addAttribute("dGCajero",""); // descripción gráfico cajero   
+        model.addAttribute("dGCliente",""); // descripción gráfico cliente
+        model.addAttribute("dGProducto",""); // descripción gráfico producto
+        model.addAttribute("dGAll","");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pGCajero","Vendedor");
+        model.addAttribute("pGCliente","");
+        model.addAttribute("pGProducto","");
+
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","Fecha Inicial: ");
+        model.addAttribute("fF","Fecha Fin: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: ");
+
+
+
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");

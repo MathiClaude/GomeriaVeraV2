@@ -72,7 +72,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE TO_DATE(fecha_venta,'YYYY-MM-DD') between  TO_DATE(?1,'DD-MM-YYYY') AND TO_DATE(?2,'DD-MM-YYYY') ",nativeQuery = true)// E, pasame como genera la url para quitar el reporte de ventas tu navegador, necesito saber si es dd-mm-yyyy para tomar :v (ojala ese tomar seauna caipi pero nel :'v)
+                "WHERE TO_DATE(fecha_venta,'YYYY-MM-DD') between  TO_DATE(?1,'MM-DD-YYYY') AND TO_DATE(?2,'MM-DD-YYYY') ",nativeQuery = true)// E, pasame como genera la url para quitar el reporte de ventas tu navegador, necesito saber si es MM-DD-YYYY para tomar :v (ojala ese tomar seauna caipi pero nel :'v)
     List<Tuple>  findVentasByRangoNative( String fechaDesde,String fechaHasta);
 
 
@@ -81,7 +81,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.cliente_id = ?1 AND fecha_venta between  ?2 AND ?3 ",nativeQuery = true)
+                "WHERE v.cliente_id = ?1 AND TO_DATE(fecha_venta,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
     List<Tuple>  findVentasByRangoClienteNative( Long cliente_id,String fechaDesde,String fechaHasta);
 
     @Query(value="SELECT "+
@@ -89,7 +89,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.usuario_id = ?1 AND fecha_venta between  ?2 AND ?3 ",nativeQuery = true)
+                "WHERE v.usuario_id = ?1 AND TO_DATE(fecha_venta,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
     List<Tuple>  findVentasByRangoUsuarioNative( Long usuario_id,String fechaDesde,String fechaHasta);
 
     @Query(value="SELECT "+
@@ -97,7 +97,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.cliente_id = ?1 ,v.usuario_id = ?2 AND fecha_venta between  ?3 AND ?4 ",nativeQuery = true)
+                "WHERE v.cliente_id = ?1 AND v.usuario_id = ?2  ",nativeQuery = true)
     List<Tuple>  findVentasByRangoClienteUsuarioNative( Long cliente_id,Long usuario_id);
 
 
@@ -106,7 +106,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.cliente_id = ?1 ,v.usuario_id = ?2 AND fecha_venta between  ?3 AND ?4 ",nativeQuery = true)
+                "WHERE v.cliente_id = ?1 AND v.usuario_id = ?2 AND TO_DATE(fecha_venta,'YYYY-MM-DD') between  TO_DATE(?3,'MM-DD-YYYY') AND TO_DATE(?4,'MM-DD-YYYY') ",nativeQuery = true)
     List<Tuple>  findVentasByRangoAllNative( Long cliente_id,Long usuario_id,String fechaDesde,String fechaHasta);
 
 

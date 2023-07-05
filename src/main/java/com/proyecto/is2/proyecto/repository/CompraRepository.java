@@ -13,78 +13,75 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
     //public Usuario findByEmail(String email);
     public Compra findByIdCompra(Long idCompra);
 
-    /* //querys para hacer los reportes de compra 
-    @Query(value="SELECT coalesce(EXTRACT(MONTH from TO_DATE(fecha_compra, 'YYYY-MM-DD')),'0') as mes , count(1)  FROM venta GROUP BY mes",nativeQuery = true)
+    //QUERY PARA GRÁFICO 
+    @Query(value="SELECT "+
+                 " coalesce(EXTRACT(MONTH from TO_DATE(fecha_compra, 'YYYY-MM-DD')),'0') as mes , count(1) "+
+                 " FROM venta GROUP BY mes",nativeQuery = true)
     List<Tuple>  findGraphNative(); 
     
+
+
+    //QUERY PARA REPORTE DE COMPRA POR PROVEEDOR
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS proveedor, fecha_compra, monto_total ,COALESCE(u.username,'admin') as username "+
-                "FROM venta v "+
-                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
-                "LEFT JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.cliente_id = ?1 ",nativeQuery = true)
-    List<Tuple>  findVentasByClienteNative( Long cliente_id); 
+                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "FROM compra c "+
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
+                "WHERE c.proveedor_id = ?1",nativeQuery = true)
+    List<Tuple>  findComprasByProveedorNative( Long proveedor_id); 
 
+    //QUERY PARA REPORTE DE COMPRA POR ESTADO
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
-                "FROM venta v "+
-                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
-                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.usuario_id = ?1 ",nativeQuery = true)
-    List<Tuple>  findVentasByUsuarioNative( Long usuario_id); 
+                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "FROM compra c "+
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
+                "WHERE c.estado = ?1",nativeQuery = true)
+    List<Tuple>  findComprasByEstadoNative( String estado); 
 
-
+    //QUERY PARA REPORTE DE COMPRA POR ESTADO Y PROVEEDOR
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
-                "FROM venta v "+
-                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
-                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE fecha_venta between  ?1 AND ?2 ",nativeQuery = true)
-    List<Tuple>  findVentasUsuarioClienteByNative( Long usuario_id,Long cliente_id);
+                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "FROM compra c "+
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
+                "WHERE c.estado = ?1 AND c.proveedor_id = ?2",nativeQuery = true)
+    List<Tuple>  findComprasByEstadoProveedorNative( String estado, Long proveedor_id); 
 
-    
+    //QUERY PARA REPORTE DE COMPRA POR RANGO DE FECHAS
+     @Query(value="SELECT "+
+                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "FROM compra c "+
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
+                "WHERE TO_DATE(fecha_compra,'YYYY-MM-DD') between  TO_DATE(?1,'MM-DD-YYYY') AND TO_DATE(?2,'MM-DD-YYYY') ",nativeQuery = true)
+    List<Tuple>  findComprasByRangoNative( String fechaDesde,String fechaHasta);
+
+    //QUERY PARA REPORTE DE COMPRA POR PROVEEDOR Y RANGO DE FECHAS
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
-                "FROM venta v "+
-                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
-                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE fecha_venta between  ?1 AND ?2 ",nativeQuery = true)
-    List<Tuple>  findVentasByRangoNative( String fechaDesde,String fechaHasta);
+                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "FROM compra c "+
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
+                "WHERE c.proveedor_id = ?1 AND TO_DATE(fecha_compra,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
+    List<Tuple>  findComprasByRangoProveedorNative( Long proveedor_id,String fechaDesde,String fechaHasta);
 
-
+    //QUERY PARA REPORTE DE COMPRA POR ESTADO Y RANGO DE FECHAS
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
-                "FROM venta v "+
-                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
-                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.cliente_id = ?1 AND fecha_venta between  ?2 AND ?3 ",nativeQuery = true)
-    List<Tuple>  findVentasByRangoClienteNative( Long cliente_id,String fechaDesde,String fechaHasta);
-
-    @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
-                "FROM venta v "+
-                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
-                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.usuario_id = ?1 AND fecha_venta between  ?2 AND ?3 ",nativeQuery = true)
-    List<Tuple>  findVentasByRangoUsuarioNative( Long usuario_id,String fechaDesde,String fechaHasta);
-
-    @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
-                "FROM venta v "+
-                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
-                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.cliente_id = ?1 ,v.usuario_id = ?2 AND fecha_venta between  ?3 AND ?4 ",nativeQuery = true)
-    List<Tuple>  findVentasByRangoClienteUsuarioNative( Long cliente_id,Long usuario_id);
-
+                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "FROM compra c "+
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
+                "WHERE c.estado = ?1 AND TO_DATE(fecha_compra,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
+    List<Tuple>  findComprasByRangoEstadoNative( String estado,String fechaDesde,String fechaHasta);
 
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
-                "FROM venta v "+
-                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
-                "JOIN usuario u ON u.id_usuario = v.usuario_id "+
-                "WHERE v.cliente_id = ?1 ,v.usuario_id = ?2 AND fecha_venta between  ?3 AND ?4 ",nativeQuery = true)
-    List<Tuple>  findVentasByRangoAllNative( Long cliente_id,Long usuario_id,String fechaDesde,String fechaHasta);
-    */
+                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "FROM compra c "+
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id"+
+                "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id" +
+                "WHERE c.proveedor_id = ?1 AND c.estado = ?2 AND AND TO_DATE(fecha_compra,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') ",nativeQuery = true)
+    List<Tuple>  findVentasByRangoAllNative( Long proveedor_id,String estado, String fechaDesde, String fechaHasta);
 
 
 }

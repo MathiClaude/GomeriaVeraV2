@@ -31,7 +31,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
       <i class="bi bi-arrow-bar-down"></i> Descargar PDF
     </button>
   </div>
-  <div id="impresion" style="padding:30px">
+  <div id="impresion" style="padding: 0px 20px">
     <div layout:fragment="content">
       <style>
         .clearfix:after {
@@ -116,37 +116,86 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             </div>
           </div>
           <hr>      
-          <!--titulo-->       
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRC}"></h3>
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRU}"></h3>
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRCU}"></h3>
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRF}"></h3>
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFC}"></h3>
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFU}"></h3>
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRepAll}"></h3>
+          <!--titulo-->
+          <div class="container"> 
+            <div class="row">
+              <div class="col" th:unless="${tRC == '' }">                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRC}"></h3>
+              </div> 
+              <div class="col" th:unless='${tRU=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRU}"></h3>
+              </div>                                  
+              <div class="col" th:unless='${tRCU=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRCU}"></h3>
+              </div> 
+              <div class="col" th:unless='${tRF=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRF}"></h3>           
+              </div>
+              <div class="col" th:unless='${tRFC=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFC}"></h3>           
+              </div>
+              <div class="col" th:unless='${tRFU=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFU}"></h3>           
+              </div>
+              <div class="col" th:unless='${tRepAll=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRepAll}"></h3>           
+              </div>      
+            </div>
+          </div>
           
           <!--descripción--> 
+          <div class="container"> 
+            <div class="row">
+              <div class="col" th:unless="${dRC == '' }">                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRC}"></p>
+              </div> 
+              <div class="col" th:unless='${dRU=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRU}"></p>
+              </div>                                  
+              <div class="col" th:unless='${dRCU=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRCU}"></p>
+              </div> 
+              <div class="col" th:unless='${dRF=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRF}"></p>            
+              </div>
+              <div class="col" th:unless='${dRFC=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRFC}"></p>            
+              </div>
+              <div class="col" th:unless='${dRFU=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRFU}"></p>            
+              </div>
+              <div class="col" th:unless='${dRAll=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRAll}"></p>            
+              </div>      
+            </div>
+          </div>
+
+
+          <!---
           <p style="font-weight: bold; text-align: center;" th:text="${dRC}"></p>
           <p style="font-weight: bold; text-align: center;" th:text="${dRU}"></p>
           <p style="font-weight: bold; text-align: center;" th:text="${dRCU}"></p>
           <p style="font-weight: bold; text-align: center;" th:text="${dRF}"></p>
           <p style="font-weight: bold; text-align: center;" th:text="${dRFU}"></p>
-          <p style="font-weight: bold; text-align: center;" th:text="${dRAll}"></p>
+          <p style="font-weight: bold; text-align: center;" th:text="${dRAll}"></p>-->
           
-          <!---->
+          <!--parámetros-->
           <div class="container"> 
             <div class="row">
-              <div class="col">                    
-                <h6 style="font-weight: bold;" th:text="${pCU}"></h6>
+              <div class="col" th:unless="${pCU == '' }">                    
+                <p style="font-weight: bold;" th:text="${pCU}"></p>
               </div> 
               <div class="col" th:unless='${pCU2=="" }'>                    
-                <h6 style="font-weight: bold;" th:text="${pCU2}"></h6>
+                <p style="font-weight: bold;" th:text="${pCU2}"></p>
               </div>                                  
-              <div class="col">                    
-                <h6 style="font-weight: bold;" th:text="${pDesHas}"></h6>            
+              <div class="col" th:unless="${pDesHas == '' }">                    
+                <p style="font-weight: bold;" th:text="${pDesHas}"></p>            
               </div>
-              <div class="col">                    
-                <h6 style="font-weight: bold;" th:text="${pFechaEmision}"></h6>            
+              <div class="col" th:unless='${fI=="" }'>                    
+                <p style="font-weight: bold;" th:text="${fI}"></p>            
+              </div>
+              <div class="col" th:unless='${pFechaEmision=="" }'>                    
+                <p style="font-weight: bold;" th:text="${pFechaEmision}"></p>            
               </div>      
             </div>
           </div>
@@ -174,7 +223,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <td th:text="${datos.cliente}"></td>
               <td th:text="${datos.fechaVenta}"></td>   
               <td th:text="${datos.usuario}"></td>
-              <td th:text="${datos.montoTotal}"></td>      
+              <td th:text="${datos.montoTotal}"></td>   
             </tr>
           </tbody>
         </table>

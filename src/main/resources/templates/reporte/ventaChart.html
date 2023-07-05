@@ -35,7 +35,20 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     </button>
   </div>
   <div id="impresion" style="padding:20px">
-    
+    <style> 
+      h1 {
+        border-top: 1px solid  #5D6975;
+        border-bottom: 1px solid  #5D6975;
+        color: #5D6975;
+        font-size: 2.4em;
+        line-height: 1.4em;
+        font-weight: normal;
+        text-align: center;
+        margin: 0 0 20px 0;
+        background: url("http://localhost:8080/img/fondo_report_venta.jpg" );
+      }
+      
+    </style>
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -45,11 +58,56 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <body>
       
       <header class="clearfix">        
-        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#00008B">Gráfico estadístico de ventas</b></h1> <!--titulo-->        
-        <hr>      
-        <!-- <span th:text="${titulos}"></span>
-        <span th:text="${datos}"></span>
-        <span th:text="${titulos}"></span> -->
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#FFFFFF">Reporte estadístico de venta</b></h1>
+          <div class="container">
+            <div class="row">
+              <div class="col-7">
+                <img th:src="@{/img/logo_comprobante.png}" style="float: left; width: 180px; height: 80px;">
+                
+              </div>
+              <div class="col-4">
+                <div>
+                  <div><strong>Gomería Vera</strong></div>
+                  <div><strong>Villa Elisa</strong><br /> <strong>Ingavi y Von Poleski</strong></div>
+                  <div><strong>(021) 576-185</strong></div>
+                  <div><a href="mailto:gomeriaVera@gmail.com"><strong>gomeriaVera@gmail.com</strong></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>    
+          <!--titulo-->       
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGCajero}"></h3>
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGCliente}"></h3>
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGProducto}"></h3> 
+          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGAll}"></h3> 
+          
+          <!--descripción--> 
+          <p style="font-weight: bold; text-align: center;" th:text="${dGCajero}"></p>
+          <p style="font-weight: bold; text-align: center;" th:text="${dGCliente}"></p>
+          <p style="font-weight: bold; text-align: center;" th:text="${dGProducto}"></p>
+          <p style="font-weight: bold; text-align: center;" th:text="${dGAll}"></p>
+
+           <!--parámetros-->
+           <div class="container"> 
+            <div class="row">
+              <div class="col">                    
+                <h6 style="font-weight: bold;" th:text="${pCU}"></h6>
+              </div> 
+              <div class="col" th:unless='${pCU2=="" }'>                    
+                <h6 style="font-weight: bold;" th:text="${pCU2}"></h6>
+              </div>                                  
+              <div class="col">                    
+                <h6 style="font-weight: bold;" th:text="${pDesHas}"></h6>            
+              </div>
+              <div class="col">                    
+                <h6 style="font-weight: bold;" th:text="${pFechaEmision}"></h6>            
+              </div>      
+            </div>
+          </div>
+
+          <hr>
+
         <div class="container">
           <div style="height:650px;display:flex;justify-content: center;">
             <canvas id="goodCanvas1" width="50" height="50" aria-label="Hello ARIA World" role="img"></canvas>

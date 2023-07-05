@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.DatoGraficoVentaDTO;
+import com.proyecto.is2.proyecto.controller.dto.ReporteCompraDTO;
 import com.proyecto.is2.proyecto.controller.dto.ReporteVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 
@@ -117,7 +118,7 @@ public class ReporteCompraController {
     OperacionRepository operacionRepository;
 
     @Autowired
-    VentaRepository ventaRepository;
+    CompraRepository ventaRepository;
 
      // llamada a los servicios de venta
      @Autowired
@@ -210,32 +211,61 @@ public class ReporteCompraController {
         return FORM_VIEW;
     }
 
-
-    @GetMapping("/compraReporte")
-    public String formNuevo(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-
-        if(asignarRol) {
-            model.addAttribute("roles", rolService.listar());
+    private List<ReporteCompraDTO> parsearDatosReporteCompra(List<Tuple> datosCrudo){        
+        List<ReporteCompraDTO> lista = new ArrayList<>();
+        for (Tuple elemento : datosCrudo) {
+            lista.add( new ReporteCompraDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString()) );
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
-        model.addAttribute("permisoAsignarRol", asignarRol);
-
-        if(crear) {
-            return FORM_NEW;
-        } else {
-            return FALTA_PERMISO_VIEW;
-        }
+        return lista;
     }
 
-    /* 
-    @GetMapping("/compraReporte/p/{proveedor_id}")
+    @GetMapping("/compraReporte/{proveedor_id}")
     public String reporteCompraProveedor(Model model,@PathVariable String proveedor_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        List<Tuple> datosCompra = compraRepository.findVentasByProveedorNative(new Long(proveedor_id));
-        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+        List<Tuple> datosCompra = ventaRepository.findComprasByProveedorNative(new Long(proveedor_id));
+        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+
+        Cliente cliente = clienteRepository.findByIdCliente(new Long(proveedor_id));
+
+        Float total = new Float(0);
+        for (ReporteCompraDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getMontoTotal());
+        }
+        //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRU",""); // título reporte usuario
+        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRF",""); //título fecha
+        model.addAttribute("dRFC",""); //título fecha y cliente
+        model.addAttribute("dRFU",""); //título fecha y usuario
+        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
+        model.addAttribute("pCU2","");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
+        
+
 
         if(crear) {
             return FORM_NEW;
@@ -244,28 +274,7 @@ public class ReporteCompraController {
         }
     }
 
-
-    @GetMapping("/compraReporte/user/{usuario_id}")
-    public String reporteCompraUser(Model model,@PathVariable String usuario_id) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        List<Tuple> datosCompra = compraRepository.findVentasByProveedorNative(new Long(usuario_id));
-        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
-        model.addAttribute("datos", listaDatos);
-
-        if(crear) {
-            return FORM_NEW;
-        } else {
-            return FALTA_PERMISO_VIEW;
-        }
-    } */
-
-
     
-
-
-
-
 
     @GetMapping("/graficoDona")
     public String verReporte(Model model) {
@@ -361,162 +370,6 @@ public class ReporteCompraController {
         }
     }
 
-    @GetMapping("/{id}")
-    public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        Venta venta;
-
-        // validar el id
-        try {
-            Long idVenta = Long.parseLong(id);
-            venta = ventaService.existeVenta(idVenta);
-        } catch(Exception e) {
-            return RD_FORM_VIEW;
-        }
-
-        model.addAttribute("user", venta);
-
-        // validar si puede cambiar de rol
-        if(asignarRol) {
-            model.addAttribute("roles", rolService.listar());
-        }
-        model.addAttribute("permisoAsignarRol", asignarRol);
-
-        if(eliminar) {
-            return FORM_EDIT;
-        } else {
-            return FALTA_PERMISO_VIEW;
-        }
-    }
-
-    @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("venta") VentaDTO objetoDTO,
-                                   BindingResult result, RedirectAttributes attributes) {
-        this.operacion = "actualizar-";
-        Venta venta;
-
-        if (result.hasErrors()) {
-//            studentDTO.setId(id);
-            return RD_FORM_VIEW;
-        }
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            venta = ventaService.existeVenta(id);
-            if(venta != null) {
-                ventaService.convertirDTO(venta, objetoDTO);
-
-                // si tiene permiso se le asigna el rol con id del formulario
-                // sino se queda con el mismo rol.
-                /*if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
-                    venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-                }*/
-
-                attributes.addFlashAttribute("message", "¡Venta actualizado correctamente!");
-                ventaService.guardar(venta);
-                return RD_FORM_VIEW;
-            }
-        }
-        return RD_FALTA_PERMISO_VIEW;
-    }
-
-    @GetMapping("/{id}/delete")
-        public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
-        this.operacion = "eliminar-";
-        Long idVenta;
-
-        try {
-            idVenta = Long.parseLong(id);
-        } catch (Exception e) {
-            return RD_FORM_VIEW;
-        }
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Venta venta = ventaService.obtenerVenta(idVenta);
-            ventaService.eliminarVenta(venta);
-            attributes.addFlashAttribute("message", "¡Venta eliminado correctamente!");
-            return RD_FORM_VIEW;
-        } else {
-            return RD_FALTA_PERMISO_VIEW;
-        }
-    }
-
-    @Transactional
-    @PostMapping(DATA_CREATE_URL)
-    public String crearObjeto(@RequestParam(name = "arr[]") String[] arr,
-                              @RequestParam(name = "moneda", required = false) String[] moneda,
-                              @RequestParam(name = "proveedor", required = false) Long proveedor,
-                              @RequestParam(name = "tipo_pago", required = false) String tipoPago,
-                              @RequestParam(name = "total_operacion", required = false) String total,
-                              @RequestParam(name = "direccion", required = false) String direccion,
-                              @RequestParam(name = "observacion", required = false) String observacion,
-                              Model model, RedirectAttributes attributes) {
-
-        boolean privillege = usuarioService.tienePermiso(Permisos.WRITE_COMPRAS_PRIVILEGE.name);
-        for(int i=0; i < arr.length; i++) {
-            System.out.println(arr[i]);
-        }
-        if (false) {
-
-            try {
-                Venta obj = ventaService.guardar(new Venta());
-                List<Item> listItems = new ArrayList<>();
-                Proveedor objProveedor = proveedorService.obtenerProveedor(proveedor);
-                String username = SecurityContextHolder.getContext().getAuthentication().getName();
-                Usuario usuario = usuarioService.existeUsuario(username);
-
-                for(int i=0; i < arr.length; i++) {
-                    String[] items = arr[i].split("-");
-                    Long idProducto = Long.valueOf(items[0]);
-                    Float cantidad = Float.valueOf(items[1]);
-                    Float costo = Float.valueOf(items[2]);
-
-                    VentaDetalle item = new VentaDetalle();
-                    item.setProducto(productoService.obtenerProducto(idProducto));
-                    item.setCantidad(cantidad);
-                   // item.setCosto(costo);
-                   // item.setOrdenCompra(obj);
-                   // item = itemService.guardar(item);
-                    //listItems.add(item);
-                }
-
-                /*obj.setItems(listItems);
-                obj.setProveedor(objProveedor);
-                obj.setRegistradoPor(usuario);
-                obj.setObservacion(observacion);
-                obj.setEstado(Estados.PENDIENTE.name());
-                obj.setFechaEntrega(null);
-                obj.setDireccionEntrega(direccion);
-                obj.setFechaEmision(LocalDate.now());*/
-
-                ventaService.guardar(obj);
-
-                attributes.addFlashAttribute(ModelAttributes.ALERT_MESSAGE, "Venta registrada correctamente!");
-                attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_SUCCESS);
-
-                //return REDIRECT_VIEW + ORDEN_COMPRA_URL;
-                return VIEW;
-
-            } catch (AuthorizationServiceException e) {
-                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
-                model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
-                model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
-                //return ERROR_VIEW;
-                return VIEW;
-            } catch (Exception e) {
-                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.ERROR_GENERIC);
-                model.addAttribute(ModelAttributes.ERROR_MSG, "");
-                model.addAttribute(ModelAttributes.ERROR_TITLE, e.getMessage());
-                //return ERROR_VIEW;
-                return VIEW;
-            }
-        } else {
-            model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
-            model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
-            model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
-            //return ERROR_VIEW;
-            return VIEW;
-        }
-    }
+    
 
 }

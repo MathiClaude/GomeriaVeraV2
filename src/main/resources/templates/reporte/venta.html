@@ -24,7 +24,7 @@
         <div id="scripts">
             <script>
                 function abrirComprobante(evento){
-                    let url = ""
+                    let url = "http://localhost:8080/venta/ventaReporte/"
                     evento.preventDefault();
                     console.log("Llego a la función");
                     console.log(evento.target.idCajero.value,"Cajero id")
@@ -34,32 +34,32 @@
                     
                     //rango de todes
                     if(evento.target.idCajero.value !="" && evento.target.InputCliente.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){
-                        url= "http://localhost:8080/venta/ventaReporte/"+ "rangoAll/" + evento.target.fechaDesde.value +"/"+ evento.target.fechaHasta.value + "/"+evento.target.InputCliente.value +"/"+ evento.target.idCajero.value
+                        url+=  "rangoAll/" + evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/"+evento.target.InputCliente.value +"/"+ evento.target.idCajero.value
                     
                     // rango de usuario y cliente    
                     } else if (evento.target.idCajero.value !="" && evento.target.InputCliente.value !=""){
-                        url= "http://localhost:8080/venta/ventaReporte/"+ "usuarioCliente/"+ evento.target.idCajero.value +"/"+ evento.target.InputCliente.value
+                        url+= "usuarioCliente/"+ evento.target.idCajero.value +"/"+ evento.target.InputCliente.value
                     
                         
                     // por rango de user y fecha    
                     } else if (evento.target.idCajero.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
-                        url= "http://localhost:8080/venta/ventaReporte/"+ "rangoUsuario/"+ evento.target.fechaDesde.value +"/"+ evento.target.fechaHasta.value + "/" + evento.target.idCajero.value
+                        url+= "rangoUsuario/"+ evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/" + evento.target.idCajero.value
                     
                     // por rango de cliente y fecha
                     } else if (evento.target.InputCliente.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
-                        url= "http://localhost:8080/venta/ventaReporte/" + + "rangoCliente/"+ evento.target.fechaDesde.value + "/" + evento.target.fechaHasta.value + "/" + evento.target.InputCliente.value
+                        url+= "rangoCliente/"+ evento.target.fechaDesde.value.replaceAll("/","-") + "/" + evento.target.fechaHasta.value.replaceAll("/","-") + "/" + evento.target.InputCliente.value
                     
                     // por cajero (user)
                     } else if(evento.target.idCajero.value !=""){
-                        url= "http://localhost:8080/venta/ventaReporte/" + "u/" + evento.target.idCajero.value
+                        url+= "u/" + evento.target.idCajero.value
                     
                     // por clientes
                     } else if (evento.target.InputCliente.value !=""){
-                        url= "http://localhost:8080/venta/ventaReporte/" + "c/" +  evento.target.InputCliente.value
+                        url+= "c/" +  evento.target.InputCliente.value
                     
                     //rango de fechas  
                     } else if (evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){ 
-                        url= "http://localhost:8080/venta/ventaReporte/"+ "rangoFecha/"+ evento.target.fechaDesde.value.replaceAll("/","-") + "/" + evento.target.fechaHasta.value.replaceAll("/","-") 
+                        url+= "rangoFecha/"+ evento.target.fechaDesde.value.replaceAll("/","-") + "/" + evento.target.fechaHasta.value.replaceAll("/","-") 
                     }
                     
                     document.getElementById("datoReporte").src=url;
@@ -88,7 +88,7 @@
                                     <div class="row mb-4">                            
                                         <div class="col">
                                             <div class="form-outline">
-                                                <label for="inputRuc" class="form-label">Cajero</label>                                           
+                                                <label for="inputRuc" class="form-label">Vendedor</label>                                           
                                                 <input type="number" style="display:none"  id="idCajero" name="idCajero" />
                                                 <div class="input-group mb-3">
                                                     <input type="text" name="dscCaja" class="form-control" placeholder="Seleccionar cajero..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCajero" onkeyup="funcionFiltrarCajero(this.value)" onblur="mostrarBuscadorCajero(false)" onfocus="funcionFiltrarCajero(this.value)" autocomplete="off" disabled/>
@@ -121,6 +121,7 @@
                                         <input type="hidden"  id="InputCliente" name="cliente" />
                                         
                                         <div class="input-group mb-3">
+                                            
                                             <input type="text" class="form-control" placeholder="Buscar cliente..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCliente" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)" disabled/>
                                             
                                                 <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCliente').value=''" onmousedown="document.getElementById('InputCliente').value=''">
@@ -192,8 +193,18 @@
                                     <div class="row mb-4 justify-content-center">
                                                                     
                                         <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#myModal">
-                                                <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Informe productos más vendidos</i>
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalProdUnidad">
+                                                <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Informe productos más vendidos por unidades vendidas</i>
+                                            </button>  
+                                        </div>
+                                        <div class="col-sm-12 mb-2">
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalMontoVenta">
+                                                <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Informe productos más vendidos por monto de ventas</i>
+                                            </button>  
+                                        </div>
+                                        <div class="col-sm-12 mb-2">
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalCantidadVenta">
+                                                <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Informe productos más vendidos por cantidad de ventas</i>
                                             </button>  
                                         </div>
                                         <div class="col-sm-12 mb-2">
@@ -201,8 +212,15 @@
                                                 <i class="bi bi-shop-window" id="download-button" onclick="generatePDF()"> Informe servicios más frecuentes</i>
                                             </button>  
                                         </div>
-                                    </div>
-                                    <!--reportes específicos-->
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <div class="card-body">                                    
+                                    <!--gráficos específicos-->
                                     <p style="color: #21618C; text-align: center;"><strong>Gráficos estadísticos</strong></p>
                                     <hr>                                     
                                     <div class="row mb-4 justify-content-center">
@@ -225,7 +243,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         
                         
                         

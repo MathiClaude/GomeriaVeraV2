@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import com.proyecto.is2.proyecto.controller.dto.DatoGraficoVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.ParametrosDonaDTO;
 import com.proyecto.is2.proyecto.controller.dto.ReporteVentaDTO;
+import com.proyecto.is2.proyecto.controller.dto.ReporteVentaProductoDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
@@ -75,6 +76,8 @@ public class ReporteVentaController {
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
     
     final String GRAFICO_ESTADISTICO = "/reporte/ventaChart";
+    final String REPORTE_ESPECIFICO = "/reporte/ventaReportEsp";
+
     //endpoint
     private final static String DATA_CREATE_URL = "/data-create";
 
@@ -208,6 +211,14 @@ public class ReporteVentaController {
     
 
         return FORM_VIEW;
+    }
+
+    private List<ReporteVentaDTO> parsearDatosReporteVenta(List<Tuple> datosCrudo){        List<ReporteVentaDTO> lista = new ArrayList<>();
+        for (Tuple elemento : datosCrudo) {
+            lista.add( new ReporteVentaDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString()) );
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+        return lista;
     }
 
     @GetMapping("/ventaReporte/c/{cliente_id}")
@@ -588,13 +599,67 @@ public class ReporteVentaController {
         }
     }
     
-    private List<ReporteVentaDTO> parsearDatosReporteVenta(List<Tuple> datosCrudo){
-        List<ReporteVentaDTO> lista = new ArrayList<>();
+    /* FUNCION PARA PARSEAR LOS DATOS PARA REPORTES ESPECIFICOS DE PRODUCTOS*/
+     private List<ReporteVentaProductoDTO> parsearDatosReporteProducto(List<Tuple> datosCrudo){        
+        List<ReporteVentaProductoDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {
-            lista.add( new ReporteVentaDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString()) );
+            lista.add( new ReporteVentaProductoDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString()) );
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
         return lista;
+    }
+
+    @GetMapping("/ventaReportEsp/productoCant")
+    public String reporteProductoCantidad(Model model ,@PathVariable String producto_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+
+        List<Tuple> datosVenta = ventaRepository.findInformeProductoCantNative();
+
+        List<ReporteVentaProductoDTO> listaDatos = this.parsearDatosReporteProducto(datosVenta);
+
+ 
+        Float total = new Float(0);
+        // for (ReporteVentaProductoDTO prod : listaDatos) {
+        //     total += Float.parseFloat(prod.get());
+        // }
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","Reporte General de venta");
+
+        //descripción del reporte
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU",""); // descripción reporte usuario
+        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRF",""); //descripción fecha
+        model.addAttribute("dRFC",""); //descripción fecha y cliente
+        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRAll","Este reporte de venta se basa en el vendedor, cliente y rango de fechas seleccionadas, es un reporte completo de acuerdo a lo seleccionado, el mismo cuenta con los siguientes parámetros:");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        // model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
+        model.addAttribute("pCU2", "Vendedor: " );   
+        model.addAttribute("pDesHas","");
+        // model.addAttribute("fI", ""+fechaDesde + " - " + fechaHasta+"");
+        model.addAttribute("fF","Fecha Fin: ");
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
+        if(crear) {
+            return REPORTE_ESPECIFICO;
+        } else {
+            return REPORTE_ESPECIFICO;
+        }
     }
 
 

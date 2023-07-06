@@ -28,6 +28,9 @@ public class Factura {
     @Column(name = "nroDocumento")
     private String nroDocumento;
 
+    @Column(name = "tipo")
+    private String tipo;
+
     @Column(name = "esActual")
     private String esActual;
 

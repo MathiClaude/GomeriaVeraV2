@@ -3,9 +3,11 @@ package com.proyecto.is2.proyecto.services;
 import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
 import com.proyecto.is2.proyecto.model.Compra;
 import com.proyecto.is2.proyecto.model.CompraDetalle;
+import com.proyecto.is2.proyecto.model.Factura;
 import com.proyecto.is2.proyecto.model.Vista;
 import com.proyecto.is2.proyecto.repository.CompraDetalleRepository;
 import com.proyecto.is2.proyecto.repository.CompraRepository;
+import com.proyecto.is2.proyecto.repository.FacturaRepository;
 import com.proyecto.is2.proyecto.repository.VentaDetalleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class CompraServiceImp implements CompraService {
 
     @Autowired
     private CompraDetalleRepository compraDetalleRepository;
+
+     @Autowired
+    private FacturaRepository facturaRepository;
 
     //@Autowired
     //private VistaServiceImp vistaService;
@@ -71,6 +76,10 @@ public class CompraServiceImp implements CompraService {
 
     public CompraDetalle guardarDetalle(CompraDetalle compraDet) {
         return compraDetalleRepository.save(compraDet);    
+    }
+
+    public Factura guardarFactura(Factura factura) {
+        return facturaRepository.save(factura);    
     }
 
     @Override

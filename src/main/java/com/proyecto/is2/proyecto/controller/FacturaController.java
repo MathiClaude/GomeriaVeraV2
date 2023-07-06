@@ -10,6 +10,7 @@ import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.model.Compra;
+import com.proyecto.is2.proyecto.model.Factura;
 import com.proyecto.is2.proyecto.model.Operacion;
 import com.proyecto.is2.proyecto.model.Producto;
 import com.proyecto.is2.proyecto.model.Proveedor;
@@ -317,10 +318,12 @@ public class FacturaController {
 
     @PostMapping("/{id}")
     public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("compra") CompraDTO objetoDTO,
+                                @RequestParam(value="factura") String factura,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
         //Compra venta;
         Compra compra;
+        String[] arrDocumento = factura.split("\\|");
 
         //System.out.println("SE ESTA REALIZANDO LA ACTUALIZACION DE LA FACTURA");                            
 
@@ -333,15 +336,29 @@ public class FacturaController {
             compra = compraService.existeCompra(id);
             if(compra != null) {
                 compraService.convertirDTO(compra, objetoDTO);
-
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
                 /*if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
                     venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
                 }*/
-
                 attributes.addFlashAttribute("message", "¡Compra actualizado correctamente!");
-                compraService.guardar(compra);
+                //compraService.guardar(compra);
+                //se actualiza la compra
+                Compra compraActual = compraService.guardar(compra);
+
+                for (String docCrudo : arrDocumento) {
+                    String[] elementos= docCrudo.split(";");
+
+                    Factura docDet = new Factura();
+                    docDet.setCompra(compraActual);
+                    docDet.setNroDocumento(new String(elementos[0]));
+                    docDet.setTipo(new String(elementos[1]));
+                    docDet.setMonto(new String(elementos[2]));
+                    compraService.guardarFactura(docDet);
+
+
+                }
+
                 return RD_FORM_VIEW;
             }
         }

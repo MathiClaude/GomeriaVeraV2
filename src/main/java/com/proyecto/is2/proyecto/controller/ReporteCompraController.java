@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
+import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
 import com.proyecto.is2.proyecto.controller.dto.DatoGraficoVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.ReporteCompraDTO;
 import com.proyecto.is2.proyecto.controller.dto.ReporteVentaDTO;
@@ -41,6 +42,7 @@ import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
+import com.proyecto.is2.proyecto.repository.ProveedorRepository;
 import com.proyecto.is2.proyecto.repository.VentaRepository;
 import com.proyecto.is2.proyecto.repository.CompraRepository;
 
@@ -78,7 +80,8 @@ public class ReporteCompraController {
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
-    final String GRAFICO_ESTADISTICO = "/reporte/ventaChart";
+
+    final String GRAFICO_ESTADISTICO = "/reporte/compraChart";
 
     //endpoint
     private final static String DATA_CREATE_URL = "/data-create";
@@ -118,6 +121,9 @@ public class ReporteCompraController {
     OperacionRepository operacionRepository;
 
     @Autowired
+    ProveedorRepository proveedorRepository;
+
+    @Autowired
     CompraRepository compraRepository;
 
      // llamada a los servicios de venta
@@ -142,9 +148,9 @@ public class ReporteCompraController {
      * Usuario.
      * @return
      */
-    @ModelAttribute("venta")
-    public VentaDTO instanciarObjetoDTO() {
-        return new VentaDTO();
+    @ModelAttribute("compra")
+    public CompraDTO instanciarObjetoDTO() {
+        return new CompraDTO();
     }
 
     @GetMapping
@@ -162,6 +168,9 @@ public class ReporteCompraController {
             model.addAttribute("listProduct", productoService.listar());//lista los productos
             model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
+
+            model.addAttribute("listarProveedor", proveedorService.listar());//lista los clientes
+
             String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
             Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
@@ -214,7 +223,7 @@ public class ReporteCompraController {
     private List<ReporteCompraDTO> parsearDatosReporteCompra(List<Tuple> datosCrudo){        
         List<ReporteCompraDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {
-            lista.add( new ReporteCompraDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString()));
+            lista.add( new ReporteCompraDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString(),elemento.get(5).toString()));
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
         return lista;
@@ -227,7 +236,7 @@ public class ReporteCompraController {
         List<Tuple> datosCompra = compraRepository.findComprasByProveedorNative(new Long(proveedor_id));
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
-        Cliente cliente = clienteRepository.findByIdCliente(new Long(proveedor_id));
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
 
         Float total = new Float(0);
         for (ReporteCompraDTO compra : listaDatos) {
@@ -248,7 +257,7 @@ public class ReporteCompraController {
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRC","Este reporte de compra se basa en todas las compras realizadas a determinado proveedor, el mismo cuenta con los siguientes parámetros:");        
         model.addAttribute("dRU",""); // título reporte usuario
         model.addAttribute("dRCU",""); // título reporte usuario y cliente
         model.addAttribute("dRF",""); //título fecha
@@ -257,7 +266,7 @@ public class ReporteCompraController {
         model.addAttribute("dRAll","");  //título fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
+        model.addAttribute("pCU2", "Proveedor: " + proveedor.getIdProveedor());
         model.addAttribute("pCU2","");
         model.addAttribute("pDesHas","Desde: ");
         model.addAttribute("fI","");
@@ -482,12 +491,75 @@ public class ReporteCompraController {
         }
     }
 
+    @GetMapping("/compraReporte/estadoProveedor/{estado}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
+    public String estadoProveedor(Model model,@PathVariable String estado,@PathVariable String proveedor_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = compraRepository.findComprasByEstadoProveedorNative(estado, new Long(proveedor_id));
+        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+
+
+
+        Float total = new Float(0);
+        for (ReporteCompraDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getMontoTotal());
+        }
+
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC","");
+        model.addAttribute("tRU","");        
+        model.addAttribute("tRCU","Reporte de Compra por proveedor y Estado");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU",""); // título reporte usuario
+        model.addAttribute("dRCU","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:"); // título reporte estado y cliente
+        model.addAttribute("dRF",""); //título fecha
+        model.addAttribute("dRFC",""); //título fecha y cliente
+        model.addAttribute("dRFU",""); //título fecha y usuario
+        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU","Estado: ");
+        model.addAttribute("pCU2","Proveedor: ");
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI","");
+       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
+        
+
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+
+
+
+
     @GetMapping("/compraReporte/all/{fDesde}/{fHasta}/{estado}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
     public String reporteCompraAll(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String estado,@PathVariable String proveedor_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         List<Tuple> datosCompra = compraRepository.findVentasByRangoAllNative( new Long(proveedor_id), estado, fDesde,fHasta);
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
+
 
         Float total = new Float(0);
         for (ReporteCompraDTO compra : listaDatos) {
@@ -518,9 +590,9 @@ public class ReporteCompraController {
 
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","Estado: ");
-        model.addAttribute("pCU2","");
+        model.addAttribute("pCU2", "Proveedor: " + proveedor.getIdProveedor());
         model.addAttribute("pDesHas","Desde: ");
-        model.addAttribute("fI","");
+        model.addAttribute("fI", ""+ fDesde + " - " + fHasta+"");
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 

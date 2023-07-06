@@ -225,11 +225,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             </thead><!---->
             <tbody id="tablaProductosComprobante"><!---->
               <tr class="text-center" th:each="detalle: ${datosVentaDetalle}">
-                <td th:text="${detalle.producto.codigo}"  ></td>
-                <td th:text="${detalle.producto.nombreProducto}" ></td>
+                <td th:text="${detalle.producto != null} ? ${detalle.producto.codigo} : ${detalle.servicio.codigo} "  ></td>
+                <td th:text="${detalle.producto != null} ? ${detalle.producto.nombreProducto} : ${detalle.servicio.codigo}" ></td>
                 <td th:text="${detalle.cantidad}" ></td>   
-                <td th:text="${detalle.producto.precio}" ></td>
-                <td th:text="${detalle.precio}" ></td>      
+                <td th:text="${detalle.producto != null} ? ${detalle.producto.precio} : ${detalle.servicio.codigo}" ></td>
+                <td th:text="${detalle.precio} " ></td>      
               </tr>
             </tbody>
           </table>

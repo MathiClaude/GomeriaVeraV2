@@ -246,9 +246,11 @@ public class ReporteCompraController {
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
         model.addAttribute("totalMonto", total);
+
+
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRC","Reporte de compra por proveedor"); 
         model.addAttribute("tRU","");        
         model.addAttribute("tRCU","");
         model.addAttribute("tRF","");
@@ -258,18 +260,18 @@ public class ReporteCompraController {
 
         //descripción del reporte
         model.addAttribute("dRC","Este reporte de compra se basa en todas las compras realizadas a determinado proveedor, el mismo cuenta con los siguientes parámetros:");        
-        model.addAttribute("dRU",""); // título reporte usuario
-        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRU",""); // título reporte estado
+        model.addAttribute("dRCU",""); // título reporte estado y proveedor
         model.addAttribute("dRF",""); //título fecha
-        model.addAttribute("dRFC",""); //título fecha y cliente
-        model.addAttribute("dRFU",""); //título fecha y usuario
-        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+        model.addAttribute("dRFC",""); //título fecha y proveedor
+        model.addAttribute("dRFU",""); //título fecha y estado
+        model.addAttribute("dRAll","");  //título fecha, proveedor y estado
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU2", "Proveedor: " + proveedor.getIdProveedor());
-        model.addAttribute("pCU2","");
+        model.addAttribute("pCU", "Proveedor: " + proveedor.getNombre());
+        model.addAttribute("pCU2",""); //estado  
         model.addAttribute("pDesHas","Desde: ");
-        model.addAttribute("fI","");
+        model.addAttribute("fI", "");
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
@@ -298,10 +300,11 @@ public class ReporteCompraController {
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
         model.addAttribute("totalMonto", total);
+
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","Reporte de Compra por proveedor");
-        model.addAttribute("tRU","");        
+        model.addAttribute("tRC",""); 
+        model.addAttribute("tRU","Reporte de compra por estado");        
         model.addAttribute("tRCU","");
         model.addAttribute("tRF","");
         model.addAttribute("tRFC","");
@@ -309,19 +312,78 @@ public class ReporteCompraController {
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
-        model.addAttribute("dRU",""); // título reporte usuario
-        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU","Este reporte de compra se basa en todas las compras realizadas basados en el estado seleccionado, el mismo cuenta con los siguientes parámetros:"); // título reporte estado
+        model.addAttribute("dRCU",""); // título reporte estado y proveedor
         model.addAttribute("dRF",""); //título fecha
-        model.addAttribute("dRFC",""); //título fecha y cliente
-        model.addAttribute("dRFU",""); //título fecha y usuario
-        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+        model.addAttribute("dRFC",""); //título fecha y proveedor
+        model.addAttribute("dRFU",""); //título fecha y estado
+        model.addAttribute("dRAll","");  //título fecha, proveedor y estado
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Estado: " + estado);
-        model.addAttribute("pCU2","");
+        model.addAttribute("pCU", "");
+        model.addAttribute("pCU2","Estado: " + estado); //estado  
         model.addAttribute("pDesHas","Desde: ");
-        model.addAttribute("fI","");
+        model.addAttribute("fI", "");
+       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());// fecha de emisión del reporte
+
+        
+
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    
+
+    @GetMapping("/compraReporte/estadoProveedor/{estado}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
+    public String estadoProveedor(Model model,@PathVariable String estado,@PathVariable String proveedor_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = compraRepository.findComprasByEstadoProveedorNative(estado, new Long(proveedor_id));
+        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+
+
+
+        Float total = new Float(0);
+        for (ReporteCompraDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getMontoTotal());
+        }
+
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRC",""); //proveedor
+        model.addAttribute("tRU",""); //estado  
+        model.addAttribute("tRCU","Reporte de Compra por proveedor y Estado");
+        model.addAttribute("tRF","");
+        model.addAttribute("tRFC","");
+        model.addAttribute("tRFU","");
+        model.addAttribute("tRepAll","");
+
+        //descripción del reporte
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU",""); // título reporte estado
+        model.addAttribute("dRCU","Este reporte de compra se basa en todas las compras realizadas por el proveedor seleccionado, el mismo cuenta con los siguientes parámetros:"); // título reporte estado y proveedor
+        model.addAttribute("dRF",""); //título fecha
+        model.addAttribute("dRFC",""); //título fecha y proveedor
+        model.addAttribute("dRFU",""); //título fecha y estado
+        model.addAttribute("dRAll","");  //título fecha, proveedor y estado
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCU", "Proveedor: " + proveedor.getNombre());
+        model.addAttribute("pCU2","Estado: " + estado); //estado  
+        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("fI", "");
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
@@ -334,6 +396,7 @@ public class ReporteCompraController {
             return FALTA_PERMISO_VIEW;
         }
     }
+
 
     @GetMapping("/compraReporte/rango/{fDesde}/{fHasta}") // REPORTE DE COMPRA CONDICIONADO POR ESTADO
     public String reporteCompraRango(Model model,@PathVariable String fDesde,@PathVariable String fHasta) {
@@ -352,28 +415,28 @@ public class ReporteCompraController {
         model.addAttribute("totalMonto", total);
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRC","");
         model.addAttribute("tRU","");        
         model.addAttribute("tRCU","");
-        model.addAttribute("tRF","");
+        model.addAttribute("tRF","Reporte de compra por Fecha");
         model.addAttribute("tRFC","");
         model.addAttribute("tRFU","");
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
-        model.addAttribute("dRU",""); // título reporte usuario
-        model.addAttribute("dRCU",""); // título reporte usuario y cliente
-        model.addAttribute("dRF",""); //título fecha
-        model.addAttribute("dRFC",""); //título fecha y cliente
-        model.addAttribute("dRFU",""); //título fecha y usuario
-        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+        model.addAttribute("dRC","");  //descripción reporte proveedor      
+        model.addAttribute("dRU",""); // descripción reporte estado
+        model.addAttribute("dRCU",""); // descripción reporte estado y proveedor
+        model.addAttribute("dRF","Este reporte de compra se basa en el rango de fechas seleccionadas, el mismo cuenta con los siguientes parámetros:"); //descripción fecha
+        model.addAttribute("dRFC",""); //descripción fecha y cliente
+        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Estado: ");
-        model.addAttribute("pCU2","");
+        model.addAttribute("pCU", "Cantidad de proveedores: ");
+        model.addAttribute("pCU2","Cantidad de estados: "); //estado  
         model.addAttribute("pDesHas","Desde: ");
-        model.addAttribute("fI","");
+        model.addAttribute("fI", ""+ fDesde + " - " + fHasta+"");
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
@@ -394,6 +457,8 @@ public class ReporteCompraController {
         List<Tuple> datosCompra = compraRepository.findComprasByRangoProveedorNative(new Long(proveedor_id), fDesde,fHasta);
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
+
         Float total = new Float(0);
         for (ReporteCompraDTO compra : listaDatos) {
             total += Float.parseFloat(compra.getMontoTotal());
@@ -404,32 +469,31 @@ public class ReporteCompraController {
         model.addAttribute("totalMonto", total);
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRC","");
         model.addAttribute("tRU","");        
         model.addAttribute("tRCU","");
         model.addAttribute("tRF","");
-        model.addAttribute("tRFC","");
+        model.addAttribute("tRFC","Reporte de compra por Proveedor y Fecha seleccionada");
         model.addAttribute("tRFU","");
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
-        model.addAttribute("dRU",""); // título reporte usuario
-        model.addAttribute("dRCU",""); // título reporte usuario y cliente
+        model.addAttribute("dRC","");        
+        model.addAttribute("dRU",""); // título reporte estado
+        model.addAttribute("dRCU",""); // título reporte estado y proveedor
         model.addAttribute("dRF",""); //título fecha
-        model.addAttribute("dRFC",""); //título fecha y cliente
-        model.addAttribute("dRFU",""); //título fecha y usuario
-        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+        model.addAttribute("dRFC","Este reporte de compra se basa en el rango de fechas seleccionadas con respecto al proveedor, el mismo cuenta con los siguientes parámetros:"); //título fecha y proveedor
+        model.addAttribute("dRFU",""); //título fecha y estado
+        model.addAttribute("dRAll","");  //título fecha, proveedor y estado
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Estado: ");
-        model.addAttribute("pCU2","");
-        model.addAttribute("pDesHas","Desde: ");
-        model.addAttribute("fI","");
+        model.addAttribute("pCU", "Proveedor: " + proveedor.getNombre());
+        model.addAttribute("pCU2", ""); //estado  
+        model.addAttribute("pDesHas","");
+        model.addAttribute("fI", ""+ fDesde + " - " + fHasta+"");
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
-
-        
+      
 
 
         if(crear) {
@@ -456,84 +520,28 @@ public class ReporteCompraController {
         model.addAttribute("totalMonto", total);
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRC","");
         model.addAttribute("tRU","");        
         model.addAttribute("tRCU","");
         model.addAttribute("tRF","");
         model.addAttribute("tRFC","");
-        model.addAttribute("tRFU","");
-        model.addAttribute("tRepAll","");
-
-        //descripción del reporte
-        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
-        model.addAttribute("dRU",""); // título reporte usuario
-        model.addAttribute("dRCU",""); // título reporte usuario y cliente
-        model.addAttribute("dRF",""); //título fecha
-        model.addAttribute("dRFC",""); //título fecha y cliente
-        model.addAttribute("dRFU",""); //título fecha y usuario
-        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
-
-        //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Estado: ");
-        model.addAttribute("pCU2","");
-        model.addAttribute("pDesHas","Desde: ");
-        model.addAttribute("fI","");
-       
-        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
-
-        
-
-
-        if(crear) {
-            return FORM_NEW;
-        } else {
-            return FALTA_PERMISO_VIEW;
-        }
-    }
-
-    @GetMapping("/compraReporte/estadoProveedor/{estado}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
-    public String estadoProveedor(Model model,@PathVariable String estado,@PathVariable String proveedor_id) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        List<Tuple> datosCompra = compraRepository.findComprasByEstadoProveedorNative(estado, new Long(proveedor_id));
-        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
-
-
-
-        Float total = new Float(0);
-        for (ReporteCompraDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getMontoTotal());
-        }
-
-        Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
-        //java.time.LocalDate.now().toString()
-        model.addAttribute("datos", listaDatos);
-        model.addAttribute("cantidadDetalles", listaDatos.size());
-        model.addAttribute("totalMonto", total);
-        // para cabecera del reporte
-        //título
-        model.addAttribute("tRC","");
-        model.addAttribute("tRU","");        
-        model.addAttribute("tRCU","Reporte de Compra por proveedor y Estado");
-        model.addAttribute("tRF","");
-        model.addAttribute("tRFC","");
-        model.addAttribute("tRFU","");
+        model.addAttribute("tRFU","Reporte de compra por estado y Fecha seleccionada");
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
         model.addAttribute("dRC","");        
-        model.addAttribute("dRU",""); // título reporte usuario
-        model.addAttribute("dRCU","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:"); // título reporte estado y cliente
+        model.addAttribute("dRU",""); // título reporte estado
+        model.addAttribute("dRCU",""); // título reporte estado y proveedor
         model.addAttribute("dRF",""); //título fecha
-        model.addAttribute("dRFC",""); //título fecha y cliente
-        model.addAttribute("dRFU",""); //título fecha y usuario
-        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+        model.addAttribute("dRFC",""); //título fecha y proveedor
+        model.addAttribute("dRFU","Este reporte de compra se basa en el rango de fechas seleccionadas con respecto al estado de las compras realizas, el mismo cuenta con los siguientes parámetros:"); //título fecha y estado
+        model.addAttribute("dRAll","");  //título fecha, proveedor y estado
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Estado: ");
-        model.addAttribute("pCU2","Proveedor: ");
-        model.addAttribute("pDesHas","Desde: ");
-        model.addAttribute("fI","");
+        model.addAttribute("pCU", "");
+        model.addAttribute("pCU2","Estado: " + estado); //estado  
+        model.addAttribute("pDesHas","");
+        model.addAttribute("fI", ""+ fDesde + " - " + fHasta+"");
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
@@ -546,9 +554,6 @@ public class ReporteCompraController {
             return FALTA_PERMISO_VIEW;
         }
     }
-
-
-
 
 
     @GetMapping("/compraReporte/all/{fDesde}/{fHasta}/{estado}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
@@ -571,27 +576,24 @@ public class ReporteCompraController {
         model.addAttribute("totalMonto", total);
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","Reporte de Compra por proveedor");
+        model.addAttribute("tRC","");
         model.addAttribute("tRU","");        
         model.addAttribute("tRCU","");
         model.addAttribute("tRF","");
         model.addAttribute("tRFC","");
         model.addAttribute("tRFU","");
-        model.addAttribute("tRepAll","");
+        model.addAttribute("tRepAll","Reporte General de compra");
 
         //descripción del reporte
-        model.addAttribute("dRC","Este reporte de compra se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
-        model.addAttribute("dRU",""); // título reporte usuario
-        model.addAttribute("dRCU",""); // título reporte usuario y cliente
-        model.addAttribute("dRF",""); //título fecha
-        model.addAttribute("dRFC",""); //título fecha y cliente
-        model.addAttribute("dRFU",""); //título fecha y usuario
-        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
+        model.addAttribute("dRF",""); //descripción fecha
+        model.addAttribute("dRFC",""); //descripción fecha y cliente
+        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRAll","Este reporte de compra se basa en el estado, proveedor y rango de fechas seleccionadas, es un reporte general, el mismo cuenta con los siguientes parámetros:");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Estado: ");
-        model.addAttribute("pCU2", "Proveedor: " + proveedor.getIdProveedor());
-        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pCU", "Proveedor: " + proveedor.getNombre());
+        model.addAttribute("pCU2","Estado: " + estado); //estado  
+        model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+ fDesde + " - " + fHasta+"");
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());

@@ -6,6 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Getter
 @Setter
@@ -76,23 +77,27 @@ public class Producto {
     /* RELACIONES DE BASE DE DATOS */
 
     /** Relacion con tipo producto **/
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tipo_producto_id", referencedColumnName = "idTipoProducto")
+    @JsonBackReference
     private TipoProducto tipoProducto;
 
     /** Relacion con Marcas **/
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "marca_id", referencedColumnName = "idMarca")
+    @JsonBackReference
     private Marca marca;
 
     /** Relacion con Unidad Medida **/
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "unidad_medida_id", referencedColumnName = "idUnidadMedida")
+    @JsonBackReference
     private UnidadMedida unidadMedida;
 
     /** Relacion con Unidad Medida **/
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "proveedor_id", referencedColumnName = "idProveedor")
+    @JsonBackReference
     private Proveedor proveedor;
 
 

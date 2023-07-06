@@ -36,7 +36,7 @@
                     if(evento.target.estado.value !="" && evento.target.InputProveedor.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){
                         url+=  "all/" + evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/"+evento.target.estado.value +"/"+ evento.target.InputProveedor.value
                     
-                    // rango de estado y proveedor -> FALTA ESTE   
+                    // rango de estado y proveedor -> 
                     } else if (evento.target.estado.value !="" && evento.target.InputProveedor.value !=""){
                         url+= "estadoProveedor/"+ evento.target.estado.value +"/"+ evento.target.InputProveedor.value
                     
@@ -91,6 +91,7 @@
                                                 <label for="inputSelectEstado" class="form-label">Estados</label>                                           
                                                 <div class="input-group">
                                                     <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado" onclick="validarEstadoCompra(this.value)" disabled>
+                                                        <option style="" value="">Seleccione Estado</option>
                                                         <option style="background-color: #F9E79F; font-weight: bold;" value="PENDIENTE">PENDIENTE</option>
                                                         <option style="background-color: #AED6F1; font-weight: bold;" value="PARCIALMENTE ENTREGADO">PARCIALMENTE ENTREGADO</option>
                                                         <option style="background-color: #CD6155; font-weight: bold;" value="ANULADO">ANULADO</option>

@@ -213,9 +213,10 @@ public class ReporteVentaController {
         return FORM_VIEW;
     }
 
-    private List<ReporteVentaDTO> parsearDatosReporteVenta(List<Tuple> datosCrudo){        List<ReporteVentaDTO> lista = new ArrayList<>();
+    private List<ReporteVentaDTO> parsearDatosReporteVenta(List<Tuple> datosCrudo){        
+        List<ReporteVentaDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {
-            lista.add( new ReporteVentaDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString()) );
+            lista.add( new ReporteVentaDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString(),elemento.get(5).toString()) );
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
         return lista;
@@ -586,7 +587,7 @@ public class ReporteVentaController {
 
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
-        model.addAttribute("pCU2", "Vendedor: " );   
+        model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());   
         model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+fechaDesde + " - " + fechaHasta+"");
         model.addAttribute("fF","Fecha Fin: ");
@@ -610,12 +611,15 @@ public class ReporteVentaController {
     }
 
     @GetMapping("/ventaReportEsp/productoCant")
-    public String reporteProductoCantidad(Model model ,@PathVariable String producto_id) {
+    public String reporteProductoCantidad(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
 
         List<Tuple> datosVenta = ventaRepository.findInformeProductoCantNative();
 
         List<ReporteVentaProductoDTO> listaDatos = this.parsearDatosReporteProducto(datosVenta);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
  
         Float total = new Float(0);
@@ -630,30 +634,17 @@ public class ReporteVentaController {
 
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","");
-        model.addAttribute("tRU","");        
-        model.addAttribute("tRCU","");
-        model.addAttribute("tRF","");
-        model.addAttribute("tRFC","");
-        model.addAttribute("tRFU","");
-        model.addAttribute("tRepAll","Reporte General de venta");
+        model.addAttribute("tRProdCant"," Reporte de productos más vendidos respecto a la cantidad");
+        model.addAttribute("tRProdMont","");        
 
         //descripción del reporte
-        model.addAttribute("dRC","");        
-        model.addAttribute("dRU",""); // descripción reporte usuario
-        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
-        model.addAttribute("dRF",""); //descripción fecha
-        model.addAttribute("dRFC",""); //descripción fecha y cliente
-        model.addAttribute("dRFU",""); //descripción fecha y usuario
-        model.addAttribute("dRAll","Este reporte de venta se basa en el vendedor, cliente y rango de fechas seleccionadas, es un reporte completo de acuerdo a lo seleccionado, el mismo cuenta con los siguientes parámetros:");  //descripción fecha, cliente y usuario
+        model.addAttribute("dRProdCant","En este reporte se visualizan los 10 productos más vendidos respecto a la cantidad que se vendió");        
+        model.addAttribute("dRProdMont",""); 
+        
 
         //parámetros que serán utilizados para el reporte
-        // model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
-        model.addAttribute("pCU2", "Vendedor: " );   
-        model.addAttribute("pDesHas","");
-        // model.addAttribute("fI", ""+fechaDesde + " - " + fechaHasta+"");
-        model.addAttribute("fF","Fecha Fin: ");
-        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+        model.addAttribute("pUsuarioRepor", "Generado por: " + usuario.getUsername());       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
         if(crear) {
             return REPORTE_ESPECIFICO;
@@ -662,7 +653,49 @@ public class ReporteVentaController {
         }
     }
 
+    @GetMapping("/ventaReportEsp/productoMont")
+    public String reporteProductoMonto(Model model) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
 
+        List<Tuple> datosVenta = ventaRepository.findInformeProductoMontoNative();
+
+        List<ReporteVentaProductoDTO> listaDatos = this.parsearDatosReporteProducto(datosVenta);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+
+
+ 
+        Float total = new Float(0);
+        // for (ReporteVentaProductoDTO prod : listaDatos) {
+        //     total += Float.parseFloat(prod.get());
+        // }
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRProdCant","");
+        model.addAttribute("tRProdMont","Reporte de productos más vendidos respecto al monto");        
+
+        //descripción del reporte
+        model.addAttribute("dRProdCant", "");        
+        model.addAttribute("dRProdMont","En este reporte se visualizan los 10 productos más vendidos respecto al monto recaudado al realizar la venta"); 
+        
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pUsuarioRepor", "Generado por: " + usuario.getUsername());       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
+
+        if(crear) {
+            return REPORTE_ESPECIFICO;
+        } else {
+            return REPORTE_ESPECIFICO;
+        }
+    }
 
     @GetMapping("/graficoDona")
     public String verReporte(Model model) {
@@ -714,21 +747,14 @@ public class ReporteVentaController {
         model.addAttribute("tGAll","");
 
         //descripción del gráfico
-        model.addAttribute("dGCajero",""); // descripción gráfico cajero   
+        model.addAttribute("dGCajero"," El gráfico de donas representa los mejores vendedores basados en el monto recaudado en sus ventas hasta la fecha"); // descripción gráfico cajero   
         model.addAttribute("dGCliente",""); // descripción gráfico cliente
         model.addAttribute("dGProducto",""); // descripción gráfico producto
         model.addAttribute("dGAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pGCajero","Vendedor");
-        model.addAttribute("pGCliente","");
-        model.addAttribute("pGProducto","");
-
-        model.addAttribute("pDesHas","Desde: ");
-        model.addAttribute("fI","Fecha Inicial: ");
-        model.addAttribute("fF","Fecha Fin: ");
-        model.addAttribute("pFechaEmision","Fecha emisión: ");
-
+        model.addAttribute("pGCajero","Generado por: " + usuario.getUsername());        
+        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
 
 
@@ -757,6 +783,23 @@ public class ReporteVentaController {
             lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0]));
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tGCajero","");
+        model.addAttribute("tGCliente","Ranking de clientes");        
+        model.addAttribute("tGProducto","");
+        model.addAttribute("tGAll","");
+
+        //descripción del gráfico
+        model.addAttribute("dGCajero",""); // descripción gráfico cajero   
+        model.addAttribute("dGCliente"," El gráfico de donas representa los mejores clientes, es decir, clientes con más transacciones y está basado en el monto recaudado en sus compras hasta la fecha"); // descripción gráfico cliente
+        model.addAttribute("dGProducto",""); // descripción gráfico producto
+        model.addAttribute("dGAll","");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pGCajero","Generado por: " + usuario.getUsername());        
+        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
@@ -787,6 +830,26 @@ public class ReporteVentaController {
             c++;
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tGCajero","");
+        model.addAttribute("tGCliente","");        
+        model.addAttribute("tGProducto","Ranking de productos");
+        model.addAttribute("tGAll","");
+
+        //descripción del gráfico
+        model.addAttribute("dGCajero",""); // descripción gráfico cajero   
+        model.addAttribute("dGCliente",""); // descripción gráfico cliente
+        model.addAttribute("dGProducto"," El gráfico de donas representa los productos más vendidos hasta la fecha, el mismo está basado en la cantidad"); // descripción gráfico producto
+        model.addAttribute("dGAll","");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pGCajero","Generado por: " + usuario.getUsername());        
+        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
+
+
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");

@@ -23,7 +23,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR PROVEEDOR
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -32,7 +32,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR ESTADO
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -41,7 +41,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR ESTADO Y PROVEEDOR
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -50,7 +50,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR RANGO DE FECHAS
      @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -59,7 +59,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR PROVEEDOR Y RANGO DE FECHAS
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -68,7 +68,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR ESTADO Y RANGO DE FECHAS
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -76,7 +76,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
     List<Tuple>  findComprasByRangoEstadoNative( String estado,String fechaDesde,String fechaHasta);
 
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +

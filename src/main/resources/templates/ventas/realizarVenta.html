@@ -479,8 +479,7 @@
                             <th>Producto</th><!---->
                             <th>Tipo</th><!---->
                             <th>Marca</th><!---->
-                            <th>Impuesto</th><!---->
-                            
+                            <th>Impuesto</th><!---->  
                             <th>Cantidad</th><!---->
                           </tr><!---->
                         </thead><!---->
@@ -498,7 +497,7 @@
                           <tr class="text-center" th:each="producto: ${listProduct}">
                             <td >
                               <a >
-                                <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}','${producto.codigo}',this)|"  />
+                                <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${producto.idProducto }','${producto.precio}','${producto.impuesto}','${producto.nombreProducto}','${producto.codigo}','P',this)|"  />
                               </a>
                             </td>
                             <td th:text="${producto.codigo}"></td>
@@ -509,7 +508,7 @@
                             <td><!---->
                               <div class="btn-group" role="group" aria-label="Basic example">
                                 <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidades('${producto.idProducto }','-')|">-</button>
-                                <input type="number" class="form-control" th:id="${producto.idProducto}" min="0" />
+                                <input type="number" class="form-control" th:id="${producto.idProducto}" min="0" onchange="actualizarListaProductos()"/>
                                 <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidades('${producto.idProducto }','+')|">+</button>
                               </div>
                             </td>
@@ -525,47 +524,35 @@
                       <table id="myTable2" class="table table-sm table-bordered table-hover">
                         <thead style="background-color: #0a4275;">
                           <tr class="text-center"><!---->
+                            <th>Carrito</th><!---->
                             <th>Código</th><!---->
                             <th>Servicio</th><!---->
-                            <th>Tipo de Servicio</th><!---->
+                            <th>Tipo </th><!---->
                             <th>Precio</th><!---->
                             <th>Impuesto</th><!---->
-                            <th>Acción</th><!---->
                           </tr><!---->
                         </thead><!---->
                         <tbody><!---->
-                          <tr th:if="${#lists.isEmpty(listServicios)}"><!---->
+                          <tr th:if="${#lists.isEmpty(listServicio)}"><!---->
                             <td class="text-center fw-bold" ></td><!---->
                             <td class="text-center fw-bold" ></td><!---->
-
                             <td class="text-center fw-bold" >No se encontraron servicios</td><!---->
                             <td class="text-center fw-bold" ></td><!---->
                             <td class="text-center fw-bold" ></td><!---->
                             <td class="text-center fw-bold" ></td><!---->
 
                           </tr><!---->
-                          <tr class="text-center" th:each="servicio: ${listServicios}">
+                          <tr class="text-center" th:each="servicio: ${listServicio}">
+                            <td >
+                              <a >
+                                <input class="form-check-input" type="checkbox" th:attr="onclick=|moverProducto('${servicio.idServicio }','${servicio.precio}','${servicio.impuesto}','${servicio.nombre}','${servicio.codigo}','S',this)|" />
+                              </a>
+                            </td>
                             <td th:text="${servicio.codigo}"></td>
-                            
                             <td th:text="${servicio.nombre}"></td>
-                            <td th:text="${servicio.tipoProducto.descripcion}"></td>
-                            
+                            <td th:text="${servicio.tipoProducto}"></td>
                             <td th:text="${servicio.precio}">Precio</td><!---->
                             <td th:text="${servicio.impuesto}"></td>
-                            
-                            <td><!---->
-                              <div class="btn-group"><!---->
-                                <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 
-                                class="btn btn-sm btn-outline-primary"><!---->
-                                <i class="fa-solid fa-pen-to-square"></i><!---->
-                              </a>
-                              <a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
-                                <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                                  <i class="fa-sharp fa-solid fa-trash"></i>
-                                </button>
-                              </a>
-                            </div>
-                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -577,7 +564,7 @@
             <!--Footer-->
             <div class="modal-footer aria-hidden">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary" onclick="actualizarListaProductos()" data-bs-dismiss="modal">Agregar</button>
+              <button type="button" class="btn btn-primary" onclick="actualizarTabla()" data-bs-dismiss="modal">Agregar</button>
             </div>
           </div> 
         </div>

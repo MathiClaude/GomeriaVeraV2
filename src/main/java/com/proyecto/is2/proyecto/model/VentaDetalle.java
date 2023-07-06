@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,9 +27,15 @@ public class VentaDetalle {
     Float precio;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "producto_id", referencedColumnName = "idProducto")
+    @JsonBackReference
     private Producto producto;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "servicio_id", referencedColumnName = "idServicio")
+    @JsonBackReference
+    private Servicio servicio;
 
     @ManyToOne
     @JoinColumn(name = "venta_id", referencedColumnName = "idVenta")

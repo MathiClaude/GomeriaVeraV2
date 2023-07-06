@@ -2,6 +2,9 @@ package com.proyecto.is2.proyecto.controller;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.proyecto.is2.proyecto.controller.dto.ReporteCompraDTO;
+import com.proyecto.is2.proyecto.controller.dto.ReporteStockDTO;
+import com.proyecto.is2.proyecto.controller.dto.ReporteVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
@@ -27,6 +30,7 @@ import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 
 import com.proyecto.is2.proyecto.services.VentaServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+import com.proyecto.is2.proyecto.services.TipoProductoService;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import com.proyecto.is2.proyecto.services.OperacionServiceImp;
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
@@ -35,6 +39,7 @@ import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
+import com.proyecto.is2.proyecto.repository.ProveedorRepository;
 
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +55,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.Tuple;
 
 /**
  * Controlador encargado de recibir las peticiones
@@ -97,7 +104,13 @@ public class ReporteStockController {
     VentaDetalleService ventaDetalleService;
 
     @Autowired
+    TipoProductoService tipoProductoService;
+
+    @Autowired
     AperturaCajaRepository aperturaCajaRepository;
+
+    @Autowired
+    ProveedorRepository proveedorRepository;
 
     @Autowired
     CajaRepository cajaRepository;
@@ -147,6 +160,8 @@ public class ReporteStockController {
             model.addAttribute("listProduct", productoService.listar());//lista los productos
             model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
+            model.addAttribute("listarTipoProducto", tipoProductoService.listar());//lista los clientes
+            model.addAttribute("listarProveedor", proveedorService.listar());//lista los clientes
             String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
             Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
@@ -195,8 +210,17 @@ public class ReporteStockController {
 
         return FORM_VIEW;
     }
+    
+     private List<ReporteStockDTO> parsearDatosReporteStock(List<Tuple> datosCrudo){        
+        List<ReporteStockDTO> lista = new ArrayList<>();
+        for (Tuple elemento : datosCrudo) {
+            lista.add( new ReporteStockDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString()));
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+        return lista;
+    }
 
-    @GetMapping("/inventarioReporte")
+    @GetMapping("/stockReporte")
     public String formNuevo(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
@@ -205,6 +229,99 @@ public class ReporteStockController {
             model.addAttribute("roles", rolService.listar());
         }
         model.addAttribute("permisoAsignarRol", asignarRol);
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @GetMapping("/stockReporte/p/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR
+    public String reporteCompraProveedor(Model model,@PathVariable String proveedor_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosStock = productoRepository.findStockByProveedorNative(new Long(proveedor_id));
+
+        List<ReporteStockDTO> listaDatos = this.parsearDatosReporteStock(datosStock);
+
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
+
+        Float total = new Float(0);
+        for (ReporteStockDTO stock : listaDatos) {
+            total += Float.parseFloat(stock.getPrecio());
+        }
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRPro","Reporte de stock por proveedor"); 
+        model.addAttribute("tRProd","");        
+
+
+        //descripción del reporte
+        model.addAttribute("dRPro","Este reporte de stock se basa en los proveedores, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRProd",""); // título reporte tipoProducto
+       
+
+        //parámetros que serán utilizados para el reporte
+       model.addAttribute("pUser", "Generado por: " + usuario.getUsername());  
+       model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+
+        
+
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @GetMapping("/stockReporte/tP/{id_tipoProducto}") // REPORTE DE COMPRA CONDICIONADO POR ESTADO
+    public String reporteCompraEstado(Model model,@PathVariable String id_tipoProducto) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = productoRepository.findStockByTipoProNative(id_tipoProducto);
+        List<ReporteStockDTO> listaDatos = this.parsearDatosReporteStock(datosCompra);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+
+        Float total = new Float(0);
+        for (ReporteStockDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getPrecio());
+        }
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRPro",""); 
+        model.addAttribute("tRProd","Reporte de stock por tipo de producto");        
+
+
+        //descripción del reporte
+        model.addAttribute("dRPro","");        
+        model.addAttribute("dRProd","Este reporte de stock se basa en los tipo de productos, el mismo cuenta con los siguientes parámetros:"); // título reporte tipoProducto
+       
+
+        //parámetros que serán utilizados para el reporte
+       model.addAttribute("pUser", "Generado por: " + usuario.getUsername());  
+       model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString()); 
+
+        
+
 
         if(crear) {
             return FORM_NEW;

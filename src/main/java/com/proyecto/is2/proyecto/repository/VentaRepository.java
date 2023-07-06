@@ -15,17 +15,17 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
 
      // Informe de producto mas vendido por cantidad
-    @Query(value="SELECT p.codigo, p.nombre_producto, count(1) cantidad "+
+    @Query(value="SELECT p.codigo, p.nombre_producto, count(1) AS cantidad, sum(v.precio) AS monto "+
                  "FROM venta_detalle v "+
                  "JOIN producto p ON p.id_producto = v.producto_id "+
-                 "GROUP BY nombre_producto,codigo ORDER BY cantidad LIMT 10 ",nativeQuery = true)
+                 "GROUP BY nombre_producto,codigo ORDER BY cantidad DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findInformeProductoCantNative(); 
 
     // Informe de producto mas vendido por montoVentas
-    @Query(value="SELECT p.codigo,p.nombre_producto,count(1) AS cantidad, sum(precio) AS monto "+
+    @Query(value="SELECT p.codigo,p.nombre_producto,count(1) AS cantidad, sum(v.precio) AS monto "+
                  "FROM venta_detalle v "+
                  "JOIN producto p ON p.id_producto = v.producto_id "+
-                 "GROUP BY nombre_producto,codigo ORDER BY monto LIMIT 10 ",nativeQuery = true)
+                 "GROUP BY nombre_producto,codigo ORDER BY monto DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findInformeProductoMontoNative(); 
 
 
@@ -58,7 +58,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
     /*Reporte de Venta {cliente,fechaVenta,nFactura,vendedor,total,impuesto}[cajero,fecha,cliente]*/
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total ,COALESCE(u.username,'admin') as username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total ,COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = v.usuario_id "+

@@ -67,6 +67,37 @@
                     myModalAlternative.show(document.getElementById('modalReporte'));
                     return false
                 }
+                
+                function abrirReportesEspecificos(reporte){
+                    let url = "http://localhost:8080/venta"
+                    if(reporte == "productoCant"){
+                        url += "/ventaReportEsp/productoCant";
+                    }else if(reporte == "productoMont"){
+                        url += "/ventaReportEsp/productoMont";
+                    }
+                    document.getElementById("datoReporte").src=url;
+                    const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
+                    myModalAlternative.show(document.getElementById('modalReporte'));
+                    return false
+
+                }
+                function abrirGraficos(reporte){
+                    let url = "http://localhost:8080/venta"
+                    if(reporte == "rankingVend"){
+                        url += "/graficoDona/cajeros";
+                    }else if(reporte == "rankingProd"){
+                        url += "/graficoDona/productos";
+                    }else if(reporte == "rankingCli"){
+                        url += "/graficoDona/clientes";
+                    }
+                    document.getElementById("datoReporte").src=url;
+                    const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
+                    myModalAlternative.show(document.getElementById('modalReporte'));
+                    return false
+
+                }
+                
+            
             </script>
         </div>
         
@@ -193,17 +224,17 @@
                                     <div class="row mb-4 justify-content-center">                    
                                         <div class="col-sm-12 mb-2">
                                             <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalMontoVenta">
-                                                <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Productos más vendidos por monto de ventas</i>
+                                                <i class="bi bi-basket2-fill" id="download-button" onclick="abrirReportesEspecificos('productoMont')"> Productos más vendidos por monto de ventas</i>
                                             </button>  
                                         </div>
                                         <div class="col-sm-12 mb-2">
                                             <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalCantidadVenta">
-                                                <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Productos más vendidos por cantidad de ventas</i>
+                                                <i class="bi bi-basket2-fill" id="download-button" onclick="abrirReportesEspecificos('productoCant')"> Productos más vendidos por cantidad de ventas</i>
                                             </button>  
                                         </div>
                                         <div class="col-sm-12 mb-2">
                                             <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
-                                                <i class="bi bi-shop-window" id="download-button" onclick="generatePDF()"> Servicios más frecuentes</i>
+                                                <i class="bi bi-shop-window" id="download-button" onclick="abrirReportesEspecificos('productoCant')"> Servicios más frecuentes</i>
                                             </button>  
                                         </div>
                                     </div>                                    
@@ -219,17 +250,17 @@
                                     <hr>                                     
                                     <div class="row mb-4 justify-content-center">
                                         <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirGraficos('rankingVend')">
                                                 <i class="bi bi-pie-chart-fill" id="download-button" > Ranking de vendedores</i>
                                             </button>  
                                         </div> 
                                         <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirGraficos('rankingProd')">
                                                 <i class="bi bi-pie-chart-fill" id="download-button" > Productos más vendidos</i>
                                             </button>  
                                         </div> 
                                         <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirGraficos('rankingCli')">
                                                 <i class="bi bi-pie-chart-fill" id="download-button" > Clientes con más transacciones</i>
                                             </button>  
                                         </div> 

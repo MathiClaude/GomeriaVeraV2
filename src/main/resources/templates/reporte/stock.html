@@ -21,40 +21,11 @@
                             <div class ="card">                           
                                 <div class="card-body">
                                     
-                                    <div class="row mb-4">                            
-                                        <div class="col">
-                                            <div class="form-outline">
-                                                <label for="inputRuc" class="form-label">Marca</label>                           
-                                                <input type="number" style="display:none"  id="idCajero" name="idCajero" />
-                                                <div class="input-group mb-3">
-                                                    <input type="text" name="dscCaja" class="form-control" placeholder="Seleccionar cajero..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCajero" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)" autocomplete="off" disabled/>
-                                                    <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCajero').value=''" onmousedown="document.getElementById('InputCajero').value=''">
-                                                        <i class="bi bi-trash3-fill"></i>
-                                                    </button>
-                                                    <div class="input-group-text">
-                                                        <input type="checkbox" id="checkboxCajero" onclick="habilitarInput('buscadorCajero', 'checkboxCajero')">
-                                                    </div> 
-                                                    
-                                                </div>
-                                                <ul class="list-group" style="position:absolute;z-index:20"  >                      
-                                                    <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionar(this)"></button>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                    </div>
+                                
                                     <!--Filtrar reporte por tipo de producto-->
                                     <!--Buscador de tipo de productos-->
                                     <div class="form-group">
-                                        <label name="tipoProducto" class="form-label">Tipo de producto</label>   
+                                        <label name="tipoProducto" class="form-label">Proveedor</label>   
                                         <input type="hidden"  id="InputProveedor" name="proveedor" />
                                         
                                         <div class="input-group mb-3">
@@ -82,65 +53,39 @@
                                             </ul>
                                             
                                         </div>
-                                    <!--Filtrar reporte por proveedor-->
-                                    <!--Buscador de proveedor-->
+                                    <!--Filtrar reporte por tipo de producto-->
+                                    <!--Buscador de tipo de producto-->
                                     <div class="form-group">
-                                        <label name="proveedor" class="form-label">Proveedor</label>   
-                                        <input type="hidden"  id="InputProveedor" name="proveedor" />
+                                        <label name="tipoProducto" class="form-label">Tipo de producto</label>   
+                                        <input type="hidden"  id="InputTipoProducto" name="tipoProducto" />
                                         
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Seleccionar tipo de producto..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorProveedor" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.va2023-06-30lue)"disabled/>
+                                            <input type="text" class="form-control" placeholder="Seleccionar tipo de producto..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorTipoProducto" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.va2023-06-30lue)"disabled/>
                                             <!--a th:href="@{/clientes/nuevo}" >
                                                 <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
                                                 </!a-->
-                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorProveedor').value=''" onmousedown="document.getElementById('InputProveedor').value=''">
+                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorTipoProducto').value=''" onmousedown="document.getElementById('InputTipoProducto').value=''">
                                                     <i class="bi bi-trash3-fill"></i>
                                                 </button>
                                                 <div class="input-group-text">
-                                                    <input type="checkbox" id="checkboxCliente" onclick="habilitarInput('buscadorProveedor', 'checkboxCliente')">
+                                                    <input type="checkbox" id="checkboxTipoProducto" onclick="habilitarInput('buscadorTipoProducto', 'checkboxTipoProducto')">
                                                 </div>                   
                                                 
                                             </div>
                                             <ul class="list-group" style="position:absolute;z-index:20"  >                      
-                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesProveedor" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesTipoProducto" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesTipoProducto" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesTipoProducto" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesTipoProducto" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesTipoProducto" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesTipoProducto" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesTipoProducto" onmousedown="seleccionar(this)"></button>
+                                                <button type="button" class="list-group-item opcionesTipoProducto" onmousedown="seleccionar(this)"></button>
                                             </ul>
                                             
                                         </div>
+            
                                         
-                                        
-                                        
-                                        
-                                        
-                                        <!--fecha seleccionable en rango-->
-                                        <div class="row mb-4">                            
-                                            <div class="col">
-                                                <div class="form-outline">
-                                                    <label name="fecha" class="form-label">Fecha</label>
-                                                    <div class="input-group">
-
-                                                            <input id="fechaDesde" class="form-control datepicker" disabled/>
-                                                            <div class="input-group-text">a</div>
-                                                            <input id="fechaHasta" class="form-control datepicker" disabled/>
-                                                            <div class="input-group-text">
-                                                                <input type="checkbox" id="checkboxFecha" onclick="habilitarInput('fechaDesde', 'checkboxFecha'); habilitarInput('fechaHasta', 'checkboxFecha')" >
-                                                            </div>
-                                                            
-                                                        
-                                                    </div>        
-                                                    
-                                                </div>
-                                                
-                                            </div>
-                                            
-                                            
-                                        </div>
                                         <!---->
                                         <div class="row mb-4 justify-content-end">
                                             <div class="col-sm-4">
@@ -166,19 +111,15 @@
                                         <p style="color: #21618C; text-align: center;"><strong>Reportes específicos</strong></p>
                                         <hr>                                     
                                         <div class="row mb-4 justify-content-center">
-                                            <div class="col-sm-12 mb-2">
-                                                <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
-                                                    <i class="bi bi-pie-chart-fill" id="download-button" onclick="generatePDF()"> Generar gráfico</i>
-                                                </button>  
-                                            </div>                               
+
                                             <div class="col-sm-12 mb-2">
                                                 <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#myModal">
-                                                    <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Informe productos de mayor cantidad</i>
+                                                    <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Productos con cantidad 0</i>
                                                 </button>  
                                             </div>
                                             <div class="col-sm-12 mb-2">
                                                 <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
-                                                    <i class="bi bi-shop-window" id="download-button" onclick="generatePDF()"> Informe productos de menor cantidad</i>
+                                                    <i class="bi bi-shop-window" id="download-button" onclick="generatePDF()"> ....en la duda</i>
                                                 </button>  
                                             </div>
                                         </div>
@@ -196,13 +137,13 @@
                     <div class="modal-content">                                   
                         <!--Header-->                    
                         <div class="modal-header"> 
-                            <h5 class="modal-title">Reporte venta</h5> <!-- Por que si-->
+                            <h5 class="modal-title">Reporte stock</h5> <!-- Por que si-->
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
                         </div>
                         <!-- Body para modal-->
                         <div class="modal-body">
                             <!-- Tabs navs para modal-->
-                            <iframe th:src="@{/venta/ventaReporte}" width="100%" height="400"></iframe>
+                            <iframe th:src="@{/stock/stockReporte}" width="100%" height="400"></iframe>
                             <!-- Pie del modal -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
@@ -212,8 +153,13 @@
                 </div>
             </div>
             <div>
-                <script th:src="@{/js/buscadorCajero.js}" type="text/javascript"></script>
-                <script th:src="@{/js/buscadorCliente.js}" type="text/javascript"></script>
+                <script type="text/javascript" th:inline="javascript">
+                    let datos = /*[[${listarProveedor}]]*/ null;
+                    let datosProducto = /*[[${listarTipoProducto}]]*/ null;
+                </script>
+                
+                <script th:src="@{/js/buscadorProveedor.js}" type="text/javascript"></script>
+                <script th:src="@{/js/buscadorTipoProducto.js}" type="text/javascript"></script>
                 
                 <script th:src="@{/js/habillitarInput.js}" type="text/javascript"></script>             
                 <script th:src="@{/js/confirmarRegreso.js}" type="text/javascript"></script>             

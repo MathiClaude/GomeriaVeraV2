@@ -34,7 +34,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
       <i class="bi bi-arrow-bar-down"></i> Descargar PDF
     </button>
   </div>
-  <div id="impresion" style="padding:20px">
+  <div id="impresion" style="padding: 0px 20px">
     <style> 
       h1 {
         border-top: 1px solid  #5D6975;
@@ -75,33 +75,57 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               </div>
             </div>
           </div>
-          <hr>    
-          <!--titulo-->       
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGCajero}"></h3>
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGCliente}"></h3>
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGProducto}"></h3> 
-          <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGAll}"></h3> 
+          <hr>
           
+          <!--titulo-->
+          <div class="container"> 
+            <div class="row">
+              <div class="col" th:unless="${tGCajero == '' }">                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGCajero}"></h3>
+              </div> 
+              <div class="col" th:unless='${tGCliente=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGCliente}"></h3>
+              </div>                         
+              
+              <div class="col" th:unless='${tGProducto=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGProducto}"></h3>
+              </div> 
+
+              <div class="col" th:unless='${tGAll=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGAll}"></h3>
+              </div> 
+
+            </div>
+          </div>
+
+
           <!--descripción--> 
-          <p style="font-weight: bold; text-align: center;" th:text="${dGCajero}"></p>
-          <p style="font-weight: bold; text-align: center;" th:text="${dGCliente}"></p>
-          <p style="font-weight: bold; text-align: center;" th:text="${dGProducto}"></p>
-          <p style="font-weight: bold; text-align: center;" th:text="${dGAll}"></p>
+          <div class="container"> 
+            <div class="row">
+              <div class="col" th:unless="${dGCajero == '' }">                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dGCajero}"></p>
+              </div> 
+              <div class="col" th:unless='${dGCliente=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dGCliente}"></p>
+              </div> 
+              <div class="col" th:unless='${dGProducto=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dGProducto}"></p>
+              </div>
+              <div class="col" th:unless='${dGAll=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dGAll}"></p>
+              </div>                                    
+              
+            </div>
+          </div>
 
            <!--parámetros-->
-           <div class="container"> 
+          <div class="container"> 
             <div class="row">
-              <div class="col">                    
-                <h6 style="font-weight: bold;" th:text="${pCU}"></h6>
-              </div> 
-              <div class="col" th:unless='${pCU2=="" }'>                    
-                <h6 style="font-weight: bold;" th:text="${pCU2}"></h6>
-              </div>                                  
-              <div class="col">                    
-                <h6 style="font-weight: bold;" th:text="${pDesHas}"></h6>            
-              </div>
-              <div class="col">                    
-                <h6 style="font-weight: bold;" th:text="${pFechaEmision}"></h6>            
+              <div class="col" th:unless='${pGCajero=="" }'>                    
+                <p style="font-weight: bold;" th:text="${pGCajero}"></p>            
+              </div>                
+              <div class="col" th:unless='${pFechaEmision=="" }'>                    
+                <p style="font-weight: bold;" th:text="${pFechaEmision}"></p>            
               </div>      
             </div>
           </div>
@@ -141,7 +165,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 {
                   label: 'Meses',
                   data: listaDatos,
-                  backgroundColor: ['#ff6384', '#ff9f40', '#ffcd56', '#4bc0c0', '#36a2eb'], 
+                  backgroundColor: ['#ff6384', '#7986CB', '#B2DFDB','#ff9f40', '#ffcd56', '#4bc0c0', '#36a2eb', '#A569BD', '#E8DAEF', '#F1948A', '#F48FB1', '#B2EBF2', '#827717', '#880E4F', '#5E35B1', '#8D6E63', '#2471A3', '#29B6F6'], 
                 }
               ]
             };

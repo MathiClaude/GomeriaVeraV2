@@ -376,7 +376,7 @@ public class FacturaController {
     }*/
 
     @PostMapping("/{id}")
-    public String crearObjeto(@ModelAttribute("compra") CompraDTO objetoDTO,
+    public String actualizarObjeto(@PathVariable Long id,@ModelAttribute("compra") CompraDTO objetoDTO,
                               @RequestParam(value = "c-documentos[]", required = false) String[] documentos,
                               @RequestParam(value = "c-tipos[]", required = false) String[] tipos,
                               @RequestParam(value = "c-montos[]", required = false) String[] montos,
@@ -388,8 +388,10 @@ public class FacturaController {
        // boolean privillege = usuarioService.tienePermiso(Permisos.WRITE_ADMINISTRATION_PRIVILEGE.name());
 
         //f(privillege) {
+            System.out.println("el ide aca es");
+            System.out.println(id);
             try {
-                Compra compra = compraService.obtenerCompra(objetoDTO.getIdCompra());
+                Compra compra = compraService.existeCompra(id);
 
                 //Persona persona = personaService.obtenerInstancia(objetoDTO.getPersona().getIdPersona());
 
@@ -471,16 +473,18 @@ public class FacturaController {
                     }
                     listaDocs = newList;
                 }
-
+                //System.out.println("Hasta aca todo bien 1");
                 //compra.setContactos(listaDocs);
                 compraService.guardar(compra);
+
+                //System.out.println("Hasta aca todo bien 2");
 
                 if(objetoDTO.getIdCompra() == null) {
                     attributes.addFlashAttribute("message", "¡Compra creado correctamente!");
                 } else {
                     attributes.addFlashAttribute("message", "¡Compra actualizado correctamente!");
                 }
-
+                //System.out.println("Hasta aca todo bien 3");
                 //attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_SUCCESS);
             //} catch (AuthorizationServiceException e) {
             } catch (Exception e) {
@@ -504,7 +508,7 @@ public class FacturaController {
             return ERROR_VIEW;
         }*/
         //return REDIRECT_VIEW + PROVEERS_URL;
-        return FORM_VIEW;
+        return RD_FORM_VIEW;
     }
 
     @GetMapping("/{id}/delete")

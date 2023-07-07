@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
+import com.proyecto.is2.proyecto.controller.dto.ProveedorDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
@@ -10,6 +11,7 @@ import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.model.Compra;
+import com.proyecto.is2.proyecto.model.Contacto;
 import com.proyecto.is2.proyecto.model.Factura;
 import com.proyecto.is2.proyecto.model.Operacion;
 import com.proyecto.is2.proyecto.model.Producto;
@@ -31,12 +33,15 @@ import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 import com.proyecto.is2.proyecto.services.VentaServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
+import com.proyecto.is2.proyecto.services.CompraService;
 import com.proyecto.is2.proyecto.services.CompraServiceImp;
+import com.proyecto.is2.proyecto.services.FacturaServiceImp;
 import com.proyecto.is2.proyecto.services.OperacionServiceImp;
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
 import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
+import com.proyecto.is2.proyecto.repository.FacturaRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
 
@@ -104,6 +109,9 @@ public class FacturaController {
     AperturaCajaRepository aperturaCajaRepository;
 
     @Autowired
+    FacturaRepository facturaRepository;
+
+    @Autowired
     CajaRepository cajaRepository;
 
     @Autowired
@@ -114,6 +122,8 @@ public class FacturaController {
     private CompraServiceImp compraService; // llamada a los servicios de producto
     @Autowired
     private ProductoServiceImp productoService; // llamada a los servicios de producto
+    @Autowired
+    private FacturaServiceImp facturaService; // llamada a los servicios de factura
     @Autowired
     private ServicioServiceImp servicioService; // llamada a los servicios de servicio
     @Autowired
@@ -316,7 +326,7 @@ public class FacturaController {
         }
     }
 
-    @PostMapping("/{id}")
+    /*@PostMapping("/{id}")
     public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("compra") CompraDTO objetoDTO,
                                 @RequestParam(value="factura") String factura,
                                    BindingResult result, RedirectAttributes attributes) {
@@ -338,9 +348,9 @@ public class FacturaController {
                 compraService.convertirDTO(compra, objetoDTO);
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
-                /*if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
-                    venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-                }*/
+                //if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
+                    //venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
+                //}
                 attributes.addFlashAttribute("message", "¡Compra actualizado correctamente!");
                 //compraService.guardar(compra);
                 //se actualiza la compra
@@ -363,6 +373,138 @@ public class FacturaController {
             }
         }
         return RD_FALTA_PERMISO_VIEW;
+    }*/
+
+    @PostMapping("/{id}")
+    public String crearObjeto(@ModelAttribute("compra") CompraDTO objetoDTO,
+                              @RequestParam(value = "c-documentos[]", required = false) String[] documentos,
+                              @RequestParam(value = "c-tipos[]", required = false) String[] tipos,
+                              @RequestParam(value = "c-montos[]", required = false) String[] montos,
+                              RedirectAttributes attributes, Model model, BindingResult result) {
+        if (result.hasErrors()) {
+            return DATA_CREATE_URL;
+        }
+
+       // boolean privillege = usuarioService.tienePermiso(Permisos.WRITE_ADMINISTRATION_PRIVILEGE.name());
+
+        //f(privillege) {
+            try {
+                Compra compra = compraService.obtenerCompra(objetoDTO.getIdCompra());
+
+                //Persona persona = personaService.obtenerInstancia(objetoDTO.getPersona().getIdPersona());
+
+                //List<Factura> listaDocs = null;
+                List<Factura> listaDocs = new ArrayList<>(); 
+                List<Factura> todasLasFacturas = new ArrayList<>(); 
+                todasLasFacturas = facturaService.listarTodos();
+
+                for (Factura factura : todasLasFacturas) {
+                    if (factura.getCompra() == compra) {
+                        listaDocs.add(factura);
+                    }
+                }               
+
+                //if(objetoDTO.getIdCompra() == null && persona != null) {
+                /*if(objetoDTO.getIdCompra() == null) {
+                    throw new Exception("No se puede crear la persona, porque ya existe.");
+                //} else if(objetoDTO.getIdCompra() == null && persona == null) {
+                } else if(objetoDTO.getIdCompra() == null) {
+                    //persona = new Persona();
+                    compra = new Compra();
+                //} else if(objetoDTO.getIdCompra() != null && persona == null) {
+                } else if(objetoDTO.getIdCompra() != null) {
+                    throw new Exception("No se ha podido encontrar la persona asociada al compra.");
+                }*/
+
+                //compra.setPersona(persona);
+                compraService.convertirDTO(compra, objetoDTO);
+                //persona = personaService.guardar(compra.getPersona());
+                //compra.setPersona(persona);
+                //listaDocs = compra.getContactos();
+
+                if(listaDocs == null) {
+                    // si no tiene listaDocs
+                    listaDocs = new ArrayList<>();
+                } else if(documentos == null) {
+                    facturaRepository.deleteAll(listaDocs);
+                    listaDocs.clear();
+                } else {
+                    List<Factura> newList = new ArrayList<>();
+                    // listaDocs eliminados o modificados se eliminan
+                    for(int k=0; k < listaDocs.size(); k++) {
+                        boolean flat = false;
+                        for(int i=0; i < documentos.length; i++) {
+                            if(listaDocs.get(k).getNroDocumento().equals(documentos[i]) &&
+                                    listaDocs.get(k).getMonto().equals(montos[i]) &&
+                                    listaDocs.get(k).getTipo().equals(tipos[i])) {
+                                newList.add(listaDocs.get(k));
+                                flat = true;
+                                break;
+                            }
+                        }
+                        if(!flat) {
+                            //compraRespository.delete(listaDocs.get(k));
+                            listaDocs.remove(listaDocs.get(k));
+                        }
+                    }
+                    // elementos agregados o no modificados se agregan a la nueva lista
+                    for(int i=0; i < documentos.length; i++) {
+                        boolean flat = false;
+                        for(int k=0; k < listaDocs.size(); k++) {
+                            if(documentos[i].equals(listaDocs.get(k).getNroDocumento()) &&
+                                    tipos[i].equals(listaDocs.get(k).getTipo()) &&
+                                    montos[i].equals(listaDocs.get(k).getMonto())) {
+                                newList.add(listaDocs.get(k));
+                                flat = true;
+                                break;
+                            }
+                        }
+                        if(!flat) {
+                            Factura tmpFactura = new Factura();
+                            tmpFactura.setNroDocumento(documentos[i]);
+                            tmpFactura.setTipo(tipos[i]);
+                            tmpFactura.setMonto(montos[i]);
+                            tmpFactura.setCompra(compra);
+                            compraService.guardarFactura(tmpFactura);
+                            //newList.add(compraRespository.save(tmpFactura));
+                        }
+                    }
+                    listaDocs = newList;
+                }
+
+                //compra.setContactos(listaDocs);
+                compraService.guardar(compra);
+
+                if(objetoDTO.getIdCompra() == null) {
+                    attributes.addFlashAttribute("message", "¡Compra creado correctamente!");
+                } else {
+                    attributes.addFlashAttribute("message", "¡Compra actualizado correctamente!");
+                }
+
+                //attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_SUCCESS);
+            //} catch (AuthorizationServiceException e) {
+            } catch (Exception e) {
+                /*model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
+                model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
+                model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
+                return ERROR_VIEW;*/
+                return RD_FALTA_PERMISO_VIEW;
+            }/*catch (Exception e) {
+                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.ERROR_GENERIC);
+                model.addAttribute(ModelAttributes.ERROR_MSG, "");
+                model.addAttribute(ModelAttributes.ERROR_TITLE, e.getMessage());
+                return ERROR_VIEW;
+            }*/
+       /*  } else {
+//            attributes.addFlashAttribute(ModelAttributes.ALERT_MESSAGE, ModelAttributes.TITLE_403);
+//            attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_NOTIFICATION);
+            model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
+            model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
+            model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
+            return ERROR_VIEW;
+        }*/
+        //return REDIRECT_VIEW + PROVEERS_URL;
+        return FORM_VIEW;
     }
 
     @GetMapping("/{id}/delete")

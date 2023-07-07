@@ -13,6 +13,8 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
     //public Usuario findByEmail(String email);
     public Compra findByIdCompra(Long idCompra);
 
+    public Compra findByEstado(String estado);
+
     //QUERY PARA GRÁFICO 
     @Query(value="SELECT "+
                  " coalesce(EXTRACT(MONTH from TO_DATE(fecha_compra, 'YYYY-MM-DD')),'0') as mes , count(1) "+

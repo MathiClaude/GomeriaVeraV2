@@ -63,10 +63,21 @@ public class CompraServiceImp implements CompraService {
 
     @Override
     public void convertirDTO(Compra compra, CompraDTO objetoDTO) {
+        //compra.setProveedor(objetoDTO.getIdProveedor());
+       // compra.set
         //permiso.setNombre(objetoDTO.getNombre());
         //permiso.setDescripcion(objetoDTO.getDescripcion());
         //permiso.setVista(vistaService.existeVista(objetoDTO.getIdVista()));
         return;
+    }
+
+    @Override
+    public void getDTO(Compra obj, CompraDTO dto) {
+        //dto.setIdProveedor(obj.getIdProveedor());
+        //dto.getPersona().setTipoPersona(TipoPersona.JURIDICA.name());
+        //dto.getPersona().setTipoDocumento(TipoDocumento.RUC.name());
+        dto.setFacturas(obj.getFacturas());
+        //personaService.getDTO(obj.getPersona(), dto.getPersona());
     }
 
     @Override
@@ -86,6 +97,12 @@ public class CompraServiceImp implements CompraService {
     public List<Compra> listar() {
         return compraRepository.findAll();
     }
+
+    /*@Override
+    public List<Compra> listarPendientes() {
+        return compraRepository.;
+    }*/
+
 
     @Override
     public Compra existeCompra(Long id) {
@@ -109,5 +126,9 @@ public class CompraServiceImp implements CompraService {
             if(permiso.equals(aux.toString())) return true;
         }*/
         return true;
+    }
+
+    public Compra listarComprasPendientes(String estado) {
+        return compraRepository.findByEstado(estado);
     }
 }

@@ -223,6 +223,7 @@ public class CompraController {
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             Compra compra = new Compra();
             Proveedor proveedor = proveedorRepository.findByIdProveedor(objetoDTO.getIdProveedor());
+            //Proveedor proveedor = proveedorService.obtenerInstancia(objetoDTO.getIdProveedor());
             compra.setProveedor(proveedor);
             compra.setMontoTotal(montoCompra);
             compra.setEstado("PENDIENTE");

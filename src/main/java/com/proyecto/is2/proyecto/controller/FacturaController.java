@@ -300,18 +300,24 @@ public class FacturaController {
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         //Venta venta;
         Compra compra;
+        CompraDTO compraDTO = new CompraDTO();
 
         //System.out.println("SE ESTA REALIZANDO LA ENTRADA DE LA FACTURA");  
 
         // validar el id
         try {
+            model.addAttribute("edit", true);
             Long idCompra = Long.parseLong(id);
-            compra = compraService.existeCompra(idCompra);
+            compra = compraService.obtenerCompra(idCompra);
+            compraService.getDTO(compra, compraDTO);
+            model.addAttribute("compra", compra);
+            //solo tenia esta linea de abajo antes
+            //compra = compraService.existeCompra(idCompra);
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("compra", compra);
+       // model.addAttribute("compra", compra);
 
         // validar si puede cambiar de rol
         if(asignarRol) {
@@ -389,9 +395,12 @@ public class FacturaController {
 
         //f(privillege) {
             System.out.println("el ide aca es");
-            System.out.println(id);
+            System.out.println(objetoDTO.getIdCompra());
+            System.out.println("el estado aca es");
+            System.out.println(objetoDTO.getEstado());
             try {
                 Compra compra = compraService.existeCompra(id);
+                compra.setEstado(objetoDTO.getEstado());
 
                 //Persona persona = personaService.obtenerInstancia(objetoDTO.getPersona().getIdPersona());
 
@@ -467,24 +476,24 @@ public class FacturaController {
                             tmpFactura.setTipo(tipos[i]);
                             tmpFactura.setMonto(montos[i]);
                             tmpFactura.setCompra(compra);
-                            compraService.guardarFactura(tmpFactura);
-                            //newList.add(compraRespository.save(tmpFactura));
+                            //compraService.guardarFactura(tmpFactura);//comentado
+                            newList.add(facturaRepository.save(tmpFactura));
                         }
                     }
                     listaDocs = newList;
                 }
-                //System.out.println("Hasta aca todo bien 1");
-                //compra.setContactos(listaDocs);
+                System.out.println("Hasta aca todo bien 1");
+                compra.setFacturas(listaDocs);
                 compraService.guardar(compra);
 
-                //System.out.println("Hasta aca todo bien 2");
+                System.out.println("Hasta aca todo bien 2");
 
                 if(objetoDTO.getIdCompra() == null) {
                     attributes.addFlashAttribute("message", "¡Compra creado correctamente!");
                 } else {
                     attributes.addFlashAttribute("message", "¡Compra actualizado correctamente!");
                 }
-                //System.out.println("Hasta aca todo bien 3");
+                System.out.println("Hasta aca todo bien 3");
                 //attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_SUCCESS);
             //} catch (AuthorizationServiceException e) {
             } catch (Exception e) {

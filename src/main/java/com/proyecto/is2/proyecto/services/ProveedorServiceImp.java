@@ -1,10 +1,13 @@
 package com.proyecto.is2.proyecto.services;
 
+import com.proyecto.is2.proyecto.Util.ModelAttributes;
+import com.proyecto.is2.proyecto.Util.Permisos;
 import com.proyecto.is2.proyecto.controller.dto.ProveedorDTO;
 import com.proyecto.is2.proyecto.model.Proveedor;
 import com.proyecto.is2.proyecto.model.Vista;
 import com.proyecto.is2.proyecto.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,4 +71,11 @@ public class ProveedorServiceImp implements ProveedorService {
         return true;
     }
 
+    public Proveedor obtenerInstancia(Long id) {
+       // boolean consultar = usuarioService.tienePermiso(Permisos.READ_ADMINISTRATION_PRIVILEGE.name());
+
+        //if(!consultar) throw new AuthorizationServiceException(ModelAttributes.TITLE_403);
+
+        return proveedorRepository.findByIdProveedor(id);
+    }
 }

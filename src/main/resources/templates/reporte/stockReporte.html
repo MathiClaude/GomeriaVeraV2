@@ -146,6 +146,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             <div class="row">
               <div class="col" th:unless="${pUser == '' }">                    
                 <p style="font-weight: bold;" th:text="${pUser}"></p>
+              </div>
+              <div class="col" th:unless="${pProveedor == '' }">                    
+                <p style="font-weight: bold;" th:text="${pProveedor}"></p>
+              </div>
+              <div class="col" th:unless="${pTiPro == '' }">                    
+                <p style="font-weight: bold;" th:text="${pTiPro}"></p>
               </div>                               
               <div class="col" th:unless='${pFechaEmision=="" }'>                    
                 <p style="font-weight: bold;" th:text="${pFechaEmision}"></p>            

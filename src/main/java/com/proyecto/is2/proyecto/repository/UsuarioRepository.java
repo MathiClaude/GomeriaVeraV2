@@ -16,4 +16,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
                  "FROM usuario u ",nativeQuery = true)
     List<Tuple> findUsuariosNative();
 
+     // Listado de usuarios
+    @Query(value="SELECT u.id_usuario,u.username,u.email,r.nombre , r.descripcion"+
+                 "FROM usuario u "+
+                 "JOIN rol r ON r.id_rol = u.rol_id",nativeQuery = true)
+    List<Tuple> findListadoUsuariosNative();
+
 }

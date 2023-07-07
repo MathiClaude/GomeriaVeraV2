@@ -62,22 +62,21 @@ import javax.persistence.Tuple;
  * para realizar venta
  */
 @Controller
-@RequestMapping("/venta")
-public class ReporteVentaController {
+@RequestMapping("/caja")
+public class ReporteCajaController {
     final String VIEW = "reporte"; // identificador de la vista
     final String VIEW_PATH = "reporte";
     String operacion = "";
-    final String FORM_VIEW = VIEW_PATH + "/venta";
-    final String FORM_NEW = VIEW_PATH + "/ventaReporte";
+    final String FORM_VIEW = VIEW_PATH + "/caja";
+    final String FORM_NEW = VIEW_PATH + "/cajaReporte";
     final String FORM_EDIT = VIEW_PATH + "/editar";
-    final String RD_FORM_VIEW = "redirect:/venta";
+    final String RD_FORM_VIEW = "redirect:/caja";
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
     
-    final String GRAFICO_ESTADISTICO = "/reporte/ventaChart";
-    final String REPORTE_ESPECIFICO = "/reporte/ventaReportEsp";
-    final String REPORTE_SERVICIO = "/reporte/ventaReportServicio";
+    final String GRAFICO_ESTADISTICO = "/reporte/cajaChart";
+    final String REPORTE_ESPECIFICO = "/reporte/cajaReportEsp";
     final String REPORTE_HISTORIAL = "/reporte/ventaHistorial";
 
 
@@ -766,48 +765,7 @@ public class ReporteVentaController {
         }
     }
 
-    @GetMapping("/ventaReportServicio")
-    public String reporteServicio(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-
-        List<Tuple> datosVenta = ventaRepository.findInformeServicio();
-
-        List<ReporteVentaProductoDTO> listaDatos = this.parsearDatosReporteServicio(datosVenta);
-
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-
-
- 
-        Float total = new Float(0);
-        
-        for (ReporteVentaProductoDTO prod : listaDatos) {
-            total += Float.parseFloat(prod.getMonto());
-        }
-        model.addAttribute("datos", listaDatos);
-        model.addAttribute("cantidadDetalle", listaDatos.size());
-        model.addAttribute("totalMonto", total);
-
-
-
-        // para cabecera del reporte
-        //título        
-        model.addAttribute("tRServicioCant","Reporte de servicios más frecuentes");        
-
-        //descripción del reporte             
-        model.addAttribute("dRServi","En este reporte se visualizan los 10 servicios más vendidos respecto a la cantidad acumulada al realizar la venta"); 
-        
-
-        //parámetros que serán utilizados para el reporte
-        model.addAttribute("pUsuarioRepor", "Generado por: " + usuario.getUsername());       
-        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
-
-        if(crear) {
-            return REPORTE_SERVICIO;
-        } else {
-            return REPORTE_SERVICIO;
-        }
-    }
+    
 
 
     @GetMapping("/graficoDona")

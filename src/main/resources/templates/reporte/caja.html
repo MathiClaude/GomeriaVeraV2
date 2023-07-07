@@ -24,7 +24,7 @@
         <div id="scripts">
             <script>
                 function abrirComprobante(evento){
-                    let url = "http://localhost:8080/venta/ventaReporte/"
+                    let url = "http://localhost:8080/caja/cajaReporte/"
                     evento.preventDefault();
                     console.log("Llego a la función");
                     console.log(evento.target.idCajero.value,"Cajero id")
@@ -127,7 +127,7 @@
         
         <div style="display: flex; align-items: right;">
             <img th:src="@{/img/report.png}" class="wp-image" width="40" height="40" style="float: left; margin-right: 5px;">
-            <h1 class="text" style="font-family:Trebuchet MS"><b style= "color:#21618C">REPORTE DE VENTAS</b></h1> 
+            <h1 class="text" style="font-family:Trebuchet MS"><b style= "color:#21618C">REPORTE DE CAJAS</b></h1> 
         </div>
         <hr>
         <!--titulo-->
@@ -143,6 +143,36 @@
                                     <div class="row mb-4">                            
                                         <div class="col">
                                             <div class="form-outline">
+                                                <label for="inputRuc" class="form-label">Caja</label>                                           
+                                                <input type="number" style="display:none"  id="idCaja" name="idCaja" />
+                                                <div class="input-group mb-3">
+                                                    <input type="text" name="dscCaja" class="form-control" placeholder="Seleccionar caja..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCaja" onkeyup="funcionFiltrarCaja(this.value)" onblur="mostrarBuscadorCaja(false)" onfocus="funcionFiltrarCaja(this.value)" autocomplete="off" disabled/>
+                                                    <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCaja').value=''" onmousedown="document.getElementById('InputCaja').value=''">
+                                                        <i class="bi bi-trash3-fill"></i>
+                                                    </button>
+                                                    <div class="input-group-text">
+                                                        <input type="checkbox" id="checkboxCaja" onclick="habilitarInput('buscadorCaja', 'checkboxCaja')">
+                                                    </div> 
+                                                    
+                                                </div>
+                                                <ul class="list-group" style="position:absolute;z-index:20"  >                      
+                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                    <!--Filtrar reporte por Vendedor-->
+                                    <!--Buscador de Vendedor-->
+                                    <div class="form-outline">
                                                 <label for="inputRuc" class="form-label">Vendedor</label>                                           
                                                 <input type="number" style="display:none"  id="idCajero" name="idCajero" />
                                                 <div class="input-group mb-3">
@@ -166,39 +196,6 @@
                                                     <button type="button" class="list-group-item opcionesCajero" onmousedown="seleccionarCajero(this)"></button>
                                                 </ul>
                                             </div>
-                                        </div>
-                                        
-                                        
-                                    </div>
-                                    <!--Filtrar reporte por cliente-->
-                                    <!--Buscador de clientes-->
-                                    <div class="form-group">      
-                                        <input type="hidden"  id="InputCliente" name="cliente" />
-                                        
-                                        <div class="input-group mb-3">
-                                            
-                                            <input type="text" class="form-control" placeholder="Buscar cliente..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCliente" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)" disabled/>
-                                            
-                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCliente').value=''" onmousedown="document.getElementById('InputCliente').value=''">
-                                                    <i class="bi bi-trash3-fill"></i>
-                                                </button>
-                                                
-                                                <div class="input-group-text">
-                                                    <input type="checkbox" id="checkboxCliente" onclick="habilitarInput('buscadorCliente', 'checkboxCliente')">
-                                                </div> 
-                                                
-                                            </div>
-                                            <ul class="list-group" style="position:absolute;z-index:20"  >                      
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                                <button type="button" class="list-group-item opcionesCliente" onmousedown="seleccionar(this)"></button>
-                                            </ul>                                     
-                                    </div>
 
                                     
                                     

@@ -34,22 +34,134 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
       <i class="bi bi-arrow-bar-down"></i> Descargar PDF
     </button>
   </div>
-  <div id="impresion" style="padding:20px">
-    
+  <div id="impresion" style="padding: 0px 20px">
+    <style>
+      .clearfix:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      
+      a {
+        color: #5D6975;
+        text-decoration: underline;
+      }
+      
+      body {
+        position: relative;
+        width: 21cm;  
+        height: 29.7cm; 
+        margin: 0 auto; 
+        color: #001028;
+        background: #FFFFFF; 
+        font-family: Arial, sans-serif; 
+        font-size: 12px; 
+        font-family: Arial;
+      }
+      
+      header {
+        padding: 10px 0;
+        margin-bottom: 30px;
+      }
+      
+      
+      h1 {
+        border-top: 1px solid  #5D6975;
+        border-bottom: 1px solid  #5D6975;
+        color: #5D6975;
+        font-size: 2.4em;
+        line-height: 1.4em;
+        font-weight: normal;
+        text-align: center;
+        margin: 0 0 20px 0;
+        background: url("http://localhost:8080/img/fondo_report_venta.jpg" );
+      }
+      
+      
+      
+      footer {
+        color: #5D6975;
+        width: 100%;
+        height: 30px;
+        position: absolute;
+        bottom: 0;
+        border-top: 1px solid #C1CED9;
+        padding: 8px 0;
+        text-align: center;
+      }
+    </style>
     <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="utf-8">
-      <title>Gomería Vera - Reporte de compra</title>    
+      <title>Gomería Vera - Reporte de venta</title>    
     </head>
     <body>
       
       <header class="clearfix">        
-        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#00008B">Gráfico estadístico de compras</b></h1> <!--titulo-->        
-        <hr>      
-        <!-- <span th:text="${titulos}"></span>
-        <span th:text="${datos}"></span>
-        <span th:text="${titulos}"></span> -->
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#FFFFFF">Reporte estadístico de compra</b></h1>
+          <div class="container">
+            <div class="row">
+              <div class="col-7">
+                <img th:src="@{/img/logo_comprobante.png}" style="float: left; width: 180px; height: 80px;">
+                
+              </div>
+              <div class="col-4">
+                <div>
+                  <div><strong>Gomería Vera</strong></div>
+                  <div><strong>Villa Elisa</strong><br /> <strong>Ingavi y Von Poleski</strong></div>
+                  <div><strong>(021) 576-185</strong></div>
+                  <div><a href="mailto:gomeriaVera@gmail.com"><strong>gomeriaVera@gmail.com</strong></a></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          
+          <!--titulo-->
+          <div class="container"> 
+            <div class="row">
+              <div class="col" th:unless="${tGProducto == '' }">                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGProducto}"></h3>
+              </div>
+              <div class="col" th:unless="${tGProveedor == '' }">                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGProveedor}"></h3>
+              </div> 
+
+            </div>
+          </div>
+
+
+          <!--descripción--> 
+          <div class="container"> 
+            <div class="row">
+              <div class="col" th:unless="${dGProducto == '' }">                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dGProducto}"></p>
+              </div>
+              <div class="col" th:unless="${dGProveedor == '' }">                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dGProveedor}"></p>
+              </div>                           
+              
+            </div>
+          </div>
+
+          <!--parámetros-->
+          <div class="container"> 
+            <div class="row">
+              <div class="col" th:unless='${pGCajero=="" }'>                    
+                <p style="font-weight: bold;  text-align: center;" th:text="${pGCajero}"></p>            
+              </div>
+              <div class="col" th:unless='${pGProveedor=="" }'>                    
+                <p style="font-weight: bold;  text-align: center;" th:text="${pGProveedor}"></p>            
+              </div>
+              <div class="col" th:unless='${pFechaEmision=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${pFechaEmision}"></p>            
+              </div>                       
+            </div>
+          </div>
+
+          <hr>
+
         <div class="container">
           <div style="height:650px;display:flex;justify-content: center;">
             <canvas id="goodCanvas1" width="50" height="50" aria-label="Hello ARIA World" role="img"></canvas>
@@ -83,7 +195,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 {
                   label: 'Meses',
                   data: listaDatos,
-                  backgroundColor: ['#ff6384', '#ff9f40', '#ffcd56', '#4bc0c0', '#36a2eb'], 
+                  backgroundColor: ['#ff6384', '#7986CB', '#B2DFDB','#ff9f40', '#ffcd56', '#4bc0c0', '#36a2eb', '#A569BD', '#E8DAEF', '#F1948A', '#F48FB1', '#B2EBF2', '#827717', '#880E4F', '#5E35B1', '#8D6E63', '#2471A3', '#29B6F6'], 
                 }
               ]
             };
@@ -108,6 +220,41 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           </script>
         </div>
         
+        <hr>
+        <!--título del resumen del gráfico--> 
+        <div class="container"> 
+          <div class="row">
+            <div class="col">          
+              <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" >RESUMEN DEL REPORTE</h3>
+            </div> 
+          </div>
+        </div>
+
+        <!--tabla de resumen-->
+        <!--parámetros-->
+        <div class="container"> 
+          <div class="row">            
+            <div class="col">                    
+              <table class="table table-bordered border-primary">
+                
+                <tr th:if="${resumen=='Producto'}">
+                  <th class="text-center"><strong>DESCRIPCIÓN</strong></th>
+                  <th class="text-center"><strong>CANTIDAD</strong></th>                  
+                </tr>
+                
+                <tbody id="datos"><!---->
+                  <tr class="text-center" th:each="datos: ${datos}">
+                    <td th:text="${datos.mes}"></td>
+                    <td th:text="${#numbers.formatDecimal(datos.cantidad, 0, 'POINT', 0, 'COMMA')}"></td>
+                    
+                  </tr>
+                </tbody>
+              </table>          
+            </div>
+            
+          </div>
+        </div>
+
         
       </div>  
     </body>

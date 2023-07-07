@@ -4,9 +4,11 @@ import java.time.LocalDate;
 
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
+import com.proyecto.is2.proyecto.controller.dto.DatoGraficoCompraDTO;
 import com.proyecto.is2.proyecto.controller.dto.DatoGraficoVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.ReporteCompraDTO;
 import com.proyecto.is2.proyecto.controller.dto.ReporteVentaDTO;
+import com.proyecto.is2.proyecto.controller.dto.ReporteVentaProductoDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 
 import com.proyecto.is2.proyecto.model.Rol;
@@ -82,6 +84,10 @@ public class ReporteCompraController {
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
 
     final String GRAFICO_ESTADISTICO = "/reporte/compraChart";
+    final String REPORTE_ESPECIFICO = "/reporte/compraReportEsp";
+
+
+   
 
     //endpoint
     private final static String DATA_CREATE_URL = "/data-create";
@@ -607,103 +613,197 @@ public class ReporteCompraController {
             return FALTA_PERMISO_VIEW;
         }
     }
+     /* FUNCION PARA PARSEAR LOS DATOS PARA REPORTES ESPECIFICOS DE PRODUCTOS*/
+     private List<ReporteVentaProductoDTO> parsearDatosReporteProducto(List<Tuple> datosCrudo){        
+        List<ReporteVentaProductoDTO> lista = new ArrayList<>();
+        for (Tuple elemento : datosCrudo) {
+            lista.add( new ReporteVentaProductoDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString()) );
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+        return lista;
+    }
+
+    @GetMapping("/compraReportEsp/pC")
+    public String reporteProductoCantidad(Model model) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+
+        List<Tuple> datosCompra = compraRepository.findInformeProductoCantNative();
+
+        List<ReporteVentaProductoDTO> listaDatos = this.parsearDatosReporteProducto(datosCompra);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+
+ 
+        BigDecimal total = new BigDecimal(0);
+        Integer cant = 0;
+        for (ReporteVentaProductoDTO compra : listaDatos) {
+            total = total.add(new BigDecimal(compra.getMonto()));
+            cant ++;
+        }
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        model.addAttribute("cantItems", cant);
+
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRProdCant"," Reporte de productos más comprados respecto a la cantidad");
+        model.addAttribute("tRProdMont","");        
+
+        //descripción del reporte
+        model.addAttribute("dRProdCant","En este reporte se visualizan los 10 productos más comprados");        
+        model.addAttribute("dRProdMont",""); 
+        
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pUsuarioRepor", "Generado por: " + usuario.getUsername());       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
+
+        if(crear) {
+            return REPORTE_ESPECIFICO;
+        } else {
+            return REPORTE_ESPECIFICO;
+        }
+    }
+
 
     
 
-    // @GetMapping("/graficoDona")
-    // public String verReporte(Model model) {
-    //     String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-    //     this.operacion = "crear-";
-    //     String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-    //     Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-    //     List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
-    //     // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-    //     List<Tuple> datosGrafico = ventaRepository.findGraphNative();
-    //     List<DatoGraficoVentaDTO> lista = new ArrayList<>();
-
-    //     for (Tuple elemento : datosGrafico) {
-    //         Integer temp = Integer.parseInt(elemento.get(0).toString().split("\\.")[0]);
-    //         lista.add(new DatoGraficoVentaDTO(meses[temp==0?1:temp], elemento.get(1).toString()));
-    //         // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
-    //     }
-
-
-    //     if(usuarioService.tienePermiso(operacion + VIEW)) {
-    //         model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
-    //         model.addAttribute("datos", lista);
-
-    //         return GRAFICO_ESTADISTICO;
-    //     } else {
-    //         return GRAFICO_ESTADISTICO;
-    //     }
-    // }
-
-    @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("venta") VentaDTO objetoDTO,
-            @RequestParam(value="ventaDetalle") String ventaDetalle,
-                              RedirectAttributes attributes) {
+    @GetMapping("/graficoDona")
+    public String verReporte(Model model) {
+        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
         this.operacion = "crear-";
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
         List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
-        List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-        BigDecimal montoVenta = new BigDecimal(objetoDTO.getMontoVenta());
+        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        List<Tuple> datosGrafico = compraRepository.findGraphNative();
+        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
 
-        String[] arrVentaDetalle = ventaDetalle.split("\\|");
+        for (Tuple elemento : datosGrafico) {
+            Integer temp = Integer.parseInt(elemento.get(0).toString().split("\\.")[0]);
+            lista.add(new DatoGraficoVentaDTO(meses[temp==0?1:temp], elemento.get(1).toString()));
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Venta venta = new Venta();
-            Cliente cliente = clienteRepository.findByIdCliente(objetoDTO.getIdCliente());
-            venta.setCliente(cliente);
-            venta.setMontoTotal(montoVenta);
-            venta.setMontoVenta(montoVenta.toString());
+            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+            model.addAttribute("datos", lista);
 
-            //GUARDAR LA VENTA
-            Venta nuevaVenta = ventaService.guardar(venta);
-            // OBTENER EL ID DE LA VENTA 
-            Long idVenta = nuevaVenta.getIdVenta();
-            
-            for (String detCrudo : arrVentaDetalle) {
-                String[] elementos= detCrudo.split(";");
-                Optional<Producto>  prod = productoRepository.findById(Long.parseLong(elementos[1]));
-
-                VentaDetalle vtaDet = new VentaDetalle();
-                vtaDet.setVenta(nuevaVenta);
-                vtaDet.setCantidad(new Float(elementos[0]));
-                vtaDet.setProducto(prod.get());
-                vtaDet.setPrecio(new Float(elementos[2]));
-                ventaService.guardarDetalle(vtaDet);
-    
-            }
-            // CREAR ESTRUCTURA PARA LA OPERACION A GUARDAR
-            Operacion opEstructura = new Operacion();
-
-            BigDecimal saldoAnterior = null;
-            if(ultMov.size()>0){
-                saldoAnterior = new BigDecimal(ultMov.get(0).getSaldoPosterior());
-            }else{
-                saldoAnterior = new BigDecimal("0");
-
-            }
-            
-            opEstructura.setConcepto("Venta de Productos");
-            opEstructura.setIdCaja(cajaApertura.get(0).getIdCaja());
-            opEstructura.setIdUsuario(usuario.getIdUsuario());
-            opEstructura.setMonto(objetoDTO.getMontoVenta());
-            opEstructura.setFechaOperacion(LocalDate.now().toString());
-            opEstructura.setSaldoAnterior(saldoAnterior.toString());
-            opEstructura.setSaldoPosterior(saldoAnterior.add( montoVenta).toString());
-
-            operacionMov.guardar(opEstructura);
-
-            attributes.addFlashAttribute("message", "¡Venta creada exitosamente!");
-
-            return RD_FORM_VIEW+"/a"+arrVentaDetalle.length+"-e";
+            return GRAFICO_ESTADISTICO;
         } else {
-            return RD_FALTA_PERMISO_VIEW;
+            return GRAFICO_ESTADISTICO;
         }
     }
 
-    
+    @GetMapping("/graficoDona/productos")
+    public String verReporteProductos(Model model) {
+        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        this.operacion = "crear-";
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        
+        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        List<Tuple> datosGrafico = compraRepository.findInformeProductoCantNative();
+        List<DatoGraficoCompraDTO> lista = new ArrayList<>();
+        int c = 0;
+        for (Tuple elemento : datosGrafico) {
+            if(c>=10){
+                break;
+            }
+            lista.add(new DatoGraficoCompraDTO(elemento.get(1).toString(), elemento.get(2).toString().split("\\.")[0]));
+            c++;
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tGProducto","Ranking productos más comprados");
+        model.addAttribute("tGProveedor","");
+
+  
+
+        //descripción del gráfico
+        model.addAttribute("dGProducto"," El gráfico de donas representa los productos más comprados hasta la fecha, el mismo está basado en la cantidad"); // descripción gráfico producto
+        model.addAttribute("dGProveedor",""); // descripción gráfico producto
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pGCajero","Generado por: " + usuario.getUsername());
+        model.addAttribute("pGProveedor","" );
+
+        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
+
+
+        // RESUMEN DEL REPORTE
+        model.addAttribute("resumen","Producto");
+        model.addAttribute("resumen","");
+
+
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+            model.addAttribute("datos", lista);
+
+            return GRAFICO_ESTADISTICO;
+        } else {
+            return GRAFICO_ESTADISTICO;
+        }
+    }
+
+    @GetMapping("/graficoDona/proveedor")
+    public String verReporteProveedor(Model model) {
+        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+        this.operacion = "crear-";
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        
+        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        List<Tuple> datosGrafico = compraRepository.findComprasByProveedorRankingNative();
+        List<DatoGraficoCompraDTO> lista = new ArrayList<>();
+        int c = 0;
+        for (Tuple elemento : datosGrafico) {
+            if(c>=10){
+                break;
+            }
+            lista.add(new DatoGraficoCompraDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0]));
+            c++;
+            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+        }
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tGProducto","");
+        model.addAttribute("tGProveedor","Ranking proveedores");
+
+  
+
+        //descripción del gráfico
+        model.addAttribute("dGProducto",""); // descripción gráfico producto
+        model.addAttribute("dGProveedor"," El gráfico de donas representa a los proveedores de donde se compran los productos hasta la fecha, el mismo está basado en la cantidad"); // descripción gráfico producto
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pGCajero","Generado por: " + usuario.getUsername());
+        // model.addAttribute("pGProveedor","Proveedor: " + proveedor.getName() );
+
+        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
+
+
+        // RESUMEN DEL REPORTE
+        model.addAttribute("resumen","Producto");
+
+
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+            model.addAttribute("datos", lista);
+
+            return GRAFICO_ESTADISTICO;
+        } else {
+            return GRAFICO_ESTADISTICO;
+        }
+    }
 
 }

@@ -75,6 +75,9 @@ public class ReporteStockController {
     final String FALTA_PERMISO_VIEW = "falta-permiso";
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
+
+    final String GRAFICO_ESTADISTICO = "reporte/stockReporte";
+    final String REPORTE_ESPECIFICO = "reporte/stockReportEsp";
     //endpoint
     private final static String DATA_CREATE_URL = "/data-create";
 
@@ -219,7 +222,7 @@ public class ReporteStockController {
         }
         return lista;
     }
-
+    /*
     @GetMapping("/stockReporte")
     public String formNuevo(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
@@ -235,10 +238,10 @@ public class ReporteStockController {
         } else {
             return FALTA_PERMISO_VIEW;
         }
-    }
+    }*/
 
     @GetMapping("/stockReporte/p/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR
-    public String reporteCompraProveedor(Model model,@PathVariable String proveedor_id) {
+    public String reporteStockProveedor(Model model,@PathVariable String proveedor_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         List<Tuple> datosStock = productoRepository.findStockByProveedorNative(new Long(proveedor_id));
@@ -273,7 +276,10 @@ public class ReporteStockController {
        
 
         //parámetros que serán utilizados para el reporte
-       model.addAttribute("pUser", "Generado por: " + usuario.getUsername());  
+       model.addAttribute("pUser", "Generado por: " + usuario.getUsername()); 
+       
+       model.addAttribute("pProveedor", "Proveedor: " + proveedor.getNombre());
+       model.addAttribute("pTiPro", "");
        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         
@@ -285,9 +291,9 @@ public class ReporteStockController {
             return FALTA_PERMISO_VIEW;
         }
     }
-
-    @GetMapping("/stockReporte/tP/{id_tipoProducto}") // REPORTE DE COMPRA CONDICIONADO POR ESTADO
-    public String reporteCompraEstado(Model model,@PathVariable String id_tipoProducto) {
+    
+    @GetMapping("/stockReporte/tP/{id_tipoProducto}") // REPORTE DE STOCK CONDICIONADO POR TIPO DE PRODUCTO
+    public String reporteStockTP(Model model,@PathVariable String id_tipoProducto) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         List<Tuple> datosCompra = productoRepository.findStockByTipoProNative(id_tipoProducto);
@@ -316,9 +322,12 @@ public class ReporteStockController {
         model.addAttribute("dRProd","Este reporte de stock se basa en los tipo de productos, el mismo cuenta con los siguientes parámetros:"); // título reporte tipoProducto
        
 
-        //parámetros que serán utilizados para el reporte
-       model.addAttribute("pUser", "Generado por: " + usuario.getUsername());  
-       model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString()); 
+       //parámetros que serán utilizados para el reporte
+       model.addAttribute("pUser", "Generado por: " + usuario.getUsername()); 
+       
+       model.addAttribute("pProveedor", "");
+       model.addAttribute("pTiPro", "Tipo de producto: " ); //falta
+       model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         
 
@@ -329,6 +338,59 @@ public class ReporteStockController {
             return FALTA_PERMISO_VIEW;
         }
     }
+
+
+    @GetMapping("/stockReporte/tProdProv/{id_tipoProducto}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR ESTADO
+    public String reporteCompraAll(Model model,@PathVariable String id_tipoProducto, @PathVariable String proveedor_id) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        List<Tuple> datosCompra = productoRepository.findStockByTipoProNative(id_tipoProducto);
+        List<ReporteStockDTO> listaDatos = this.parsearDatosReporteStock(datosCompra);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
+
+        Float total = new Float(0);
+        for (ReporteStockDTO compra : listaDatos) {
+            total += Float.parseFloat(compra.getPrecio());
+        }
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRPro",""); 
+        model.addAttribute("tRProd","Reporte de stock por tipo de producto");        
+
+
+        //descripción del reporte
+        model.addAttribute("dRPro","");        
+        model.addAttribute("dRProd","Este reporte de stock se basa en los tipo de productos, el mismo cuenta con los siguientes parámetros:"); // título reporte tipoProducto
+       
+
+       //parámetros que serán utilizados para el reporte
+       model.addAttribute("pUser", "Generado por: " + usuario.getUsername()); 
+       
+       model.addAttribute("pProveedor", "Proveedor: " + proveedor.getNombre());
+
+       model.addAttribute("pTiPro", "Tipo de producto: " ); //falta
+       model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
+
+        
+
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    
 
     @PostMapping("/crear")
     public String crearObjeto(@ModelAttribute("venta") VentaDTO objetoDTO,
@@ -476,82 +538,51 @@ public class ReporteStockController {
         }
     }
 
-    @Transactional
-    @PostMapping(DATA_CREATE_URL)
-    public String crearObjeto(@RequestParam(name = "arr[]") String[] arr,
-                              @RequestParam(name = "moneda", required = false) String[] moneda,
-                              @RequestParam(name = "proveedor", required = false) Long proveedor,
-                              @RequestParam(name = "tipo_pago", required = false) String tipoPago,
-                              @RequestParam(name = "total_operacion", required = false) String total,
-                              @RequestParam(name = "direccion", required = false) String direccion,
-                              @RequestParam(name = "observacion", required = false) String observacion,
-                              Model model, RedirectAttributes attributes) {
+    @GetMapping("/stockRepEsp/listado")
+    public String reporteProductoCantidad(Model model) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        
+        List<Producto> datosStock = productoRepository.findAll();
 
-        boolean privillege = usuarioService.tienePermiso(Permisos.WRITE_COMPRAS_PRIVILEGE.name);
-        for(int i=0; i < arr.length; i++) {
-            System.out.println(arr[i]);
-        }
-        if (false) {
+        // List<ReporteVentaProductoDTO> listaDatos = this.parsearDatosReporteProducto(datosVenta);
 
-            try {
-                Venta obj = ventaService.guardar(new Venta());
-                List<Item> listItems = new ArrayList<>();
-                Proveedor objProveedor = proveedorService.obtenerProveedor(proveedor);
-                String username = SecurityContextHolder.getContext().getAuthentication().getName();
-                Usuario usuario = usuarioService.existeUsuario(username);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
-                for(int i=0; i < arr.length; i++) {
-                    String[] items = arr[i].split("-");
-                    Long idProducto = Long.valueOf(items[0]);
-                    Float cantidad = Float.valueOf(items[1]);
-                    Float costo = Float.valueOf(items[2]);
+ 
+        BigDecimal total = new BigDecimal(0);
+        Float cant = new Float(0);
+        // for (ReporteVentaProductoDTO prod : listaDatos) {
+        //     total = total.add( new BigDecimal(prod.getMonto()));
+        //     cant += Float.parseFloat(prod.getCantProducto());
+        // }
+        model.addAttribute("datos", datosStock);
+        model.addAttribute("cantidadDetalles", datosStock.size());
+        model.addAttribute("totalMonto", total);
+        model.addAttribute("cant", cant);
 
-                    VentaDetalle item = new VentaDetalle();
-                    item.setProducto(productoService.obtenerProducto(idProducto));
-                    item.setCantidad(cantidad);
-                   // item.setCosto(costo);
-                   // item.setOrdenCompra(obj);
-                   // item = itemService.guardar(item);
-                    //listItems.add(item);
-                }
 
-                /*obj.setItems(listItems);
-                obj.setProveedor(objProveedor);
-                obj.setRegistradoPor(usuario);
-                obj.setObservacion(observacion);
-                obj.setEstado(Estados.PENDIENTE.name());
-                obj.setFechaEntrega(null);
-                obj.setDireccionEntrega(direccion);
-                obj.setFechaEmision(LocalDate.now());*/
 
-                ventaService.guardar(obj);
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRProdCant"," Reporte de productos más vendidos respecto a la cantidad");
+        model.addAttribute("tRProdMont","");        
 
-                attributes.addFlashAttribute(ModelAttributes.ALERT_MESSAGE, "Venta registrada correctamente!");
-                attributes.addFlashAttribute(ModelAttributes.ALERT_TYPE, ModelAttributes.ALERT_SUCCESS);
+        //descripción del reporte
+        model.addAttribute("dRProdCant","En este reporte se visualizan los 10 productos más vendidos respecto a la cantidad que se vendió");        
+        model.addAttribute("dRProdMont",""); 
+        
 
-                //return REDIRECT_VIEW + ORDEN_COMPRA_URL;
-                return VIEW;
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pUsuarioRepor", "Generado por: " + usuario.getUsername());       
+        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
-            } catch (AuthorizationServiceException e) {
-                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
-                model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
-                model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
-                //return ERROR_VIEW;
-                return VIEW;
-            } catch (Exception e) {
-                model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.ERROR_GENERIC);
-                model.addAttribute(ModelAttributes.ERROR_MSG, "");
-                model.addAttribute(ModelAttributes.ERROR_TITLE, e.getMessage());
-                //return ERROR_VIEW;
-                return VIEW;
-            }
+        if(crear) {
+            return REPORTE_ESPECIFICO;
         } else {
-            model.addAttribute(ModelAttributes.ERROR_CODE, ModelAttributes.CODE_PRIVILLEGE);
-            model.addAttribute(ModelAttributes.ERROR_MSG, ModelAttributes.MSG_403);
-            model.addAttribute(ModelAttributes.ERROR_TITLE, ModelAttributes.TITLE_403);
-            //return ERROR_VIEW;
-            return VIEW;
+            return REPORTE_ESPECIFICO;
         }
     }
+
 
 }

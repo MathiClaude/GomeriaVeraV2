@@ -35,7 +35,36 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     </button>
   </div>
   <div id="impresion" style="padding: 0px 20px">
-    <style> 
+    <style>
+      .clearfix:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      
+      a {
+        color: #5D6975;
+        text-decoration: underline;
+      }
+      
+      body {
+        position: relative;
+        width: 21cm;  
+        height: 29.7cm; 
+        margin: 0 auto; 
+        color: #001028;
+        background: #FFFFFF; 
+        font-family: Arial, sans-serif; 
+        font-size: 12px; 
+        font-family: Arial;
+      }
+      
+      header {
+        padding: 10px 0;
+        margin-bottom: 30px;
+      }
+      
+      
       h1 {
         border-top: 1px solid  #5D6975;
         border-bottom: 1px solid  #5D6975;
@@ -48,6 +77,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
         background: url("http://localhost:8080/img/fondo_report_venta.jpg" );
       }
       
+      
+      
+      footer {
+        color: #5D6975;
+        width: 100%;
+        height: 30px;
+        position: absolute;
+        bottom: 0;
+        border-top: 1px solid #C1CED9;
+        padding: 8px 0;
+        text-align: center;
+      }
     </style>
     <!DOCTYPE html>
     <html lang="en">
@@ -86,9 +127,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <div class="col" th:unless='${tGCliente=="" }'>                    
                 <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGCliente}"></h3>
               </div>                         
-              
               <div class="col" th:unless='${tGProducto=="" }'>                    
                 <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGProducto}"></h3>
+              </div> 
+              <div class="col" th:unless='${tGServicio=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tGServicio}"></h3>
               </div> 
 
               <div class="col" th:unless='${tGAll=="" }'>                    
@@ -111,6 +154,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <div class="col" th:unless='${dGProducto=="" }'>                    
                 <p style="font-weight: bold; text-align: center;" th:text="${dGProducto}"></p>
               </div>
+              <div class="col" th:unless='${dGServicio=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dGServicio}"></p>
+              </div>
               <div class="col" th:unless='${dGAll=="" }'>                    
                 <p style="font-weight: bold; text-align: center;" th:text="${dGAll}"></p>
               </div>                                    
@@ -118,14 +164,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             </div>
           </div>
 
-           <!--parámetros-->
+          <!--parámetros-->
           <div class="container"> 
             <div class="row">
               <div class="col" th:unless='${pGCajero=="" }'>                    
-                <p style="font-weight: bold;" th:text="${pGCajero}"></p>            
+                <p style="font-weight: bold;  text-align: center;" th:text="${pGCajero}"></p>            
               </div>                
               <div class="col" th:unless='${pFechaEmision=="" }'>                    
-                <p style="font-weight: bold;" th:text="${pFechaEmision}"></p>            
+                <p style="font-weight: bold; text-align: center;" th:text="${pFechaEmision}"></p>            
               </div>      
             </div>
           </div>
@@ -190,6 +236,55 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           </script>
         </div>
         
+        <hr>
+        <!--título del resumen del gráfico--> 
+        <div class="container"> 
+          <div class="row">
+            <div class="col">          
+              <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" >RESUMEN DEL REPORTE</h3>
+            </div> 
+          </div>
+        </div>
+
+        <!--tabla de resumen-->
+        <!--parámetros-->
+        <div class="container"> 
+          <div class="row">
+            <!-- <div class="col" th:unless='${resumen=="" }'>                    
+              <p style="font-weight: bold;  text-align: center;" th:text="${resumen}"></p>            
+            </div>-->
+            <div class="col">                    
+              <table class="table table-bordered border-primary">
+                <tr th:if="${resumen=='Vendedor'}">
+                  <th class="text-center"><strong>DESCRIPCIÓN</strong></th>
+                  <th class="text-center"><strong>CANTIDAD</strong></th>                  
+                </tr>
+                <tr th:if="${resumen=='Producto'}">
+                  <th class="text-center"><strong>DESCRIPCIÓN</strong></th>
+                  <th class="text-center"><strong>MONTO</strong></th>                  
+                </tr>
+                <tr th:if="${resumen=='Servicio'}">
+                  <th class="text-center"><strong>DESCRIPCIÓN</strong></th>
+                  <th class="text-center"><strong>MONTO</strong></th>                  
+                </tr>
+                <tr th:if="${resumen=='Cliente'}">
+                  <th class="text-center"><strong>DESCRIPCIÓN</strong></th>
+                  <th class="text-center"><strong>MONTO</strong></th>                  
+                </tr>
+                <tbody id="datos"><!---->
+                  <tr class="text-center" th:each="datos: ${datos}">
+                    <td th:text="${datos.mes}"></td>
+                    <!-- <td th:text="${datos.cantidad}"></td> -->
+                    <td th:text="${#numbers.formatDecimal(datos.cantidad, 0, 'POINT', 2, 'COMMA')}"></td>
+                    
+                  </tr>
+                </tbody>
+              </table>          
+            </div>
+            
+          </div>
+        </div>
+
         
       </div>  
     </body>

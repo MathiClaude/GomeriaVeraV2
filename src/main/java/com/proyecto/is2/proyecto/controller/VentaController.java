@@ -28,6 +28,7 @@ import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 
 import com.proyecto.is2.proyecto.services.VentaServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+import com.proyecto.is2.proyecto.services.TimbradoServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import com.proyecto.is2.proyecto.services.OperacionServiceImp;
 
@@ -38,6 +39,7 @@ import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
+import com.proyecto.is2.proyecto.repository.ServicioRepository;
 import com.proyecto.is2.proyecto.repository.TimbradoRepository;
 
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
@@ -91,6 +93,9 @@ public class VentaController {
 
     @Autowired
     private OperacionServiceImp operacionMov;
+
+    @Autowired
+    private TimbradoServiceImp timbradoService;
     
     @Autowired
     UsuarioRepository usuarioRepository;
@@ -100,6 +105,10 @@ public class VentaController {
 
     @Autowired
     ProductoRepository productoRepository;
+
+    @Autowired
+    ServicioRepository servicioRepository;
+    
 
     @Autowired
     VentaRepository ventaRepository;
@@ -240,12 +249,18 @@ public class VentaController {
             @RequestParam(value="ventaDetalle") String ventaDetalle,
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
+        //OBTENER LOS DATOS DEL USUARIO LOGUEADO ACTUALMENTE 
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        
+        //OBTENER LOS DATOS DE LA CAJA 
         List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
         List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
         BigDecimal montoVenta = new BigDecimal(objetoDTO.getMontoVenta());
+        BigDecimal montoImpuesto= new BigDecimal(objetoDTO.getMontoImpuesto().toString());
+        Timbrado timbradoActual = timbradoRepository.findByEstado("ACTIVO");
 
+        
         String[] arrVentaDetalle = ventaDetalle.split("\\|");
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
@@ -253,6 +268,9 @@ public class VentaController {
             Cliente cliente = clienteRepository.findByIdCliente(objetoDTO.getIdCliente());
             venta.setCliente(cliente);
             venta.setUsuario(usuario);
+            venta.setTimbrado(timbradoActual);
+            venta.setNroFactura(new BigDecimal(timbradoActual.getNro_actual()));
+            venta.setMontoImpuesto(montoImpuesto);
             venta.setFechaVenta(java.time.LocalDate.now().toString());
             venta.setMontoTotal(montoVenta);
             venta.setMontoVenta(montoVenta.toString());
@@ -264,12 +282,19 @@ public class VentaController {
             
             for (String detCrudo : arrVentaDetalle) {
                 String[] elementos= detCrudo.split(";");
-                Optional<Producto>  prod = productoRepository.findById(Long.parseLong(elementos[1]));
-
                 VentaDetalle vtaDet = new VentaDetalle();
+
+
+                if(elementos[3].equals("S")){
+                    Servicio  serv = servicioRepository.findByIdServicio(Long.parseLong(elementos[1]));
+                    vtaDet.setServicio(serv);
+                }else{
+                    Producto  prod = productoRepository.findByIdProducto(Long.parseLong(elementos[1]));
+                    vtaDet.setProducto(prod);
+                }
+                
                 vtaDet.setVenta(nuevaVenta);
                 vtaDet.setCantidad(new Float(elementos[0]));
-                vtaDet.setProducto(prod.get());
                 vtaDet.setPrecio(new Float(elementos[2]));
                 ventaService.guardarDetalle(vtaDet);
     
@@ -295,6 +320,8 @@ public class VentaController {
 
             operacionMov.guardar(opEstructura);
 
+            timbradoActual.setNro_actual((Integer.parseInt(timbradoActual.getNro_actual())+1) + "");
+            timbradoService.guardar(timbradoActual);
             attributes.addFlashAttribute("message", "¡Venta creada exitosamente!");
             attributes.addFlashAttribute("valor", idVenta);
             //return "http://localhost:8080/comprobante/"+idVenta+"/pdf";
@@ -344,7 +371,7 @@ public class VentaController {
         Venta venta;
 
         if (result.hasErrors()) {
-//            studentDTO.setId(id);
+        //    studentDTO.setId(id);
             return RD_FORM_VIEW;
         }
 

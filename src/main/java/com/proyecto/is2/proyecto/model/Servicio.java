@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,8 +35,9 @@ public class Servicio {
     private Integer impuesto;
 
      /** Relación con tipo producto **/
-     @ManyToOne
+     @ManyToOne(fetch = FetchType.EAGER)
      @JoinColumn(name = "tipo_producto_id", referencedColumnName = "idTipoProducto")
+     @JsonBackReference
      private TipoProducto tipoProducto;
  
 

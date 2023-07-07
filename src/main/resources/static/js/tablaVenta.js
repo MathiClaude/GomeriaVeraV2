@@ -1,6 +1,6 @@
 console.log("Incluido tabla venta")
 let listaProductos =[];
-function moverProducto(idProducto,precio,impuesto,descripcion,codigo,elemento){
+function moverProducto(idProducto,precio,impuesto,descripcion,codigo,tipo,elemento){
 	if(elemento.checked){
 		if(parseInt(precio) < 1 ){
 			Swal.fire({
@@ -9,19 +9,27 @@ function moverProducto(idProducto,precio,impuesto,descripcion,codigo,elemento){
 			elemento.checked=false;
 			return;
 		}
-		listaProductos.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
+		listaProductos.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":(tipo=="P")?0:1,"tipo":tipo})
 	}else{
-		listaProductos = listaProductos.filter((producto)=>producto.idProducto != idProducto)
+		listaProductos = listaProductos.filter((producto)=> (producto.tipo ==tipo && producto.idProducto != idProducto))
 	}
 	// console.log(idProducto,precio,impuesto,"+","test")
 	// console.log(listaProductos)
 }
 function actualizarListaProductos(){
 	for(let elemento of listaProductos){
-		let cantidad = document.getElementById(elemento.idProducto).value
+		let cantidad = 1 ; 
+		if(elemento.tipo=="P"){
+			if(document.getElementById(elemento.idProducto) != null){
+				cantidad = document.getElementById(elemento.idProducto).value
+			}else{
+				cantidad = elemento.cantidad
+			}
+		}
+		console.log(elemento , cantidad)
 		elemento.cantidad = cantidad
 	}
-	actualizarTabla();
+	// actualizarTabla();
 }
 function actualizarTabla(){
 	const TABLA = document.getElementById("productosSeleccionados");
@@ -92,6 +100,7 @@ function modificarCantidades(id,op){
 	if(campo.value ==="" || !( campo.value<1 && op==="-")){
 		campo.value = parseInt((campo.value===""?0:campo.value)) + (op=="+"?1:-1)
 	}
+	actualizarListaProductos();
 }
 
 function mostrarComprobante(){
@@ -154,6 +163,7 @@ function mostrarComprobante(){
 async function guardarDatos(){
 	//Obtenemos la cabecera
 	const TOTAL_EFECTIVO = document.getElementById('inputMontoCliente');
+	const TOTAL_IVA = document.getElementById("idIva"); 
 	const cliente = document.getElementById('InputCliente')
 	if (cliente.value == ""){
 		//alert('debe elegir un cliente');
@@ -176,7 +186,7 @@ async function guardarDatos(){
 	
 	let listaEnviar = "";
 	for(let a of listaProductos){
-		listaEnviar +=`${a.cantidad};${a.idProducto};${a.precio}|`
+		listaEnviar +=`${a.cantidad};${a.idProducto};${a.precio};${a.tipo}|`
 	}
 	//VALIDACION DEL MONTO INGRESADO POR EL CLIENTE 
 	validarMonto(removeNonNumeric(TOTAL_EFECTIVO.value));
@@ -198,6 +208,7 @@ async function guardarDatos(){
 	formData.append("idCliente", cliente.value );
 	formData.append("montoVenta", removeNonNumeric(totalVenta));
 	formData.append("totalVenta", removeNonNumeric(totalVenta));
+	formData.append("montoImpuesto", removeNonNumeric(TOTAL_IVA.value));
 	formData.append("ventaDetalle", listaEnviar);
 
 	console.log(formData)

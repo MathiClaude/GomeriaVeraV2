@@ -15,6 +15,7 @@ public class VentaDTO {
     private String fechaVenta;
     private String esActual;
     private BigDecimal montoTotal;
+    private BigDecimal montoImpuesto;
     private Long idUsuario;
     private Long idCliente;
 

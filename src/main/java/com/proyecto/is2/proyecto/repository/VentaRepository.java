@@ -13,22 +13,44 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     //public Usuario findByEmail(String email);
     public Venta findByIdVenta(Long idVenta);
 
+    /*
+        Nro. de Comprobante
+        Cliente
+        Fecha
+        Vendedor
+        Total
+        Impuesto   
+    */
+    // INFORME DE PRODUCTO MAS VENDIDO POR CANTIDAD
+    @Query(value="SELECT "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total ,COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto , v.id_venta "+
+                "FROM venta v "+
+                "JOIN cliente c ON c.id_cliente = v.cliente_id "+
+                "LEFT JOIN usuario u ON u.id_usuario = v.usuario_id "+
+                "ORDER BY v.id_venta DESC LIMIT 10 ",nativeQuery = true)
+    List<Tuple>  findInformeHistorialNative(); 
 
-     // Informe de producto mas vendido por cantidad
-    @Query(value="SELECT p.codigo, p.nombre_producto, count(1) cantidad "+
+
+    // INFORME DE PRODUCTO MAS VENDIDO POR CANTIDAD
+    @Query(value="SELECT p.codigo, p.nombre_producto, count(1) AS cantidad, sum(v.precio) AS monto "+
                  "FROM venta_detalle v "+
                  "JOIN producto p ON p.id_producto = v.producto_id "+
-                 "GROUP BY nombre_producto,codigo ORDER BY cantidad LIMT 10 ",nativeQuery = true)
+                 "GROUP BY nombre_producto,codigo ORDER BY cantidad DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findInformeProductoCantNative(); 
 
     // Informe de producto mas vendido por montoVentas
-    @Query(value="SELECT p.codigo,p.nombre_producto,count(1) AS cantidad, sum(precio) AS monto "+
+    @Query(value="SELECT p.codigo,p.nombre_producto,count(1) AS cantidad, sum(v.precio) AS monto "+
                  "FROM venta_detalle v "+
                  "JOIN producto p ON p.id_producto = v.producto_id "+
-                 "GROUP BY nombre_producto,codigo ORDER BY monto LIMIT 10 ",nativeQuery = true)
+                 "GROUP BY nombre_producto,codigo ORDER BY monto DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findInformeProductoMontoNative(); 
 
-
+    // Informe de servicios más frecuentes
+    @Query(value="SELECT s.codigo, s.nombre, sum(v.precio) AS monto "+
+                 "FROM venta_detalle v "+
+                 "JOIN servicio s ON s.id_servicio = v.servicio_id "+
+                 "GROUP BY s.nombre,s.codigo ORDER BY monto DESC LIMIT 10 ",nativeQuery = true)
+    List<Tuple>  findInformeServicio(); 
 
     // reporte del gráfico POR CAJERO
     @Query(value="SELECT u.username ,sum(monto_total) total "+
@@ -44,6 +66,13 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
                  "GROUP BY nombre_producto ",nativeQuery = true)
     List<Tuple>  findGraphProductoNative(); 
 
+    // reporte del gráfico servicios más vendido
+    @Query(value="SELECT s.nombre , count(1) as cantidad "+
+                 "FROM venta_detalle v "+
+                 "JOIN servicio s ON s.id_servicio = v.servicio_id "+
+                 "GROUP BY s.nombre ",nativeQuery = true)
+    List<Tuple>  findGraphServicioNative(); 
+
     // reporte del gráfico POR CLIENTE
     @Query(value="SELECT c.name||' '||c.last_name AS cliente,sum(monto_total) total "+
                  "FROM venta v "+
@@ -58,7 +87,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
     /*Reporte de Venta {cliente,fechaVenta,nFactura,vendedor,total,impuesto}[cajero,fecha,cliente]*/
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total ,COALESCE(u.username,'admin') as username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total ,COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = v.usuario_id "+
@@ -66,7 +95,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     List<Tuple>  findVentasByClienteNative( Long cliente_id);
 
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
@@ -75,7 +104,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
 
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
@@ -84,7 +113,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
     
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
@@ -93,7 +122,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
 
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
@@ -101,7 +130,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     List<Tuple>  findVentasByRangoClienteNative( Long cliente_id,String fechaDesde,String fechaHasta);
 
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
@@ -109,7 +138,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
     List<Tuple>  findVentasByRangoUsuarioNative( Long usuario_id,String fechaDesde,String fechaHasta);
 
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+
@@ -118,7 +147,7 @@ public interface VentaRepository extends JpaRepository<Venta, Long> {
 
 
     @Query(value="SELECT "+
-                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+
+                "c.name||' '||c.last_name AS cliente, fecha_venta, monto_total , COALESCE(u.username,'admin') as username,COALESCE(nro_factura,0) AS nro_factura , COALESCE(monto_impuesto,0) AS monto_impuesto "+
                 "FROM venta v "+
                 "JOIN cliente c ON c.id_cliente = v.cliente_id "+
                 "JOIN usuario u ON u.id_usuario = v.usuario_id "+

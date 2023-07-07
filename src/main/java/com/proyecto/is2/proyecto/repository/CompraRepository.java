@@ -22,10 +22,25 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
     List<Tuple>  findGraphNative(); 
     
 
+    // Informe de producto más comprados por cantidad
+    @Query(value="SELECT p.codigo, p.nombre_producto, count(1) AS cantidad, sum(v.precio) AS monto "+
+                 "FROM venta_detalle v "+
+                 "JOIN producto p ON p.id_producto = v.producto_id "+
+                 "GROUP BY nombre_producto,codigo ORDER BY cantidad DESC LIMIT 10 ",nativeQuery = true)
+    List<Tuple>  findInformeProductoCantNative(); 
+    
+    //QUERY PARA RANKING DE PROVEEDORES
+    @Query(value="SELECT "+
+                "p.nombre , count(1) as cantidad " +
+                "FROM compra c "+
+                "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
+                " GROUP BY nombre ORDER BY cantidad DESC LIMIT 10",nativeQuery = true)
+    List<Tuple>  findComprasByProveedorRankingNative(); 
+
 
     //QUERY PARA REPORTE DE COMPRA POR PROVEEDOR
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -34,7 +49,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR ESTADO
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -43,7 +58,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR ESTADO Y PROVEEDOR
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -52,7 +67,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR RANGO DE FECHAS
      @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -61,7 +76,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR PROVEEDOR Y RANGO DE FECHAS
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -70,7 +85,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
 
     //QUERY PARA REPORTE DE COMPRA POR ESTADO Y RANGO DE FECHAS
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
@@ -78,12 +93,13 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
     List<Tuple>  findComprasByRangoEstadoNative( String estado,String fechaDesde,String fechaHasta);
 
     @Query(value="SELECT "+
-                "p.nombre AS proveedor, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
+                "p.nombre AS proveedor,c.id_compra, c.fecha_compra, c.monto_compra ,COALESCE(u.username,'admin') as username, c.estado "+
                 "FROM compra c "+
                 "JOIN proveedor p ON p.id_proveedor = c.proveedor_id "+
                 "LEFT JOIN usuario u ON u.id_usuario = c.usuario_id " +
                 "WHERE c.proveedor_id = ?1 AND c.estado = ?2 AND TO_DATE(fecha_compra,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?3,'MM-DD-YYYY') AND TO_DATE(?4,'MM-DD-YYYY') ",nativeQuery = true)
     List<Tuple>  findVentasByRangoAllNative( Long proveedor_id,String estado, String fechaDesde, String fechaHasta);
+
 
 
 }

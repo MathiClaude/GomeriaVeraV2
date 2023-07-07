@@ -314,7 +314,7 @@ public class CompraController {
         Compra compra;
 
         if (result.hasErrors()) {
-//            studentDTO.setId(id);
+            // studentDTO.setId(id);
             return RD_FORM_VIEW;
         }
 

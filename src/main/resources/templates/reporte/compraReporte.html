@@ -169,15 +169,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               </div>      
             </div>
           </div>
-
-
-          <!---
-          <p style="font-weight: bold; text-align: center;" th:text="${dRC}"></p>
-          <p style="font-weight: bold; text-align: center;" th:text="${dRU}"></p>
-          <p style="font-weight: bold; text-align: center;" th:text="${dRCU}"></p>
-          <p style="font-weight: bold; text-align: center;" th:text="${dRF}"></p>
-          <p style="font-weight: bold; text-align: center;" th:text="${dRFU}"></p>
-          <p style="font-weight: bold; text-align: center;" th:text="${dRAll}"></p>-->
           
           <!--parámetros-->
           <div class="container"> 
@@ -222,6 +213,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             <tr class="text-center" th:each="datos: ${datos}">
               <td th:text="${datos.idCompra}"></td>
               <td th:text="${datos.proveedor}"></td>
+              <td th:text="${datos.usuario}"></td>   
               <td th:text="${datos.fechaCompra}"></td>   
               <td th:text="${datos.estado}"></td>
               <td th:text="${datos.montoTotal}"></td>   

@@ -36,7 +36,7 @@
                     if(evento.target.estado.value !="" && evento.target.InputProveedor.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){
                         url+=  "all/" + evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/"+evento.target.estado.value +"/"+ evento.target.InputProveedor.value
                     
-                    // rango de estado y proveedor -> FALTA ESTE   
+                    // rango de estado y proveedor -> 
                     } else if (evento.target.estado.value !="" && evento.target.InputProveedor.value !=""){
                         url+= "estadoProveedor/"+ evento.target.estado.value +"/"+ evento.target.InputProveedor.value
                     
@@ -67,6 +67,31 @@
                     myModalAlternative.show(document.getElementById('modalReporte'));
                     return false
                 }
+                function abrirReportesEspecificos(reporte){
+                    let url = "http://localhost:8080/compra/"
+                    if(reporte == "productoCant"){
+                        url += "compraReportEsp/pC";
+                    }else if(reporte == "productoMont"){
+                        url += "/ventaReportEsp/productoMont";
+                    }
+                    document.getElementById("datoReporte").src=url;
+                    const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
+                    myModalAlternative.show(document.getElementById('modalReporte'));
+                    return false
+
+                }
+                function abrirGraficos(reporte){
+                    let url = "http://localhost:8080/compra"
+                    if(reporte == "rankingProd"){
+                        url += "/graficoDona/productos";
+                    }else if(reporte == "rankingPro"){
+                        url += "/graficoDona/proveedores";
+                    }
+                    document.getElementById("datoReporte").src=url;
+                    const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
+                    myModalAlternative.show(document.getElementById('modalReporte'));
+                    return false
+                }
             </script>
         </div>
         
@@ -91,6 +116,7 @@
                                                 <label for="inputSelectEstado" class="form-label">Estados</label>                                           
                                                 <div class="input-group">
                                                     <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado" onclick="validarEstadoCompra(this.value)" disabled>
+                                                        <option style="" value="">Seleccione Estado</option>
                                                         <option style="background-color: #F9E79F; font-weight: bold;" value="PENDIENTE">PENDIENTE</option>
                                                         <option style="background-color: #AED6F1; font-weight: bold;" value="PARCIALMENTE ENTREGADO">PARCIALMENTE ENTREGADO</option>
                                                         <option style="background-color: #CD6155; font-weight: bold;" value="ANULADO">ANULADO</option>
@@ -185,23 +211,13 @@
                                     <div class="row mb-4 justify-content-center">
                                         
                                         <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalProdUnidad">
-                                                <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Productos más vendidos por unidades vendidas</i>
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportesEspecificos('productoCant')">
+                                                <i class="bi bi-bag-fill" id="download-button" >  Productos más comprados</i>
                                             </button>  
-                                        </div>
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalMontoVenta">
-                                                <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Productos más vendidos por monto de ventas</i>
-                                            </button>  
-                                        </div>
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalCantidadVenta">
-                                                <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Productos más vendidos por cantidad de ventas</i>
-                                            </button>  
-                                        </div>
+                                        </div>                                        
                                         <div class="col-sm-12 mb-2">
                                             <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
-                                                <i class="bi bi-shop-window" id="download-button" onclick="generatePDF()"> Servicios más frecuentes</i>
+                                                <i class="bi bi-file-earmark-break-fill" id="download-button" onclick="generatePDF()"> Historial de compras</i>
                                             </button>  
                                         </div>
                                     </div>                                    
@@ -217,20 +233,16 @@
                                     <hr>                                     
                                     <div class="row mb-4 justify-content-center">
                                         <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
-                                                <i class="bi bi-pie-chart-fill" id="download-button" > Ranking de vendedores</i>
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirGraficos('rankingPro')">
+                                                <i class="bi bi-pie-chart-fill" id="download-button" > Ranking de proveedores</i>
                                             </button>  
                                         </div> 
                                         <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
-                                                <i class="bi bi-pie-chart-fill" id="download-button" > Productos más vendidos</i>
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirGraficos('rankingProd')">
+                                                <i class="bi bi-pie-chart-fill" id="download-button" > Productos más comprados</i>
                                             </button>  
                                         </div> 
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
-                                                <i class="bi bi-pie-chart-fill" id="download-button" > Clientes con más transacciones</i>
-                                            </button>  
-                                        </div> 
+                                        
                                     </div>    
                                 </div>
                             </div>
@@ -275,7 +287,7 @@
                     <!-- Body para modal-->
                     <div class="modal-body">
                         <!-- Tabs navs para modal-->
-                        <iframe th:src="@{/venta/graficoDona}" width="100%" height="400"></iframe>
+                        <iframe th:src="@{/compra/graficoDona}" width="100%" height="400"></iframe>
                         <!-- Pie del modal -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>

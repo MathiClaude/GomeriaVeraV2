@@ -22,6 +22,16 @@ public class ReporteVentaDTO {
         this.impuesto = "";
     }
 
+    public ReporteVentaDTO(String cliente, String fechaVenta, String montoTotal, String usuario,String nroFactura, String impuesto) {
+        this.cliente = cliente;
+        this.fechaVenta = fechaVenta;
+        this.montoTotal = montoTotal;
+        this.usuario = usuario;
+        this.nroFactura = nroFactura;
+        this.timbrado = "";
+        this.impuesto = impuesto;
+    }
+
    
    
     /*

@@ -225,9 +225,11 @@ public class CajaController {
                 }
             }
             aperturas = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
-            if(aperturas.get(0).getEstado().equals("aBrIdO")){
-                attributes.addFlashAttribute("msgCaja", "El usuario ya tiene una caja abierta actualmente");
-                return RD_FORM_VIEW;
+            if (aperturas.size()>0){
+                if(aperturas.get(0).getEstado().equals("aBrIdO")){
+                    attributes.addFlashAttribute("msgCaja", "El usuario ya tiene una caja abierta actualmente");
+                    return RD_FORM_VIEW;
+                }
             }
 
             objetoDTO.setFechaApertura(java.time.LocalDate.now().toString());

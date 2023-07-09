@@ -8,6 +8,8 @@ import com.proyecto.is2.proyecto.controller.dto.ReporteVentaDTO;
 import com.proyecto.is2.proyecto.controller.dto.ReporteVentaProductoDTO;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
+import com.proyecto.is2.proyecto.controller.dto.ReporteCajaDTO;
+
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
@@ -28,9 +30,10 @@ import com.proyecto.is2.proyecto.services.VentaDetalleServiceImp;
 import com.proyecto.is2.proyecto.services.ProductoServiceImp;
 import com.proyecto.is2.proyecto.services.ProveedorService;
 import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
-
+import com.proyecto.is2.proyecto.services.CajaService;
 import com.proyecto.is2.proyecto.services.VentaServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
+import com.proyecto.is2.proyecto.services.TipoProductoService;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
 import com.proyecto.is2.proyecto.services.OperacionServiceImp;
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
@@ -107,6 +110,9 @@ public class ReporteCajaController {
     ProveedorService proveedorService;
 
     @Autowired
+    CajaService cajaService;
+
+    @Autowired
     VentaRepository ventaRepository;
 
      @Autowired
@@ -166,6 +172,8 @@ public class ReporteCajaController {
             // model.addAttribute("listProduct", productoService.listar());//lista los productos
             // model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
+            model.addAttribute("listarCaja", cajaService.listar());//lista los clientes
+
             model.addAttribute("listarUsuario",usuarios );//lista los clientes
             String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
             Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
@@ -216,71 +224,74 @@ public class ReporteCajaController {
         return FORM_VIEW;
     }
 
-    private List<ReporteVentaDTO> parsearDatosReporteVenta(List<Tuple> datosCrudo){        
-        List<ReporteVentaDTO> lista = new ArrayList<>();
+    private List<ReporteCajaDTO> parsearDatosReporteCaja(List<Tuple> datosCrudo){        
+        List<ReporteCajaDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {
-            lista.add( new ReporteVentaDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString(),elemento.get(5).toString()) );
-            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
-        }
-        return lista;
-    }
-    private List<ReporteVentaProductoDTO> parsearDatosReporteServicio(List<Tuple> datosCrudo){        
-        List<ReporteVentaProductoDTO> lista = new ArrayList<>();
-        for (Tuple elemento : datosCrudo) {
-            lista.add( new ReporteVentaProductoDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString()));
+            lista.add( new ReporteCajaDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString()));
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
         return lista;
     }
     
-    @GetMapping("/ventaReporte/c/{cliente_id}")
-    public String reporteVentaCliente(Model model,@PathVariable String cliente_id) {
+    @GetMapping("/stockReporte/caja/{id_caja}")
+    public String reporteVentaCliente(Model model,@PathVariable String id_caja) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        List<Tuple> datosVenta = ventaRepository.findVentasByClienteNative(new Long(cliente_id));
-        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
 
-        Cliente cliente = clienteRepository.findByIdCliente(new Long(cliente_id));
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+
+        List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByidCajaNative(new Long(id_caja));
+
+        List<ReporteCajaDTO> listaDatos = this.parsearDatosReporteCaja(datosCaja);
+
+        Cliente cliente = clienteRepository.findByIdCliente(new Long(id_caja));
+        Caja caja = cajaRepository.findByIdCaja(new Long(id_caja));
+
 
         BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        for (ReporteVentaDTO venta : listaDatos) {
-            total = total.add( new BigDecimal(venta.getMontoTotal()));
+        /*for (ReporteCajaDTO venta : listaDatos) {
+            total = total.add( new BigDecimal(venta.getMonto()));
             totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }
+        }*/
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
         model.addAttribute("totalMonto", total);
         model.addAttribute("totalIva", totalIva);
         model.addAttribute("totalItems", totalItems);
+
+
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","Reporte de venta por cliente");
-        model.addAttribute("tRU","");        
-        model.addAttribute("tRCU","");
-        model.addAttribute("tRF","");
-        model.addAttribute("tRFC","");
-        model.addAttribute("tRFU","");
+        model.addAttribute("tRCaja","Reporte de stock por caja");
+        model.addAttribute("tRUsuario","");        
+        model.addAttribute("tRCajaUser","");
+        model.addAttribute("tRFecha","");
+        model.addAttribute("tRFechaCaja","");
+        model.addAttribute("tRFechaUser","");
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","Este reporte de venta se basa en todas las ventas realizadas al cliente seleccionado, el mismo cuenta con los siguientes parámetros:");        
-        model.addAttribute("dRU",""); // título reporte usuario
-        model.addAttribute("dRCU",""); // título reporte usuario y cliente
-        model.addAttribute("dRF",""); //título fecha
-        model.addAttribute("dRFC",""); //título fecha y cliente
-        model.addAttribute("dRFU",""); //título fecha y usuario
+        model.addAttribute("dRCaja","Este reporte de venta se basa en todas operaciones registradas por la caja seleccionado, el mismo cuenta con los siguientes parámetros:");        
+        model.addAttribute("dRUsuario",""); // título reporte usuario
+        model.addAttribute("dRCajaUser",""); // título reporte usuario y cliente
+        model.addAttribute("dRFecha",""); //título fecha
+        model.addAttribute("dRFechaCaja",""); //título fecha y cliente
+        model.addAttribute("dRFechaUser",""); //título fecha y usuario
         model.addAttribute("dRAll","");  //título fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
-        model.addAttribute("pCU2","");
-        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pCaja","Caja: " + caja.getDescripcion());
+        model.addAttribute("pUsuario","");
         model.addAttribute("fI","");
-       
+        
+        
+
+        model.addAttribute("Generado por: " + usuario.getUsername()); 
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         
@@ -293,24 +304,26 @@ public class ReporteCajaController {
         }
     }
 
-    @GetMapping("/ventaReporte/u/{usuario_id}")
+    @GetMapping("/cajaReporte/user/{usuario_id}")
     public String reporteVentaUsuario(Model model,@PathVariable String usuario_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
-        List<Tuple> datosVenta = ventaRepository.findVentasByUsuarioNative(new Long(usuario_id));
-        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        
+        
+        List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByidUsuarioNative(new Long(usuario_id));
+        List<ReporteCajaDTO> listaDatos = this.parsearDatosReporteCaja(datosCaja);
 
         Usuario usuario = usuarioRepository.findByIdUsuario(new Long(usuario_id));
         
         BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        for (ReporteVentaDTO venta : listaDatos) {
-            total = total.add( new BigDecimal(venta.getMontoTotal()));
+        /*for (ReporteCajaDTO venta : listaDatos) {
+            total = total.add( new BigDecimal(venta.getMonto()));
             totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }
+        }*/
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -320,35 +333,32 @@ public class ReporteCajaController {
 
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","");
-        model.addAttribute("tRU","Reporte de venta por vendedor");        
-        model.addAttribute("tRCU","");
-        model.addAttribute("tRF","");
-        model.addAttribute("tRFC","");
-        model.addAttribute("tRFU","");
+        model.addAttribute("tRCaja","");
+        model.addAttribute("tRUsuario","Reporte de stock por vendedor");        
+        model.addAttribute("tRCajaUser","");
+        model.addAttribute("tRFecha","");
+        model.addAttribute("tRFechaCaja","");
+        model.addAttribute("tRFechaUser","");
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","");        
-        model.addAttribute("dRU","Este reporte de venta se basa en todas las ventas realizadas por el vendedor/cajero seleccionado, el mismo cuenta con los siguientes parámetros:"); // descripción reporte usuario
-        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
-        model.addAttribute("dRF",""); //descripción fecha
-        model.addAttribute("dRFC",""); //descripción fecha y cliente
-        model.addAttribute("dRFU",""); //descripción fecha y usuario
-        model.addAttribute("dRAll",""); //descripción fecha, cliente y usuario
+        model.addAttribute("dRCaja","");        
+        model.addAttribute("dRUsuario","Este reporte de stock se basa en todas operaciones registradas por el vendedor seleccionado, el mismo cuenta con los siguientes parámetros:"); // título reporte usuario
+        model.addAttribute("dRCajaUser",""); // título reporte usuario y cliente
+        model.addAttribute("dRFecha",""); //título fecha
+        model.addAttribute("dRFechaCaja",""); //título fecha y cliente
+        model.addAttribute("dRFechaUser",""); //título fecha y usuario
+        model.addAttribute("dRAll","");  //título fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","");
-        model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());
-        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pCaja","");
+        model.addAttribute("pUsuario: " +  usuario.getUsername());
         model.addAttribute("fI","");
         
+        
+
+        model.addAttribute("Generado por: ", ""); 
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
-
-
- 
-
-
 
 
         if(crear) {
@@ -358,26 +368,26 @@ public class ReporteCajaController {
         }
     }
 
-    @GetMapping("/ventaReporte/usuarioCliente/{usuario_id}/{cliente_id}")
-    public String reporteVentaUsuarioCliente(Model model,@PathVariable String usuario_id, @PathVariable String cliente_id) {
+    @GetMapping("/cajaReporte/usuarioCaja/{id_caja}/{id_usuario}")
+    public String reporteVentaUsuarioCliente(Model model,@PathVariable String id_caja, @PathVariable String id_usuario) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
-        List<Tuple> datosVenta = ventaRepository.findVentasUsuarioClienteByNative(new Long(usuario_id), new Long(cliente_id));
-        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByidCajaUsuarioNative(new Long(id_caja), new Long(id_usuario));
+        List<ReporteCajaDTO> listaDatos = this.parsearDatosReporteCaja(datosCaja);
+        Caja caja = cajaRepository.findByIdCaja(new Long(id_caja));
 
-        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(usuario_id));
+        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(id_usuario));
         
-        Cliente cliente = clienteRepository.findByIdCliente(new Long(cliente_id));
         
          BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        for (ReporteVentaDTO venta : listaDatos) {
-            total = total.add( new BigDecimal(venta.getMontoTotal()));
+        /*for (ReporteCajaDTO venta : listaDatos) {
+            total = total.add( new BigDecimal(venta.getMonto()));
             totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }
+        }*/
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -386,88 +396,33 @@ public class ReporteCajaController {
         model.addAttribute("totalItems", totalItems);
 
 
-        // para cabecera del reporte
+       // para cabecera del reporte
         //título
-        model.addAttribute("tRC","");
-        model.addAttribute("tRU","");        
-        model.addAttribute("tRCU","Reporte de venta por vendedor y cliente");
-        model.addAttribute("tRF","");
-        model.addAttribute("tRFC","");
-        model.addAttribute("tRFU","");
+        model.addAttribute("tRCaja","");
+        model.addAttribute("tRUsuario","");        
+        model.addAttribute("tRCajaUser","Reporte de stock por caja y vendedor");
+        model.addAttribute("tRFecha","");
+        model.addAttribute("tRFechaCaja","");
+        model.addAttribute("tRFechaUser","");
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","");        
-        model.addAttribute("dRU",""); // descripción reporte usuario
-        model.addAttribute("dRCU","Este reporte de venta se basa en todas las ventas realizadas por el vendedor/cajero seleccionado para con el cliente respectivamente, el mismo cuenta con los siguientes parámetros:"); // descripción reporte usuario y cliente
-        model.addAttribute("dRF",""); //descripción fecha
-        model.addAttribute("dRFC",""); //descripción fecha y cliente
-        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRCaja","");        
+        model.addAttribute("dRUsuario",""); // descripción reporte usuario
+        model.addAttribute("dRCajaUser","Este reporte de stock se basa en todas operaciones registradas por el vendedor y caja seleccionada, el mismo cuenta con los siguientes parámetros:"); // descripción reporte usuario y cliente
+        model.addAttribute("dRFecha",""); //descripción fecha
+        model.addAttribute("dRFechaCaja",""); //descripción fecha y cliente
+        model.addAttribute("dRFechaUser",""); //descripción fecha y usuario
         model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
-        model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());
-        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pCaja" + caja.getDescripcion());
+        model.addAttribute("pUsuario: " +  usuario.getUsername());
         model.addAttribute("fI","");
         
-       model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
-
-        if(crear) {
-            return FORM_NEW;
-        } else {
-            return FALTA_PERMISO_VIEW;
-        }
-    }
-
-    @GetMapping("/ventaReporte/rangoFecha/{fechaDesde}/{fechaHasta}")
-    public String reporteVentaFecha(Model model,@PathVariable String fechaDesde, @PathVariable String fechaHasta) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-
-        List<Tuple> datosVenta = ventaRepository.findVentasByRangoNative(fechaDesde,fechaHasta);
-
-        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
-
-         BigDecimal total = new BigDecimal(0);
-        BigDecimal totalIva = new BigDecimal(0);
-        Integer totalItems = 0;
-        for (ReporteVentaDTO venta : listaDatos) {
-            total = total.add( new BigDecimal(venta.getMontoTotal()));
-            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
-            totalItems ++;
-        }
-        //java.time.LocalDate.now().toString()
-        model.addAttribute("datos", listaDatos);
-        model.addAttribute("cantidadDetalles", listaDatos.size());
-        model.addAttribute("totalMonto", total);
-        model.addAttribute("totalIva", totalIva);
-        model.addAttribute("totalItems", totalItems);
-
-        // para cabecera del reporte
-        //título
-        model.addAttribute("tRC","");
-        model.addAttribute("tRU","");        
-        model.addAttribute("tRCU","");
-        model.addAttribute("tRF","Reporte de venta por Fecha");
-        model.addAttribute("tRFC","");
-        model.addAttribute("tRFU","");
-        model.addAttribute("tRepAll","");
-
-        //descripción del reporte
-        model.addAttribute("dRC","");        
-        model.addAttribute("dRU",""); // descripción reporte usuario
-        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
-        model.addAttribute("dRF","Este reporte de venta se basa en el rango de fechas seleccionadas, el mismo cuenta con los siguientes parámetros:"); //descripción fecha
-        model.addAttribute("dRFC",""); //descripción fecha y cliente
-        model.addAttribute("dRFU",""); //descripción fecha y usuario
-        model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
-
-        //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Cantidad de clientes: ");
-        model.addAttribute("pCU2","Cantidad de vendedores: ");
-        model.addAttribute("pDesHas","");
-        model.addAttribute("fI", ""+ fechaDesde + " - " + fechaHasta+"");
         
+
+        model.addAttribute("Generado por: ", ""); 
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
@@ -478,24 +433,25 @@ public class ReporteCajaController {
         }
     }
 
-    @GetMapping("/ventaReporte/rangoCliente/{fechaDesde}/{fechaHasta}/{cliente_id}")
-    public String reporteVentaFechaCliente(Model model, @PathVariable String fechaDesde,@PathVariable String fechaHasta, @PathVariable String cliente_id) {
+    @GetMapping("/cajaReporte/rangoFecha/{fechaDesde}/{fechaHasta}")
+    public String reporteRangoFecha(Model model,@PathVariable String fechaDesde, @PathVariable String fechaHasta) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
 
-        List<Tuple> datosVenta = ventaRepository.findVentasByRangoClienteNative(new Long(cliente_id), fechaDesde, fechaHasta);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
-        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByRangoNative(fechaDesde,fechaHasta);
 
-        Cliente cliente = clienteRepository.findByIdCliente(new Long(cliente_id));
+        List<ReporteCajaDTO> listaDatos = this.parsearDatosReporteCaja(datosCaja);
 
          BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        for (ReporteVentaDTO venta : listaDatos) {
-            total = total.add( new BigDecimal(venta.getMontoTotal()));
+        /*for (ReporteCajaDTO venta : listaDatos) {
+            total = total.add( new BigDecimal(venta.getMonto()));
             totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }
+        }*/
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -505,29 +461,31 @@ public class ReporteCajaController {
 
         // para cabecera del reporte
         //título
-        model.addAttribute("tRC","");
-        model.addAttribute("tRU","");        
-        model.addAttribute("tRCU","");
-        model.addAttribute("tRF","");
-        model.addAttribute("tRFC","Reporte de venta por Cliente y Fecha seleccionada");
-        model.addAttribute("tRFU","");
+        model.addAttribute("tRCaja","");
+        model.addAttribute("tRUsuario","");        
+        model.addAttribute("tRCajaUser","");
+        model.addAttribute("tRFecha","Reporte de stock por fecha");
+        model.addAttribute("tRFechaCaja","");
+        model.addAttribute("tRFechaUser","");
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","");        
-        model.addAttribute("dRU",""); // descripción reporte usuario
-        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
-        model.addAttribute("dRF",""); //descripción fecha
-        model.addAttribute("dRFC","Este reporte de venta se basa en el rango de fechas seleccionadas con respecto al cliente, el mismo cuenta con los siguientes parámetros:"); //descripción fecha y cliente
-        model.addAttribute("dRFU",""); //descripción fecha y usuario
+        model.addAttribute("dRCaja","");        
+        model.addAttribute("dRUsuario",""); // descripción reporte usuario
+        model.addAttribute("dRCajaUser",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRFecha","Este reporte de stock se basa en todas operaciones registradas en el rango de fecha seleccionada, el mismo cuenta con los siguientes parámetros:"); //descripción fecha
+        model.addAttribute("dRFechaCaja",""); //descripción fecha y cliente
+        model.addAttribute("dRFechaUser",""); //descripción fecha y usuario
         model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
-        model.addAttribute("pCU2","");
-        model.addAttribute("pDesHas","");
-        model.addAttribute("fI", ""+ fechaDesde + " - " + fechaHasta+"");
+        model.addAttribute("pCaja", "");
+        model.addAttribute("pUsuario: ", "");
+        model.addAttribute("fI" +fechaDesde + " - " + fechaHasta+"");
         
+        
+
+        model.addAttribute("Generado por: " +  usuario.getUsername()); 
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
@@ -538,25 +496,26 @@ public class ReporteCajaController {
         }
     }
 
-    @GetMapping("/ventaReporte/rangoUsuario/{fechaDesde}/{fechaHasta}/{usuario_id}")
-    public String reporteVentaFechaUsuario(Model model,@PathVariable String usuario_id, @PathVariable String fechaDesde, @PathVariable String fechaHasta) {
+    @GetMapping("/cajaReporte/rangoCaja/{fechaDesde}/{fechaHasta}/{id_caja}")
+    public String reporteVentaFechaCliente(Model model, @PathVariable String fechaDesde,@PathVariable String fechaHasta, @PathVariable String id_caja) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
 
-        List<Tuple> datosVenta = ventaRepository.findVentasByRangoUsuarioNative(new Long(usuario_id), fechaDesde, fechaHasta);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
-        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByidCajaRangoNative(new Long(id_caja), fechaDesde, fechaHasta);
 
-        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(usuario_id));        
-        
+        List<ReporteCajaDTO> listaDatos = this.parsearDatosReporteCaja(datosCaja);
+        Caja caja = cajaRepository.findByIdCaja(new Long(id_caja));
 
-         BigDecimal total = new BigDecimal(0);
+        BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        for (ReporteVentaDTO venta : listaDatos) {
-            total = total.add( new BigDecimal(venta.getMontoTotal()));
+        /*for (ReporteCajaDTO venta : listaDatos) {
+            total = total.add( new BigDecimal(venta.getMonto()));
             totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }
+        }*/
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -564,32 +523,33 @@ public class ReporteCajaController {
         model.addAttribute("totalIva", totalIva);
         model.addAttribute("totalItems", totalItems);
 
-
-          // para cabecera del reporte
+        // para cabecera del reporte
         //título
-        model.addAttribute("tRC","");
-        model.addAttribute("tRU","");        
-        model.addAttribute("tRCU","");
-        model.addAttribute("tRF","");
-        model.addAttribute("tRFC","");
-        model.addAttribute("tRFU","Reporte de venta por Vendedor y Fecha seleccionada");
+        model.addAttribute("tRCaja","");
+        model.addAttribute("tRUsuario","");        
+        model.addAttribute("tRCajaUser","");
+        model.addAttribute("tRFecha","");
+        model.addAttribute("tRFechaCaja","Reporte de stock por caja y fecha");
+        model.addAttribute("tRFechaUser","");
         model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","");        
-        model.addAttribute("dRU",""); // descripción reporte usuario
-        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
-        model.addAttribute("dRF",""); //descripción fecha
-        model.addAttribute("dRFC",""); //descripción fecha y cliente
-        model.addAttribute("dRFU","Este reporte de venta se basa en el rango de fechas seleccionadas con respecto al vendedor, el mismo cuenta con los siguientes parámetros:"); //descripción fecha y usuario
+        model.addAttribute("dRCaja","");        
+        model.addAttribute("dRUsuario",""); // descripción reporte usuario
+        model.addAttribute("dRCajaUser",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRFecha",""); //descripción fecha
+        model.addAttribute("dRFechaCaja","Este reporte de stock se basa en todas operaciones registradas en el rango de fecha y caja seleccionada, el mismo cuenta con los siguientes parámetros:"); //descripción fecha y cliente
+        model.addAttribute("dRFechaUser",""); //descripción fecha y usuario
         model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","");
-        model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());
-        model.addAttribute("pDesHas","");
-        model.addAttribute("fI", ""+ fechaDesde + " - " + fechaHasta+"");
+        model.addAttribute("pCaja", caja.getDescripcion());
+        model.addAttribute("pUsuario: ", "");
+        model.addAttribute("fI" +fechaDesde + " - " + fechaHasta+"");
         
+        
+
+        model.addAttribute("Generado por: " +  usuario.getUsername()); 
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
@@ -600,26 +560,25 @@ public class ReporteCajaController {
         }
     }
 
-    @GetMapping("/ventaReporte/rangoAll/{fechaDesde}/{fechaHasta}/{cliente_id}/{usuario_id}")
-    public String reporteVentaRangoAll(Model model ,@PathVariable String fechaDesde, @PathVariable String fechaHasta,@PathVariable String usuario_id, @PathVariable String cliente_id) {
+    @GetMapping("/cajaReporte/rangoVendedor/{fechaDesde}/{fechaHasta}/{id_usuario}")
+    public String reporteVentaFechaUsuario(Model model,@PathVariable String id_usuario, @PathVariable String fechaDesde, @PathVariable String fechaHasta) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
 
-        List<Tuple> datosVenta = ventaRepository.findVentasByRangoAllNative(new Long(cliente_id), new Long(usuario_id),fechaDesde, fechaHasta);
+        List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByidUsuarioRangoNative(new Long(id_usuario), fechaDesde, fechaHasta);
 
-        List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
+        List<ReporteCajaDTO> listaDatos = this.parsearDatosReporteCaja(datosCaja);
 
-        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(usuario_id));
+        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(id_usuario));        
         
-        Cliente cliente = clienteRepository.findByIdCliente(new Long(cliente_id));
 
-         BigDecimal total = new BigDecimal(0);
+        BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        for (ReporteVentaDTO venta : listaDatos) {
-            total = total.add( new BigDecimal(venta.getMontoTotal()));
+        /*for (ReporteCajaDTO venta : listaDatos) {
+            total = total.add( new BigDecimal(venta.getMonto()));
             totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }
+        }*/
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -628,32 +587,93 @@ public class ReporteCajaController {
         model.addAttribute("totalItems", totalItems);
 
 
-
-        // para cabecera del reporte
+       // para cabecera del reporte
         //título
-        model.addAttribute("tRC","");
-        model.addAttribute("tRU","");        
-        model.addAttribute("tRCU","");
-        model.addAttribute("tRF","");
-        model.addAttribute("tRFC","");
-        model.addAttribute("tRFU","");
-        model.addAttribute("tRepAll","Reporte General de venta");
+        model.addAttribute("tRCaja","");
+        model.addAttribute("tRUsuario","");        
+        model.addAttribute("tRCajaUser","");
+        model.addAttribute("tRFecha","");
+        model.addAttribute("tRFechaCaja","");
+        model.addAttribute("tRFechaUser","Reporte de stock por vendedor y fecha");
+        model.addAttribute("tRepAll","");
 
         //descripción del reporte
-        model.addAttribute("dRC","");        
-        model.addAttribute("dRU",""); // descripción reporte usuario
-        model.addAttribute("dRCU",""); // descripción reporte usuario y cliente
-        model.addAttribute("dRF",""); //descripción fecha
-        model.addAttribute("dRFC",""); //descripción fecha y cliente
-        model.addAttribute("dRFU",""); //descripción fecha y usuario
-        model.addAttribute("dRAll","Este reporte de venta se basa en el vendedor, cliente y rango de fechas seleccionadas, es un reporte completo de acuerdo a lo seleccionado, el mismo cuenta con los siguientes parámetros:");  //descripción fecha, cliente y usuario
+        model.addAttribute("dRCaja","");        
+        model.addAttribute("dRUsuario",""); // descripción reporte usuario
+        model.addAttribute("dRCajaUser",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRFecha",""); //descripción fecha
+        model.addAttribute("dRFechaCaja",""); //descripción fecha y cliente
+        model.addAttribute("dRFechaUser","Este reporte de stock se basa en todas operaciones registradas en el rango de fecha y vendedor seleccionado, el mismo cuenta con los siguientes parámetros:"); //descripción fecha y usuario
+        model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
-        model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());   
-        model.addAttribute("pDesHas","");
-        model.addAttribute("fI", ""+fechaDesde + " - " + fechaHasta+"");
-        model.addAttribute("fF","Fecha Fin: ");
+        model.addAttribute("pCaja", "");
+        model.addAttribute("pUsuario: " + usuario.getUsername());
+        model.addAttribute("fI" +fechaDesde + " - " + fechaHasta+"");
+        
+        
+
+        model.addAttribute("Generado por: "); 
+        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @GetMapping("/cajaReporte/allReport/{fechaDesde}/{fechaHasta}/{id_usuario}/{id_caja}")
+    public String reporteVentaRangoAll(Model model ,@PathVariable String fechaDesde, @PathVariable String fechaHasta,@PathVariable String id_usuario, @PathVariable String id_caja) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+
+        List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByidCajaRangoNative(new Long(id_caja), new Long(id_usuario),fechaDesde, fechaHasta);
+
+        List<ReporteCajaDTO> listaDatos = this.parsearDatosReporteCaja(datosCaja);
+
+        Usuario usuario = usuarioRepository.findByIdUsuario(new Long(id_usuario));
+        Caja caja = cajaRepository.findByIdCaja(new Long(id_caja));
+
+        BigDecimal total = new BigDecimal(0);
+        BigDecimal totalIva = new BigDecimal(0);
+        Integer totalItems = 0;
+        /*for (ReporteCajaDTO venta : listaDatos) {
+            total = total.add( new BigDecimal(venta.getMonto()));
+            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
+            totalItems ++;
+        }*/
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        model.addAttribute("totalIva", totalIva);
+        model.addAttribute("totalItems", totalItems);
+
+
+// para cabecera del reporte
+        //título
+        model.addAttribute("tRCaja","");
+        model.addAttribute("tRUsuario","");        
+        model.addAttribute("tRCajaUser","");
+        model.addAttribute("tRFecha","");
+        model.addAttribute("tRFechaCaja","");
+        model.addAttribute("tRFechaUser","");
+        model.addAttribute("tRepAll","Reporte de general de stock");
+
+        //descripción del reporte
+        model.addAttribute("dRCaja","");        
+        model.addAttribute("dRUsuario",""); // descripción reporte usuario
+        model.addAttribute("dRCajaUser",""); // descripción reporte usuario y cliente
+        model.addAttribute("dRFecha",""); //descripción fecha
+        model.addAttribute("dRFechaCaja",""); //descripción fecha y cliente
+        model.addAttribute("dRFechaUser",""); //descripción fecha y usuario
+        model.addAttribute("dRAll","Este reporte de stock se basa en todas operaciones registradas en el rango de fecha, respecto al vendedor y caja seleccionada, el mismo cuenta con los siguientes parámetros:");  //descripción fecha, cliente y usuario
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pCaja" + caja.getDescripcion());
+        model.addAttribute("pUsuario: " + usuario.getUsername());
+        model.addAttribute("fI" +fechaDesde + " - " + fechaHasta+"");
+        
+        model.addAttribute("Generado por: ", ""); 
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         if(crear) {
@@ -673,7 +693,7 @@ public class ReporteCajaController {
         return lista;
     }
 
-    @GetMapping("/ventaReportEsp/productoCant")
+    @GetMapping("/cajaReportEsp")
     public String reporteProductoCantidad(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
 
@@ -719,286 +739,8 @@ public class ReporteCajaController {
         }
     }
 
-    @GetMapping("/ventaReportEsp/productoMont")
-    public String reporteProductoMonto(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-
-        List<Tuple> datosVenta = ventaRepository.findInformeProductoMontoNative();
-
-        List<ReporteVentaProductoDTO> listaDatos = this.parsearDatosReporteProducto(datosVenta);
-
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-
-
- 
-        BigDecimal total = new BigDecimal(0);
-        Float cant = new Float(0);
-        for (ReporteVentaProductoDTO prod : listaDatos) {
-            total = total.add( new BigDecimal(prod.getMonto()));
-            cant += Float.parseFloat(prod.getCantProducto());
-        }
-        model.addAttribute("datos", listaDatos);
-        model.addAttribute("cantidadDetalles", listaDatos.size());
-        model.addAttribute("totalMonto", total);
-        model.addAttribute("cant", cant);
-
-
-        // para cabecera del reporte
-        //título
-        model.addAttribute("tRProdCant","");
-        model.addAttribute("tRProdMont","Reporte de productos más vendidos respecto al monto");        
-
-        //descripción del reporte
-        model.addAttribute("dRProdCant", "");        
-        model.addAttribute("dRProdMont","En este reporte se visualizan los 10 productos más vendidos respecto al monto recaudado al realizar la venta"); 
-        
-
-        //parámetros que serán utilizados para el reporte
-        model.addAttribute("pUsuarioRepor", "Generado por: " + usuario.getUsername());       
-        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
-
-        if(crear) {
-            return REPORTE_ESPECIFICO;
-        } else {
-            return REPORTE_ESPECIFICO;
-        }
-    }
-
     
-
-
-    @GetMapping("/graficoDona")
-    public String verReporte(Model model) {
-        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        this.operacion = "crear-";
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-        List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
-        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-        List<Tuple> datosGrafico = ventaRepository.findGraphNative();
-        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
-
-        for (Tuple elemento : datosGrafico) {
-            Integer temp = Integer.parseInt(elemento.get(0).toString().split("\\.")[0]);
-            lista.add(new DatoGraficoVentaDTO(meses[temp==0?1:temp], elemento.get(1).toString()));
-            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
-        }
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
-            model.addAttribute("datos", lista);
-
-            return GRAFICO_ESTADISTICO;
-        } else {
-            return GRAFICO_ESTADISTICO;
-        }
-    }
-
-    @GetMapping("/graficoDona/cajeros")
-    public String verReporteCajeros(Model model) {
-        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        this.operacion = "crear-";
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-        List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
-        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-        List<Tuple> datosGrafico = ventaRepository.findGraphCajeroNative();
-        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
-
-        for (Tuple elemento : datosGrafico) {
-            lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0] ));
-            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
-        }
-        // para cabecera del reporte
-        //título
-        model.addAttribute("tGCajero","Ranking de vendedores");
-        model.addAttribute("tGCliente","");        
-        model.addAttribute("tGProducto","");
-        model.addAttribute("tGServicio","");
-        model.addAttribute("tGAll","");
-
-        //descripción del gráfico
-        model.addAttribute("dGCajero"," El gráfico de donas representa los mejores vendedores basados en el monto recaudado en sus ventas hasta la fecha"); // descripción gráfico cajero   
-        model.addAttribute("dGCliente",""); // descripción gráfico cliente
-        model.addAttribute("dGProducto",""); // descripción gráfico producto
-        model.addAttribute("dGServicio","");
-        model.addAttribute("dGAll","");  //descripción fecha, cliente y usuario
-
-        //parámetros que serán utilizados para el reporte
-        model.addAttribute("pGCajero","Generado por: " + usuario.getUsername());        
-        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
-
-        // RESUMEN DEL REPORTE
-        model.addAttribute("resumen","Vendedor");
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
-            model.addAttribute("datos", lista);
-
-            return GRAFICO_ESTADISTICO;
-        } else {
-            return GRAFICO_ESTADISTICO;
-        }
-    }
-
-    @GetMapping("/graficoDona/clientes")
-    public String verReporteClientes(Model model) {
-        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        this.operacion = "crear-";
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-        
-        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-        List<Tuple> datosGrafico = ventaRepository.findGraphClienteNative();
-        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
-
-        for (Tuple elemento : datosGrafico) {
-            lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0]));
-            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
-        }
-
-        // para cabecera del reporte
-        //título
-        model.addAttribute("tGCajero","");
-        model.addAttribute("tGCliente","Ranking de clientes");        
-        model.addAttribute("tGProducto","");
-        model.addAttribute("tGServicio","");
-        model.addAttribute("tGAll","");
-
-        //descripción del gráfico
-        model.addAttribute("dGCajero",""); // descripción gráfico cajero   
-        model.addAttribute("dGCliente"," El gráfico de donas representa los mejores clientes, es decir, clientes con más transacciones y está basado en el monto recaudado en sus compras hasta la fecha"); // descripción gráfico cliente
-        model.addAttribute("dGProducto",""); // descripción gráfico producto
-        model.addAttribute("dGServicio","");
-        model.addAttribute("dGAll","");  //descripción fecha, cliente y usuario
-
-        //parámetros que serán utilizados para el reporte
-        model.addAttribute("pGCajero","Generado por: " + usuario.getUsername());        
-        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
-
-        // RESUMEN DEL REPORTE
-        model.addAttribute("resumen","Cliente");
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
-            model.addAttribute("datos", lista);
-
-            return GRAFICO_ESTADISTICO;
-        } else {
-            return GRAFICO_ESTADISTICO;
-        }
-    }
-
-    @GetMapping("/graficoDona/productos")
-    public String verReporteProductos(Model model) {
-        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        this.operacion = "crear-";
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-        
-        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-        List<Tuple> datosGrafico = ventaRepository.findGraphProductoNative();
-        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
-        int c = 0;
-        for (Tuple elemento : datosGrafico) {
-            if(c>=10){
-                break;
-            }
-            lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0]));
-            c++;
-            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
-        }
-
-
-        // para cabecera del reporte
-        //título
-        model.addAttribute("tGCajero","");
-        model.addAttribute("tGCliente","");        
-        model.addAttribute("tGProducto","Ranking de productos");
-        model.addAttribute("tGServicio","");
-        model.addAttribute("tGAll","");
-
-        //descripción del gráfico
-        model.addAttribute("dGCajero",""); // descripción gráfico cajero   
-        model.addAttribute("dGCliente",""); // descripción gráfico cliente
-        model.addAttribute("dGProducto"," El gráfico de donas representa los productos más vendidos hasta la fecha, el mismo está basado en la cantidad"); // descripción gráfico producto
-        model.addAttribute("dGServicio","");
-        model.addAttribute("dGAll","");  //descripción fecha, cliente y usuario
-
-        //parámetros que serán utilizados para el reporte
-        model.addAttribute("pGCajero","Generado por: " + usuario.getUsername());        
-        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
-
-
-        // RESUMEN DEL REPORTE
-        model.addAttribute("resumen","Producto");
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
-            model.addAttribute("datos", lista);
-
-            return GRAFICO_ESTADISTICO;
-        } else {
-            return GRAFICO_ESTADISTICO;
-        }
-    }
-    @GetMapping("/graficoDona/servicios")
-    public String verReporteServicios(Model model) {
-        String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        this.operacion = "crear-";
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-        
-        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-        List<Tuple> datosGrafico = ventaRepository.findGraphServicioNative();
-        List<DatoGraficoVentaDTO> lista = new ArrayList<>();
-        int c = 0;
-        for (Tuple elemento : datosGrafico) {
-            if(c>=10){
-                break;
-            }
-            lista.add(new DatoGraficoVentaDTO(elemento.get(0).toString(), elemento.get(1).toString().split("\\.")[0]));
-            c++;
-            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
-        }
-
-
-        // para cabecera del reporte
-        //título
-        model.addAttribute("tGCajero","");
-        model.addAttribute("tGCliente","");        
-        model.addAttribute("tGProducto","");
-        model.addAttribute("tGServicio","Ranking de servicios");
-
-        model.addAttribute("tGAll","");
-
-        //descripción del gráfico
-        model.addAttribute("dGCajero",""); // descripción gráfico cajero   
-        model.addAttribute("dGCliente",""); // descripción gráfico cliente
-        model.addAttribute("dGProducto",""); // descripción gráfico producto
-        model.addAttribute("dGServicio"," El gráfico de donas representa los servicios más frecuentes hasta la fecha, el mismo está basado en la cantidad"); // descripción gráfico producto
-
-        model.addAttribute("dGAll","");  //descripción fecha, cliente y usuario
-
-        //parámetros que serán utilizados para el reporte
-        model.addAttribute("pGCajero","Generado por: " + usuario.getUsername());        
-        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
-
-        // RESUMEN DEL REPORTE
-        model.addAttribute("resumen","Servicio");
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
-            model.addAttribute("datos", lista);
-
-            return GRAFICO_ESTADISTICO;
-        } else {
-            return GRAFICO_ESTADISTICO;
-        }
-    }
-
-
+    /* 
     @GetMapping("/ventaReportEsp/historial")
     public String verHistorialVentas(Model model) {
         this.operacion = "crear-";
@@ -1034,7 +776,7 @@ public class ReporteCajaController {
             return REPORTE_HISTORIAL;
         }
     }
-
+    */
     
 
 }

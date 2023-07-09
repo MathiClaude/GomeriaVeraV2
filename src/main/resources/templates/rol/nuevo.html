@@ -1,38 +1,126 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/layout/basic}">
 <body>
-<div layout:fragment="content">
-    <!--logo personita-->
-    <div>
-        <img th:src="@{/img/roles.png}" class="center wp-image-4532"/> <!--div center img-->
-      </div>
-      <br> 
-      <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Crear Rol</b></h1> <!--titulo-->
-
-    <form method="post" th:action="@{/roles/crear}" th:object="${rol}">
-        <fieldset>
-            <legend>Información del Rol</legend>
-            <div class="mb-3"> <!-- margen button -->
-                <label for="input1" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="input1" name="nombre" placeholder="Introduzca un nombre" autofocus>
-            </div>
-            <div class="mb-3"> <!-- margen button -->
-                <label for="input2" class="form-label">Descripcion</label>
-                <input type="text" class="form-control" id="input2" name="descripcion" placeholder="Introduzca una descripcion" autofocus>
-            </div>
-        </fieldset>
-        <div class="row">
-            <div class="col-sm-6">
-                <a th:href="@{/roles}" class="btn btn-outline-info w-100">
-                    Atrás
-                </a>
-            </div>
-            <div class="col-sm-6">
-                <button type="submit" class="btn btn-success w-100">Guardar Rol</button>
-            </div>
+    <div layout:fragment="content">
+        <!--logo personita-->
+        <div>
+            <img th:src="@{/img/roles.png}" class="center wp-image-4532"/> <!--div center img-->
         </div>
-    </form>
-</div>
+        <br> 
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Crear Rol</b></h1> <!--titulo-->
+        
+        <form method="post" th:action="@{/roles/crear}" th:object="${rol}">
+            <fieldset>
+                <br> <!--separador-->
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-6" > 
+                            <div class ="card">                           
+                                <div class="card-body">
+                                    <div class="row mb-4">                            
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <label for="inputUsuario" class="form-label">Nombre<span style="color:red">*</span></label>
+                                                <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca el nombre descriptivo del rol" autofocus required>        
+                                                
+                                            </div>      
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                    <div class="row mb-4">                            
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <label for="inputUsuario" class="form-label">Descripción<span style="color:red">*</span></label>
+                                                <input type="text" class="form-control" id="inputCorreo" name="email" placeholder="Introduzca una descripción breve del rol" autofocus required>             
+                                                
+                                            </div>                                            
+                                        </div>
+                                    </div>                                    
+                                    
+                                    
+                                    
+                                    
+                                </div>
+                                
+                            </div>    <!-- termina el card-->
+                            <br>
+                            
+                            
+                        </div>
+                        <!--nuevo card-->
+                        <div class="col-sm-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <lord-icon
+                                        src="https://cdn.lordicon.com/oncyjozz.json"
+                                        trigger="hover"
+                                        colors="outline:#121331,primary:#646e78"
+                                        style="width:60px;height:60px">
+                                    </lord-icon>
+                                </div>
+                                <!--Configuración adicional-->
+                                <p style="color: #21618C; text-align: center;"><strong>Configuraciones</strong></p>
+                                <hr>
+                                
+                                <div class="row mb-4">                            
+                                    <div class="col">
+                                        <div    class="input-group mb-3">
+                                            <label for="inputSelectEstado" class="form-label">Estado</label>
+                                            <div class="input-group">
+                                                <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado" onclick="validarEstadoUsuario(this.value)" disabled>
+                                                    <option style="background-color: #F9E79F; font-weight: bold;" value="ACTIVO">ACTIVO</option>
+                                                    <option style="background-color: #AED6F1; font-weight: bold;" value="INACTIVO">INACTIVO</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row d-flex justify-content-center align-items-center">
+                                    <div class="col-sm-4">
+                                        <div class="row">
+                                            <div class="col">
+                                                <a th:href="@{/roles}" class="btn btn-secondary w-100" onclick="confirmarRegreso()">
+                                                    Atrás
+                                                </a>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-info text-white">
+                                                    <i class="bi bi-save2" id="download-button"> Guardar Usuario</i>
+                                                </button>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div><!--termina card-->
+                    </div>
+                     
+                    
+                    
+                </fieldset>
+            </form>
+            <div>
+                <script type="text/javascript" th:inline="javascript">
+                    let datosPermiso = /*[[${listarPermiso}]]*/ null;
+                </script>
+                
+                <script th:src="@{/js/buscadorPermiso.js}" type="text/javascript"></script>                       
+                <script th:src="@{/js/confirmarRegreso.js}" type="text/javascript"></script>             
+            </div>     
 
-</body>
-</html>
+        
+    </body>
+    </html>

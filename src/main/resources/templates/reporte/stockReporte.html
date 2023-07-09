@@ -182,7 +182,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <td th:text="${datos.usuario}"></td>   
               <td th:text="${datos.fechaCompra}"></td>   
               <td th:text="${datos.estado}"></td>
-              <td th:text="${datos.montoTotal}"></td>   
+              <td th:text="${datos.montoCompra}"></td>   
             </tr>
           </tbody>
         </table>
@@ -196,11 +196,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             <th>
               <div class="row">
                 <div class="col-6">                    
-                  <label for="inputNombre" class="form-label">TOTAL ITEMS COMPRADOS:</label>
+                  <label for="inputNombre" class="form-label">TOTAL ITEMS: </label>
                   <span id="cantidadItemsComprobante" th:text="${cantidadDetalle}"></span>
                 </div>  
                 <div class="col-6">                    
-                  <label for="inputNombre" class="form-label">TOTAL A PAGAR:</label>
+                  <label for="inputNombre" class="form-label">TOTAL: </label>
                   <!--span id="totalPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
                 </div>                                                              
               </div>

@@ -85,6 +85,8 @@ public class ReporteCompraController {
 
     final String GRAFICO_ESTADISTICO = "/reporte/compraChart";
     final String REPORTE_ESPECIFICO = "/reporte/compraReportEsp";
+    final String REPORTE_HISTORIAL = "/reporte/compraHistorial";
+
 
 
    
@@ -803,6 +805,42 @@ public class ReporteCompraController {
             return GRAFICO_ESTADISTICO;
         } else {
             return GRAFICO_ESTADISTICO;
+        }
+    }
+
+    @GetMapping("/compraReportEsp/historial")
+    public String verHistorialCompras(Model model) {
+        this.operacion = "crear-";
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+        
+        // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
+        List<Tuple> datosCompra = compraRepository.findInformeHistorialNative();
+        List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tHistorial","Historial de compras");
+
+
+        //descripción del gráfico
+        model.addAttribute("dHistorial"," Este reporte representa las últimas 10 compras realizadas hasta la fecha"); // descripción gráfico producto
+
+
+        //parámetros que serán utilizados para el reporte
+        model.addAttribute("pHUser","Generado por: " + usuario.getUsername());        
+        model.addAttribute("pFE","Fecha emisión: "+ java.time.LocalDate.now().toString());
+
+        
+
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            model.addAttribute("titulos", "['Red', 'Orange', 'Yellow', 'Green', 'Blue']");
+            model.addAttribute("datos", listaDatos);
+
+            return REPORTE_HISTORIAL;
+        } else {
+            return REPORTE_HISTORIAL;
         }
     }
 

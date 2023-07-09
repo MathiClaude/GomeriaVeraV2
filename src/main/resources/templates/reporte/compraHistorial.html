@@ -172,7 +172,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             <tr class="text-center" th:each="datos: ${datos}">
               <td th:text="${datos.nroFactura}"></td>
               <td th:text="${datos.cliente}"></td>
-              <td th:text="${datos.fechaVenta}"></td>   
+              <td th:text="${datos.fechaCompra}"></td>   
               <td th:text="${datos.usuario}"></td>
               <td th:text="${#numbers.formatDecimal(datos.montoTotal, 0, 'POINT', 0, 'COMMA')}"></td>   
               <td th:text="${#numbers.formatDecimal(datos.impuesto, 0, 'POINT', 0, 'COMMA')}"></td>   

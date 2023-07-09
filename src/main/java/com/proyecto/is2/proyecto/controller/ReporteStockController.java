@@ -217,7 +217,7 @@ public class ReporteStockController {
      private List<ReporteStockDTO> parsearDatosReporteStock(List<Tuple> datosCrudo){        
         List<ReporteStockDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {
-            lista.add( new ReporteStockDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString()));
+            lista.add( new ReporteStockDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString(),elemento.get(5).toString()));
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
         return lista;
@@ -256,7 +256,7 @@ public class ReporteStockController {
 
         Float total = new Float(0);
         for (ReporteStockDTO stock : listaDatos) {
-            total += Float.parseFloat(stock.getPrecio());
+            total += stock.getMontoCompra();
         }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
@@ -392,151 +392,7 @@ public class ReporteStockController {
 
     
 
-    @PostMapping("/crear")
-    public String crearObjeto(@ModelAttribute("venta") VentaDTO objetoDTO,
-            @RequestParam(value="ventaDetalle") String ventaDetalle,
-                              RedirectAttributes attributes) {
-        this.operacion = "crear-";
-        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
-        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
-        List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
-        List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
-        BigDecimal montoVenta = new BigDecimal(objetoDTO.getMontoVenta());
-
-        String[] arrVentaDetalle = ventaDetalle.split("\\|");
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Venta venta = new Venta();
-            Cliente cliente = clienteRepository.findByIdCliente(objetoDTO.getIdCliente());
-            venta.setCliente(cliente);
-            venta.setMontoTotal(montoVenta);
-            venta.setMontoVenta(montoVenta.toString());
-
-            //GUARDAR LA VENTA
-            Venta nuevaVenta = ventaService.guardar(venta);
-            // OBTENER EL ID DE LA VENTA 
-            Long idVenta = nuevaVenta.getIdVenta();
-            
-            for (String detCrudo : arrVentaDetalle) {
-                String[] elementos= detCrudo.split(";");
-                Optional<Producto>  prod = productoRepository.findById(Long.parseLong(elementos[1]));
-
-                VentaDetalle vtaDet = new VentaDetalle();
-                vtaDet.setVenta(nuevaVenta);
-                vtaDet.setCantidad(new Float(elementos[0]));
-                vtaDet.setProducto(prod.get());
-                vtaDet.setPrecio(new Float(elementos[2]));
-                ventaService.guardarDetalle(vtaDet);
-    
-            }
-            // CREAR ESTRUCTURA PARA LA OPERACION A GUARDAR
-            Operacion opEstructura = new Operacion();
-
-            BigDecimal saldoAnterior = null;
-            if(ultMov.size()>0){
-                saldoAnterior = new BigDecimal(ultMov.get(0).getSaldoPosterior());
-            }else{
-                saldoAnterior = new BigDecimal("0");
-
-            }
-            
-            opEstructura.setConcepto("Venta de Productos");
-            opEstructura.setIdCaja(cajaApertura.get(0).getIdCaja());
-            opEstructura.setIdUsuario(usuario.getIdUsuario());
-            opEstructura.setMonto(objetoDTO.getMontoVenta());
-            opEstructura.setFechaOperacion(LocalDate.now().toString());
-            opEstructura.setSaldoAnterior(saldoAnterior.toString());
-            opEstructura.setSaldoPosterior(saldoAnterior.add( montoVenta).toString());
-
-            operacionMov.guardar(opEstructura);
-
-            attributes.addFlashAttribute("message", "¡Venta creada exitosamente!");
-
-            return RD_FORM_VIEW+"/a"+arrVentaDetalle.length+"-e";
-        } else {
-            return RD_FALTA_PERMISO_VIEW;
-        }
-    }
-
-    @GetMapping("/{id}")
-    public String formEditar(@PathVariable String id, Model model) {
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        Venta venta;
-
-        // validar el id
-        try {
-            Long idVenta = Long.parseLong(id);
-            venta = ventaService.existeVenta(idVenta);
-        } catch(Exception e) {
-            return RD_FORM_VIEW;
-        }
-
-        model.addAttribute("user", venta);
-
-        // validar si puede cambiar de rol
-        if(asignarRol) {
-            model.addAttribute("roles", rolService.listar());
-        }
-        model.addAttribute("permisoAsignarRol", asignarRol);
-
-        if(eliminar) {
-            return FORM_EDIT;
-        } else {
-            return FALTA_PERMISO_VIEW;
-        }
-    }
-
-    @PostMapping("/{id}")
-    public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("venta") VentaDTO objetoDTO,
-                                   BindingResult result, RedirectAttributes attributes) {
-        this.operacion = "actualizar-";
-        Venta venta;
-
-        if (result.hasErrors()) {
-//            studentDTO.setId(id);
-            return RD_FORM_VIEW;
-        }
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            venta = ventaService.existeVenta(id);
-            if(venta != null) {
-                ventaService.convertirDTO(venta, objetoDTO);
-
-                // si tiene permiso se le asigna el rol con id del formulario
-                // sino se queda con el mismo rol.
-                /*if(ventaService.tienePermiso(P_ASIGNAR_ROL)) {
-                    venta.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-                }*/
-
-                attributes.addFlashAttribute("message", "¡Venta actualizado correctamente!");
-                ventaService.guardar(venta);
-                return RD_FORM_VIEW;
-            }
-        }
-        return RD_FALTA_PERMISO_VIEW;
-    }
-
-    @GetMapping("/{id}/delete")
-        public String eliminarObjeto(@PathVariable String id, RedirectAttributes attributes  ) {
-        this.operacion = "eliminar-";
-        Long idVenta;
-
-        try {
-            idVenta = Long.parseLong(id);
-        } catch (Exception e) {
-            return RD_FORM_VIEW;
-        }
-
-        if(usuarioService.tienePermiso(operacion + VIEW)) {
-            Venta venta = ventaService.obtenerVenta(idVenta);
-            ventaService.eliminarVenta(venta);
-            attributes.addFlashAttribute("message", "¡Venta eliminado correctamente!");
-            return RD_FORM_VIEW;
-        } else {
-            return RD_FALTA_PERMISO_VIEW;
-        }
-    }
+   
 
     @GetMapping("/stockRepEsp/listado")
     public String reporteProductoCantidad(Model model) {

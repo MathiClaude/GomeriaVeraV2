@@ -27,35 +27,35 @@
                     let url = "http://localhost:8080/caja/cajaReporte/"
                     evento.preventDefault();
                     console.log("Llego a la función");
-                    console.log(evento.target.idCajero.value,"Cajero id")
-                    console.log(evento.target.InputCliente.value,"Cliente id")
+                    console.log(evento.target.InputCaja.value,"Caja id")
+                    console.log(evento.target.InputCajero.value,"Cajero id")
                     console.log(evento.target.fechaDesde.value,"Fecha rango desde")
                     console.log(evento.target.fechaHasta.value,"Fecha rango hasta")
                     
                     //rango de todes
-                    if(evento.target.idCajero.value !="" && evento.target.InputCliente.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){
-                        url+=  "rangoAll/" + evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/"+evento.target.InputCliente.value +"/"+ evento.target.idCajero.value
+                    if(evento.target.InputCaja.value !="" && evento.target.InputCajero.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){
+                        url+=  "allReport/" + evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/"+evento.target.InputCajero.value +"/"+ evento.target.InputCaja.value
                     
-                    // rango de usuario y cliente    
-                    } else if (evento.target.idCajero.value !="" && evento.target.InputCliente.value !=""){
-                        url+= "usuarioCliente/"+ evento.target.idCajero.value +"/"+ evento.target.InputCliente.value
+                    // rango de vendedor y caja    
+                    } else if (evento.target.InputCajero.value !="" && evento.target.InputCaja.value !=""){
+                        url+= "usuarioCaja/"+ evento.target.InputCaja.value +"/"+ evento.target.InputCajero.value
                     
                         
                     // por rango de user y fecha    
-                    } else if (evento.target.idCajero.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
-                        url+= "rangoUsuario/"+ evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/" + evento.target.idCajero.value
+                    } else if (evento.target.InputCajero.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
+                        url+= "rangoVendedor/"+ evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/" + evento.target.InputCajero.value
                     
-                    // por rango de cliente y fecha
-                    } else if (evento.target.InputCliente.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
-                        url+= "rangoCliente/"+ evento.target.fechaDesde.value.replaceAll("/","-") + "/" + evento.target.fechaHasta.value.replaceAll("/","-") + "/" + evento.target.InputCliente.value
+                    // por rango de caja y fecha
+                    } else if (evento.target.InputCaja.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
+                        url+= "rangoCaja/"+ evento.target.fechaDesde.value.replaceAll("/","-") + "/" + evento.target.fechaHasta.value.replaceAll("/","-") + "/" + evento.target.InputCaja.value
                     
-                    // por cajero (user)
-                    } else if(evento.target.idCajero.value !=""){
-                        url+= "u/" + evento.target.idCajero.value
+                    // por cajero/vendedor (user)
+                    } else if(evento.target.InputCajero.value !=""){
+                        url+= "user/" + evento.target.InputCajero.value
                     
-                    // por clientes
-                    } else if (evento.target.InputCliente.value !=""){
-                        url+= "c/" +  evento.target.InputCliente.value
+                    // por caja
+                    } else if (evento.target.InputCaja.value !=""){
+                        url+= "caja/" +  evento.target.InputCaja.value
                     
                     //rango de fechas  
                     } else if (evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){ 
@@ -66,59 +66,6 @@
                     const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
                     myModalAlternative.show(document.getElementById('modalReporte'));
                     return false
-                }
-                
-                function abrirReportesEspecificos(reporte){
-                    let url = "http://localhost:8080/venta"
-                    if(reporte == "productoCant"){
-                        url += "/ventaReportEsp/productoCant";
-                    }else if(reporte == "productoMont"){
-                        url += "/ventaReportEsp/productoMont";
-                    }else if(reporte == "historial"){
-                        url += "/ventaReportEsp/historial";
-                    }
-                    
-                    document.getElementById("datoReporte").src=url;
-                    const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
-                    myModalAlternative.show(document.getElementById('modalReporte'));
-                    return false
-
-                }
-                function abrirGraficos(reporte){
-                    let url = "http://localhost:8080/venta"
-                    if(reporte == "rankingVend"){
-                        url += "/graficoDona/cajeros";
-                    }else if(reporte == "rankingProd"){
-                        url += "/graficoDona/productos";
-                    }else if(reporte == "rankingCli"){
-                        url += "/graficoDona/clientes";
-                    }else if(reporte == "rankingServ"){
-                        url += "/graficoDona/servicios";
-                    }
-                    document.getElementById("datoReporte").src=url;
-                    const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
-                    myModalAlternative.show(document.getElementById('modalReporte'));
-                    return false
-
-                }
-                function abrirReportServicio(){
-                    let url = "http://localhost:8080/venta/ventaReportServicio"
-                    // evento.preventDefault();
-                    document.getElementById("datoReporte").src=url;
-                    const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
-                    myModalAlternative.show(document.getElementById('modalReporte'));
-                    return false
-
-                }
-
-                function abrirHistorialVenta(){
-                    let url = "http://localhost:8080/venta/ventaHistorial"
-                    // evento.preventDefault();
-                    document.getElementById("datoReporte").src=url;
-                    const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
-                    myModalAlternative.show(document.getElementById('modalReporte'));
-                    return false
-
                 }
             
             
@@ -142,30 +89,36 @@
                                 <div class="card-body">                                    
                                     <div class="row mb-4">                            
                                         <div class="col">
-                                            <div class="form-outline">
-                                                <label for="inputRuc" class="form-label">Caja</label>                                           
-                                                <input type="number" style="display:none"  id="idCaja" name="idCaja" />
+                                            <!--buscador de caja-->
+                                            <div class="form-group">
+                                                <label name="caja" class="form-label">Caja</label>   
+                                                <input type="hidden"  id="InputCaja" name="caja" />
+                                                
                                                 <div class="input-group mb-3">
-                                                    <input type="text" name="dscCaja" class="form-control" placeholder="Seleccionar caja..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCaja" onkeyup="funcionFiltrarCaja(this.value)" onblur="mostrarBuscadorCaja(false)" onfocus="funcionFiltrarCaja(this.value)" autocomplete="off" disabled/>
-                                                    <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCaja').value=''" onmousedown="document.getElementById('InputCaja').value=''">
-                                                        <i class="bi bi-trash3-fill"></i>
-                                                    </button>
-                                                    <div class="input-group-text">
-                                                        <input type="checkbox" id="checkboxCaja" onclick="habilitarInput('buscadorCaja', 'checkboxCaja')">
-                                                    </div> 
+                                                    <input type="text" class="form-control" placeholder="Seleccionar caja...." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCaja" onkeyup="funcionFiltrarCaja(this.value)" onblur="mostrarBuscadorCaja(false)" onfocus="funcionFiltrarCaja(this.value)" disabled/>
+                                                    <!--a th:href="@{/clientes/nuevo}" >
+                                                        <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
+                                                        </!a-->
+                                                        <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorCaja').value=''" onmousedown="document.getElementById('InputCaja').value=''">
+                                                            <i class="bi bi-trash3-fill"></i>
+                                                        </button>
+                                                        <div class="input-group-text">
+                                                            <input type="checkbox" id="checkboxCaja" onclick="habilitarInput('buscadorCaja', 'checkboxCaja')">
+                                                        </div>                   
+                                                        
+                                                    </div>
+                                                    <ul class="list-group" style="position:absolute;z-index:20"  >                      
+                                                        <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                        <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                        <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                        <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                        <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                        <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                        <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                        <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
+                                                    </ul>
                                                     
                                                 </div>
-                                                <ul class="list-group" style="position:absolute;z-index:20"  >                      
-                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
-                                                    <button type="button" class="list-group-item opcionesCaja" onmousedown="seleccionarCaja(this)"></button>
-                                                </ul>
-                                            </div>
                                         </div>
                                         
                                         
@@ -245,61 +198,18 @@
                                     <div class="row mb-4 justify-content-center">                    
                                         <div class="col-sm-12 mb-2">
                                             <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportesEspecificos('productoMont')">
-                                                <i class="bi bi-basket2-fill" id="download-button" > Productos más vendidos por monto de ventas</i>
+                                                <i class="bi bi-basket2-fill" id="download-button" > Listado de cajas</i>
                                             </button>  
                                         </div>
                                         
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportesEspecificos('productoCant')">
-                                                <i class="bi bi-basket2-fill" id="download-button" > Productos más vendidos por cantidad de ventas</i>
-                                            </button>  
-                                        </div>
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportServicio()">
-                                                <i class="bi bi-shop-window" id="download-button" > Servicios más frecuentes</i>
-                                            </button>  
-                                        </div>
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportesEspecificos('historial')">
-                                                <i class="bi bi-file-earmark-break-fill" id="download-button" > Historial de ventas</i>
-                                            </button>  
-                                        </div>
+                                        
+                                        
                                     </div>                                    
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col-sm-3">
-                            <div class="card">
-                                <div class="card-body">                                    
-                                    <!--gráficos específicos-->
-                                    <p style="color: #21618C; text-align: center;"><strong>Gráficos estadísticos</strong></p>
-                                    <hr>                                     
-                                    <div class="row mb-4 justify-content-center">
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirGraficos('rankingVend')">
-                                                <i class="bi bi-pie-chart-fill" id="download-button" > Ranking de vendedores</i>
-                                            </button>  
-                                        </div> 
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirGraficos('rankingProd')">
-                                                <i class="bi bi-pie-chart-fill" id="download-button" > Productos más vendidos</i>
-                                            </button>  
-                                        </div> 
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirGraficos('rankingServ')">
-                                                <i class="bi bi-pie-chart-fill" id="download-button" > Servicios más frecuentes</i>
-                                            </button>  
-                                        </div> 
-                                        <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirGraficos('rankingCli')">
-                                                <i class="bi bi-pie-chart-fill" id="download-button" > Clientes con más transacciones</i>
-                                            </button>  
-                                        </div> 
-                                    </div>    
-                                </div>
-                            </div>
-                        </div>
+                        
                         
                         
                         
@@ -314,13 +224,13 @@
                 <div class="modal-content">                                   
                     <!--Header-->                    
                     <div class="modal-header"> 
-                        <h5 class="modal-title">Reporte venta</h5> <!-- Por que si-->
+                        <h5 class="modal-title">Reporte de caja</h5> <!-- Por que si-->
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
                     </div>
                     <!-- Body para modal-->
                     <div class="modal-body">
                         <!-- Tabs navs para modal-->
-                        <iframe th:src="@{/venta/ventaReporte}" width="100%" height="400" id="datoReporte"></iframe>
+                        <iframe th:src="@{/caja/cajaReporte}" width="100%" height="400" id="datoReporte"></iframe>
                         <!-- Pie del modal -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload()">Cerrar</button>
@@ -352,13 +262,15 @@
             </div>
         </div>
         <div>
-            <script type="text/javascript" th:inline="javascript">
-                let datos = /*[[${listarCliente}]]*/ null;
+            <script type="text/javascript" th:inline="javascript">                
                 let datosUsuario = /*[[${listarUsuario}]]*/ null;
+                let datosCaja = /*[[${listarCaja}]]*/ null;
             </script>
             
-            <script th:src="@{/js/buscadorCliente.js}" type="text/javascript"></script>
+            
             <script th:src="@{/js/buscadorCajero.js}" type="text/javascript"></script>
+            <script th:src="@{/js/buscadorCaja.js}" type="text/javascript"></script>
+
             
             <script th:src="@{/js/habillitarInput.js}" type="text/javascript"></script>                
             <script th:src="@{/js/rangoMeses.js}" type="text/javascript"></script>

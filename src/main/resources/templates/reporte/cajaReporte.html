@@ -93,12 +93,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
       <html lang="en">
       <head>
         <meta charset="utf-8">
-        <title>Gomería Vera - Reporte de compra</title>    
+        <title>Gomería Vera - Reporte de venta</title>    
       </head>
       <body>
         
         <header class="clearfix">        
-          <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#FFFFFF">Reporte de compra</b></h1>
+          <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#FFFFFF">Reporte de caja</b></h1>
           <div class="container">
             <div class="row">
               <div class="col-7">
@@ -115,27 +115,28 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               </div>
             </div>
           </div>
-          <hr>      
+          <hr>  
+
           <!--titulo-->
           <div class="container"> 
             <div class="row">
-              <div class="col" th:unless="${tRC == '' }">                    
-                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRC}"></h3>
+              <div class="col" th:unless="${tRCaja == '' }">                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRCaja}"></h3>
               </div> 
-              <div class="col" th:unless='${tRU=="" }'>                    
-                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRU}"></h3>
+              <div class="col" th:unless='${tRUsuario=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRUsuario}"></h3>
               </div>                                  
-              <div class="col" th:unless='${tRCU=="" }'>                    
-                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRCU}"></h3>
+              <div class="col" th:unless='${tRCajaUser=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRCajaUser}"></h3>
               </div> 
-              <div class="col" th:unless='${tRF=="" }'>                    
-                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRF}"></h3>           
+              <div class="col" th:unless='${tRFecha=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFecha}"></h3>           
               </div>
-              <div class="col" th:unless='${tRFC=="" }'>                    
-                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFC}"></h3>           
+              <div class="col" th:unless='${tRFechaCaja=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFechaCaja}"></h3>           
               </div>
-              <div class="col" th:unless='${tRFU=="" }'>                    
-                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFU}"></h3>           
+              <div class="col" th:unless='${tRFechaUser=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRFechaUser}"></h3>           
               </div>
               <div class="col" th:unless='${tRepAll=="" }'>                    
                 <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRepAll}"></h3>           
@@ -143,50 +144,52 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             </div>
           </div>
           
+
           <!--descripción--> 
           <div class="container"> 
             <div class="row">
-              <div class="col" th:unless="${dRC == '' }">                    
-                <p style="font-weight: bold; text-align: center;" th:text="${dRC}"></p>
+              <div class="col" th:unless="${dRCaja == '' }">                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRCaja}"></p>
               </div> 
-              <div class="col" th:unless='${dRU=="" }'>                    
-                <p style="font-weight: bold; text-align: center;" th:text="${dRU}"></p>
+              <div class="col" th:unless='${dRUsuario=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRUsuario}"></p>
               </div>                                  
-              <div class="col" th:unless='${dRCU=="" }'>                    
-                <p style="font-weight: bold; text-align: center;" th:text="${dRCU}"></p>
+              <div class="col" th:unless='${dRCajaUser=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRCajaUser}"></p>
               </div> 
-              <div class="col" th:unless='${dRF=="" }'>                    
-                <p style="font-weight: bold; text-align: center;" th:text="${dRF}"></p>            
+              <div class="col" th:unless='${dRFecha=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRFecha}"></p>            
               </div>
-              <div class="col" th:unless='${dRFC=="" }'>                    
-                <p style="font-weight: bold; text-align: center;" th:text="${dRFC}"></p>            
+              <div class="col" th:unless='${dRFechaCaja=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRFechaCaja}"></p>            
               </div>
-              <div class="col" th:unless='${dRFU=="" }'>                    
-                <p style="font-weight: bold; text-align: center;" th:text="${dRFU}"></p>            
+              <div class="col" th:unless='${dRFechaUser=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRFechaUser}"></p>            
               </div>
               <div class="col" th:unless='${dRAll=="" }'>                    
                 <p style="font-weight: bold; text-align: center;" th:text="${dRAll}"></p>            
               </div>      
             </div>
           </div>
-          
+
           <!--parámetros-->
           <div class="container"> 
             <div class="row">
-              <div class="col" th:unless="${pCU == '' }">                    
-                <p style="font-weight: bold;" th:text="${pCU}"></p>
+              <div class="col" th:unless="${pCaja == '' }">                    
+                <p style="font-weight: bold; text-align: center;" th:text="${pCaja}"></p>
               </div> 
-              <div class="col" th:unless='${pCU2=="" }'>                    
-                <p style="font-weight: bold;" th:text="${pCU2}"></p>
-              </div>                                  
-              <div class="col" th:unless="${pDesHas == '' }">                    
-                <p style="font-weight: bold;" th:text="${pDesHas}"></p>            
-              </div>
+              <div class="col" th:unless='${pUsuario=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${pUsuario}"></p>
+              </div>                              
+              
               <div class="col" th:unless='${fI=="" }'>                    
-                <p style="font-weight: bold;" th:text="${fI}"></p>            
+                <p style="font-weight: bold; text-align: center;" th:text="${fI}"></p>            
               </div>
+              <!--div class="col" th:unless="${pDesHas == '' }">                    
+                <p style="font-weight: bold; text-align: center;" th:text="${pDesHas}"></p>            
+              </!div-->
               <div class="col" th:unless='${pFechaEmision=="" }'>                    
-                <p style="font-weight: bold;" th:text="${pFechaEmision}"></p>            
+                <p style="font-weight: bold; text-align: center;" th:text="${pFechaEmision}"></p>            
               </div>      
             </div>
           </div>
@@ -200,23 +203,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
         <table class="table">
           <thead style="background-color: #0a4275;">
             <tr class="text-center"><!---->
-              <th>Nro. de Compra</th><!---->
-              <th>Proveedor</th><!---->
-              <th>Vendedor</th><!---->
+              <th>Factura</th><!---->
+              <th>Cliente</th><!---->
               <th>Fecha</th><!---->
-              <th>Estado</th><!---->
-              <!--th>Cantidad de Productos</!th><!-->
-              <th>Monto</th><!---->
+              <th>Vendedor</th><!---->
+              <th>Total</th><!---->
+              <th>Impuesto</th><!---->                
             </tr><!---->
           </thead><!---->
           <tbody id="datos"><!---->
             <tr class="text-center" th:each="datos: ${datos}">
-              <td th:text="${datos.idCompra}"></td>
-              <td th:text="${datos.proveedor}"></td>
-              <td th:text="${datos.usuario}"></td>   
-              <td th:text="${datos.fechaCompra}"></td>   
-              <td th:text="${datos.estado}"></td>
+              <td th:text="${datos.nroFactura}"></td>
+              <td th:text="${datos.cliente}"></td>
+              <td th:text="${datos.fechaVenta}"></td>   
+              <td th:text="${datos.usuario}"></td>
               <td th:text="${datos.montoTotal}"></td>   
+              <td th:text="${datos.impuesto}"></td>   
             </tr>
           </tbody>
         </table>
@@ -230,15 +232,24 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             <th>
               <div class="row">
                 <div class="col-6">                    
-                  <label for="inputNombre" class="form-label">TOTAL ITEMS COMPRADOS:</label>
+                  <label for="inputNombre" class="form-label">TOTAL ITEMS:<span th:text="${totalItems}"></span></label>
                   <span id="cantidadItemsComprobante" th:text="${cantidadDetalle}"></span>
                 </div>  
                 <div class="col-6">                    
-                  <label for="inputNombre" class="form-label">TOTAL:</label>
+                  <label for="inputNombre" class="form-label">TOTAL A PAGAR:<span th:text="${totalMonto}"></span></label>
                   <!--span id="totalPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
                 </div>                                                              
               </div>
-                                       
+              <!---->
+              <div class="row">
+                <div class="col-6">                    
+                  <label for="inputNombre" class="form-label">TOTAL I.V.A.:<span th:text="${totalIva}"></span></label>
+                </div> 
+                <div class="col-6">                    
+                  <label for="inputNombre" class="form-label">NETO A PAGAR:<span th:text="${totalMonto}"></span></label>
+                  <!--span id="netoPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
+                </div>                                  
+              </div>                              
             </th>
           </tr>    
           

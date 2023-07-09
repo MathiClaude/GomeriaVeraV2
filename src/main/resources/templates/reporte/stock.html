@@ -76,7 +76,7 @@
         </div>
         <hr>
         <!--titulo-->
-        <form method="post" th:action="@{/inventario}" th:object="${reporte}">
+        <form method="post" onsubmit="return abrirComprobante(event)">
             <fieldset>
                 
                 <br> <!--separador-->

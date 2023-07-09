@@ -66,6 +66,8 @@ public class RolController {
 
         if(consultar) {
             model.addAttribute("listRol", rolService.listar());
+            model.addAttribute("listarPermiso", permisoService.listar());//lista los permisos
+
         } else {
             return FALTA_PERMISO_VIEW;
         }

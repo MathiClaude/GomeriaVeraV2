@@ -1,9 +1,9 @@
-console.log("Incluido buscador de caja")
+console.log("Incluido buscador de permiso")
 /*Datos para buscador*/
 
 window.onload=()=>{
-	mostrarBuscadorCaja(false)
-	let opciones = document.getElementsByClassName("opcionesCaja");
+	mostrarBuscadorPermiso(false)
+	let opciones = document.getElementsByClassName("opcionesPermiso");
 	console.log(opciones);
 	for(let opcion of opciones){
 		opcion.addEventListener("click",()=>console.log("test"));
@@ -13,8 +13,8 @@ window.onload=()=>{
 
 // Funcion para buscar y seleccionar un caja del buscador
 
-function mostrarBuscadorCaja(estado){
-	let opciones = document.getElementsByClassName("opcionesCaja");
+function mostrarBuscadorPermiso(estado){
+	let opciones = document.getElementsByClassName("opcionesPermiso");
 	let display = (estado)?"":"none";
 	// console.log(opciones);
 	for(let opcion of opciones){
@@ -22,21 +22,21 @@ function mostrarBuscadorCaja(estado){
 		
 	}
 }
-function seleccionarCaja(a){
+function seleccionarPermiso(a){
 	console.log(a.getAttribute('data-value'))
-	document.getElementById("buscadorCaja").value=a.innerHTML
-	document.getElementById("InputCaja").value= a.getAttribute('data-value')
+	document.getElementById("buscadorPermiso").value=a.innerHTML
+	document.getElementById("InputPermiso").value= a.getAttribute('data-value')
 }
-function funcionFiltrarCaja(valor) {
-	if(datosCaja == []){
+function funcionFiltrarPermiso(valor) {
+	if(datosPermiso == []){
 		
 	}
 	let datosFiltrados =[]
-	let listaOpciones = document.getElementsByClassName("opcionesCaja");
+	let listaOpciones = document.getElementsByClassName("opcionesPermiso");
 	if(valor==""){
-		datosFiltrados = datosCaja
+		datosFiltrados = datosPermiso
 	}else{
-		datosFiltrados = datosCaja.filter((elemento)=>{return (( elemento.idCaja.toString() + ""+ elemento.descripcion.toUpperCase()).includes(valor.toUpperCase()) )})
+		datosFiltrados = datosPermiso.filter((elemento)=>{return (( elemento.idRol.toString() + ""+ elemento.descripcion.toUpperCase()).includes(valor.toUpperCase()) )})
 	} 
 	// console.log(datosFiltrados)
 	// console.log(listaOpciones)
@@ -44,10 +44,10 @@ function funcionFiltrarCaja(valor) {
 	for (let i = 0; i < listaOpciones.length; i++) {
 		listaOpciones[i].removeAttribute("data-value")
 		listaOpciones[i].innerHTML = "";
-		listaOpciones[i].addEventListener("click",seleccionarCaja);
+		listaOpciones[i].addEventListener("click",seleccionarPermiso);
 		
 	} 
-	mostrarBuscadorCaja(false)
+	mostrarBuscadorPermiso(false)
 	for (let i = 0; i < listaOpciones.length; i++) {
 		if(!datosFiltrados[i]){
 			// console.log("test")
@@ -58,7 +58,7 @@ function funcionFiltrarCaja(valor) {
 		listaOpciones[i].setAttribute("data-value",`${datosFiltrados[i].idCaja}`)
 		listaOpciones[i].innerHTML = `${datosFiltrados[i].descripcion}`;
 		listaOpciones[i].style.display="";
-		listaOpciones[i].setAttribute("onclick",seleccionarCaja);
+		listaOpciones[i].setAttribute("onclick",seleccionarPermiso);
 	}
 	
 	

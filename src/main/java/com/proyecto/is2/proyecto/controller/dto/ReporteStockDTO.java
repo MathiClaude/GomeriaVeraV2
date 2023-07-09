@@ -5,17 +5,20 @@ import lombok.Data;
 @Data
 public class ReporteStockDTO {
     private String proveedor;
-    private String producto;
-    private String tipoProducto;
-    private String marca;
-
+    private String idCompra;
+    private String fechaCompra;
+    private Float montoCompra;
+    private String usuario;
+    private String estado;
     
-    public ReporteStockDTO(String proveedor, String producto, String tipoProducto, String marca, String precio) {
+    
+    public ReporteStockDTO(String proveedor, String idCompra, String fechaCompra, String montoCompra, String usuario,String estado) {
         this.proveedor = proveedor;
-        this.producto = producto;
-        this.tipoProducto = tipoProducto;
-        this.marca = marca;
-        this.precio = precio;
+        this.idCompra = idCompra;
+        this.fechaCompra = fechaCompra;
+        this.montoCompra = new Float(montoCompra);
+        this.usuario = usuario;
+        this.estado = estado;
     }
     private String precio;
 

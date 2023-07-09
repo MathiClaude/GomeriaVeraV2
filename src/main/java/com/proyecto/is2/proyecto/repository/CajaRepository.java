@@ -14,6 +14,7 @@ public interface CajaRepository extends JpaRepository<Caja, Long> {
     //public Caja findByPinCaja(String pinCaja);
     //public Caja findBySaldoInicialCaja(String saldoInicial);
     
+    //filtro de caja
     @Query(value="SELECT "+
                 " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
                 "FROM operacion o "+
@@ -23,6 +24,7 @@ public interface CajaRepository extends JpaRepository<Caja, Long> {
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidCajaNative(Long id_caja); 
 
+    //filtro de vendedor
     @Query(value="SELECT "+
                 " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
                 "FROM operacion o "+
@@ -32,7 +34,7 @@ public interface CajaRepository extends JpaRepository<Caja, Long> {
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidUsuarioNative(Long id_usuario); 
 
-
+    //filtro rango de fechas
     @Query(value="SELECT "+
                 " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
                 "FROM operacion o "+
@@ -42,7 +44,7 @@ public interface CajaRepository extends JpaRepository<Caja, Long> {
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByRangoNative(String fechaDesde,String fechaHasta); 
 
-
+    // filtro caja y vendedor
     @Query(value="SELECT "+
                 " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
                 "FROM operacion o "+
@@ -52,6 +54,7 @@ public interface CajaRepository extends JpaRepository<Caja, Long> {
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidCajaUsuarioNative(Long id_caja,Long id_usuario); 
 
+    //filtro caja y fecha
     @Query(value="SELECT "+
                 " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
                 "FROM operacion o "+
@@ -61,6 +64,8 @@ public interface CajaRepository extends JpaRepository<Caja, Long> {
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidCajaRangoNative(Long id_caja,String fechaDesde,String fechaHasta); 
 
+
+    //filtro vendedor y fecha
     @Query(value="SELECT "+
                 " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
                 "FROM operacion o "+
@@ -70,6 +75,8 @@ public interface CajaRepository extends JpaRepository<Caja, Long> {
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidUsuarioRangoNative(Long id_usuario,String fechaDesde,String fechaHasta); 
 
+
+    // filtro all
     @Query(value="SELECT "+
                 " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
                 "FROM operacion o "+
@@ -77,8 +84,9 @@ public interface CajaRepository extends JpaRepository<Caja, Long> {
                 "JOIN usuario u ON u.id_usuario = o.usuario_id "+
                 "WHERE c.id_caja = ?1 AND u.id_usuario = ?2 AND TO_DATE(fecha_operacion,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?3,'MM-DD-YYYY') AND TO_DATE(?4,'MM-DD-YYYY') "+
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
-    List<Tuple>  findHistorialOperacionesByidCajaRangoNative(Long id_caja,Long id_usuario,String fechaDesde,String fechaHasta); 
+    List<Tuple>  findHistorialOperacionesByidCajaRangoNative(Long id_caja,Long id_usuario,String fechaDesde,String fechaHasta);
 
+    //reporte específico - > Listado de cajas
     @Query(value="SELECT "+
                 " id_caja, descripcion ,estado" + 
                 "FROM caja c "+    

@@ -1,7 +1,7 @@
 var SUCCESS_CODE = "200";
 // Start counting from the third row
 var counter = 1;
-
+let listaDocumentos =[];
 
 function functProveedorUpdate() {
     let isValid = true;
@@ -149,3 +149,85 @@ function getCellsValues() {
     }
     return lista;``
 }
+
+/*function agregarDocumentos(elemento){
+    if(elemento.checked){
+		if(parseInt(precio) < 1 ){
+			Swal.fire({
+				title: "No se puede seleccionar un producto con precio 0 "
+			});
+			elemento.checked=false;
+			return;
+		}
+		listaDocumentos.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
+	}else{
+		listaDocumentos = listaDocumentos.filter((producto)=>producto.idProducto != idProducto)
+	}
+
+}*/
+
+/*
+async function guardarDatosPedido(){
+
+	const TOTAL_EFECTIVO = document.getElementById('inputMontoCliente');
+	const cliente = document.getElementById('InputCliente')
+	if (cliente.value == ""){
+
+		Swal.fire({
+			title: "Debe elegir un cliente"
+		});
+		return;
+	}
+	let totalVenta = 0 ;
+	listaProductos.forEach((prod)=>{
+		totalVenta+=prod.cantidad*prod.precio
+	})
+	if(totalVenta == 0){
+		Swal.fire({
+			title: "Debe elegir al menos un producto para vender"
+		});
+		return;
+
+	}
+	
+	let listaEnviar = "";
+	for(let a of listaProductos){
+		listaEnviar +=`${a.cantidad};${a.idProducto};${a.precio}|`
+	}
+	//VALIDACION DEL MONTO INGRESADO POR EL CLIENTE 
+	validarMonto(removeNonNumeric(TOTAL_EFECTIVO.value));
+	if(parseInt(removeNonNumeric(TOTAL_EFECTIVO.value)) < 1 || removeNonNumeric(TOTAL_EFECTIVO.value) == ''  ){
+		return;
+	} 
+	console.log(TOTAL_EFECTIVO.value,'test');
+	if((parseInt(removeNonNumeric(TOTAL_EFECTIVO.value)) - parseInt(removeNonNumeric(totalVenta))) <0) {
+		Swal.fire({
+			icon: 'error',
+			title: 'Algo salió mal...',
+			text: 'Monto ingresado menor al valor de la venta!',
+		})
+		console.log("testing")
+		return;
+	}
+	const formData = new FormData();
+
+	formData.append("idCliente", cliente.value );
+	formData.append("montoVenta", removeNonNumeric(totalVenta));
+	formData.append("totalVenta", removeNonNumeric(totalVenta));
+	formData.append("ventaDetalle", listaEnviar);
+
+	console.log(formData)
+	//enviamos la cabecera
+	let resp = await fetch('http://localhost:8080/realizarVenta/crear',{
+		method:'POST',
+		body: formData,
+	})
+	let respParseado = await resp.json();
+	console.log(respParseado)
+	let idVenta = respParseado.path.split("/")[2];
+	console.log("http://localhost:8080/comprobante/"+idVenta+"/pdf");
+	document.getElementById("datoComprobante").src="http://localhost:8080/comprobante/"+idVenta+"/pdf";
+	const myModalAlternative = new bootstrap.Modal('#cobroModal',{})
+	myModalAlternative.show(document.getElementById('cobroModal'));
+
+}*/

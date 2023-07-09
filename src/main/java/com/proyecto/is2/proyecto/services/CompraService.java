@@ -2,7 +2,9 @@ package com.proyecto.is2.proyecto.services;
 
 
 import com.proyecto.is2.proyecto.model.Compra;
+import com.proyecto.is2.proyecto.model.Proveedor;
 import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
+import com.proyecto.is2.proyecto.controller.dto.ProveedorDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -17,6 +19,7 @@ public interface CompraService {
      */
     public void convertirDTO(Compra compra, CompraDTO objetoDTO);
 
+    public void getDTO(Compra obj, CompraDTO dto);
     /**
      * Persiste un objeto del tipo Venta
      * @param Compra objeto a persistir
@@ -29,6 +32,10 @@ public interface CompraService {
      * @return
      */
     public List<Compra> listar();
+
+    //public List<Compra> listarPendientes();
+
+    public Compra listarComprasPendientes(String estado);
 
     /**
      * Verifica si existe una venta a traves de su id

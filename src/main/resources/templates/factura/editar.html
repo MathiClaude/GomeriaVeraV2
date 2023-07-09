@@ -36,9 +36,6 @@
         <label for="inputCantidad" class="form-label"><strong>Fecha del Pedido: </strong>  <em>[[${compra.fechaCompra}]]</em></label>
         <!--input type="hidden" class="form-control" id="inputCantidad" name="fechaCompra" th:value="${compra.fechaCompra}"-->
       </div>
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputCantidad" class="form-label"><strong> Proveedor: </strong><em>[[${compra.proveedor.nombre}]]</em></label>
-      </div>
       <!--div class="mb-3">
         <label for="inputPrecio" class="form-label">Precio</label>
         <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
@@ -47,7 +44,7 @@
 
       <div>
         <label for="inputSelectEstado" class="form-label">Estado del Pedido:</label>
-        <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado" onclick="validarEstadoCompra(this.value)">
+        <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado" onclick="validarEstadoCompra(this.value)" th:value="${compra.estado}">
           <option style="background-color: yellow;" value="PENDIENTE">PENDIENTE</option>
           <option style="background-color: blue; color: white;" value="PARCIALMENTE_ENTREGADO">PARCIALMENTE ENTREGADO</option>
           <option style="background-color: red; color: white;" value="ANULADO">ANULADO</option>
@@ -89,24 +86,26 @@
       </div>
       <div class="col-sm-6">
         <button type="submit" class="btn btn-warning w-100">Guardar Cambios</button>
+        <!--button type="button" class="btn btn-success"  onclick="guardarDatosPedido()">Guardar Cambios</button-->
       </div>
     </div>
     </form>
-  </div>
   <script th:src="@{/js/compra.js}" th:inline="javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
-  <th:block layout:fragment="scripts">
+
    
 
-    <script th:if="${edit}" th:inline="javascript">
+    <script th:inline="javascript">
         let doc, tipo, monto;
         let contador = 1;
-        /*[# th:each="item : ${objProveedor.contactos}"]*/
-          addCellValuesInvoice([[${item.doc}]], [[${item.tipo}]], [[${item.monto}]], contador);
+        /*[# th:each="item : ${compra.facturas}"]*/
+          addCellValuesInvoice([[${item.nroDocumento}]], [[${item.tipo}]], [[${item.monto}]], contador);
           contador++;
         /*[/]*/
         counter = contador;
     </script>
-</th:block>   
+   
+</div>
+
 </body>
 </html>

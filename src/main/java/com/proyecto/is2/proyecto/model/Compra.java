@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -69,5 +70,8 @@ public class Compra {
     /*@ManyToOne
     @JoinColumn(name = "comprobante_venta_id", referencedColumnName = "idComprobante")
     private Comprobante comprobante;*/
+
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
+    private List<Factura> facturas;
 
 } 

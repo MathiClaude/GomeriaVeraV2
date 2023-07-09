@@ -43,4 +43,6 @@ public interface ProveedorService {
 
     public boolean tienePermiso(String permiso);
 
+     public Proveedor obtenerInstancia(Long idObj);
+
 }

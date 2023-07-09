@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface CompraRepository extends JpaRepository<Compra, Long> {
     //public Usuario findByEmail(String email);
     public Compra findByIdCompra(Long idCompra);
-
+    public Compra findByEstado(String estado);
 
 
     // INFORME DE PRODUCTO MAS COMPRADOS POR CANTIDAD
@@ -23,6 +23,7 @@ public interface CompraRepository extends JpaRepository<Compra, Long> {
                 "LEFT JOIN usuario u ON u.id_usuario = v.usuario_id "+
                 "ORDER BY v.id_venta DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findInformeHistorialNative(); 
+   
 
     //QUERY PARA GRÁFICO 
     @Query(value="SELECT "+

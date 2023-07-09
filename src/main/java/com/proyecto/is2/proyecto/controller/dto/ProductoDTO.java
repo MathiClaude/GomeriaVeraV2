@@ -25,7 +25,9 @@ public class ProductoDTO {
     private Long idProveedor;//nueva columna para el id
 
     private Integer precio;//sacar. Es solo para pruebas
+    private Integer precioCompra;
     private Integer cantidad;//sacar Es solo para prubas
+    private Integer cantidadMinima;
     private String procedencia;
 
 }

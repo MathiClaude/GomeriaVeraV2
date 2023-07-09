@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Datos de Existencias y Precio</b></h1> <!--titulo-->
+
+  <form method="POST" th:action="@{/consultaProductos/{id}(id=${product.idProducto})}" th:object="${producto}">
+    <!--th:block th:include="fragment/error-message.html"></th:block-->
+
+    <fieldset>
+      <legend>Información del Producto</legend>
+      <div class="mb-3"> <!-- margen button -->
+        <label class="form-label">Id Producto: [[${product.idProducto}]]</label>
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label class="form-label">Codigo de Producto: [[${product.codigo}]]</label>
+        <input type="hidden" name="codigo" th:value="${product.codigo}" />
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label class="form-label">Nombre de Producto: [[${product.nombreProducto}]]</label>
+        <input type="hidden" name="nombreProducto" th:value="${product.nombreProducto}" />
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputCantidad" class="form-label">Cantidad Minima</label>
+        <input type="text" class="form-control" id="inputCantidad" name="cantidad" th:value="${product.cantidadMinima}" readonly>
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputCantidad" class="form-label">Cantidad</label>
+        <input type="text" class="form-control" id="inputCantidad" name="cantidad" th:value="${product.cantidad}" readonly>
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputPrecio" class="form-label">Precio Compra</label>
+        <input type="text" class="form-control" id="inputPrecio" name="precio" th:value="${product.precioCompra}" readonly>
+      </div>
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputPrecio" class="form-label">Precio Venta</label>
+        <input type="text" class="form-control" id="inputPrecio" name="precio" th:value="${product.precio}" readonly>
+      </div>
+
+      <!--div class="mb-3">
+        <label for="inputPrecio" class="form-label">Fecha de Ingreso</label>
+        <input type="date" id="inputFecha" name="fecha" class="form-control"placeholder="Introduzca nueva fecha">
+      </div-->
+
+    </fieldset>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <a th:href="@{/stocks}" class="btn btn-outline-secondary w-100">
+          Atrás
+        </a>
+      </div>
+      <div class="col-sm-6">
+        <button type="submit" class="btn btn-warning w-100">Modificar Producto</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

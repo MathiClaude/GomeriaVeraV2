@@ -29,8 +29,14 @@ public class Producto {
     @Column(name = "precio")
     private Integer precio;
 
+    @Column(name = "precioCompra")
+    private Integer precioCompra;
+
     @Column(name = "cantidad")
     private Integer cantidad;
+
+    @Column(name = "cantidadMinima")
+    private Integer cantidadMinima;
 
     /*@Column(name = "familiaProducto")
     private String familiaProducto;*/

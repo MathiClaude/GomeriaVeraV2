@@ -64,7 +64,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/realizarVenta")
 public class VentaController {
-    final String VIEW = "ventas"; // identificador de la vista
+    final String VIEW = "venta"; // identificador de la vista
     final String VIEW_PATH = "ventas";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/realizarVenta";
@@ -235,6 +235,7 @@ public class VentaController {
             model.addAttribute("roles", rolService.listar());
             model.addAttribute("listVentas",ventas);
         }
+        model.addAttribute("permisoVer", crear);
         model.addAttribute("permisoAsignarRol", asignarRol);
 
         if(crear) {

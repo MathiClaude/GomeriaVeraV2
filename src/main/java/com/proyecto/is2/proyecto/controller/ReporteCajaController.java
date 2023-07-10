@@ -67,7 +67,9 @@ import javax.persistence.Tuple;
 @Controller
 @RequestMapping("/caja")
 public class ReporteCajaController {
-    final String VIEW = "reporte"; // identificador de la vista
+    //final String VIEW = "reporte"; // identificador de la vista
+    final String VIEW = "reporteCaja"; // identificador de la vista que corresponde al permiso consulta-reporteVenta
+
     final String VIEW_PATH = "reporte";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/caja";
@@ -158,10 +160,10 @@ public class ReporteCajaController {
     public String mostrarGrilla(Model model, RedirectAttributes attributes) {
 
         boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
-        boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
+        //boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        //boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        //boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
         List<Tuple> listaCruda = usuarioService.listarUsuariosBuscador();
         List<UsuarioDTO> usuarios = new ArrayList<>();
         for (Tuple user : listaCruda) {
@@ -215,10 +217,10 @@ public class ReporteCajaController {
         }*/
 
         model.addAttribute("permisoVer", consultar);
-        model.addAttribute("permisoCrear", crear);
-        model.addAttribute("permisoEliminar", eliminar);
-        model.addAttribute("permisoActualizar", actualizar);
-        model.addAttribute("permisoSeleccionar", seleccionar);
+        //model.addAttribute("permisoCrear", crear);
+        //model.addAttribute("permisoEliminar", eliminar);
+        //model.addAttribute("permisoActualizar", actualizar);
+        //model.addAttribute("permisoSeleccionar", seleccionar);
     
 
         return FORM_VIEW;
@@ -241,7 +243,7 @@ public class ReporteCajaController {
     
     @GetMapping("/cajaReporte/caja/{id_caja}")
     public String reporteVentaCliente(Model model,@PathVariable String id_caja) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
@@ -301,7 +303,7 @@ public class ReporteCajaController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -310,7 +312,7 @@ public class ReporteCajaController {
 
     @GetMapping("/cajaReporte/user/{usuario_id}")
     public String reporteVentaUsuario(Model model,@PathVariable String usuario_id) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         
@@ -364,7 +366,7 @@ public class ReporteCajaController {
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -373,7 +375,7 @@ public class ReporteCajaController {
 
     @GetMapping("/cajaReporte/usuarioCaja/{id_caja}/{id_usuario}")
     public String reporteVentaUsuarioCliente(Model model,@PathVariable String id_caja, @PathVariable String id_usuario) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByidCajaUsuarioNative(new Long(id_caja), new Long(id_usuario));
@@ -428,7 +430,7 @@ public class ReporteCajaController {
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -437,7 +439,7 @@ public class ReporteCajaController {
 
     @GetMapping("/cajaReporte/rangoFecha/{fechaDesde}/{fechaHasta}")
     public String reporteRangoFecha(Model model,@PathVariable String fechaDesde, @PathVariable String fechaHasta) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
@@ -490,7 +492,7 @@ public class ReporteCajaController {
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -499,7 +501,7 @@ public class ReporteCajaController {
 
     @GetMapping("/cajaReporte/rangoCaja/{fechaDesde}/{fechaHasta}/{id_caja}")
     public String reporteVentaFechaCliente(Model model, @PathVariable String fechaDesde,@PathVariable String fechaHasta, @PathVariable String id_caja) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
@@ -554,7 +556,7 @@ public class ReporteCajaController {
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -563,7 +565,7 @@ public class ReporteCajaController {
 
     @GetMapping("/cajaReporte/rangoVendedor/{fechaDesde}/{fechaHasta}/{id_usuario}")
     public String reporteVentaFechaUsuario(Model model,@PathVariable String id_usuario, @PathVariable String fechaDesde, @PathVariable String fechaHasta) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
 
         List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByidUsuarioRangoNative(new Long(id_usuario), fechaDesde, fechaHasta);
 
@@ -615,7 +617,7 @@ public class ReporteCajaController {
 
         model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -624,7 +626,7 @@ public class ReporteCajaController {
 
     @GetMapping("/cajaReporte/allReport/{fechaDesde}/{fechaHasta}/{id_usuario}/{id_caja}")
     public String reporteVentaRangoAll(Model model ,@PathVariable String fechaDesde, @PathVariable String fechaHasta,@PathVariable String id_usuario, @PathVariable String id_caja) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
 
         List<Tuple> datosCaja = cajaRepository.findHistorialOperacionesByidCajaRangoNative(new Long(id_caja), new Long(id_usuario),fechaDesde, fechaHasta);
 
@@ -675,7 +677,7 @@ public class ReporteCajaController {
         model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -694,7 +696,7 @@ public class ReporteCajaController {
 
     @GetMapping("/cajaReportEsp")
     public String reporteProductoCantidad(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
 
         List<Tuple> datosVenta = ventaRepository.findInformeProductoCantNative();
 
@@ -732,7 +734,7 @@ public class ReporteCajaController {
         model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
-        if(crear) {
+        if(consultar) {
             return REPORTE_ESPECIFICO;
         } else {
             return REPORTE_ESPECIFICO;

@@ -3,8 +3,30 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/basic}">
 <body>
+    <!--DAR FORMATO LINDO : D-->
 <div layout:fragment="content">
-    <h1>ERROR: No posee permiso para ver esta vista</h1>
+    <div>
+        <img th:src="@{/img/403.png}" class="center wp-image-4532" style="width: 450px; height: 270px;" />
+    </div>
+    <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">LO SIENTO.....  </b></h1> <!--titulo-->
+    <h3 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#154360">Pero no tiene permiso para acceder a esta vista</b></h3> 
+    <div class="col-sm-20">
+        <div class="row">
+          <div class="col text-center">
+            <a href="javascript:void(0);" class="btn btn-outline-danger" onclick="goBack()">
+              Volver atrás
+            </a>
+          </div>
+        </div>
+    </div>
+    <script>
+        function goBack() {
+          window.history.back(); // Esta función hará que se retroceda en el historial del navegador
+        }
+    </script>
+      
+    <!--h1>ERROR: No posee permiso para ver esta vista</!h1-->
 </div>
+    
 </body>
 </html>

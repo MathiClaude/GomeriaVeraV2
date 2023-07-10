@@ -65,7 +65,9 @@ import javax.persistence.Tuple;
 @Controller
 @RequestMapping("/stock")
 public class ReporteStockController {
-    final String VIEW = "reporte"; // identificador de la vista
+    //final String VIEW = "reporte"; // identificador de la vista
+    final String VIEW = "reporteStock"; // identificador de la vista que corresponde al permiso consulta-reporteStock
+
     final String VIEW_PATH = "reporte";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/stock";
@@ -152,10 +154,10 @@ public class ReporteStockController {
     public String mostrarGrilla(Model model, RedirectAttributes attributes) {
 
         boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
-        boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
+        //boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        //boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        //boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
 
 
 
@@ -205,10 +207,10 @@ public class ReporteStockController {
         }*/
 
         model.addAttribute("permisoVer", consultar);
-        model.addAttribute("permisoCrear", crear);
-        model.addAttribute("permisoEliminar", eliminar);
-        model.addAttribute("permisoActualizar", actualizar);
-        model.addAttribute("permisoSeleccionar", seleccionar);
+        //model.addAttribute("permisoCrear", crear);
+        //model.addAttribute("permisoEliminar", eliminar);
+        //model.addAttribute("permisoActualizar", actualizar);
+        //model.addAttribute("permisoSeleccionar", seleccionar);
     
 
         return FORM_VIEW;
@@ -250,7 +252,7 @@ public class ReporteStockController {
 
     @GetMapping("/stockReporte/p/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR
     public String reporteStockProveedor(Model model,@PathVariable String proveedor_id) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         List<Tuple> datosStock = productoRepository.findStockByProveedorNative(new Long(proveedor_id));
 
@@ -303,7 +305,7 @@ public class ReporteStockController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -312,7 +314,7 @@ public class ReporteStockController {
     
     @GetMapping("/stockReporte/tP/{id_tipoProducto}") // REPORTE DE STOCK CONDICIONADO POR TIPO DE PRODUCTO
     public String reporteStockTP(Model model,@PathVariable String id_tipoProducto) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         List<Tuple> datosCompra = productoRepository.findStockByTipoProNative(new Long(id_tipoProducto));
         List<ReporteStockDTO> listaDatos = this.parsearDatosReporteStock(datosCompra);
@@ -360,7 +362,7 @@ public class ReporteStockController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -370,7 +372,7 @@ public class ReporteStockController {
 
     @GetMapping("/stockReporte/tProdProv/{id_tipoProducto}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR ESTADO
     public String reporteCompraAll(Model model,@PathVariable String id_tipoProducto, @PathVariable String proveedor_id) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         List<Tuple> datosCompra = productoRepository.findStockByTipoProProveedorNative(new Long(id_tipoProducto),new Long(proveedor_id));
         List<ReporteStockDTO> listaDatos = this.parsearDatosReporteStock(datosCompra);
@@ -418,7 +420,7 @@ public class ReporteStockController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -427,7 +429,7 @@ public class ReporteStockController {
 
     @GetMapping("/stockRepEsp/cantMinima")
     public String reporteCantidadMinima(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         
         List<Tuple> datosStock = productoRepository.findStockByCantMinimaNative();
 
@@ -476,7 +478,7 @@ public class ReporteStockController {
        model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FORM_NEW;
@@ -484,7 +486,7 @@ public class ReporteStockController {
     }
     @GetMapping("/stockRepEsp/listado")
     public String reporteProductoCantidad(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         
         List<Producto> datosStock = productoRepository.findAll();
 
@@ -522,7 +524,7 @@ public class ReporteStockController {
         model.addAttribute("pUsuarioRepor", "Generado por: " + usuario.getUsername());       
         model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
-        if(crear) {
+        if(consultar) {
             return REPORTE_ESPECIFICO;
         } else {
             return REPORTE_ESPECIFICO;

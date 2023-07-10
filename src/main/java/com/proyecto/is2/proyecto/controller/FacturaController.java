@@ -11,6 +11,7 @@ import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.model.Compra;
+import com.proyecto.is2.proyecto.model.CompraDetalle;
 import com.proyecto.is2.proyecto.model.Contacto;
 import com.proyecto.is2.proyecto.model.Factura;
 import com.proyecto.is2.proyecto.model.Operacion;
@@ -33,6 +34,7 @@ import com.proyecto.is2.proyecto.services.AperturaCajaServiceImp;
 import com.proyecto.is2.proyecto.services.VentaServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.ClienteServiceImp;
+import com.proyecto.is2.proyecto.services.CompraDetalleServiceImp;
 import com.proyecto.is2.proyecto.services.CompraService;
 import com.proyecto.is2.proyecto.services.CompraServiceImp;
 import com.proyecto.is2.proyecto.services.FacturaServiceImp;
@@ -120,6 +122,8 @@ public class FacturaController {
     // llamada a los servicios de venta
     @Autowired
     private CompraServiceImp compraService; // llamada a los servicios de producto
+    @Autowired
+    private CompraDetalleServiceImp compraDetalleService; // llamada a los servicios de producto
     @Autowired
     private ProductoServiceImp productoService; // llamada a los servicios de producto
     @Autowired
@@ -396,12 +400,18 @@ public class FacturaController {
         //f(privillege) {
             System.out.println("el ide aca es");
             System.out.println(objetoDTO.getIdCompra());
-            System.out.println("el estado aca es");
-            System.out.println(objetoDTO.getEstado());
+           // System.out.println("el idProveedor es");
+           // System.out.println(objetoDTO.getIdProveedor());
             try {
                 Compra compra = compraService.existeCompra(id);
                 compra.setEstado(objetoDTO.getEstado());
+                Proveedor proveedor = proveedorService.existeProveedor(compra.getProveedor().getIdProveedor());
 
+                System.out.println("el idProveedor es");
+                System.out.println(compra.getProveedor().getIdProveedor());
+                System.out.println("el idProveedorOBJ es");
+                System.out.println(proveedor.getIdProveedor());
+                System.out.println(proveedor.getNombre());
                 //Persona persona = personaService.obtenerInstancia(objetoDTO.getPersona().getIdPersona());
 
                 //List<Factura> listaDocs = null;
@@ -476,12 +486,18 @@ public class FacturaController {
                             tmpFactura.setTipo(tipos[i]);
                             tmpFactura.setMonto(montos[i]);
                             tmpFactura.setCompra(compra);
+                            tmpFactura.setProveedor(proveedor);
                             //compraService.guardarFactura(tmpFactura);//comentado
                             newList.add(facturaRepository.save(tmpFactura));
                         }
                     }
                     listaDocs = newList;
                 }
+                if(compra.getEstado().contentEquals("RECEPCIONADO")){
+                    //System.out.println("RECEPCIONADO");          
+                    //CompraDetalle compraDetalle = compraDetalleService.obtenerInstancia(compra.getIdCompra());
+                }
+
                 System.out.println("Hasta aca todo bien 1");
                 compra.setFacturas(listaDocs);
                 compraService.guardar(compra);

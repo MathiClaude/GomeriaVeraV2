@@ -58,6 +58,9 @@ public class Factura {
     @JoinColumn(name = "compra_id", referencedColumnName = "idCompra")
     private Compra compra;
     
+    @ManyToOne
+    @JoinColumn(name = "proveedor_id", referencedColumnName = "idProveedor")
+    private Proveedor proveedor;
     /* Relacion con usuario */
     /*@ManyToOne
     @JoinColumn(name = "proveedor_id", referencedColumnName = "idProveedor")

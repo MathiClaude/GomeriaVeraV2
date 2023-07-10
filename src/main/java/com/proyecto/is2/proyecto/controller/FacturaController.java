@@ -72,7 +72,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/gestionarFacturas")
 public class FacturaController {
-    final String VIEW = "factura"; // identificador de la vista
+    //final String VIEW = "factura"; // identificador de la vista
+    final String VIEW = "inventario"; // identificador de la vista de permisos jeje
     final String VIEW_PATH = "factura";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/gestionarFacturas";

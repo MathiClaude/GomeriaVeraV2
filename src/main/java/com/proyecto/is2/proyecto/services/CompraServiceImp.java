@@ -128,7 +128,4 @@ public class CompraServiceImp implements CompraService {
         return true;
     }
 
-    public Compra listarComprasPendientes(String estado) {
-        return compraRepository.findByEstado(estado);
-    }
 }

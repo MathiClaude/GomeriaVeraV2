@@ -35,7 +35,6 @@ public interface CompraService {
 
     //public List<Compra> listarPendientes();
 
-    public Compra listarComprasPendientes(String estado);
 
     /**
      * Verifica si existe una venta a traves de su id

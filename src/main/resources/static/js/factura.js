@@ -150,6 +150,8 @@ function getCellsValues() {
     return lista;``
 }
 
+
+
 /*function agregarDocumentos(elemento){
     if(elemento.checked){
 		if(parseInt(precio) < 1 ){

@@ -181,13 +181,33 @@ function validarPago(monto){
 
 }
 
-function validarEstadoCompra(estado){
+function validarEstadoPedido(){
 	//console.log("ESTRAAAAAAA")
-	var estadoFinal = estado;
-	if(estadoFinal == 'RECEPCIONADO'){
+	var estadoFinal = document.getElementById('inputSelectEstado').value;
+	//alert(estadoFinal);
+	if(estadoFinal == 'RECEPCIONADO' || estadoFinal == 'ANULADO'){
+       //
 		//alert("RECEPCIONADO");
-	}else if(estadoFinal == 'ANULADO'){
-		//alert("ANULADO");
+		Swal.fire({
+			title: 'Cambiar estado?',
+			text: "Al cambiar a ese estado,no se podra revertir el cambio",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Cambiar'
+		  }).then((result) => {
+			if (result.isConfirmed) {
+				
+			  Swal.fire(
+				'Pedido Guardado!',
+				'El pedido fue guardado exitosamente',
+				'success'
+			  )
+			  $("#form-pedido-update").submit();
+			}
+		  })
+
 	}
 	document.getElementById('inputEstado').innerHTML = estadoFinal;
 	return;

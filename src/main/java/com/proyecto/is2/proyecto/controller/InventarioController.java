@@ -31,7 +31,9 @@ import java.util.Set;
 @Controller
 @RequestMapping("/stocks")
 public class InventarioController {
-    final String VIEW = "gestionProducto"; // identificador de la vista
+    //final String VIEW = "gestionProducto"; // identificador de la vista
+    final String VIEW = "inventario"; // identificador de la vista de inventario por permiso
+
     final String VIEW_PATH = "gestionProducto";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/stocks";

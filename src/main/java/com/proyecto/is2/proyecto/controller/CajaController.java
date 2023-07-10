@@ -38,6 +38,7 @@ import java.util.List;
 @RequestMapping("/aperturaCaja")
 public class CajaController {
     final String VIEW = "caja"; // identificador de la vista
+    
     final String VIEW_PATH = "caja";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/aperturaCaja";

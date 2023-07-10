@@ -1,6 +1,8 @@
 package com.proyecto.is2.proyecto.repository;
 
 import com.proyecto.is2.proyecto.model.Compra;
+import com.proyecto.is2.proyecto.model.Venta;
+import com.proyecto.is2.proyecto.model.VentaDetalle;
 
 import java.util.List;
 
@@ -12,7 +14,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface CompraRepository extends JpaRepository<Compra, Long> {
     //public Usuario findByEmail(String email);
     public Compra findByIdCompra(Long idCompra);
-    public Compra findByEstado(String estado);
+
+    public List<Compra> findByEstado(String estado);
 
 
     // HISTORIAL DE COMPRAS

@@ -45,6 +45,7 @@ import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
 import com.proyecto.is2.proyecto.repository.CompraDetalleRepository;
+import com.proyecto.is2.proyecto.repository.CompraRepository;
 import com.proyecto.is2.proyecto.repository.FacturaRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
@@ -121,6 +122,9 @@ public class FacturaController {
     CajaRepository cajaRepository;
 
     @Autowired
+    CompraRepository compraRepository;
+
+    @Autowired
     CompraDetalleRepository compraDetalleRepository;
 
     @Autowired
@@ -169,7 +173,12 @@ public class FacturaController {
 
 
         if(consultar) {
-            model.addAttribute("listCr", compraService.listar());//lista los productos
+            List<Compra> compra = compraRepository.findByEstado("PENDIENTE");
+            List<Compra> compraPar = compraRepository.findByEstado("PARCIALMENTE ENTREGADO");
+            List<Compra> comprasCombinadas = new ArrayList<>();
+            comprasCombinadas.addAll(compra);
+            comprasCombinadas.addAll(compraPar);
+            model.addAttribute("listCr", comprasCombinadas);//lista los productos
             model.addAttribute("listProduct", productoService.listar());//lista los productos
             model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
@@ -510,17 +519,17 @@ public class FacturaController {
                     for (CompraDetalle compraDetalle : detalleCompra) {
                         pr = compraDetalle.getProducto();
 
-                        System.out.println("Codigo de Prod:");    
+                        /*System.out.println("Codigo de Prod:");    
                         System.out.println( pr.getCodigo());
                         System.out.println("Cantidad Original:");    
                         System.out.println( pr.getCantidad());
                         System.out.println("Cantidad a sumar:");    
-                        System.out.println( compraDetalle.getCantidad());
+                        System.out.println( compraDetalle.getCantidad());*/
 
                         float cantidadFloat = compraDetalle.getCantidad();
                         int cantidadInt = Math.round(cantidadFloat);
                         pr.setCantidad(pr.getCantidad() + cantidadInt);
-
+                        pr.setPrecioCompra(Math.round(compraDetalle.getPrecio()));
                         productoService.guardar(pr);
                         
                     }

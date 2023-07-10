@@ -131,8 +131,8 @@ public class UsuarioServiceImp implements UsuarioService {
         for(Permiso aux : this.verPermisosUsuarioActual()) {
             if(permiso.equals(aux.getNombre())) return true;
         }
-        // return false;
-        return true;
+        return false; // Respetando el rol (:'/ )
+        // return true; // ACCESO A TODO : D EPA ojo :D
     }
 
     @Override

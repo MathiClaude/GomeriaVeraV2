@@ -72,7 +72,9 @@ import javax.persistence.Tuple;
 @Controller
 @RequestMapping("/compra")
 public class ReporteCompraController {
-    final String VIEW = "reporte"; // identificador de la vista
+    //final String VIEW = "reporte"; // identificador de la vista
+    final String VIEW = "reporteCompra";// identificador de la vista que corresponde al permiso consulta-reporteCompra
+
     final String VIEW_PATH = "reporte";
     String operacion = "";
     final String FORM_VIEW = VIEW_PATH + "/compra";
@@ -165,10 +167,10 @@ public class ReporteCompraController {
     public String mostrarGrilla(Model model, RedirectAttributes attributes) {
 
         boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
-        boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
+        //boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        //boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        //boolean actualizar = usuarioService.tienePermiso("actualizar-" + VIEW);
+        //boolean seleccionar = usuarioService.tienePermiso("seleccionar-" + VIEW);
 
 
 
@@ -219,10 +221,10 @@ public class ReporteCompraController {
         }*/
 
         model.addAttribute("permisoVer", consultar);
-        model.addAttribute("permisoCrear", crear);
-        model.addAttribute("permisoEliminar", eliminar);
-        model.addAttribute("permisoActualizar", actualizar);
-        model.addAttribute("permisoSeleccionar", seleccionar);
+        //model.addAttribute("permisoCrear", crear);
+        //model.addAttribute("permisoEliminar", eliminar);
+        //model.addAttribute("permisoActualizar", actualizar);
+        //model.addAttribute("permisoSeleccionar", seleccionar);
     
 
         return FORM_VIEW;
@@ -239,7 +241,7 @@ public class ReporteCompraController {
 
     @GetMapping("/compraReporte/p/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR
     public String reporteCompraProveedor(Model model,@PathVariable String proveedor_id) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// 
@@ -290,7 +292,7 @@ public class ReporteCompraController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -299,7 +301,7 @@ public class ReporteCompraController {
 
     @GetMapping("/compraReporte/e/{estado}") // REPORTE DE COMPRA CONDICIONADO POR ESTADO
     public String reporteCompraEstado(Model model,@PathVariable String estado) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// 
@@ -348,7 +350,7 @@ public class ReporteCompraController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -357,7 +359,7 @@ public class ReporteCompraController {
 
     @GetMapping("/compraReporte/estadoProveedor/{estado}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
     public String estadoProveedor(Model model,@PathVariable String estado,@PathVariable String proveedor_id) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// 
@@ -411,7 +413,7 @@ public class ReporteCompraController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -421,7 +423,7 @@ public class ReporteCompraController {
 
     @GetMapping("/compraReporte/rango/{fDesde}/{fHasta}") // REPORTE DE COMPRA CONDICIONADO POR ESTADO
     public String reporteCompraRango(Model model,@PathVariable String fDesde,@PathVariable String fHasta) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// 
@@ -467,7 +469,7 @@ public class ReporteCompraController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -476,7 +478,7 @@ public class ReporteCompraController {
 
     @GetMapping("/compraReporte/rangoProv/{fDesde}/{fHasta}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
     public String reporteCompraRangoProveedor(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String proveedor_id) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// 
@@ -523,7 +525,7 @@ public class ReporteCompraController {
       
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -532,7 +534,7 @@ public class ReporteCompraController {
 
     @GetMapping("/compraReporte/rangoEst/{fDesde}/{fHasta}/{estado}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
     public String reporteCompraRangoEstado(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String estado) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// 
@@ -578,7 +580,7 @@ public class ReporteCompraController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -588,7 +590,7 @@ public class ReporteCompraController {
 
     @GetMapping("/compraReporte/all/{fDesde}/{fHasta}/{estado}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
     public String reporteCompraAll(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String estado,@PathVariable String proveedor_id) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
@@ -635,7 +637,7 @@ public class ReporteCompraController {
         
 
 
-        if(crear) {
+        if(consultar) {
             return FORM_NEW;
         } else {
             return FALTA_PERMISO_VIEW;
@@ -653,7 +655,7 @@ public class ReporteCompraController {
 
     @GetMapping("/compraReportEsp/pC")
     public String reporteProductoCantidad(Model model) {
-        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean consultar = usuarioService.tienePermiso("consultar-" + VIEW);
 
         List<Tuple> datosCompra = compraRepository.findInformeProductoCantNative();
 
@@ -690,7 +692,7 @@ public class ReporteCompraController {
         model.addAttribute("pUsuarioRepor", "Generado por: " + usuario.getUsername());       
         model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
-        if(crear) {
+        if(consultar) {
             return REPORTE_ESPECIFICO;
         } else {
             return REPORTE_ESPECIFICO;
@@ -703,7 +705,7 @@ public class ReporteCompraController {
     @GetMapping("/graficoDona")
     public String verReporte(Model model) {
         String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        this.operacion = "crear-";
+        this.operacion = "consultar-";
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
         List<AperturaCaja> cajaApertura = aperturaCajaRepository.findByIdUsuarioOrderByIdAperturaCajaDesc(usuario.getIdUsuario());
@@ -730,7 +732,7 @@ public class ReporteCompraController {
     @GetMapping("/graficoDona/productos")
     public String verReporteProductos(Model model) {
         String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        this.operacion = "crear-";
+        this.operacion = "consultar-";
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
         
@@ -784,7 +786,7 @@ public class ReporteCompraController {
     @GetMapping("/graficoDona/proveedor")
     public String verReporteProveedor(Model model) {
         String[] meses = {"","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
-        this.operacion = "crear-";
+        this.operacion = "consultar-";
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
         
@@ -836,7 +838,7 @@ public class ReporteCompraController {
 
     @GetMapping("/compraReportEsp/historial")
     public String verHistorialCompras(Model model) {
-        this.operacion = "crear-";
+        this.operacion = "consultar-";
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
         

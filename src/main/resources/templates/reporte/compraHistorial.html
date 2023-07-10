@@ -175,7 +175,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <td th:text="${datos.usuario}"></td>   
               <td th:text="${datos.fechaCompra}"></td>   
               <td th:text="${datos.estado}"></td>
-              <td th:text="${#numbers.formatDecimal(datos.montoTotal, 0, 'POINT', 0, 'COMMA')}"></td>  
+              <td th:text="${#numbers.formatDecimal(datos.montoTotal, 0, 'POINT', 0, 'COMMA')} + ' Gs.'"></td>  
             </tr>
           </tbody>
         </table>
@@ -193,7 +193,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                   <span id="cantidadItemsComprobante" th:text="${cantidadDetalle}"></span>
                 </div>   -->
                 <div class="col-4">                    
-                  <label for="inputNombre" class="form-label">TOTAL :<span th:text="${#numbers.formatDecimal(totalMonto, 0, 'POINT', 0, 'COMMA')}"></span></label>
+                  <label for="inputNombre" class="form-label">TOTAL : <span th:text="${#numbers.formatDecimal(totalMonto, 0, 'POINT', 0, 'COMMA') + ' Gs.'}"></span></label>
                   
                 </div> 
                 <!-- <div class="col-4">                    

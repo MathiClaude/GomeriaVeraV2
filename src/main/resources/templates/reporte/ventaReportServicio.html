@@ -167,7 +167,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             <tr class="text-center" th:each="datos: ${datos}">
               <td th:text="${datos.idServicio}"></td>
               <td th:text="${datos.descripcion}"></td>              
-              <td th:text="${datos.monto}"></td>
+              <td th:text="${datos.monto} + ' Gs.'"></td>
             </tr>
           </tbody>
         </table>
@@ -181,11 +181,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             <th>
               <div class="row">
                 <div class="col-6">                    
-                  <label for="inputNombre" class="form-label">TOTAL SERVICIOS:</label>
+                  <label for="inputNombre" class="form-label">TOTAL SERVICIOS: </label>
                   <span th:text="${cantidadDetalle}"></span>
                 </div>  
                 <div class="col-6">                    
-                  <label for="inputNombre" class="form-label">TOTAL A PAGAR:<span th:text="${totalMonto}"></span></label>           
+                  <label for="inputNombre" class="form-label">TOTAL: <span th:text="${totalMonto} + ' Gs.'"></span></label>           
                 </div>
               </div>            
             </th>

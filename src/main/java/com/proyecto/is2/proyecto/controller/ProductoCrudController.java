@@ -221,7 +221,12 @@ public class ProductoCrudController {
                 /*if(productoService.tienePermiso(P_ASIGNAR_ROL)) {
                     producto.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
                 }*/
+                producto.setTipoProducto(tipoProductoService.existeTipoProducto(objetoDTO.getIdTipoProducto().longValue()));
+                producto.setMarca(marcaService.existeMarca(objetoDTO.getIdMarca().longValue()));
+                producto.setUnidadMedida(unidadMedidaService.existeUnidadMedida(objetoDTO.getIdUnidadMedida().longValue()));
+                producto.setProveedor(proveedorService.existeProveedor(objetoDTO.getIdProveedor().longValue()));
 
+                productoService.guardar(producto);
                 attributes.addFlashAttribute("message", "¡Producto actualizado correctamente!");
                 productoService.guardar(producto);
                 return RD_FORM_VIEW;

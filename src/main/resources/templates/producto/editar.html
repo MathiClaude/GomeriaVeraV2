@@ -34,7 +34,7 @@
       <div class="mb-3">
         <label for="inputTipoProducto" class="form-label">Tipo Producto</label>
         <select class="form-select" aria-label="Default select example" id="inputTipoProducto" name="idTipoProducto">
-          <option value="">Seleccionar</option>
+          <option th:each="product : ${product}" th:value="${product.tipoProducto.idTipoProducto}" th:text="${product.tipoProducto.descripcion}"></option>
           <option th:each="tipoProducto : ${tiposProductos}" th:value="${tipoProducto.idTipoProducto}" th:text="${tipoProducto.descripcion}"></option>
         </select>
       </div>

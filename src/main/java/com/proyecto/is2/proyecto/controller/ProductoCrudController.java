@@ -178,6 +178,10 @@ public class ProductoCrudController {
         }
 
         model.addAttribute("product", producto);
+        model.addAttribute("tiposProductos", tipoProductoService.listar());
+        model.addAttribute("unidadMedidas", unidadMedidaService.listar());
+        model.addAttribute("marcas", marcaService.listar());
+        model.addAttribute("proveedores", proveedorService.listar());
 
         // validar si puede cambiar de rol
         //esta parte creo que no se usa tampoco

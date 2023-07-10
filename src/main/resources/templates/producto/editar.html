@@ -15,7 +15,8 @@
         <label class="form-label">Id Producto: [[${product.idProducto}]]</label>
       </div>
       <div class="mb-3"> <!-- margen button -->
-        <label class="form-label">Codigo del Producto: [[${product.codigo}]]</label>
+        <label for="inputCodigo" class="form-label">Codigo</label>
+        <input type="text" class="form-control" id="inputCodigo" name="codigo" th:value="${product.codigo}" />
       </div>
       <!--Aca los que van a ser hidden-->
       <div class="mb-3"> <!-- margen button -->
@@ -26,6 +27,47 @@
         <label for="inputDescripcion" class="form-label">Descripcion</label>
         <input type="text" class="form-control" id="inputDescripcion" name="descripcion" th:value="${product.descripcion}" />
       </div>
+      <div class="mb-3">
+        <label for="inputCantidadMinima" class="form-label">Cantidad Minima<span style="color:red">*</span></label>
+        <input type="number" class="form-control" id="inputCantidadMinima" name="cantidadMinima" th:value="${product.cantidadMinima}">
+      </div>
+      <div class="mb-3">
+        <label for="inputTipoProducto" class="form-label">Tipo Producto</label>
+        <select class="form-select" aria-label="Default select example" id="inputTipoProducto" name="idTipoProducto">
+          <option value="">Seleccionar</option>
+          <option th:each="tipoProducto : ${tiposProductos}" th:value="${tipoProducto.idTipoProducto}" th:text="${tipoProducto.descripcion}"></option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="inputFamiliaProducto" class="form-label">Marca<span style="color:red">*</span></label>
+        <select class="form-select" id="inputFamiliaProducto" name="idMarca"required>
+          <option th:each="product : ${product}" th:value="${product.marca.idMarca}" th:text="${product.marca.nombre}"></option>
+          <option th:each="marca : ${marcas}" th:value="${marca.idMarca}" th:text="${marca.nombre}"></option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="inputUnidadMedida" class="form-label">Unidad Medida</label>
+        <select class="form-select" id="inputUnidadMedida" name="idUnidadMedida">
+          <option th:each="product : ${product}" th:value="${product.unidadMedida.idUnidadMedida}" th:text="${product.unidadMedida.descripcion}"></option>
+          <option th:each="unidadMedida : ${unidadMedidas}" th:value="${unidadMedida.idUnidadMedida}" th:text="${unidadMedida.descripcion}"></option>
+        </select> 
+      </div>
+      <div class="mb-3">
+        <label for="inputImpuesto" class="form-label">Impuesto<span style="color:red">*</span></label>
+        <select class="form-select" id="inputImpuesto" name="impuesto">
+            <option th:each="iva : ${product}" th:value="${iva.impuesto}" th:text="${iva.impuesto}"></option>
+            <option value="10">I.V.A. 10%</option>
+            <option value="5">I.V.A. 5%</option>
+            <option value="0">Sin I.V.A</option>
+        </select> 
+      </div>
+      <div class="mb-3" style="display: none;">
+        <label for="inputProveedor" class="form-label">Proveedor<span style="color:red">*</span></label>
+        <select class="form-select" id="inputProveedor" name="idProveedor" required>
+            <!--option value="">Seleccionar Proveedor</!--option-->
+            <option th:each="proveedor : ${proveedores}" th:value="${proveedor.idProveedor}" th:text="${proveedor.nombre}"></option>
+        </select>
+      </div>
       <!--div class="mb-3"> 
         <label for="inputCantidad" class="form-label">Cantidad</label>
         <input type="text" class="form-control" id="inputCantidad" name="cantidad" th:value="${product.cantidad}">
@@ -35,15 +77,6 @@
         <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
       </div-->
       <br>
-      <div>
-        <input type="hidden" name="unidadMedida" th:value="${product.unidadMedida}" />
-        <input type="hidden" name="impuesto" th:value="${product.impuesto}" />
-        <input type="hidden" name="proveedor" th:value="${product.proveedor}" />
-        <!--input type="hidden" name="idTipoProducto" th:value="${product.idTipoProducto}" />
-        <input type="hidden" name="idMarca" th:value="${product.idMarca}" />
-        <input type="hidden" name="idUnidadMedida" th:value="${product.idUnidadMedida}" />
-        <input type="hidden" name="idProveedor" th:value="${product.idProveedor}" /-->
-      </div>
       <!--div class="mb-3">
         <label for="inputPrecio" class="form-label">Fecha de Ingreso</label>
         <input type="date" id="inputFecha" name="fecha" class="form-control"placeholder="Introduzca nueva fecha">

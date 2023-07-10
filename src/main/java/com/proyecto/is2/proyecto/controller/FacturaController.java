@@ -40,9 +40,11 @@ import com.proyecto.is2.proyecto.services.CompraServiceImp;
 import com.proyecto.is2.proyecto.services.FacturaServiceImp;
 import com.proyecto.is2.proyecto.services.OperacionServiceImp;
 import com.proyecto.is2.proyecto.repository.UsuarioRepository;
+import com.proyecto.is2.proyecto.repository.VentaDetalleRepository;
 import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
+import com.proyecto.is2.proyecto.repository.CompraDetalleRepository;
 import com.proyecto.is2.proyecto.repository.FacturaRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
@@ -115,6 +117,9 @@ public class FacturaController {
 
     @Autowired
     CajaRepository cajaRepository;
+
+    @Autowired
+    CompraDetalleRepository compraDetalleRepository;
 
     @Autowired
     OperacionRepository operacionRepository;
@@ -406,6 +411,9 @@ public class FacturaController {
                 Compra compra = compraService.existeCompra(id);
                 compra.setEstado(objetoDTO.getEstado());
                 Proveedor proveedor = proveedorService.existeProveedor(compra.getProveedor().getIdProveedor());
+                List<CompraDetalle> detalleCompra = compraDetalleRepository.findByCompra(compra);
+
+                
 
                 System.out.println("el idProveedor es");
                 System.out.println(compra.getProveedor().getIdProveedor());
@@ -496,6 +504,24 @@ public class FacturaController {
                 if(compra.getEstado().contentEquals("RECEPCIONADO")){
                     //System.out.println("RECEPCIONADO");          
                     //CompraDetalle compraDetalle = compraDetalleService.obtenerInstancia(compra.getIdCompra());
+                    Producto pr;
+                    for (CompraDetalle compraDetalle : detalleCompra) {
+                        pr = compraDetalle.getProducto();
+
+                        System.out.println("Codigo de Prod:");    
+                        System.out.println( pr.getCodigo());
+                        System.out.println("Cantidad Original:");    
+                        System.out.println( pr.getCantidad());
+                        System.out.println("Cantidad a sumar:");    
+                        System.out.println( compraDetalle.getCantidad());
+
+                        float cantidadFloat = compraDetalle.getCantidad();
+                        int cantidadInt = Math.round(cantidadFloat);
+                        pr.setCantidad(pr.getCantidad() + cantidadInt);
+
+                        productoService.guardar(pr);
+                        
+                    }
                 }
 
                 System.out.println("Hasta aca todo bien 1");

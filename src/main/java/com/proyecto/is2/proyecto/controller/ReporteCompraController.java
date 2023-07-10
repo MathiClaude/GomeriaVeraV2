@@ -83,9 +83,9 @@ public class ReporteCompraController {
     final String RD_FALTA_PERMISO_VIEW = "redirect:/" + FALTA_PERMISO_VIEW;
     final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
 
-    final String GRAFICO_ESTADISTICO = "/reporte/compraChart";
-    final String REPORTE_ESPECIFICO = "/reporte/compraReportEsp";
-    final String REPORTE_HISTORIAL = "/reporte/compraHistorial";
+    final String GRAFICO_ESTADISTICO = "reporte/compraChart";
+    final String REPORTE_ESPECIFICO = "reporte/compraReportEsp";
+    final String REPORTE_HISTORIAL = "reporte/compraHistorial";
 
 
 
@@ -241,14 +241,16 @@ public class ReporteCompraController {
     public String reporteCompraProveedor(Model model,@PathVariable String proveedor_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// 
         List<Tuple> datosCompra = compraRepository.findComprasByProveedorNative(new Long(proveedor_id));
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
         Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
 
-        Float total = new Float(0);
+        BigDecimal total = new BigDecimal(0);
         for (ReporteCompraDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getMontoTotal());
+            total = total.add( new BigDecimal(compra.getMontoTotal()));
         }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
@@ -278,8 +280,10 @@ public class ReporteCompraController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU", "Proveedor: " + proveedor.getNombre());
         model.addAttribute("pCU2",""); //estado  
-        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pDesHas","");
         model.addAttribute("fI", "");
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
+
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
@@ -297,12 +301,15 @@ public class ReporteCompraController {
     public String reporteCompraEstado(Model model,@PathVariable String estado) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// 
+
         List<Tuple> datosCompra = compraRepository.findComprasByEstadoNative(estado);
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
-        Float total = new Float(0);
+        BigDecimal total = new BigDecimal(0);
         for (ReporteCompraDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getMontoTotal());
+            total = total.add( new BigDecimal(compra.getMontoTotal()));
         }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
@@ -331,9 +338,11 @@ public class ReporteCompraController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU", "");
         model.addAttribute("pCU2","Estado: " + estado); //estado  
-        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pDesHas","");
         model.addAttribute("fI", "");
-       
+
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
+
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());// fecha de emisión del reporte
 
         
@@ -346,20 +355,21 @@ public class ReporteCompraController {
         }
     }
 
-    
-
     @GetMapping("/compraReporte/estadoProveedor/{estado}/{proveedor_id}") // REPORTE DE COMPRA CONDICIONADO POR PROVEEDOR Y RANGO
     public String estadoProveedor(Model model,@PathVariable String estado,@PathVariable String proveedor_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// 
+
         List<Tuple> datosCompra = compraRepository.findComprasByEstadoProveedorNative(estado, new Long(proveedor_id));
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
 
 
-        Float total = new Float(0);
+        BigDecimal total = new BigDecimal(0);
         for (ReporteCompraDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getMontoTotal());
+            total = total.add( new BigDecimal(compra.getMontoTotal()));
         }
 
         Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
@@ -390,8 +400,11 @@ public class ReporteCompraController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU", "Proveedor: " + proveedor.getNombre());
         model.addAttribute("pCU2","Estado: " + estado); //estado  
-        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pDesHas","");
         model.addAttribute("fI", "");
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
+
+
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
@@ -410,12 +423,15 @@ public class ReporteCompraController {
     public String reporteCompraRango(Model model,@PathVariable String fDesde,@PathVariable String fHasta) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// 
+
         List<Tuple> datosCompra = compraRepository.findComprasByRangoNative(fDesde,fHasta);
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
-        Float total = new Float(0);
+        BigDecimal total = new BigDecimal(0);
         for (ReporteCompraDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getMontoTotal());
+            total = total.add( new BigDecimal(compra.getMontoTotal()));
         }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
@@ -441,11 +457,11 @@ public class ReporteCompraController {
         model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU", "Cantidad de proveedores: ");
-        model.addAttribute("pCU2","Cantidad de estados: "); //estado  
-        model.addAttribute("pDesHas","Desde: ");
+        model.addAttribute("pCU", "");//
+        model.addAttribute("pCU2",""); //estado  
+        model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+ fDesde + " - " + fHasta+"");
-       
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         
@@ -462,14 +478,17 @@ public class ReporteCompraController {
     public String reporteCompraRangoProveedor(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String proveedor_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// 
+
         List<Tuple> datosCompra = compraRepository.findComprasByRangoProveedorNative(new Long(proveedor_id), fDesde,fHasta);
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
         Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
 
-        Float total = new Float(0);
+        BigDecimal total = new BigDecimal(0);
         for (ReporteCompraDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getMontoTotal());
+            total = total.add( new BigDecimal(compra.getMontoTotal()));
         }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
@@ -499,7 +518,7 @@ public class ReporteCompraController {
         model.addAttribute("pCU2", ""); //estado  
         model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+ fDesde + " - " + fHasta+"");
-       
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
       
 
@@ -515,12 +534,15 @@ public class ReporteCompraController {
     public String reporteCompraRangoEstado(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String estado) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// 
+
         List<Tuple> datosCompra = compraRepository.findComprasByRangoEstadoNative(estado, fDesde,fHasta);
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
-        Float total = new Float(0);
+        BigDecimal total = new BigDecimal(0);
         for (ReporteCompraDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getMontoTotal());
+            total = total.add( new BigDecimal(compra.getMontoTotal()));
         }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
@@ -550,7 +572,7 @@ public class ReporteCompraController {
         model.addAttribute("pCU2","Estado: " + estado); //estado  
         model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+ fDesde + " - " + fHasta+"");
-       
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         
@@ -568,15 +590,19 @@ public class ReporteCompraController {
     public String reporteCompraAll(Model model,@PathVariable String fDesde,@PathVariable String fHasta,@PathVariable String estado,@PathVariable String proveedor_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);//
+
         List<Tuple> datosCompra = compraRepository.findVentasByRangoAllNative( new Long(proveedor_id), estado, fDesde,fHasta);
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
 
         Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
 
 
-        Float total = new Float(0);
+        BigDecimal total = new BigDecimal(0);
         for (ReporteCompraDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getMontoTotal());
+            total = total.add( new BigDecimal(compra.getMontoTotal()));
         }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
@@ -603,7 +629,7 @@ public class ReporteCompraController {
         model.addAttribute("pCU2","Estado: " + estado); //estado  
         model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+ fDesde + " - " + fHasta+"");
-       
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         
@@ -817,7 +843,11 @@ public class ReporteCompraController {
         // List<Operacion> ultMov = operacionRepository.findByIdCajaOrderByIdOperacionDesc(cajaApertura.get(0).getIdCaja());
         List<Tuple> datosCompra = compraRepository.findInformeHistorialNative();
         List<ReporteCompraDTO> listaDatos = this.parsearDatosReporteCompra(datosCompra);
+        BigDecimal total = new BigDecimal("0");
 
+        for (ReporteCompraDTO compraElemento : listaDatos) {
+            total= total.add(new BigDecimal(compraElemento.getMontoTotal()));
+        }
 
         // para cabecera del reporte
         //título
@@ -831,7 +861,7 @@ public class ReporteCompraController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pHUser","Generado por: " + usuario.getUsername());        
         model.addAttribute("pFE","Fecha emisión: "+ java.time.LocalDate.now().toString());
-
+        model.addAttribute("totalMonto",total.toString());
         
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {

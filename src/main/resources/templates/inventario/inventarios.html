@@ -31,6 +31,9 @@ layout:decorate="~{/layout/basic}">
           <!--th>Precio</th-->
           <th>Cantidad</th>
           <th>U. Medida</th><!---->
+          <th>Cantidad</th><!---->
+          <th>Precio</th><!---->
+
           <th>Acción</th><!---->
         </tr><!---->
       </thead><!---->
@@ -46,6 +49,8 @@ layout:decorate="~{/layout/basic}">
           <td th:text="${producto.familiaProducto}"></td><!---->
           <td th:text="${producto.tipoProducto}"></td>
           <td th:text="${producto.unidadMedida}"></td>
+          <td th:text="${producto.cantidad}"></td>
+          <td th:text="${producto.precio}"></td>
           <td th:text="${producto.color}"></td>
           <td th:text="${producto.procedencia}">py</td>
           <td th:text="${producto.proveedor}">py</td>

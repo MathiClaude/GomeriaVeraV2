@@ -8,4 +8,5 @@ public class RolDTO {
     private Long idPermiso;
     private String nombre;
     private String descripcion;
+    private String checkboxEstado;
 }

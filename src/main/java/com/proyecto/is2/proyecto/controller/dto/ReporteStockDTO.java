@@ -4,27 +4,24 @@ import lombok.Data;
 
 @Data
 public class ReporteStockDTO {
+    private String codigo;
+    private String producto;
+    private String tipoProducto;
     private String proveedor;
-    private String idCompra;
-    private String fechaCompra;
-    private Float montoCompra;
-    private String usuario;
-    private String estado;
-    
-    
-    public ReporteStockDTO(String proveedor, String idCompra, String fechaCompra, String montoCompra, String usuario,String estado) {
+    private Integer cantidad;
+    private String unidadMedida;
+    private Float precio;
+    // (codigo, nombreProducto, tipo_producto_id,proveedor,  cantidad, unidad_medida_id, precio)
+
+    public ReporteStockDTO(String codigo, String producto, String tipoProducto, String proveedor, Integer cantidad,String unidadMedida, Float precio) {
+        this.codigo=codigo;
+        this.producto = producto;
+        this.tipoProducto = tipoProducto;
         this.proveedor = proveedor;
-        this.idCompra = idCompra;
-        this.fechaCompra = fechaCompra;
-        this.montoCompra = new Float(montoCompra);
-        this.usuario = usuario;
-        this.estado = estado;
-    }
-    private String precio;
-
-    
-
-   
+        this.cantidad = cantidad;
+        this.unidadMedida = unidadMedida;
+        this.precio = precio;
+    }   
    
     /*
     "c..name||' '||c.last_name AS cliente, fecha_venta, monto_total , u.username "+

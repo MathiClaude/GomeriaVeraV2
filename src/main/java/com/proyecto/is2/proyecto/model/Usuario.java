@@ -29,6 +29,9 @@ public class Usuario {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "estado")
+    private String estado;
+
     public String toString() {
         return email;
     }

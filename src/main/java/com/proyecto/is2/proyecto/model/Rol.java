@@ -7,6 +7,9 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Getter
 @Setter
 @Entity
@@ -22,6 +25,9 @@ public class Rol {
 
     @Column(name = "descripcion")
     private String descripcion;
+
+    @Column(name = "estado")
+    private String estado;
 
     public Rol() {
 
@@ -42,6 +48,7 @@ public class Rol {
     @JoinTable(name = "rol_permiso",
             joinColumns = {@JoinColumn(name = "rol_id")},
             inverseJoinColumns = {@JoinColumn(name = "permiso_id")})
+    @JsonBackReference
     private Set<Permiso> permisos = new HashSet<>();
 
     /* Relacion con Usuario

@@ -32,9 +32,7 @@
                                    
                     // rango de Tipo de producto y proveedor -> 
                    if (evento.target.InputTipoProducto.value !="" && evento.target.InputProveedor.value !=""){
-                        url+= "tProdProv/"+ evento.target.InputTipoProducto.value +"/"+ evento.target.InputProveedor.value
-                    
-                    
+                        url+= "tProdProv/"+ evento.target.InputTipoProducto.value +"/"+ evento.target.InputProveedor.value                    
                     // por Tipo de producto
                     } else if(evento.target.InputTipoProducto.value !=""){
                         url+= "tP/" + evento.target.InputTipoProducto.value
@@ -53,10 +51,8 @@
                     let url = "http://localhost:8080/stock/"
                     if(reporte == "listado"){
                         url += "stockRepEsp/listado";
-                    }else if(reporte == "productoMont"){
-                        url += "/ventaReportEsp/productoMont";
-                    }else if(reporte == "historial"){
-                        url += "/ventaReportEsp/historial";
+                    }else if(reporte == "cantMinima"){
+                        url += "stockRepEsp/cantMinima";
                     }
                     
                     document.getElementById("datoReporte").src=url;
@@ -94,7 +90,7 @@
                                         <input type="hidden"  id="InputProveedor" name="proveedor" />
                                         
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Seleccionar proveedor..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorProveedor" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)"disabled/>
+                                            <input type="text" class="form-control" placeholder="Seleccionar proveedor..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorProveedor" onkeyup="funcionFiltrar(this.value)" onblur="mostrarBuscador(false)" onfocus="funcionFiltrar(this.value)" autocomplete="off" disabled />
                                             <!--a th:href="@{/clientes/nuevo}" >
                                                 <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
                                                 </!a-->
@@ -125,11 +121,11 @@
                                         <input type="hidden"  id="InputTipoProducto" name="tipoProducto" />
                                         
                                         <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Seleccionar tipo de producto..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorTipoProducto" onkeyup="funcionFiltrarTipoProducto(this.value)" onblur="mostrarBuscadorTipoProducto(false)" onfocus="funcionFiltrarTipoProducto(this.value)" disabled/>
+                                            <input type="text" class="form-control" placeholder="Seleccionar tipo de producto..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorTipoProducto" onkeyup="funcionFiltrarTipoProducto(this.value)" onblur="mostrarBuscadorTipoProducto(false)" onfocus="funcionFiltrarTipoProducto(this.value)" autocomplete="off"  disabled />
                                             <!--a th:href="@{/clientes/nuevo}" >
                                                 <button class="btn btn-primary" type="button" id="button-addon2" ><i class=""></i> Nuevo</button>
                                                 </!a-->
-                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorTipoProducto').value=''" onmousedown="document.getElementById('InputTipoProducto').value=''">
+                                                <button type="button" class="btn btn-danger" onclick="document.getElementById('buscadorTipoProducto').value=''" onmousedown="document.getElementById('InputTipoProducto').value=''" >
                                                     <i class="bi bi-trash3-fill"></i>
                                                 </button>
                                                 <div class="input-group-text">
@@ -177,11 +173,11 @@
                                         <hr>                                     
                                         <div class="row mb-4 justify-content-center">
 
-                                            <!--div class="col-sm-12 mb-2">
-                                                <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#myModal">
-                                                    <i class="bi bi-basket2-fill" id="download-button" onclick="generatePDF()"> Productos con cantidad 0</i>
+                                            <div class="col-sm-12 mb-2">
+                                                <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportesEspecificos('cantMinima')">
+                                                    <i class="bi bi-basket2-fill" id="download-button"> Productos productos con cantidad mínima</i>
                                                 </button>  
-                                            </div-->
+                                            </div>
                                             <div class="col-sm-12 mb-2">
                                                 <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportesEspecificos('listado')">
                                                     <i class="bi bi-shop-window" id="download-button" > Listado de stock</i>
@@ -202,7 +198,7 @@
                 <div class="modal-content">                                   
                     <!--Header-->                    
                     <div class="modal-header"> 
-                        <h5 class="modal-title">Reporte stock</h5> <!-- Por que si-->
+                        <h5 class="modal-title">Reporte stock</h5> <!-- Por que si -->
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">x</button>
                     </div>
                     <!-- Body para modal-->

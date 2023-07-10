@@ -19,15 +19,25 @@ layout:decorate="~{/layout/basic}">
                   
                   <!--Información del usuario-->
                   <p style="color: #21618C; text-align: center;"><strong>Datos editables</strong></p>
-    
                   <div class="row mb-4">                            
                     <div class="col">
-                      <div th:if="${permisoAsignarRol}" class="input-group mb-3">
-                        <label for="inputNombre2" class="form-label">Nombre del Rol</label>
+                      <div class="form-outline">
+                        <label for="inputNombre2" class="form-label">Nombre Rol </label>
                         <input type="text" class="form-control" id="inputNombre2" name="nombre" th:value="${rol.nombre}">
                       </div>
                     </div>
                   </div>
+                  
+                  <div class="row mb-4">                            
+                    <div class="col">
+                      <div class="form-outline">
+                        <label for="inputNombre2" class="form-label">Nueva Descripción </label>
+                        <input type="text" class="form-control" id="inputNombre2" name="descripcion" th:value="${rol.descripcion}">
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+
                   <div class="row mb-4">
                     <div class="col">
                       <div class="input-group mb-3">
@@ -45,21 +55,10 @@ layout:decorate="~{/layout/basic}">
                     </div>
                   </div>
                   
-                  <hr>
-                  <div class="row mb-4">                            
-                    <div class="col">
-                      <div class="form-outline">
-                        <label for="inputNombre2" class="form-label">Nueva Descripción </label>
-                        <input type="text" class="form-control" id="inputNombre2" name="descripcion" th:value="${rol.descripcion}">
-                      </div>
-                    </div>
-                  </div>
-                  
                 </div>
                 
               </div>    <!-- termina el card-->
               <br>
-
             </div>
             <!--nuevo card-->
             <div class="col-sm-4">
@@ -82,9 +81,15 @@ layout:decorate="~{/layout/basic}">
                 <div class="row mb-4">                            
                   <div class="col">
                     <div class="form-outline">
-                      <label for="inputNombre2" class="form-label">Descripción actual </label>
-                        <input type="text" class="form-control" id="inputNombre2" name="descripcion" th:value="${rol.descripcion}" disabled>                      
-                    </div> 
+                      <label class="form-label"><strong><i class="bi bi-gear-fill"></i> Nombre actual del Rol: </strong>[[${rol.nombre}]]</label> 
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-4">                            
+                  <div class="col">
+                    <div class="form-outline">
+                      <label class="form-label"><strong><i class="bi bi-file-earmark-font"></i> Descripción actual: </strong>[[${rol.descripcion}]]</label>
+                    </div>
                   </div>
                 </div>
                 <hr>

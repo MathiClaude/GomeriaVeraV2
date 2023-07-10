@@ -279,7 +279,7 @@ public class ReporteVentaController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
         model.addAttribute("pCU2","");
-        model.addAttribute("pDesHas","Desde: ");
+        //model.addAttribute("pDesHas","Desde: ");
         model.addAttribute("fI","");
        
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
@@ -341,7 +341,7 @@ public class ReporteVentaController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","");
         model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());
-        model.addAttribute("pDesHas","Desde: ");
+        //model.addAttribute("pDesHas","Desde: ");
         model.addAttribute("fI","");
         
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
@@ -409,7 +409,7 @@ public class ReporteVentaController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
         model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());
-        model.addAttribute("pDesHas","Desde: ");
+        //model.addAttribute("pDesHas","Desde: ");
         model.addAttribute("fI","");
         
        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
@@ -464,9 +464,9 @@ public class ReporteVentaController {
         model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCU","Cantidad de clientes: ");
-        model.addAttribute("pCU2","Cantidad de vendedores: ");
-        model.addAttribute("pDesHas","");
+        model.addAttribute("pCU","");
+        model.addAttribute("pCU2","");
+        //model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+ fechaDesde + " - " + fechaHasta+"");
         
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
@@ -526,7 +526,7 @@ public class ReporteVentaController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
         model.addAttribute("pCU2","");
-        model.addAttribute("pDesHas","");
+        //model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+ fechaDesde + " - " + fechaHasta+"");
         
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
@@ -588,7 +588,7 @@ public class ReporteVentaController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","");
         model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());
-        model.addAttribute("pDesHas","");
+        //model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+ fechaDesde + " - " + fechaHasta+"");
         
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
@@ -652,7 +652,7 @@ public class ReporteVentaController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCU","Cliente: " + cliente.getName() +" "+cliente.getLastName() );
         model.addAttribute("pCU2", "Vendedor: " + usuario.getUsername());   
-        model.addAttribute("pDesHas","");
+        //model.addAttribute("pDesHas","");
         model.addAttribute("fI", ""+fechaDesde + " - " + fechaHasta+"");
         model.addAttribute("fF","Fecha Fin: ");
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());

@@ -88,7 +88,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           text-align: center;
         }
       </style>
-      
       <!DOCTYPE html>
       <html lang="en">
       <head>
@@ -120,23 +119,19 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           <!--titulo-->
           <div class="container"> 
             <div class="row">
-              <div class="col" th:unless="${tRPro == '' }">                    
-                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRPro}"></h3>
+              
+              <div class="col" th:unless="${tRPro2 == '' }">                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRPro2}"></h3>
               </div> 
-              <div class="col" th:unless='${tRProd=="" }'>                    
-                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRProd}"></h3>
-              </div>
             </div>
           </div>
           
           <!--descripción--> 
           <div class="container"> 
             <div class="row">
-              <div class="col" th:unless="${dRPro == '' }">                    
-                <p style="font-weight: bold; text-align: center;" th:text="${dRPro}"></p>
-              </div> 
-              <div class="col" th:unless='${dRProd=="" }'>                    
-                <p style="font-weight: bold; text-align: center;" th:text="${dRProd}"></p>
+              
+              <div class="col" th:unless="${dRPro2 == '' }">                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRPro2}"></p>
               </div>
             </div>
           </div>
@@ -144,15 +139,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           <!--parámetros-->
           <div class="container"> 
             <div class="row">
-              <div class="col" th:unless="${pUser == '' }">                    
-                <p style="font-weight: bold;" th:text="${pUser}"></p>
+              <div class="col" th:unless="${pUsuarioRepor == '' }">                    
+                <p style="font-weight: bold;" th:text="${pUsuarioRepor}"></p>
               </div>
-              <div class="col" th:unless="${pProveedor == '' }">                    
-                <p style="font-weight: bold;" th:text="${pProveedor}"></p>
-              </div>
-              <div class="col" th:unless="${pTiPro == '' }">                    
-                <p style="font-weight: bold;" th:text="${pTiPro}"></p>
-              </div>                               
+                                     
               <div class="col" th:unless='${pFechaEmision=="" }'>                    
                 <p style="font-weight: bold;" th:text="${pFechaEmision}"></p>            
               </div>      
@@ -168,8 +158,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
         <table class="table">
           <thead style="background-color: #0a4275;">
             <tr class="text-center"><!---->
-              <th>Código de Producto</th><!---->
+              <th>Código</th><!---->
               <th>Producto</th><!---->
+              <th>Tipo Producto</th><!---->         
               <th>Proveedor</th><!---->         
               <th>Cantidad</th><!---->           
               <th>Precio</th><!----> 
@@ -179,16 +170,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
             <tr class="text-center" th:each="datos: ${datos}">
               <td th:text="${datos.codigo}"></td>
               <td th:text="${datos.nombreProducto}"></td>
-              <td th:text="${datos.precio}"></td>   
-              <td th:text="${datos.impuesto}"></td>   
               <td th:text="${datos.tipoProducto}"></td>   
+              <td th:text="${datos.proveedor.nombre}"></td>   
               <td th:text="${datos.cantidad}"></td>   
+              <td th:text="${#numbers.formatDecimal(datos.precio, 0, 'POINT', 0, 'COMMA')}"></td>   
             </tr>
           </tbody>
         </table>
         <hr>
         <!--subtotales-->
-        <table class="table table-bordered border-primary">
+        <!-- <table class="table table-bordered border-primary">
           <tr>
             <th><strong>SUBTOTALES</strong></th>            
           </tr>
@@ -201,14 +192,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 </div>  
                 <div class="col-6">                    
                   <label for="inputNombre" class="form-label">TOTAL A PAGAR:</label>
-                  <!--span id="totalPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
+                  <span id="totalPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span>
                 </div>                                                              
               </div>
                                        
             </th>
           </tr>    
           
-        </table>
+        </table> -->
         <div>
           <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js" ></script> -->
           <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

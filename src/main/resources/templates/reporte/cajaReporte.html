@@ -203,22 +203,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
         <table class="table">
           <thead style="background-color: #0a4275;">
             <tr class="text-center"><!---->
-              <th>Factura</th><!---->
-              <th>Cliente</th><!---->
+              <th>ID</th><!---->
               <th>Fecha</th><!---->
-              <th>Vendedor</th><!---->
-              <th>Total</th><!---->
-              <th>Impuesto</th><!---->                
+              <th>descripcion</th><!---->
+              <th>Usuario</th><!---->
+              <th>Concepto</th><!---->
+              <th>Monto</th>             
             </tr><!---->
           </thead><!---->
           <tbody id="datos"><!---->
             <tr class="text-center" th:each="datos: ${datos}">
-              <td th:text="${datos.nroFactura}"></td>
-              <td th:text="${datos.cliente}"></td>
-              <td th:text="${datos.fechaVenta}"></td>   
+              <td th:text="${datos.idOpe}"></td>   
+              <td th:text="${datos.fechaOpe}"></td>
+              <td th:text="${datos.descripcion}"></td>
               <td th:text="${datos.usuario}"></td>
-              <td th:text="${datos.montoTotal}"></td>   
-              <td th:text="${datos.impuesto}"></td>   
+              <td th:text="${datos.concepto}"></td>   
+              <td th:text="${datos.monto}"></td>
             </tr>
           </tbody>
         </table>
@@ -239,17 +239,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                   <label for="inputNombre" class="form-label">TOTAL A PAGAR:<span th:text="${totalMonto}"></span></label>
                   <!--span id="totalPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
                 </div>                                                              
-              </div>
-              <!---->
-              <div class="row">
-                <div class="col-6">                    
-                  <label for="inputNombre" class="form-label">TOTAL I.V.A.:<span th:text="${totalIva}"></span></label>
-                </div> 
-                <div class="col-6">                    
-                  <label for="inputNombre" class="form-label">NETO A PAGAR:<span th:text="${totalMonto}"></span></label>
-                  <!--span id="netoPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
-                </div>                                  
-              </div>                              
+              </div>                      
             </th>
           </tr>    
           

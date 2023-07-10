@@ -127,7 +127,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               </div>                                  
               <div class="col" th:unless='${tRCU=="" }'>                    
                 <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRCU}"></h3>
-              </div> 
+              </div>
+              
               <div class="col" th:unless='${tRF=="" }'>                    
                 <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRF}"></h3>           
               </div>
@@ -174,19 +175,23 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           <div class="container"> 
             <div class="row">
               <div class="col" th:unless="${pCU == '' }">                    
-                <p style="font-weight: bold;" th:text="${pCU}"></p>
+                <p style="font-weight: bold text-align: center;" th:text="${pCU}"></p>
               </div> 
-              <div class="col" th:unless='${pCU2=="" }'>                    
-                <p style="font-weight: bold;" th:text="${pCU2}"></p>
+              <div class="col" th:unless='${pCU2=="" }'>                
+                <p style="font-weight: bold text-align: center;" th:text="${pCU2}"></p>
               </div>                                  
-              <div class="col" th:unless="${pDesHas == '' }">                    
-                <p style="font-weight: bold;" th:text="${pDesHas}"></p>            
+              <div class="col" th:unless="${pDesHas == '' } ">                
+                <p style="font-weight: bold text-align: center;" th:text="${pDesHas}"></p>            
               </div>
+              
               <div class="col" th:unless='${fI=="" }'>                    
-                <p style="font-weight: bold;" th:text="${fI}"></p>            
+                <p style="font-weight: bold text-align: center;" th:text="${fI}"></p>            
+              </div>
+              <div class="col" th:unless="${pGP == '' }">                    
+                <p style="font-weight: bold text-align: center;" th:text="${pGP}"></p>            
               </div>
               <div class="col" th:unless='${pFechaEmision=="" }'>                    
-                <p style="font-weight: bold;" th:text="${pFechaEmision}"></p>            
+                <p style="font-weight: bold text-align: center;" th:text="${pFechaEmision}"></p>            
               </div>      
             </div>
           </div>
@@ -229,13 +234,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           <tr>
             <th>
               <div class="row">
-                <div class="col-6">                    
+                <!-- <div class="col-6">                    
                   <label for="inputNombre" class="form-label">TOTAL ITEMS COMPRADOS:</label>
                   <span id="cantidadItemsComprobante" th:text="${cantidadDetalle}"></span>
-                </div>  
+                </div>   -->
                 <div class="col-6">                    
                   <label for="inputNombre" class="form-label">TOTAL:</label>
-                  <!--span id="totalPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
+                  <span id="totalPagarComprobante" th:text="${totalMonto}+' Gs'"></span>
                 </div>                                                              
               </div>
                                        

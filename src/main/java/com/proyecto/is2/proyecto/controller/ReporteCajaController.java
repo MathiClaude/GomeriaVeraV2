@@ -227,13 +227,19 @@ public class ReporteCajaController {
     private List<ReporteCajaDTO> parsearDatosReporteCaja(List<Tuple> datosCrudo){        
         List<ReporteCajaDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {
-            lista.add( new ReporteCajaDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString()));
+            lista.add( new ReporteCajaDTO(elemento.get(0).toString(),
+                                          elemento.get(1).toString(),
+                                          elemento.get(2).toString(),
+                                          elemento.get(3).toString(),
+                                           elemento.get(4).toString() ,
+                                          elemento.get(5).toString()
+                                        ));
             // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
         return lista;
     }
     
-    @GetMapping("/stockReporte/caja/{id_caja}")
+    @GetMapping("/cajaReporte/caja/{id_caja}")
     public String reporteVentaCliente(Model model,@PathVariable String id_caja) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
@@ -245,18 +251,17 @@ public class ReporteCajaController {
 
         List<ReporteCajaDTO> listaDatos = this.parsearDatosReporteCaja(datosCaja);
 
-        Cliente cliente = clienteRepository.findByIdCliente(new Long(id_caja));
+        // Cliente cliente = clienteRepository.findByIdCliente(new Long(id_caja));
         Caja caja = cajaRepository.findByIdCaja(new Long(id_caja));
 
 
         BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        /*for (ReporteCajaDTO venta : listaDatos) {
+        for (ReporteCajaDTO venta : listaDatos) {
             total = total.add( new BigDecimal(venta.getMonto()));
-            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }*/
+        }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -285,13 +290,12 @@ public class ReporteCajaController {
         model.addAttribute("dRAll","");  //título fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCaja","Caja: " + caja.getDescripcion());
+        // model.addAttribute("pCaja","Caja: " + (caja.getDescripcion()));
         model.addAttribute("pUsuario","");
         model.addAttribute("fI","");
         
         
-
-        model.addAttribute("Generado por: " + usuario.getUsername()); 
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         
@@ -319,11 +323,10 @@ public class ReporteCajaController {
         BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        /*for (ReporteCajaDTO venta : listaDatos) {
+        for (ReporteCajaDTO venta : listaDatos) {
             total = total.add( new BigDecimal(venta.getMonto()));
-            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }*/
+        }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -352,12 +355,12 @@ public class ReporteCajaController {
 
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCaja","");
-        model.addAttribute("pUsuario: " +  usuario.getUsername());
+        model.addAttribute("pUsuario: " , usuario.getUsername());
         model.addAttribute("fI","");
         
         
 
-        model.addAttribute("Generado por: ", ""); 
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
@@ -383,11 +386,10 @@ public class ReporteCajaController {
          BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        /*for (ReporteCajaDTO venta : listaDatos) {
+        for (ReporteCajaDTO venta : listaDatos) {
             total = total.add( new BigDecimal(venta.getMonto()));
-            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }*/
+        }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -416,13 +418,13 @@ public class ReporteCajaController {
         model.addAttribute("dRAll","");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCaja" + caja.getDescripcion());
-        model.addAttribute("pUsuario: " +  usuario.getUsername());
+        model.addAttribute("pCaja", caja.getDescripcion());
+        model.addAttribute("pUsuario: " , usuario.getUsername());
         model.addAttribute("fI","");
         
         
 
-        model.addAttribute("Generado por: ", ""); 
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
@@ -447,11 +449,10 @@ public class ReporteCajaController {
          BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        /*for (ReporteCajaDTO venta : listaDatos) {
+        for (ReporteCajaDTO venta : listaDatos) {
             total = total.add( new BigDecimal(venta.getMonto()));
-            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }*/
+        }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -481,11 +482,11 @@ public class ReporteCajaController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCaja", "");
         model.addAttribute("pUsuario: ", "");
-        model.addAttribute("fI" +fechaDesde + " - " + fechaHasta+"");
+        model.addAttribute("fI" ,fechaDesde + " - " + fechaHasta+"");
         
         
 
-        model.addAttribute("Generado por: " +  usuario.getUsername()); 
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
@@ -511,11 +512,10 @@ public class ReporteCajaController {
         BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        /*for (ReporteCajaDTO venta : listaDatos) {
+        for (ReporteCajaDTO venta : listaDatos) {
             total = total.add( new BigDecimal(venta.getMonto()));
-            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }*/
+        }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -545,11 +545,12 @@ public class ReporteCajaController {
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCaja", caja.getDescripcion());
         model.addAttribute("pUsuario: ", "");
-        model.addAttribute("fI" +fechaDesde + " - " + fechaHasta+"");
+        model.addAttribute("fI" ,fechaDesde + " - " + fechaHasta+"");
+        
         
         
 
-        model.addAttribute("Generado por: " +  usuario.getUsername()); 
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
 
@@ -574,11 +575,10 @@ public class ReporteCajaController {
         BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        /*for (ReporteCajaDTO venta : listaDatos) {
+        for (ReporteCajaDTO venta : listaDatos) {
             total = total.add( new BigDecimal(venta.getMonto()));
-            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }*/
+        }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -608,12 +608,12 @@ public class ReporteCajaController {
 
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pCaja", "");
-        model.addAttribute("pUsuario: " + usuario.getUsername());
-        model.addAttribute("fI" +fechaDesde + " - " + fechaHasta+"");
+        model.addAttribute("pUsuario: " , usuario.getUsername());
+        model.addAttribute("fI" ,fechaDesde + " - " + fechaHasta+"");
         
         
 
-        model.addAttribute("Generado por: "); 
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
         if(crear) {
             return FORM_NEW;
@@ -636,11 +636,10 @@ public class ReporteCajaController {
         BigDecimal total = new BigDecimal(0);
         BigDecimal totalIva = new BigDecimal(0);
         Integer totalItems = 0;
-        /*for (ReporteCajaDTO venta : listaDatos) {
+        for (ReporteCajaDTO venta : listaDatos) {
             total = total.add( new BigDecimal(venta.getMonto()));
-            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
             totalItems ++;
-        }*/
+        }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -649,7 +648,7 @@ public class ReporteCajaController {
         model.addAttribute("totalItems", totalItems);
 
 
-// para cabecera del reporte
+        // para cabecera del reporte
         //título
         model.addAttribute("tRCaja","");
         model.addAttribute("tRUsuario","");        
@@ -669,11 +668,11 @@ public class ReporteCajaController {
         model.addAttribute("dRAll","Este reporte de stock se basa en todas operaciones registradas en el rango de fecha, respecto al vendedor y caja seleccionada, el mismo cuenta con los siguientes parámetros:");  //descripción fecha, cliente y usuario
 
         //parámetros que serán utilizados para el reporte
-        model.addAttribute("pCaja" + caja.getDescripcion());
-        model.addAttribute("pUsuario: " + usuario.getUsername());
-        model.addAttribute("fI" +fechaDesde + " - " + fechaHasta+"");
+        model.addAttribute("pCaja", caja.getDescripcion());
+        model.addAttribute("pUsuario: " , usuario.getUsername());
+        model.addAttribute("fI" ,fechaDesde + " - " + fechaHasta+"");
         
-        model.addAttribute("Generado por: ", ""); 
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         if(crear) {
@@ -684,7 +683,7 @@ public class ReporteCajaController {
     }
     
     /* FUNCION PARA PARSEAR LOS DATOS PARA REPORTES ESPECIFICOS DE PRODUCTOS*/
-     private List<ReporteVentaProductoDTO> parsearDatosReporteProducto(List<Tuple> datosCrudo){        
+    private List<ReporteVentaProductoDTO> parsearDatosReporteProducto(List<Tuple> datosCrudo){        
         List<ReporteVentaProductoDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {
             lista.add( new ReporteVentaProductoDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString()) );
@@ -730,6 +729,7 @@ public class ReporteCajaController {
 
         //parámetros que serán utilizados para el reporte
         model.addAttribute("pUsuarioRepor", "Generado por: " + usuario.getUsername());       
+        model.addAttribute("pGP", "Generado por: " + usuario.getUsername());
         model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
         if(crear) {

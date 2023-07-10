@@ -67,12 +67,13 @@
                     myModalAlternative.show(document.getElementById('modalReporte'));
                     return false
                 }
+
                 function abrirReportesEspecificos(reporte){
                     let url = "http://localhost:8080/compra/"
                     if(reporte == "productoCant"){
                         url += "compraReportEsp/pC";
-                    }else if(reporte == "productoMont"){
-                        url += "/ventaReportEsp/productoMont";
+                    }else if(reporte == "historial"){
+                        url += "compraReportEsp/historial";
                     }
                     document.getElementById("datoReporte").src=url;
                     const myModalAlternative = new bootstrap.Modal('#modalReporte',{})
@@ -216,8 +217,8 @@
                                             </button>  
                                         </div>                                        
                                         <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalChart">
-                                                <i class="bi bi-file-earmark-break-fill" id="download-button" onclick="generatePDF()"> Historial de compras</i>
+                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportesEspecificos('historial')">
+                                                <i class="bi bi-file-earmark-break-fill" id="download-button"> Historial de compras</i>
                                             </button>  
                                         </div>
                                     </div>                                    

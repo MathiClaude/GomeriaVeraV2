@@ -28,30 +28,30 @@
                     evento.preventDefault();
                     console.log("Llego a la función");
                     console.log(evento.target.InputCaja.value,"Caja id")
-                    console.log(evento.target.InputCajero.value,"Cajero id")
+                    console.log(evento.target.idCajero.value,"Cajero id")
                     console.log(evento.target.fechaDesde.value,"Fecha rango desde")
                     console.log(evento.target.fechaHasta.value,"Fecha rango hasta")
                     
                     //rango de todes
-                    if(evento.target.InputCaja.value !="" && evento.target.InputCajero.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){
-                        url+=  "allReport/" + evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/"+evento.target.InputCajero.value +"/"+ evento.target.InputCaja.value
+                    if(evento.target.InputCaja.value !="" && evento.target.idCajero.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !=""){
+                        url+=  "allReport/" + evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/"+evento.target.idCajero.value +"/"+ evento.target.InputCaja.value
                     
                     // rango de vendedor y caja    
-                    } else if (evento.target.InputCajero.value !="" && evento.target.InputCaja.value !=""){
-                        url+= "usuarioCaja/"+ evento.target.InputCaja.value +"/"+ evento.target.InputCajero.value
+                    } else if (evento.target.idCajero.value !="" && evento.target.InputCaja.value !=""){
+                        url+= "usuarioCaja/"+ evento.target.InputCaja.value +"/"+ evento.target.idCajero.value
                     
                         
                     // por rango de user y fecha    
-                    } else if (evento.target.InputCajero.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
-                        url+= "rangoVendedor/"+ evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/" + evento.target.InputCajero.value
+                    } else if (evento.target.idCajero.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
+                        url+= "rangoVendedor/"+ evento.target.fechaDesde.value.replaceAll("/","-") +"/"+ evento.target.fechaHasta.value.replaceAll("/","-") + "/" + evento.target.idCajero.value
                     
                     // por rango de caja y fecha
                     } else if (evento.target.InputCaja.value !="" && evento.target.fechaDesde.value && evento.target.fechaHasta.value !="" ){
                         url+= "rangoCaja/"+ evento.target.fechaDesde.value.replaceAll("/","-") + "/" + evento.target.fechaHasta.value.replaceAll("/","-") + "/" + evento.target.InputCaja.value
                     
                     // por cajero/vendedor (user)
-                    } else if(evento.target.InputCajero.value !=""){
-                        url+= "user/" + evento.target.InputCajero.value
+                    } else if(evento.target.idCajero.value !=""){ 
+                        url+= "user/" + evento.target.idCajero.value
                     
                     // por caja
                     } else if (evento.target.InputCaja.value !=""){
@@ -197,7 +197,7 @@
                                     <hr>                                     
                                     <div class="row mb-4 justify-content-center">                    
                                         <div class="col-sm-12 mb-2">
-                                            <button type="button" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportesEspecificos('productoMont')">
+                                            <button type="submit" class="btn btn-outline-info btn-sm w-100" onclick="abrirReportesEspecificos('productoMont')">
                                                 <i class="bi bi-basket2-fill" id="download-button" > Listado de cajas</i>
                                             </button>  
                                         </div>

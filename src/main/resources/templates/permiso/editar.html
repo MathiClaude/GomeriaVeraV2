@@ -1,48 +1,149 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/basic}">
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{/layout/basic}">
 <body>
-<div layout:fragment="content">
-    <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Permiso</b></h1> <!--titulo-->
-
-    <form method="POST" th:action="@{/permisos/{id}(id=${permiso.idPermiso})}" th:object="${modelPermiso}">
-        <th:block th:include="fragment/error-message.html"></th:block>
-
-        <fieldset>
-            <legend>Información del Permiso</legend>
-            <div class="mb-3"> <!-- margen button -->
-                <label class="form-label">Id Permiso: [[${permiso.idPermiso}]]</label>
-            </div>
-            <div class="mb-3"> <!-- margen button -->
-                <label for="inputNombre2" class="form-label">Nombre Permiso</label>
-                <input type="text" class="form-control" id="inputNombre2" name="nombre" th:value="${permiso.nombre}">
-            </div>
-            <div class="mb-3"> <!-- margen button -->
-                <label for="inputNombre3" class="form-label">Descripcion Permiso</label>
-                <input type="text" class="form-control" id="inputNombre3" name="descripcion" th:value="${permiso.descripcion}">
-            </div>
-            <div class="input-group mb-3">
-                <label class="input-group-text" for="inputGroupSelect02">Vista</label>
-                <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="idVista" th:value="${permiso.vista != null? permiso.vista.idVista : -1}">
-                    <option value="-1">Seleccionar</option>
-                    <option th:each="elemento : ${vistas}" th:value="${elemento.idVista}" th:text="${elemento.toString()}"></option>
-                </select>
-            </div>
-        </fieldset>
-
-        <div class="row">
-            <div class="col-sm-6">
-                <a th:href="@{/permisos}" class="btn btn-outline-secondary w-100">
-                    Atrás
-                </a>
-            </div>
-            <div class="col-sm-6">
-                <button type="submit" class="btn btn-warning w-100">Modificar Permiso</button>
-            </div>
+    
+    <div layout:fragment="content">
+        <div>
+            <img th:src="@{/img/editarPermisos.png}" class="center wp-image-4532"/> <!--div center img-->
         </div>
-    </form>
-</div>
+        <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Editar Permiso</b></h1> <!--titulo-->
+        
+        <form method="POST" th:action="@{/permisos/{id}(id=${permiso.idPermiso})}" th:object="${modelPermiso}">
+            <!--th:block th:include="fragment/error-message.html"></!th:block-->
+            <fieldset>
+                
+                <br> <!--separador-->
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-sm-6" > 
+                            <div class ="card">                           
+                                <div class="card-body">
+                                    
+                                    <!--Información del usuario-->
+                                    <p style="color: #21618C; text-align: center;"><strong>Datos editables</strong></p>
+                                    <br>  
+                                    <hr>
+                                    <div class="row mb-4">                            
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <label name="pass" class="form-label">Nombre del Permiso</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-text"><i class="bi bi-shield-lock-fill"></i></div>
+                                                    <input type="text" class="form-control" id="inputNombre2" name="nombre" th:value="${permiso.nombre}"> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-4">                            
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <label name="pass" class="form-label">Descripción del Permiso</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-text"><i class="bi bi-shield-lock-fill"></i></div>
+                                                    <input type="text" class="form-control" id="inputNombre3" name="descripcion" th:value="${permiso.descripcion}">
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <div class="row mb-4">                            
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <label name="pass" class="form-label">Vista</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-text"><i class="bi bi-eye-fill"></i></div>
+                                                    <select class="form-select" aria-label="Default select example" id="inputGroupSelect02" name="idVista" th:value="${permiso.vista != null? permiso.vista.idVista : -1}">
+                                                        <option value="-1">Seleccionar Vista</option>
+                                                        <option th:each="elemento : ${vistas}" th:value="${elemento.idVista}" th:text="${elemento.toString()}"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    
+                                    
+                                </div>
+                
+                            
+                        </div>    <!-- termina el card-->
+                        <br>
+                        
+                        
+                    </div>
+                    <!--nuevo card-->
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <lord-icon
+                                    src="https://cdn.lordicon.com/ajkxzzfb.json"
+                                    trigger="hover"
+                                    colors="primary:#e3c0ac,secondary:#c69cf4"
+                                    style="width: 80px; height: 80px"
+                                    ></lord-icon>
+                                </div>
+                                
+                            </lord-icon>
+                            <!--Información del permiso-->
+                            <p style="color: #21618C; text-align: center;"><strong>Información del permiso</strong></p>
+                            <hr>
+                            <div class="row mb-4">                            
+                                <div class="col">
+                                    <div class="form-outline">
+                                        <label class="form-label"><strong><i class="bi bi-person-video"></i> Nombre actual: </strong>[[${permiso.nombre}]]</label>
+                                        
+                                        <input type="hidden" class="form-control" id="inputNombre2" name="user" th:value="${permiso.nombre}">   
+                                        
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="row mb-4">                            
+                                <div class="col">
+                                    <div class="form-outline">
+                                        <label class="form-label"><strong><i class="bi bi-gear-fill"></i> Descripción actual: </strong>[[${permiso.descripcion}]]</label>                      
+                                        <input type="hidden" class="form-control" id="inputNombre2" name="user" th:value="${permiso.descripcion}">   
+                                        
+                                    </div> 
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            <div class="row d-flex justify-content-center align-items-center">
+                                <div class="col-sm-4">
+                                    <div class="row">
+                                        <div class="col">
+                                            <a href="javascript:void(0);" class="btn btn-secondary w-100" onclick="confirmarRegreso()">
+                                                Atrás
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="row">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-info text-white">
+                                                <i class="bi bi-save2" id="download-button"> Modificar Permiso</i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                        
+                        
+                    </div><!--termina card-->
+                </div>
+                
+                
+                
+            </fieldset>
 
+        </form>
+    </div>
+    
 </body>
 </html>

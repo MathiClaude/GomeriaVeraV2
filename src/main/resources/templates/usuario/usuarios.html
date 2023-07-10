@@ -47,7 +47,8 @@
                         <td th:text="${user.username}"></td>
                         <td th:text="${user.email}"></td><!---->
                         <td th:text="${user.rol.nombre}"></td><!--del rol-->
-                        <td th:text="${user.rol.nombre}"></td><!--del rol-->
+                        <td th:text="${user.estado}" th:if="${user.estado =='ACTIVO'}" style="background-color:#45B39D;color:white"></td><!--del rol-->
+                        <td th:text="${user.estado}" th:if="${user.estado !='ACTIVO'}" style="background-color:#F1948A;color:white"></td><!--del rol-->
 
                         <td><!---->
                           <div class="btn-group"><!---->
@@ -55,11 +56,11 @@
                                class="btn btn-sm btn-outline-primary"><!---->
                               <i class="fa-solid fa-pen-to-square"></i><!---->
                             </a>
-                            <a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
+                            <!--a th:if="${permisoEliminar eq true}" th:href="@{/usuarios/{id}/delete(id=${user.idUsuario})}">
                               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                                 <i class="fa-sharp fa-solid fa-trash"></i>
                               </button>
-                            </a>
+                            </!a-->
                           </div>
                         </td>
                       </tr>

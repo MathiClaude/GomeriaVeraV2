@@ -37,7 +37,10 @@ layout:decorate="~{/layout/basic}">
           <!--th>Cantidad</th-->
           <th>Marca</th><!---->
           <th>Tipo</th><!---->
+          <th>Cantidad</th><!---->
+
           <th>U. Medida</th><!---->
+          <th>Precio</th><!---->
           <th>Acción</th><!---->
         </tr><!---->
       </thead><!---->
@@ -52,7 +55,11 @@ layout:decorate="~{/layout/basic}">
           <!--tdth:text="${producto.cantidad}">90</!tdth:text-->
           <td th:text="${producto.marca.nombre}">90</td><!---->
           <td th:text="${producto.tipoProducto.descripcion}">type</td>
+          <td th:text="${producto.cantidad}">-</td>
+
           <td th:text="${producto.unidadMedida.descripcion}">-</td>
+          <td th:text="${producto.precio}">-</td>
+
           <td><!---->
             <div class="btn-group"><!---->
               <a th:if="${permisoActualizar eq true}" th:href="@{/stocks/{id}(id=${producto.idProducto})}" 

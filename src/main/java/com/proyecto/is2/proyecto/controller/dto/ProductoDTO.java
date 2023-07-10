@@ -30,4 +30,5 @@ public class ProductoDTO {
     private Integer cantidadMinima;
     private String procedencia;
 
+
 }

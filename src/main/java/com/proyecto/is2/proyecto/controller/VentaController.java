@@ -291,12 +291,17 @@ public class VentaController {
                 }else{
                     Producto  prod = productoRepository.findByIdProducto(Long.parseLong(elementos[1]));
                     vtaDet.setProducto(prod);
+                    // ACTUALIZAR EL STOCK DEL PRODUCTO SELECCIONADO
+                    prod.setCantidad(prod.getCantidad()-Integer.parseInt(elementos[0]));
+                    productoService.guardar(prod);
                 }
                 
                 vtaDet.setVenta(nuevaVenta);
                 vtaDet.setCantidad(new Float(elementos[0]));
                 vtaDet.setPrecio(new Float(elementos[2]));
                 ventaService.guardarDetalle(vtaDet);
+                
+
     
             }
             // CREAR ESTRUCTURA PARA LA OPERACION A GUARDAR

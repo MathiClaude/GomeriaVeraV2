@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.security.access.AuthorizationServiceException;
-
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -43,6 +43,8 @@ public class UsuarioController {
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
     private final static String ERROR_VIEW = "errorMessage";
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private UsuarioServiceImp usuarioService; // llamada a los servicios de usuario
@@ -125,14 +127,11 @@ public class UsuarioController {
                               RedirectAttributes attributes) {
         this.operacion = "crear-";
 
-//        if (result.hasErrors()) {
-//            return FORM_NEW;
-//        }
-
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             Usuario usuario = new Usuario();
             usuarioService.convertirDTO(usuario, objetoDTO);
-
+            usuario.setEstado("ACTIVO");
+            
             // si tiene permiso se le asigna el rol con id del formulario
             // sino se le asignar un rol por defecto.
             if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
@@ -161,6 +160,7 @@ public class UsuarioController {
         try {
             Long idUsuario = Long.parseLong(id);
             usuario = usuarioService.existeUsuario(idUsuario);
+            
         } catch(Exception e) {
             return RD_FORM_VIEW;
         }
@@ -184,23 +184,31 @@ public class UsuarioController {
     public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("usuario") UsuarioDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
-        Usuario usuario;
-
-        if (result.hasErrors()) {
-//            studentDTO.setId(id);
-            return RD_FORM_VIEW;
-        }
+        Usuario usuario,usuarioOld;
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
+            usuarioOld = usuarioService.existeUsuario(id);
             usuario = usuarioService.existeUsuario(id);
-            if(usuario != null) {
-                usuarioService.convertirDTO(usuario, objetoDTO);
+            if(usuarioOld != null) {
+                usuario.setEmail(usuarioOld.getEmail());
+                usuario.setUsername(usuarioOld.getUsername());
+                usuario.setEstado(objetoDTO.getEstado());
+
+                // usuarioService.convertirDTO(usuario, objetoDTO);
+                if(objetoDTO.getIdRol() != null){
+                    usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
+                }else{
+                    usuario.setRol(usuarioOld.getRol());
+                }
+                if(objetoDTO.getModifPass() != null
+                &&  objetoDTO.getModifPass().equals("yes")){
+                    usuario.setPassword(passwordEncoder.encode(objetoDTO.getPassword()));
+                }else{
+                    usuario.setPassword(usuarioOld.getPassword());
+                }
 
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
-                if(usuarioService.tienePermiso(P_ASIGNAR_ROL)) {
-                    usuario.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
-                }
 
                 attributes.addFlashAttribute("message", "¡Usuario actualizado correctamente!");
                 usuarioService.guardar(usuario);

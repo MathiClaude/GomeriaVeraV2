@@ -100,6 +100,7 @@ public class RolController {
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             Rol rol = new Rol();
             rolService.convertirDTO(rol, objetoDTO);
+            rol.setEstado("ACTIVO");
             rolService.guardar(rol);
 
             attributes.addFlashAttribute("message", "¡Rol creado exitosamente!");

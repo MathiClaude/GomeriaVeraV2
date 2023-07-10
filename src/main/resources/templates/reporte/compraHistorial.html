@@ -160,22 +160,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
         <table class="table">
           <thead style="background-color: #0a4275;">
             <tr class="text-center"><!---->
-              <th>Nro. de Comprobante</th><!---->
+              <th>Nro. de Compra</th><!---->
               <th>Proveedor</th><!---->
-              <th>Fecha</th><!---->
               <th>Vendedor</th><!---->
-              <th>Total</th><!---->
-              <th>Impuesto</th><!---->                
+              <th>Fecha</th><!---->
+              <th>Estado</th><!---->
+              <th>Monto</th><!----> 
             </tr><!---->
           </thead><!---->
           <tbody id="datos"><!---->
             <tr class="text-center" th:each="datos: ${datos}">
-              <td th:text="${datos.nroFactura}"></td>
-              <td th:text="${datos.cliente}"></td>
+              <td th:text="${datos.idCompra}"></td>
+              <td th:text="${datos.proveedor}"></td>
+              <td th:text="${datos.usuario}"></td>   
               <td th:text="${datos.fechaCompra}"></td>   
-              <td th:text="${datos.usuario}"></td>
-              <td th:text="${#numbers.formatDecimal(datos.montoTotal, 0, 'POINT', 0, 'COMMA')}"></td>   
-              <td th:text="${#numbers.formatDecimal(datos.impuesto, 0, 'POINT', 0, 'COMMA')}"></td>   
+              <td th:text="${datos.estado}"></td>
+              <td th:text="${#numbers.formatDecimal(datos.montoTotal, 0, 'POINT', 0, 'COMMA')}"></td>  
             </tr>
           </tbody>
         </table>
@@ -188,18 +188,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           <tr>
             <th>
               <div class="row">
-                <div class="col-4">                    
+                <!-- <div class="col-4">                    
                   <label for="inputNombre" class="form-label">TOTAL ITEMS:<span th:text="${totalItems}"></span></label>
                   <span id="cantidadItemsComprobante" th:text="${cantidadDetalle}"></span>
-                </div>  
+                </div>   -->
                 <div class="col-4">                    
-                  <label for="inputNombre" class="form-label">TOTAL A PAGAR:<span th:text="${totalMonto}"></span></label>
+                  <label for="inputNombre" class="form-label">TOTAL :<span th:text="${#numbers.formatDecimal(totalMonto, 0, 'POINT', 0, 'COMMA')}"></span></label>
                   
                 </div> 
-                <div class="col-4">                    
+                <!-- <div class="col-4">                    
                   <label for="inputNombre" class="form-label">TOTAL I.V.A.:<span th:text="${totalIva}"></span></label>
-                  <!--span id="totalIvaComprobante"  th:text="${datosVenta.montoTotal}" ></!span-->
-                </div>                                                              
+                  span id="totalIvaComprobante"  th:text="${datosVenta.montoTotal}" ></!span
+                </div>                                                               -->
               </div>
                                        
             </th>

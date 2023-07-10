@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{/layout/basic}">
+
 <body>
   <div layout:fragment="content">
     <div class="d-flex justify-content-between align-items-center">
@@ -11,12 +12,14 @@ layout:decorate="~{/layout/basic}">
           <b style="color: #21618C;">Gestión de Roles</b>
         </h1>
       </div>
+    
       
       <div class="d-flex">
         <a th:href="@{/roles/nuevo}" class="btn btn-success mb-4 text-end">
-          <i class="fa-solid fa-user-plus"></i> Nuevo usuario 
+          <i class="fa-solid fa-user-plus"></i> Nuevo Rol 
         </a>
       </div>
+    </div>    
       
       <hr>
       <br>
@@ -34,6 +37,7 @@ layout:decorate="~{/layout/basic}">
                       <tr class="text-center"><!---->
                         <th>Nombre</th>
                         <th>Descripción</th>
+                        <th>Estado</th>
                         <th>Acción</th>
                       </tr>
                     </thead>
@@ -44,22 +48,24 @@ layout:decorate="~{/layout/basic}">
                       <tr class="text-center" th:each="rol: ${listRol}">
                         <td th:text="${rol.nombre}">Nombre</td>
                         <td th:text="${rol.descripcion}">Descripcion</td>
+                        <td th:text="${rol.estado}" th:if="${rol.estado =='ACTIVO'}" style="background-color:#45B39D;color:white"></td><!--del rol-->
+                        <td th:text="${rol.estado}" th:if="${rol.estado !='ACTIVO'}" style="background-color:#F1948A;color:white"></td><!--del rol-->
                         <td>
                           <div class="btn-group">
                             <a th:if="${permisoAsignar eq true}" th:href="@{/roles/{id}/permisos(id=${rol.idRol})}">
                               <button type="button" class="btn btn-sm btn-outline-secondary">
-                                <i class="fa-sharp fa-solid fa-sliders"></i>
+                                <i class="bi bi-person-lock"></i>
                               </button>
                             </a>
                             <a th:if="${permisoActualizar eq true}" th:href="@{/roles/{id}(id=${rol.idRol})}"
                             class="btn btn-sm btn-outline-primary">
                             <i class="fa-solid fa-pen-to-square"></i>
                           </a>
-                          <a th:if="${permisoEliminar eq true}" th:href="@{/roles/{id}/delete(id=${rol.idRol})}">
+                          <!--a th:if="${permisoEliminar eq true}" th:href="@{/roles/{id}/delete(id=${rol.idRol})}">
                             <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                               <i class="fa-sharp fa-solid fa-trash"></i>
                             </button>
-                          </a>
+                          </!a-->
                         </div>
                       </td>
                     </tr>

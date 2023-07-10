@@ -16,73 +16,73 @@ public interface CajaRepository extends JpaRepository<Caja, Long> {
     
     //filtro de caja
     @Query(value="SELECT "+
-                " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
+                " c.descripcion, u.username , o.concepto , o.monto , COALESCE(o.fecha_operacion,' '), o.id_operacion " + 
                 "FROM operacion o "+
-                "JOIN caja c ON c.id_caja  = o.caja_id  "+
-                "JOIN usuario u ON u.id_usuario = o.usuario_id "+
+                "JOIN caja c ON c.id_caja  = o.id_caja  "+
+                "JOIN usuario u ON u.id_usuario = o.id_usuario "+
                 "WHERE c.id_caja = ?1 "+
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidCajaNative(Long id_caja); 
 
     //filtro de vendedor
     @Query(value="SELECT "+
-                " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
+                " c.descripcion, u.username , o.concepto , o.monto , COALESCE(o.fecha_operacion,' '), o.id_operacion " + 
                 "FROM operacion o "+
-                "JOIN caja c ON c.id_caja  = o.caja_id  "+
-                "JOIN usuario u ON u.id_usuario = o.usuario_id "+
+                "JOIN caja c ON c.id_caja  = o.id_caja  "+
+                "JOIN usuario u ON u.id_usuario = o.id_usuario "+
                 "WHERE u.id_usuario = ?1 "+
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidUsuarioNative(Long id_usuario); 
 
     //filtro rango de fechas
     @Query(value="SELECT "+
-                " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
+                " c.descripcion, u.username , o.concepto , o.monto , COALESCE(o.fecha_operacion,' '), o.id_operacion " +  
                 "FROM operacion o "+
-                "JOIN caja c ON c.id_caja  = o.caja_id  "+
-                "JOIN usuario u ON u.id_usuario = o.usuario_id "+
-                "WHERE TO_DATE(fecha_operacion,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?1,'MM-DD-YYYY') AND TO_DATE(?2,'MM-DD-YYYY') "+
+                "JOIN caja c ON c.id_caja  = o.id_caja  "+
+                "JOIN usuario u ON u.id_usuario = o.id_usuario "+
+                "WHERE TO_DATE(fecha_operacion,'YYYY-MM-DD') between  TO_DATE(?1,'MM-DD-YYYY') AND TO_DATE(?2,'MM-DD-YYYY') "+
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByRangoNative(String fechaDesde,String fechaHasta); 
 
     // filtro caja y vendedor
     @Query(value="SELECT "+
-                " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
+                " c.descripcion, u.username , o.concepto , o.monto , COALESCE(o.fecha_operacion,' '), o.id_operacion " + 
                 "FROM operacion o "+
-                "JOIN caja c ON c.id_caja  = o.caja_id  "+
-                "JOIN usuario u ON u.id_usuario = o.usuario_id "+
+                "JOIN caja c ON c.id_caja  = o.id_caja  "+
+                "JOIN usuario u ON u.id_usuario = o.id_usuario "+
                 "WHERE c.id_caja = ?1 AND u.id_usuario = ?2 "+
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidCajaUsuarioNative(Long id_caja,Long id_usuario); 
 
     //filtro caja y fecha
     @Query(value="SELECT "+
-                " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
+                " c.descripcion, u.username , o.concepto , o.monto , COALESCE(o.fecha_operacion,' '), o.id_operacion " + 
                 "FROM operacion o "+
-                "JOIN caja c ON c.id_caja  = o.caja_id  "+
-                "JOIN usuario u ON u.id_usuario = o.usuario_id "+
-                "WHERE c.id_caja = ?1 AND TO_DATE(fecha_operacion,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') "+
+                "JOIN caja c ON c.id_caja  = o.id_caja  "+
+                "JOIN usuario u ON u.id_usuario = o.id_usuario "+
+                "WHERE c.id_caja = ?1 AND TO_DATE(fecha_operacion,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') "+
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidCajaRangoNative(Long id_caja,String fechaDesde,String fechaHasta); 
 
 
     //filtro vendedor y fecha
     @Query(value="SELECT "+
-                " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
+                " c.descripcion, u.username , o.concepto , o.monto , COALESCE(o.fecha_operacion,' '), o.id_operacion " + 
                 "FROM operacion o "+
-                "JOIN caja c ON c.id_caja  = o.caja_id  "+
-                "JOIN usuario u ON u.id_usuario = o.usuario_id "+
-                "WHERE u.id_usuario = ?1 AND TO_DATE(fecha_operacion,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') "+
+                "JOIN caja c ON c.id_caja  = o.id_caja  "+
+                "JOIN usuario u ON u.id_usuario = o.id_usuario "+
+                "WHERE u.id_usuario = ?1 AND TO_DATE(fecha_operacion,'YYYY-MM-DD') between  TO_DATE(?2,'MM-DD-YYYY') AND TO_DATE(?3,'MM-DD-YYYY') "+
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidUsuarioRangoNative(Long id_usuario,String fechaDesde,String fechaHasta); 
 
 
     // filtro all
     @Query(value="SELECT "+
-                " c.descripcion, u.username , o.concepto , o.monto , o.fecha_operacion  o.id_operacion" + 
+                " c.descripcion, u.username , o.concepto , o.monto , COALESCE(o.fecha_operacion,' '), o.id_operacion " + 
                 "FROM operacion o "+
-                "JOIN caja c ON c.id_caja  = o.caja_id  "+
-                "JOIN usuario u ON u.id_usuario = o.usuario_id "+
-                "WHERE c.id_caja = ?1 AND u.id_usuario = ?2 AND TO_DATE(fecha_operacion,'DD/MM/YYYY HH24:MI:SS') between  TO_DATE(?3,'MM-DD-YYYY') AND TO_DATE(?4,'MM-DD-YYYY') "+
+                "JOIN caja c ON c.id_caja  = o.id_caja  "+
+                "JOIN usuario u ON u.id_usuario = o.id_usuario "+
+                "WHERE c.id_caja = ?1 AND u.id_usuario = ?2 AND TO_DATE(fecha_operacion,'YYYY-MM-DD') between  TO_DATE(?3,'MM-DD-YYYY') AND TO_DATE(?4,'MM-DD-YYYY') "+
                 " ORDER BY fecha_operacion DESC LIMIT 10 ",nativeQuery = true)
     List<Tuple>  findHistorialOperacionesByidCajaRangoNative(Long id_caja,Long id_usuario,String fechaDesde,String fechaHasta);
 

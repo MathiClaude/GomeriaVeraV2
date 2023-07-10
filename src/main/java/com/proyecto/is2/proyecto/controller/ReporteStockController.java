@@ -214,11 +214,19 @@ public class ReporteStockController {
         return FORM_VIEW;
     }
     
-     private List<ReporteStockDTO> parsearDatosReporteStock(List<Tuple> datosCrudo){        
+    private List<ReporteStockDTO> parsearDatosReporteStock(List<Tuple> datosCrudo){        
         List<ReporteStockDTO> lista = new ArrayList<>();
         for (Tuple elemento : datosCrudo) {
-            lista.add( new ReporteStockDTO(elemento.get(0).toString(),elemento.get(1).toString(),elemento.get(2).toString(),elemento.get(3).toString(),elemento.get(4).toString(),elemento.get(5).toString()));
-            // lista.add(elemento.get(0).toString()+"-"+ elemento.get(1).toString());
+            lista.add( new ReporteStockDTO(
+                elemento.get(0).toString(),
+                elemento.get(1).toString(),
+                elemento.get(2).toString(),
+                elemento.get(3).toString(),
+                Integer.parseInt(elemento.get(4).toString()),
+                elemento.get(5).toString(),
+                new Float(elemento.get(6).toString())));
+                // lista.add(
+                // elemento.get(0).toString()+"-"+ elemento.get(1).toString());
         }
         return lista;
     }
@@ -255,9 +263,14 @@ public class ReporteStockController {
         Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
 
         Float total = new Float(0);
-        for (ReporteStockDTO stock : listaDatos) {
-            total += stock.getMontoCompra();
+        Integer cant= 0;
+        for (ReporteStockDTO compra : listaDatos) {
+            total += compra.getPrecio();
+            cant+= compra.getCantidad();
         }
+        //java.time.LocalDate.now().toString()
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cant", cant);
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
         model.addAttribute("cantidadDetalles", listaDatos.size());
@@ -267,12 +280,17 @@ public class ReporteStockController {
         // para cabecera del reporte
         //título
         model.addAttribute("tRPro","Reporte de stock por proveedor"); 
-        model.addAttribute("tRProd","");        
+        model.addAttribute("tRProd","");   
+        model.addAttribute("tRProdu","");      
+        model.addAttribute("tRProduc","");        
 
 
         //descripción del reporte
         model.addAttribute("dRPro","Este reporte de stock se basa en los proveedores, el mismo cuenta con los siguientes parámetros:");        
         model.addAttribute("dRProd",""); // título reporte tipoProducto
+        model.addAttribute("dRProdu",""); // título reporte tipoProducto
+        model.addAttribute("dRProduc","");        
+
        
 
         //parámetros que serán utilizados para el reporte
@@ -296,37 +314,47 @@ public class ReporteStockController {
     public String reporteStockTP(Model model,@PathVariable String id_tipoProducto) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        List<Tuple> datosCompra = productoRepository.findStockByTipoProNative(id_tipoProducto);
+        List<Tuple> datosCompra = productoRepository.findStockByTipoProNative(new Long(id_tipoProducto));
         List<ReporteStockDTO> listaDatos = this.parsearDatosReporteStock(datosCompra);
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
         Float total = new Float(0);
+        Integer cant= 0;
         for (ReporteStockDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getPrecio());
+            total += compra.getPrecio();
+            cant+= compra.getCantidad();
         }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
-        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("cant", cant);
         model.addAttribute("totalMonto", total);
 
         // para cabecera del reporte
         //título
         model.addAttribute("tRPro",""); 
         model.addAttribute("tRProd","Reporte de stock por tipo de producto");        
+        model.addAttribute("tRProdu","");
+        model.addAttribute("tRProduc","");
+        
+
 
 
         //descripción del reporte
         model.addAttribute("dRPro","");        
         model.addAttribute("dRProd","Este reporte de stock se basa en los tipo de productos, el mismo cuenta con los siguientes parámetros:"); // título reporte tipoProducto
+        model.addAttribute("dRProdu","");  
+        model.addAttribute("dRProduc","");        
+      
+
        
 
        //parámetros que serán utilizados para el reporte
        model.addAttribute("pUser", "Generado por: " + usuario.getUsername()); 
        
        model.addAttribute("pProveedor", "");
-       model.addAttribute("pTiPro", "Tipo de producto: " ); //falta
+       model.addAttribute("pTiPro", "" ); //falta
        model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
         
@@ -344,7 +372,7 @@ public class ReporteStockController {
     public String reporteCompraAll(Model model,@PathVariable String id_tipoProducto, @PathVariable String proveedor_id) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         //boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        List<Tuple> datosCompra = productoRepository.findStockByTipoProNative(id_tipoProducto);
+        List<Tuple> datosCompra = productoRepository.findStockByTipoProProveedorNative(new Long(id_tipoProducto),new Long(proveedor_id));
         List<ReporteStockDTO> listaDatos = this.parsearDatosReporteStock(datosCompra);
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
@@ -353,32 +381,39 @@ public class ReporteStockController {
         Proveedor proveedor = proveedorRepository.findByIdProveedor(new Long(proveedor_id));
 
         Float total = new Float(0);
+        Integer cant= 0;
         for (ReporteStockDTO compra : listaDatos) {
-            total += Float.parseFloat(compra.getPrecio());
+            total += compra.getPrecio();
+            cant+= compra.getCantidad();
         }
         //java.time.LocalDate.now().toString()
         model.addAttribute("datos", listaDatos);
-        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("cant", cant);
         model.addAttribute("totalMonto", total);
 
         // para cabecera del reporte
         //título
         model.addAttribute("tRPro",""); 
-        model.addAttribute("tRProd","Reporte de stock por tipo de producto");        
-
-
+        model.addAttribute("tRProd","");        
+        model.addAttribute("tRProdu","");
+        model.addAttribute("tRProduc","Reporte de stock por tipo producto y proveedor");        
+        
         //descripción del reporte
         model.addAttribute("dRPro","");        
-        model.addAttribute("dRProd","Este reporte de stock se basa en los tipo de productos, el mismo cuenta con los siguientes parámetros:"); // título reporte tipoProducto
+        model.addAttribute("dRProd",""); // título reporte tipoProducto
+        model.addAttribute("dRProdu",""); 
+        model.addAttribute("dRProduc","En este reporte se visualiza los productos en stock basado al tipo de producto y el proveedor"); 
+
+
        
 
        //parámetros que serán utilizados para el reporte
        model.addAttribute("pUser", "Generado por: " + usuario.getUsername()); 
        
-       model.addAttribute("pProveedor", "Proveedor: " + proveedor.getNombre());
+       model.addAttribute("pProveedor", "");
+       model.addAttribute("pTiPro", "" ); //falta
+       model.addAttribute("pFechaEmision","Fecha emisión: "+java.time.LocalDate.now().toString());
 
-       model.addAttribute("pTiPro", "Tipo de producto: " ); //falta
-       model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
 
         
 
@@ -390,28 +425,79 @@ public class ReporteStockController {
         }
     }
 
-    
-
-   
-
-    @GetMapping("/stockRepEsp/listado")
-    public String reporteProductoCantidad(Model model) {
+    @GetMapping("/stockRepEsp/cantMinima")
+    public String reporteCantidadMinima(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         
-        List<Producto> datosStock = productoRepository.findAll();
+        List<Tuple> datosStock = productoRepository.findStockByCantMinimaNative();
 
-        // List<ReporteVentaProductoDTO> listaDatos = this.parsearDatosReporteProducto(datosVenta);
+        List<ReporteStockDTO> listaDatos = this.parsearDatosReporteStock(datosStock);
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
         Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
 
  
         BigDecimal total = new BigDecimal(0);
-        Float cant = new Float(0);
-        // for (ReporteVentaProductoDTO prod : listaDatos) {
-        //     total = total.add( new BigDecimal(prod.getMonto()));
-        //     cant += Float.parseFloat(prod.getCantProducto());
-        // }
+        Integer cant = 0;
+        for (ReporteStockDTO prod : listaDatos) {
+            total = total.add( new BigDecimal(prod.getPrecio()));
+            cant += prod.getCantidad();
+        }
+        model.addAttribute("datos", listaDatos);
+        model.addAttribute("cantidadDetalles", listaDatos.size());
+        model.addAttribute("totalMonto", total);
+        model.addAttribute("cant", cant);
+
+
+
+        // para cabecera del reporte
+        //título
+        model.addAttribute("tRPro",""); 
+        model.addAttribute("tRProd","");
+        model.addAttribute("tRProdu","Reporte de stock con cantidad mínima");        
+        model.addAttribute("tRProduc","");
+
+
+
+        //descripción del reporte
+        model.addAttribute("dRPro","");        
+        model.addAttribute("dRProd",""); // título reporte tipoProducto
+        model.addAttribute("dRProdu","Este reporte de stock se basa en los productos con cantidad por debajo del mínimo"); // título reporte especifico cantidad mínima
+        model.addAttribute("dRProduc",""); // título reporte tipoProducto
+
+       
+
+       //parámetros que serán utilizados para el reporte
+       model.addAttribute("pUser", ""); 
+       
+       model.addAttribute("pProveedor", "");
+
+       model.addAttribute("pTiPro", "" ); //falta
+       model.addAttribute("pFechaEmision","Fecha emisión: "+ java.time.LocalDate.now().toString());
+
+
+        if(crear) {
+            return FORM_NEW;
+        } else {
+            return FORM_NEW;
+        }
+    }
+    @GetMapping("/stockRepEsp/listado")
+    public String reporteProductoCantidad(Model model) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        
+        List<Producto> datosStock = productoRepository.findAll();
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
+        Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
+
+ 
+        BigDecimal total = new BigDecimal(0);
+        Integer cant = 0;
+        for (Producto prod : datosStock) {
+            total = total.add( new BigDecimal(prod.getPrecio()));
+            cant += prod.getCantidad();
+        }
         model.addAttribute("datos", datosStock);
         model.addAttribute("cantidadDetalles", datosStock.size());
         model.addAttribute("totalMonto", total);
@@ -421,12 +507,15 @@ public class ReporteStockController {
 
         // para cabecera del reporte
         //título
-        model.addAttribute("tRProdCant"," Reporte de productos más vendidos respecto a la cantidad");
-        model.addAttribute("tRProdMont","");        
+     
+        model.addAttribute("tRPro2","Reporte General de stock");
+
+        
 
         //descripción del reporte
-        model.addAttribute("dRProdCant","En este reporte se visualizan los 10 productos más vendidos respecto a la cantidad que se vendió");        
-        model.addAttribute("dRProdMont",""); 
+       
+        model.addAttribute("dRPro2","En este reporte se visualizará un listado completo del stock actual");          
+        
         
 
         //parámetros que serán utilizados para el reporte
@@ -439,6 +528,8 @@ public class ReporteStockController {
             return REPORTE_ESPECIFICO;
         }
     }
+
+
 
 
 }

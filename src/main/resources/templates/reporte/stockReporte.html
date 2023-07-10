@@ -126,6 +126,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <div class="col" th:unless='${tRProd=="" }'>                    
                 <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRProd}"></h3>
               </div>
+              <div class="col" th:unless='${tRProdu=="" }'>                    
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRProdu}"></h3>
+              </div>
+              <div class="col" th:unless='${tRProduc=="" }'>                     
+                <h3 style="font-family: Trebuchet MS; font-weight: bold; color: #2E86C1; text-align: center;" th:text="${tRProduc}"></h3>
+              </div>
             </div>
           </div>
           
@@ -138,6 +144,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <div class="col" th:unless='${dRProd=="" }'>                    
                 <p style="font-weight: bold; text-align: center;" th:text="${dRProd}"></p>
               </div>
+              <div class="col" th:unless='${dRProdu=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRProdu}"></p>
+              </div>
+              <div class="col" th:unless='${dRProduc=="" }'>                    
+                <p style="font-weight: bold; text-align: center;" th:text="${dRProduc}"></p>
+              </div>
             </div>
           </div>
           
@@ -145,16 +157,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
           <div class="container"> 
             <div class="row">
               <div class="col" th:unless="${pUser == '' }">                    
-                <p style="font-weight: bold;" th:text="${pUser}"></p>
+                <p style="font-weight: bold text-align: center;" th:text="${pUser}"></p>
               </div>
               <div class="col" th:unless="${pProveedor == '' }">                    
-                <p style="font-weight: bold;" th:text="${pProveedor}"></p>
+                <p style="font-weight: bold text-align: center;" th:text="${pProveedor}"></p>
               </div>
               <div class="col" th:unless="${pTiPro == '' }">                    
-                <p style="font-weight: bold;" th:text="${pTiPro}"></p>
+                <p style="font-weight: bold text-align: center;" th:text="${pTiPro}"></p>
               </div>                               
               <div class="col" th:unless='${pFechaEmision=="" }'>                    
-                <p style="font-weight: bold;" th:text="${pFechaEmision}"></p>            
+                <p style="font-weight: bold; text-align: center" th:text="${pFechaEmision}"></p>            
               </div>      
             </div>
           </div>
@@ -168,21 +180,25 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
         <table class="table">
           <thead style="background-color: #0a4275;">
             <tr class="text-center"><!---->
-              <th>Código de Producto</th><!---->
+              <th>Código</th><!---->
               <th>Producto</th><!---->
+              <th>Tipo Producto</th><!---->
               <th>Proveedor</th><!---->         
               <th>Cantidad</th><!---->           
+              <!-- <th>U. Medida</th>            -->
               <th>Precio</th><!----> 
             </tr><!---->
           </thead><!---->
           <tbody id="datos"><!---->
             <tr class="text-center" th:each="datos: ${datos}">
-              <td th:text="${datos.idCompra}"></td>
-              <td th:text="${datos.proveedor}"></td>
-              <td th:text="${datos.usuario}"></td>   
-              <td th:text="${datos.fechaCompra}"></td>   
-              <td th:text="${datos.estado}"></td>
-              <td th:text="${datos.montoCompra}"></td>   
+              <td th:text="${datos.codigo}"></td>
+              <td th:text="${datos.producto}"></td>
+              <td th:text="${datos.tipoProducto}"></td>   
+              <td th:text="${datos.proveedor}"></td>   
+              <td th:text="${datos.cantidad}"></td>   
+              <!-- <td th:text="${datos.unidadMedida}"></td>    -->
+              <td th:text="${#numbers.formatDecimal(datos.precio, 0, 'POINT', 0, 'COMMA')}"></td>   
+              
             </tr>
           </tbody>
         </table>
@@ -197,11 +213,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               <div class="row">
                 <div class="col-6">                    
                   <label for="inputNombre" class="form-label">TOTAL ITEMS: </label>
-                  <span id="cantidadItemsComprobante" th:text="${cantidadDetalle}"></span>
+                  <span id="cantidadItemsComprobante" th:text="${cant}"></span>
                 </div>  
                 <div class="col-6">                    
                   <label for="inputNombre" class="form-label">TOTAL: </label>
-                  <!--span id="totalPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></!span-->
+                  <span id="totalPagarComprobante" th:text="${#numbers.formatDecimal(totalMonto, 0, 'POINT', 0, 'COMMA')}+' Gs'"></span>
                 </div>                                                              
               </div>
                                        

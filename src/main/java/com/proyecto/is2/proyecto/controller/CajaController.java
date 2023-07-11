@@ -209,7 +209,7 @@ public class CajaController {
     @PostMapping("/abrir")
     public String crearApertura(@ModelAttribute("AperturaCaja") AperturaCajaDTO objetoDTO,
                         RedirectAttributes attributes, Model model, BindingResult result) {
-        this.operacion = "crear-";
+        this.operacion = "consultar-";
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();

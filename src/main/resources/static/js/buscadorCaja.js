@@ -26,6 +26,9 @@ function seleccionarCaja(a){
 	console.log(a.getAttribute('data-value'))
 	document.getElementById("buscadorCaja").value=a.innerHTML
 	document.getElementById("InputCaja").value= a.getAttribute('data-value')
+	if(document.getElementById("idCaja") != null){
+		document.getElementById("idCaja").value= a.getAttribute('data-value')
+	}
 }
 function funcionFiltrarCaja(valor) {
 	if(datosCaja == []){

@@ -1057,6 +1057,20 @@ public class ReporteVentaController {
         List<Tuple> datosVenta = ventaRepository.findInformeHistorialNative();
         List<ReporteVentaDTO> listaDatos = this.parsearDatosReporteVenta(datosVenta);
 
+        BigDecimal total = new BigDecimal(0);
+        BigDecimal totalIva = new BigDecimal(0);
+        Integer totalItems = 0;
+        for (ReporteVentaDTO venta : listaDatos) {
+            total = total.add( new BigDecimal(venta.getMontoTotal()));
+            totalIva = totalIva.add( new BigDecimal(venta.getImpuesto()));
+            totalItems ++;
+        }
+
+        model.addAttribute("cantidadDetalle",totalItems);
+        model.addAttribute("totalMonto",total);
+        model.addAttribute("totalIva",totalIva);
+
+
 
         // para cabecera del reporte
         //título

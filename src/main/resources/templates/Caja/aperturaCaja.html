@@ -41,6 +41,8 @@
                                             <label for="caja" class="form-label">Caja<span style="color:red">*</span></label>
                                             <!-- <input type="text" class="form-control" id="inputRuc" name="ruc" placeholder="Seleccione la caja deseada" required> -->
                                             <input type="number" style="display:none"  id="idCaja" name="idCaja" />
+                                            <input type="number" style="display:none"  id="InputCaja" name="InputCaja" onchange="document.getElementById('idCaja').value=this.value" />
+                                            
                                             <div class="input-group mb-3">
                                                 <input type="text" name="dscCaja" class="form-control" placeholder="Buscar caja..." aria-label="Recipient's username" aria-describedby="button-addon2" id="buscadorCaja" onkeyup="funcionFiltrarCaja(this.value)" onblur="mostrarBuscadorCaja(false)" onfocus="funcionFiltrarCaja(this.value)" autocomplete="off"/>
                                                 <!--a th:href="@{/clientes/nuevo}" >
@@ -69,8 +71,8 @@
                                 <div class="row mb-4">                            
                                     <div class="col">
                                         <div class="form-outline">
-                                            <label for="saldoApertura" class="form-label">Saldo de apertura</label>
-                                            <input type="text" class="form-control" id="saldoApertura" name="saldoApertura" placeholder="Introduzca efectivo inicial para la apertura" autofocus>
+                                            <label for="saldoApertura" class="form-label">Saldo de apertura<span style="color:red">*</span></label>
+                                            <input type="text" class="form-control" id="saldoApertura" name="saldoApertura" placeholder="Introduzca efectivo inicial para la apertura" autofocus required>
                                         </div>
                                     </div>
                                     

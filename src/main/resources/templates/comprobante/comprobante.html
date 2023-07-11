@@ -224,11 +224,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
               </tr><!---->
             </thead><!---->
             <tbody id="tablaProductosComprobante"><!---->
-              <tr class="text-center" th:each="detalle: ${datosVentaDetalle}">
+              <tr class="text-center" th:each="detalle: ${datosVentaDetalle}"> 
                 <td th:text="${detalle.producto != null} ? ${detalle.producto.codigo} : ${detalle.servicio.codigo} "  ></td>
-                <td th:text="${detalle.producto != null} ? ${detalle.producto.nombreProducto} : ${detalle.servicio.codigo}" ></td>
+                <td th:text="${detalle.producto != null} ? ${detalle.producto.nombreProducto} : ${detalle.servicio.nombre}" ></td>
                 <td th:text="${detalle.cantidad}" ></td>   
-                <td th:text="${detalle.producto != null} ? ${detalle.producto.precio} : ${detalle.servicio.codigo}" ></td>
+                <td th:text="${detalle.producto != null} ? ${detalle.producto.precio} : ${detalle.servicio.precio}" ></td>
                 <td th:text="${detalle.precio} " ></td>      
                 <td th:text="${detalle.precio/10} " ></td>      
               </tr>
@@ -255,11 +255,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
                 <div class="row">
                   <div class="col-6">                    
                     <label for="inputNombre" class="form-label">TOTAL I.V.A.:</label>
-                    <span id="totalIvaComprobante"  th:text="${datosVenta.montoTotal}" ></span>
+                    <span id="totalIvaComprobante"  th:text="${datosVenta.montoTotal + ' Gs.'}" ></span>
                   </div> 
                   <div class="col-6">                    
                     <label for="inputNombre" class="form-label">NETO A PAGAR:</label>
-                    <span id="netoPagarComprobante" th:text="${datosVenta.montoTotal}+' Gs'"></span>
+                    <span id="netoPagarComprobante" th:text="${datosVenta.montoTotal} +' Gs'"></span>
                   </div>                                  
                 </div>                              
               </th>

@@ -4,139 +4,327 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{/layout/basic}">
 <body>
   <div layout:fragment="content">
-    <h1 class="text-center mb-6" style="font-family:Trebuchet MS"><b style= "color:#21618C">Pedidos realizados</b></h1> <!--titulo-->
-
-    <!--th:block th:if="${permisoCrear eq true}">
-    <a th:href="@{/productos/nuevo}" class="btn btn-success mb-4">
-      <i class="	fas fa-shopping-cart"></i> Crear nuevo producto
-    </a>
-    </th:block--> 
-  
-    <!--th:block th:if="${permisoCrear eq true}">
-    <a th:href="@{/servicios/nuevo}" class="btn btn-success mb-4">
-      <i class="fa-solid fa-hammer"></i> Crear nuevo servicio
-    </a>
-    </th:block--> 
-
-    <div th:if="${permisoVer eq false}">
-      <td class="text-center fw-bold" colspan="10">No posee los permisos suficientes</td>
-    </div><!---->
-
-
-    <!--tab para ver las tablas-->
-    <!--ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabProducto" type="button" role="tab" aria-controls="tabProducto" aria-selected="false"><i class="fas fa-cart-arrow-down me-2"></i>Pendientes</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#tabServicio" type="button" role="tab" aria-controls="tabServicio" aria-selected="false"><i class="fas fas fa-shuttle-van me-2"></i>Realizados</button>
-      </li>
-    </ul-->
-    <br>
-    <!--TAB contenido de Producto-->
-    <div class="tab-content" >
-    <div class="tab-pane fade show active" id="tabProducto" role="tabpanel" aria-labelledby="tabProducto">
-      <legend style="color:#21618C">Lista de pedidos</legend>
-      <div th:if="${permisoVer eq true}" class="table-responsive">
-        <table id="myTable" class="table table-sm table-bordered table-hover">
-          <thead style="background-color: #0a4275;">
-            <tr class="text-center">
-              <th>Fecha de Compra</th><!---->
-              <th>Proveedor</th><!---->
-              <!--th>Precio</th-->
-              <!--th>Cantidad</th-->
-              <th>Monto</th><!---->
-              <th>Monto Total</th><!---->
-              <th>Entrega</th><!---->
-              <th>Acción</th><!---->
-            </tr><!---->
-          </thead><!---->
-          <tbody><!---->
-            <tr th:if="${#lists.isEmpty(listCr)}"><!---->
-              <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
-            </tr><!---->
-            <tr class="text-center" th:each="compra: ${listCr}">
-              <td th:text="${compra.fechaCompra}">Cod</td>
-              <td th:text="${compra.proveedor.nombre}">Name</td>
-              <!--td th:text="${producto.precio}">90.000</td-->
-              <!--td th:text="${producto.cantidad}">90</td-->
-              <td th:text="${compra.montoCompra}">90</td><!---->
-              <td th:text="${compra.montoTotal}">type</td>
-              <td th:text="${compra.estado}">-</td>
-              <td><!---->
+    <style>
+      .btn-group .btn {
+        border-radius: 50px;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      
+      .btn-group .btn.btn-warning {
+        background-color: #ffc107;
+        color: #fff;
+      }
+      
+      .btn-group .btn.btn-light {
+        background-color: #f8f9fa;
+        color: #343a40;
+      }
+      
+      .btn-group .btn.btn-success {
+        background-color: #28a745;
+        color: #fff;
+      }
+      
+      .btn-group .btn.btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+      }
+      .btn-group .btn {
+        border-radius: 50px;
+        padding: 5px 10px;
+        display: inline-block;
+        margin-right: 10px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid;
+        background-color: transparent;
+      }
+      
+      .btn-group .btn:last-child {
+        margin-right: 0;
+      }
+      
+      
+      
+    </style> 
+    <div class="d-flex align-items-center justify-content-start">
+      <img th:src="@{/img/smartphone.png}" class="left wp-image-4532" style="width: 60px; height: 60px;" /> 
+      <h1 class="text-center mb-6" style="font-family: Trebuchet MS; margin: 0 10px;">
+          <b style="color: #21618C;">Gestión de Pedidos</b>
+      </h1>
+    </div>
+    <hr>
+    <fieldset>
+      
+      <br> <!--separador-->
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-sm-30" > 
+            <div class ="card" style="width: 113%; margin-left: -38px;">                           
+              <div class="card-body">
                 
-                  <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
-                  class="btn btn-sm btn-outline-primary"><!---->
-                  <i class="fa-solid fa-pen-to-square"></i><!---->
+                <!--botones para contenidos-->
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-warning" onclick="mostrarContenido('contenido1')">Pendientes</button>
+                  <button type="button" class="btn btn-light" onclick="mostrarContenido('contenido2')">Parcialmente recepcionados</button>
+                  <button type="button" class="btn btn-success" onclick="mostrarContenido('contenido4')">Recepcionados</button>
+                  <button type="button" class="btn btn-danger" onclick="mostrarContenido('contenido5')">Anulados</button>
+                </div>
+                
+                <div id="contenido1" class="contenido" style="display: none;">
+                  <br>
+                  <legend style="color: #21618C; text-align: center;">Lista de pedidos Pendientes</legend>
+                  <hr>
+
+                  <table id="myTable" class="table table-sm table-bordered table-hover">
+                    <thead style="background-color: #0a4275;">
+                      <tr class="text-center">
+                        <th>Fecha de Compra</th><!---->
+                        <th>Pedido realizado por</th><!---->
+                        <th>Proveedor</th><!---->
+                        <!--th>Precio</th-->
+                        <th>Cantidad Solicitada</th>
+                       
+                        <th>Monto a pagar</th><!---->
+                        <th>Estado</th><!---->
+                        <th>Acción</th><!---->
+                      </tr><!---->
+                    </thead><!---->
+                    <tbody><!---->
+                      <tr th:if="${#lists.isEmpty(listCr)}"><!---->
+                        <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
+                      </tr><!---->
+                      <tr class="text-center" th:each="compra: ${listCr}">
+                        <td th:text="${compra.fechaCompra}">Cod</td>
+                        <td th:text="${compra.proveedor.nombre}">Name</td>
+                        <td th:text="${compra.proveedor.nombre}">Name</td>
+                        <!--td th:text="${producto.precio}">90.000</td-->
+                        <!--td th:text="${producto.cantidad}">90</td-->
+                        <td th:text="${compra.montoCompra}">90</td><!---->
+                        <td th:text="${compra.montoTotal}">type</td>
+                        <td th:text="${compra.estado}">-</td>
+                        <td><!---->
+                          
+                            <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
+                            class="btn btn-sm btn-outline-primary"><!---->
+                            <i class="fa-solid fa-pen-to-square"></i><!---->
+                            </a>
+                            <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
+                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-sharp fa-solid fa-trash"></i>
+                              </button>
+                            </a-->
+                          
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div id="contenido2" class="contenido" style="display: none;">
+                  <br>
+                  <legend style="color: #21618C; text-align: center;">Lista de pedidos parcialmente recepcionados</legend>
+                  <hr>
+
+                  <table id="myTable2" class="table table-sm table-bordered table-hover">
+                    <thead style="background-color: #0a4275;">
+                      <tr class="text-center">
+                        <th>Fecha de Compra</th><!---->
+                        <th>Realizado por</th><!---->
+                        <th>Recepcionado por</th><!---->
+                        <th>Proveedor</th><!---->
+                        <!--th>Precio</th-->
+                        <th>Cant. Solicitada</th>
+                        <th>Cant. Recibida</th>
+                        <th>Monto a pagar</th><!---->
+                        <th>Estado</th><!---->
+                        <th>Acción</th><!---->
+                      </tr><!---->
+                    </thead><!---->
+                    <tbody><!---->
+                      <tr th:if="${#lists.isEmpty(listCr)}"><!---->
+                        <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
+                      </tr><!---->
+                      <tr class="text-center" th:each="compra: ${listCr}">
+                        <td th:text="${compra.fechaCompra}">Cod</td>
+                        <td th:text="${compra.fechaCompra}">Cod</td>
+                        <td th:text="${compra.fechaCompra}">Cod</td>
+                        <td th:text="${compra.fechaCompra}">Cod</td>
+                        <td th:text="${compra.proveedor.nombre}">Name</td>
+                        <!--td th:text="${producto.precio}">90.000</td-->
+                        <!--td th:text="${producto.cantidad}">90</td-->
+                        <td th:text="${compra.montoCompra}">90</td><!---->
+                        <td th:text="${compra.montoTotal}">type</td>
+                        <td th:text="${compra.estado}">-</td>
+                        <td><!---->
+                          
+                            <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
+                            class="btn btn-sm btn-outline-primary"><!---->
+                            <i class="fa-solid fa-pen-to-square"></i><!---->
+                            </a>
+                            <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
+                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-sharp fa-solid fa-trash"></i>
+                              </button>
+                            </a-->
+                          
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div id="contenido4" class="contenido" style="display: none;">
+                  <br>
+                  <legend style="color: #21618C; text-align: center;">Lista de pedidos recepcionados</legend>
+                  <hr>
+
+                  <table id="myTable3" class="table table-sm table-bordered table-hover">
+                    <thead style="background-color: #0a4275;">
+                      <tr class="text-center">
+                        <th>Fecha Compra</th><!---->
+                        <th>Fecha Recepción</th><!---->
+                        <th>Realizado por</th><!---->
+                        <th>Recepcionado por</th><!---->
+                        <th>Proveedor</th><!---->
+                        <!--th>Precio</th-->
+                        <th>Cant. Recibida</th>
+                        <th>Monto Pagado</th><!---->
+                        <th>Estado</th><!---->
+                        <th>Acción</th><!---->
+                      </tr><!---->
+                    </thead><!---->
+                    <tbody><!---->
+                      <tr th:if="${#lists.isEmpty(listCr)}"><!---->
+                        <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
+                      </tr><!---->
+                      <tr class="text-center" th:each="compra: ${listCr}">
+                        <td th:text="${compra.fechaCompra}">Cod</td>
+                        <td th:text="${compra.fechaCompra}">Cod</td>
+                        <td th:text="${compra.proveedor.nombre}">Name</td>
+                        <td th:text="${compra.proveedor.nombre}">Name</td>
+                        <td th:text="${compra.proveedor.nombre}">Name</td>
+                        <!--td th:text="${producto.precio}">90.000</td-->
+                        <!--td th:text="${producto.cantidad}">90</td-->
+                        <td th:text="${compra.montoCompra}">90</td><!---->
+                        <td th:text="${compra.montoTotal}">type</td>
+                        <td th:text="${compra.estado}">-</td>
+                        <td><!---->
+                          
+                            <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
+                            class="btn btn-sm btn-outline-primary"><!---->
+                            <i class="fa-solid fa-pen-to-square"></i><!---->
+                            </a>
+                            <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
+                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-sharp fa-solid fa-trash"></i>
+                              </button>
+                            </a-->
+                          
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div id="contenido5" class="contenido" style="display: none;">
+                  <br>
+                  <legend style="color: #21618C; text-align: center;">Lista de pedidos anulados</legend>
+                  <hr>
+
+                  <table id="myTable4" class="table table-sm table-bordered table-hover">
+                    <thead style="background-color: #0a4275;">
+                      <tr class="text-center">
+                        <th>Fecha de Compra</th><!---->
+                        <th>Proveedor</th><!---->
+                        <!--th>Precio</th-->
+                        <!--th>Cantidad</th-->
+                        <th>Monto</th><!---->
+                        <th>Monto Total</th><!---->
+                        <th>Entrega</th><!---->
+                        <th>Acción</th><!---->
+                      </tr><!---->
+                    </thead><!---->
+                    <tbody><!---->
+                      <tr th:if="${#lists.isEmpty(listCr)}"><!---->
+                        <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
+                      </tr><!---->
+                      <tr class="text-center" th:each="compra: ${listCr}">
+                        <td th:text="${compra.fechaCompra}">Cod</td>
+                        <td th:text="${compra.proveedor.nombre}">Name</td>
+                        <!--td th:text="${producto.precio}">90.000</td-->
+                        <!--td th:text="${producto.cantidad}">90</td-->
+                        <td th:text="${compra.montoCompra}">90</td><!---->
+                        <td th:text="${compra.montoTotal}">type</td>
+                        <td th:text="${compra.estado}">-</td>
+                        <td><!---->
+                          
+                            <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
+                            class="btn btn-sm btn-outline-primary"><!---->
+                            <i class="fa-solid fa-pen-to-square"></i><!---->
+                            </a>
+                            <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
+                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
+                                <i class="fa-sharp fa-solid fa-trash"></i>
+                              </button>
+                            </a-->
+                          
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              
+              
+              
+            </div>    <!-- termina el card-->
+            <br>
+          </div>
+          <!--div class="row d-flex justify-content-center align-items-center">
+            <div class="col-sm-4">
+              <div class="row">
+                <div class="col">
+                  <a href="javascript:void(0);" class="btn btn-secondary w-100" onclick="confirmarRegreso()">
+                    Atrás
                   </a>
-                  <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
-                    <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                      <i class="fa-sharp fa-solid fa-trash"></i>
-                    </button>
-                  </a-->
-                
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      <br>  
-      </div> <!--termina la tabla-->
-    </div> <!--termina el tab-->
-
-    <!--TAB contenido de Servicio-->
-    <div class="tab-pane fade" id="tabServicio" role="tabpanel" aria-labelledby="tabServicio">
-      <legend style="color:#21618C">Lista de servicios</legend>
-      <div th:if="${permisoVer eq true}" class="table-responsive">
-        <table id="myTable2" class="table table-sm table-bordered table-hover">
-          <thead style="background-color: #0a4275;">
-            <tr class="text-center"><!---->
-              <th>Código</th><!---->
-              <th>Servicio</th><!---->
-              <th>Tipo de Servicio</th><!---->
-              <th>Precio</th><!---->
-              <th>Impuesto</th><!---->
-              <th>Acción</th><!---->
-            </tr><!---->
-          </thead><!---->
-          <tbody><!---->
-            <!--tr th:if="${#lists.isEmpty(listServicios)}">
-              <td class="text-center fw-bold" ></td>
-              <td class="text-center fw-bold" >No se encontraron servicios</td>
-              <td class="text-center fw-bold" ></td>
-            </tr-->
-            <tr class="text-center" th:each="servicio: ${listServicios}">
-              <td th:text="${servicio.codigo}"></td>
-
-              <td th:text="${servicio.nombre}"></td>
-              <td th:text="${servicio.tipoProducto.descripcion}"></td>
-
-              <td th:text="${servicio.precio}">Precio</td><!---->
-              <td th:text="${servicio.impuesto}"></td>
-
-              <td><!---->
-                <div class="btn-group"><!---->
-                  <a th:if="${permisoActualizar eq true}" th:href="@{/servicios/{id}(id=${servicio.idServicio})}" 
-                  class="btn btn-sm btn-outline-primary"><!---->
-                  <i class="fa-solid fa-pen-to-square"></i><!---->
-                </a>
-                <!--a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
-                  <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                    <i class="fa-sharp fa-solid fa-trash"></i>
-                  </button>
-                </a-->
+                </div>
               </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    </div>
-    </div>
-    <br>
-    <a th:href="@{/#stock}" class="btn btn-outline-primary">
-      <i class="fa fa-backward" aria-hidden="true"></i> Atrás 
-    </a>
-    </th:block> <!--modificar front-->
-  </div>
-</body>
-</html>
+            </div>
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col">
+                  <button type="submit" class="btn btn-info text-white">
+                    <i class="bi bi-save2" id="download-button"> Modificar Rol</i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            </!div-->
+          </div>
+          
+          
+        </fieldset>
+        <script>
+          function mostrarContenido(id) {
+            // Ocultar todos los contenidos
+            var contenidos = document.getElementsByClassName('contenido');
+            for (var i = 0; i < contenidos.length; i++) {
+              contenidos[i].style.display = 'none';
+            }
+            
+            // Mostrar el contenido correspondiente al id
+            var contenidoMostrar = document.getElementById(id);
+            contenidoMostrar.style.display = 'block';
+          }
+        </script>
+        
+      </body>
+      </html>

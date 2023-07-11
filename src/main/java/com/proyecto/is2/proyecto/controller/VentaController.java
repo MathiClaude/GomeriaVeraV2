@@ -76,6 +76,7 @@ public class VentaController {
     final String COMPROBANTE = "/comprobante/";
     //final String COMPROBANTE = "redirect:/comprobante/";
 
+
     
 
     final String FALTA_PERMISO_VIEW = "falta-permiso";
@@ -175,6 +176,8 @@ public class VentaController {
             model.addAttribute("listServicio", servicioService.listar());//lista los productos
             model.addAttribute("listarCliente", clienteService.listar());//lista los clientes
             model.addAttribute("timbradoActual", timbradoActual);//lista las cajas
+            model.addAttribute("timbradoActual", timbradoActual);//lista las cajas
+
 
             String username = SecurityContextHolder.getContext().getAuthentication().getName(); //Obtener datos del usuario logueado[Basico]
             Usuario usuario = usuarioRepository.findByEmail(username);// Obtener todos los datos del usuario 
@@ -224,7 +227,7 @@ public class VentaController {
 
         return FORM_VIEW;
     }
-
+    
     @GetMapping("/nuevo")
     public String formNuevo(Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);

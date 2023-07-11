@@ -69,11 +69,11 @@ layout:decorate="~{/layout/basic}">
                   class="btn btn-sm btn-outline-primary"><!---->
                   <i class="fa-solid fa-pen-to-square"></i><!---->
                   </a>
-                  <a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
+                  <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
                     <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                       <i class="fa-sharp fa-solid fa-trash"></i>
                     </button>
-                  </a>
+                  </a-->
                 
               </td>
             </tr>
@@ -119,11 +119,11 @@ layout:decorate="~{/layout/basic}">
                   class="btn btn-sm btn-outline-primary"><!---->
                   <i class="fa-solid fa-pen-to-square"></i><!---->
                 </a>
-                <a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
+                <!--a th:if="${permisoEliminar eq true}" th:href="@{/servicios/{id}/delete(id=${servicio.idServicio})}">
                   <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
                     <i class="fa-sharp fa-solid fa-trash"></i>
                   </button>
-                </a>
+                </a-->
               </div>
             </td>
           </tr>

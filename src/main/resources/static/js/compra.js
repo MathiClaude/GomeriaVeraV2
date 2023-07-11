@@ -2,7 +2,7 @@ console.log("Incluido tabla coimpra")
 let listaProductosCompra =[];
 function moverProductoCompra(idProducto,precio,impuesto,descripcion,codigo,elemento){
 	if(elemento.checked){
-		listaProductosCompra.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0})
+		listaProductosCompra.push({"codigo":codigo,"idProducto":idProducto,"descripcion":descripcion,"precio":precio,"impuesto":impuesto,"cantidad":0,"tmpPrecio":0})
 	}else{
 		listaProductosCompra = listaProductosCompra.filter((producto)=>producto.idProducto != idProducto)
 	}
@@ -10,18 +10,51 @@ function moverProductoCompra(idProducto,precio,impuesto,descripcion,codigo,eleme
 	// console.log(listaProductosCompra)
 }
 function actualizarListaProductosCompras(){
-	/*Swal.fire({
-		title: "Actuzalizando..."
-	});*/
 	for(let elemento of listaProductosCompra){
-		let cantidad = document.getElementById(elemento.idProducto).value
-		let precioUnidad = document.getElementById(elemento.precio).value
-		alert (cantidad)
-		alert(precioUnidad)
-		elemento.precio = precioUnidad
+		//let cantidad = document.getElementById(elemento.idProducto).value
+		//let precioUnidad = document.getElementById("${producto.tmpPrecio}")
+		//var valor = precioUnidad.value;
+		//console.log("el valor es: " + valor)
+		let cantidad = 1;
+
+		if(document.getElementById(elemento.idProducto) != null){
+			cantidad = document.getElementById(elemento.idProducto).value
+		}else{
+			cantidad = elemento.cantidad
+		}
+
+		//alert (cantidad)
+		//alert(precioUnidad)
+		
+		//elemento.precio = precioUnidad
 		elemento.cantidad = cantidad
+		console.log(elemento , cantidad)
 	}
-	actualizarCompra();
+	//actualizarCompra();
+}
+function agregarPrecio(precioUn){
+	for(let elemento of listaProductosCompra){
+		//let cantidad = document.getElementById(elemento.idProducto).value
+		//let precioUnidad = document.getElementById("${producto.tmpPrecio}")
+		let cantidad = 1;
+		let precio = 0;
+
+		if(document.getElementById(elemento.idProducto) != null){
+			cantidad = document.getElementById(elemento.idProducto).value
+			precio = precioUn;
+		}else{
+			cantidad = elemento.cantidad
+			precio = elemento.precio
+		}
+
+		//alert (cantidad)
+		//alert(precioUnidad)
+		
+		elemento.precio = precio
+		elemento.cantidad = cantidad
+		console.log(elemento , cantidad)
+	}
+	//actualizarCompra();
 }
 function actualizarCompra(){
 	const TABLA = document.getElementById("productosSeleccionadosCompras");
@@ -32,7 +65,7 @@ function actualizarCompra(){
 	let totalProds = 0;
 	let totalIva = 0;
 	for(let elemento of listaProductosCompra){
-		let totalMonto = elemento.cantidad * elemento.precio
+		let totalMonto = elemento.cantidad * elemento.tmpPrecio
 		let sumaIva = totalMonto*elemento.impuesto/100
 		
 		let fila = document.createElement("tr")
@@ -79,6 +112,7 @@ function modificarCantidadesPrd(id,op){
 	if(campo.value ==="" || !( campo.value<1 && op==="-")){
 		campo.value = parseInt((campo.value===""?0:campo.value)) + (op=="+"?1:-1)
 	}
+	actualizarListaProductosCompras();
 }
 function confirmarCompra(){
 	Swal.fire({
@@ -208,7 +242,9 @@ function validarEstadoPedido(){
 			}
 		  })
 
+	}else{
+		$("#form-pedido-update").submit();
 	}
-	document.getElementById('inputEstado').innerHTML = estadoFinal;
+	//document.getElementById('inputEstado').innerHTML = estadoFinal;
 	return;
 }

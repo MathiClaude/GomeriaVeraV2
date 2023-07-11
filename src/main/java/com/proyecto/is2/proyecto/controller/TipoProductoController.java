@@ -129,8 +129,8 @@ public class TipoProductoController {
         }
     }
 
-    @GetMapping("/calcularPrecio")
-    public String formCalcularPrecio(Model model) {
+    @GetMapping("/calcularPrecio/{id}")
+    public String formCalcularPrecio(@PathVariable String id,Model model) {
         boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
       
@@ -138,6 +138,17 @@ public class TipoProductoController {
         
         model.addAttribute("permisoVer", crear);
         model.addAttribute("permisoAsignarRol", asignarRol);
+        TipoProducto tipoProducto;
+
+        // validar el id
+        try {
+            Long idTipoProducto = Long.parseLong(id);
+            tipoProducto = tipoProductoService.existeTipoProducto(idTipoProducto);
+        } catch(Exception e) {
+            return RD_FORM_VIEW;
+        }
+
+        model.addAttribute("tipoProducto", tipoProducto);
 
         if(crear) {
             return CALCULAR_PRECIO;
@@ -179,6 +190,38 @@ public class TipoProductoController {
 
     @PostMapping("/{id}")
     public String actualizarObjeto(@PathVariable Long id, @ModelAttribute("tipoProducto") TipoProductoDTO objetoDTO,
+                                   BindingResult result, RedirectAttributes attributes) {
+        this.operacion = "actualizar-";
+        TipoProducto tipoProducto;
+
+        if (result.hasErrors()) {
+//            studentDTO.setId(id);
+            return RD_FORM_VIEW;
+        }
+
+        if(usuarioService.tienePermiso(operacion + VIEW)) {
+            tipoProducto = tipoProductoService.existeTipoProducto(id);
+            if(tipoProducto != null) {
+                tipoProductoService.convertirDTO(tipoProducto, objetoDTO);
+
+                // si tiene permiso se le asigna el rol con id del formulario
+                // sino se queda con el mismo rol.
+
+                //este tampoco creo que se usa
+                /*if(servicioService.tienePermiso(P_ASIGNAR_ROL)) {
+                    servicio.setRol(rolService.existeRol(objetoDTO.getIdRol().longValue()));
+                }*/
+
+                attributes.addFlashAttribute("message", "¡Tipo producto actualizada correctamente!");
+                tipoProductoService.guardar(tipoProducto);
+                return RD_FORM_VIEW;
+            }
+        }
+        return RD_FALTA_PERMISO_VIEW;
+    }
+
+    @PostMapping("/calcularPrecio/{id}")
+    public String actualizarGanancia(@PathVariable Long id, @ModelAttribute("tipoProducto") TipoProductoDTO objetoDTO,
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
         TipoProducto tipoProducto;

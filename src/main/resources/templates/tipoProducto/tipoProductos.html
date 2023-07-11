@@ -47,7 +47,7 @@ layout:decorate="~{/layout/basic}">
                       <td th:text="${tDoc.descripcion}">Descripcion</td>
                       
                       <!--modificar con el % actual que tiene ese tip. producto-->
-                      <td th:text="${tDoc.descripcion}">Ganancia</td>
+                      <td th:text="${tDoc.ganancia}">Ganancia</td>
                       <td>
                         <div class="btn-group">
                           <a th:if="${permisoActualizar eq true}" th:href="@{/tipoProductos/{id}(id=${tDoc.idTipoProducto})}" 
@@ -55,7 +55,7 @@ layout:decorate="~{/layout/basic}">
                           <i class="fa-solid fa-pen-to-square"></i><!---->
                           </a>
                           <!--para el tema del % falta cambiar para que redireccione-->
-                          <a th:if="${permisoActualizar eq true}" th:href="@{/tipoProductos/{id}(id=${tDoc.idTipoProducto})}" 
+                          <a th:if="${permisoActualizar eq true}" th:href="@{/tipoProductos/calcularPrecio/{id}(id=${tDoc.idTipoProducto})}" 
                           class="btn btn-sm btn-outline-success"><!---->
                           <i class="bi bi-piggy-bank-fill "> % </i><!---->
                         </a>

@@ -31,7 +31,7 @@ public class TipoProductoServiceImp implements TipoProductoService {
     @Override
     public void convertirDTO(TipoProducto tipoProducto, TipoProductoDTO objetoDTO) {
         tipoProducto.setDescripcion(objetoDTO.getDescripcion());
-
+        tipoProducto.setGanancia(objetoDTO.getGanancia());
         return;
     }
 

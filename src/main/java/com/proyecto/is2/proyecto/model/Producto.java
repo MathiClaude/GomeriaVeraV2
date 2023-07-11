@@ -32,6 +32,9 @@ public class Producto {
     @Column(name = "precioCompra")
     private Integer precioCompra;
 
+    @Column(name = "tmpPrecio")
+    private Integer tmpPrecio;
+
     @Column(name = "cantidad")
     private Integer cantidad;
 

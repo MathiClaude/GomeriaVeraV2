@@ -19,6 +19,8 @@ public class TipoProducto {
     @Column(name = "descripcion")
     private String descripcion;
 
+    @Column(name = "ganancia")
+    private Float ganancia;
 
     public TipoProducto() {
 

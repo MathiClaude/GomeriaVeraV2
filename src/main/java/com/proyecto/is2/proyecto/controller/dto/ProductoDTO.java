@@ -26,6 +26,7 @@ public class ProductoDTO {
 
     private Integer precio;//sacar. Es solo para pruebas
     private Integer precioCompra;
+    private Integer tmpPrecio;
     private Integer cantidad;//sacar Es solo para prubas
     private Integer cantidadMinima;
     private String procedencia;

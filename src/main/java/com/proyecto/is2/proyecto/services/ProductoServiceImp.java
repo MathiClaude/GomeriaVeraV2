@@ -55,6 +55,7 @@ public class ProductoServiceImp implements ProductoService {
         producto.setPrecio(objetoDTO.getPrecio());
         producto.setCantidad(objetoDTO.getCantidad());
         producto.setPrecioCompra(objetoDTO.getPrecioCompra());
+        producto.setTmpPrecio(objetoDTO.getTmpPrecio());
         producto.setCantidadMinima(objetoDTO.getCantidadMinima());
         //producto.setTipoProducto(objetoDTO.getTipoProducto());
         producto.setCodigo(objetoDTO.getCodigo());

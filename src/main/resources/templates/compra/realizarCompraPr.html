@@ -310,13 +310,13 @@
                             </div-->
                             <div class="btn-group" role="group" aria-label="Basic example">
                               <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidadesPrd('${producto.idProducto }','-')|">-</button>
-                              <input type="number" class="form-control" th:id="${producto.idProducto}" min="0" />
+                              <input type="number" class="form-control" th:id="${producto.idProducto}" min="0" onchange="actualizarListaProductosCompras()" />
                               <button type="button" class="btn btn-secondary" th:attr="onclick=|modificarCantidadesPrd('${producto.idProducto }','+')|">+</button>
                             </div>
                           </td>
                           <td>
                             <div class="form-outline">
-                              <input type="number" class="form-control" th:id="${producto.precio}" min="0" />  
+                              <input type="number" class="form-control" th:id="${producto.tmpPrecio}" min="0" onchange="agregarPrecio(this.value)" />  
                             </div>
                           </td>
                         </tr>
@@ -328,7 +328,7 @@
             <!--Footer-->
             <div class="modal-footer aria-hidden">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-primary" onclick="actualizarListaProductosCompras()" data-bs-dismiss="modal">Agregar</button>
+              <button type="button" class="btn btn-primary" onclick="actualizarCompra()" data-bs-dismiss="modal">Agregar</button>
             </div>
           </div> 
         </div>

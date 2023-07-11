@@ -6,4 +6,5 @@ import lombok.Data;
 public class TipoProductoDTO {
     private Long idTipoProducto;
     private String descripcion;
+    private Float ganancia;
 }

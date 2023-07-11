@@ -139,7 +139,7 @@ public class TipoProductoController {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("tipProduc", tipoProducto);
+        model.addAttribute("tipoProducto", tipoProducto);
 
         // validar si puede cambiar de rol
         //esta parte creo que no se usa tampoco

@@ -15,9 +15,14 @@ layout:decorate="~{/layout/basic}">
           <label for="inputDescripcion" class="form-label">Descripción</label>
           <input type="text" class="form-control" id="inputDescripcion" name="descripcion" th:value="${tipoProducto.descripcion}">
         </div>
-        
+        <div class="col">
+          <div class="form-outline">
+              <label for="inputGanancia" class="form-label">Porcentaje de ganancia</label>
+              <input type="text" class="form-control" id="inputGanancia" name="cantidad" placeholder="Introduzca Ganancia" autofocus>
+          </div>
+      </div>
       </fieldset>
-      
+      <br>
       <div class="row">
         <div class="col-sm-6">
           <a th:href="@{/tipoProductos}" class="btn btn-outline-secondary w-100">

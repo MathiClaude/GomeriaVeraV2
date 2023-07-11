@@ -529,6 +529,7 @@ public class FacturaController {
                         int cantidadInt = Math.round(cantidadFloat);
                         pr.setCantidad(pr.getCantidad() + cantidadInt);
                         pr.setPrecioCompra(Math.round(compraDetalle.getPrecio()));
+                        pr.setPrecio(Math.round(compraDetalle.getPrecio()));//agregar aca el precio ponderado
                         productoService.guardar(pr);
                         
                     }

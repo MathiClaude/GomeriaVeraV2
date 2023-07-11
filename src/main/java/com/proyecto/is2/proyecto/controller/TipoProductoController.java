@@ -4,6 +4,7 @@ import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.ServicioDTO;
 import com.proyecto.is2.proyecto.model.TipoProducto;
 import com.proyecto.is2.proyecto.model.Usuario;
+import com.proyecto.is2.proyecto.model.Venta;
 import com.proyecto.is2.proyecto.model.Servicio;
 import com.proyecto.is2.proyecto.services.TipoProductoServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controlador encargado de recibir las peticiones
@@ -36,6 +38,8 @@ public class TipoProductoController {
     //final String ASIGNAR_ROL_VIEW = VIEW_PATH + "/asignar-rol";
 //    final String RD_ASIGNAR_ROL_VIEW = "redirect:/" + ASIGNAR_ROL_VIEW;
     final String P_ASIGNAR_ROL = "asignar-rol-usuario";
+    final String CALCULAR_PRECIO = VIEW_PATH +  "/calcularPrecio";
+
     
     @Autowired
     private ServicioServiceImp servicioService; // llamada a los servicios de servicio
@@ -125,6 +129,23 @@ public class TipoProductoController {
         }
     }
 
+    @GetMapping("/calcularPrecio")
+    public String formCalcularPrecio(Model model) {
+        boolean crear = usuarioService.tienePermiso("crear-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+      
+
+        
+        model.addAttribute("permisoVer", crear);
+        model.addAttribute("permisoAsignarRol", asignarRol);
+
+        if(crear) {
+            return CALCULAR_PRECIO;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+    
     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);

@@ -201,9 +201,10 @@ public class TipoProductoController {
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             tipoProducto = tipoProductoService.existeTipoProducto(id);
+            objetoDTO.setGanancia(tipoProducto.getGanancia());
             if(tipoProducto != null) {
                 tipoProductoService.convertirDTO(tipoProducto, objetoDTO);
-
+                
                 // si tiene permiso se le asigna el rol con id del formulario
                 // sino se queda con el mismo rol.
 
@@ -233,6 +234,7 @@ public class TipoProductoController {
 
         if(usuarioService.tienePermiso(operacion + VIEW)) {
             tipoProducto = tipoProductoService.existeTipoProducto(id);
+            objetoDTO.setDescripcion(tipoProducto.getDescripcion());
             if(tipoProducto != null) {
                 tipoProductoService.convertirDTO(tipoProducto, objetoDTO);
 

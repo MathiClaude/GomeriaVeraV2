@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}">
+<head>
+  <style>
+    .custom-table {
+      background-color: #000000; /* Cambia el color aquí */
+    }
+  </style>
+</head>
+<body>
+<div layout:fragment="content">
+  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Gestionar Pedido</b></h1> <!--titulo-->
+
+  <form id="form-pedido-update" method="POST" th:action="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" th:object="${compra}">
+    <!--th:block th:include="fragment/error-message.html"></th:block-->
+
+    <fieldset>
+      <legend>Información del Pedido</legend>
+      <div class="mb-3">
+        <label class="form-label"><strong>Id Pedido:</strong> <em>[[${compra.idCompra}]]</em></label>
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><strong>Monto del Pedido: </strong> <em id="montoCompraFormatted"></em></label>
+        <input type="hidden" name="montoCompra" th:value="${compra.montoCompra}" />
+      </div>
+      
+      <script>
+        var montoCompra = document.querySelector("[name='montoCompra']").value;
+        var montoCompraFormatted = Number(montoCompra).toLocaleString();
+        document.getElementById("montoCompraFormatted").textContent = montoCompraFormatted;
+      </script>
+
+      <div class="mb-3"> <!-- margen button -->
+        <label for="inputCantidad" class="form-label"><strong>Fecha del Pedido: </strong>  <em>[[${compra.fechaCompra}]]</em></label>
+        <!--input type="hidden" class="form-control" id="inputCantidad" name="fechaCompra" th:value="${compra.fechaCompra}"-->
+      </div>
+      <!--div class="mb-3">
+        <label for="inputPrecio" class="form-label">Precio</label>
+        <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
+      </div-->
+
+
+      <div>
+        <label for="inputSelectEstado" class="form-label">Estado del Pedido:</label>
+        <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado"  th:value="${compra.estado}">
+          <option th:each="compra : ${compra}" th:value="${compra.estado}" th:text="${compra.estado}"></option>
+          <option style="background-color: yellow;" value="PENDIENTE">PENDIENTE</option>
+          <option style="background-color: blue; color: white;" value="PARCIALMENTE ENTREGADO">PARCIALMENTE ENTREGADO</option>
+          <option style="background-color: red; color: white;" value="ANULADO">ANULADO</option>
+          <option style="background-color: green; color: white;" value="RECEPCIONADO">RECEPCIONADO</option>
+        </select>  
+      </div>
+      <br>
+      <fieldset class="border p-3 mb-3">
+        <legend>Documentos</legend>
+        <!--  Bootstrap table-->
+        <div class="table-responsive">
+          <table id="documentTable" class="table">
+              <thead>
+              <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nro. Documento</th>
+                  <th scope="col">Tipo Documento</th>
+                  <th scope="col">Monto</th>
+                  <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- Add rows button-->
+        <a class="btn btn-primary rounded-0 btn-block" id="insertDocRow" href="#">Agregar Documento</a>
+        <script th:src="@{/js/factura.js}"></script>
+    </fieldset>
+
+      <br>
+    </fieldset>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <a th:href="@{/gestionarFacturas}" class="btn btn-outline-secondary w-100">
+          Atrás
+        </a>
+      </div>
+      <div class="col-sm-6">
+        <button type="button" class="btn btn-warning w-100" onclick="validarEstadoPedido()">Guardar Cambios</button>
+        <!--button type="button" class="btn btn-success"  onclick="guardarDatosPedido()">Guardar Cambios</button-->
+      </div>
+    </div>
+    </form>
+  <script th:src="@{/js/compra.js}" th:inline="javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+
+   
+
+    <script th:inline="javascript">
+        let doc, tipo, monto;
+        let contador = 1;
+        /*[# th:each="item : ${compra.facturas}"]*/
+          addCellValuesInvoice([[${item.nroDocumento}]], [[${item.tipo}]], [[${item.monto}]], contador);
+          contador++;
+        /*[/]*/
+        counter = contador;
+    </script>
+   
+</div>
+
+</body>
+</html>

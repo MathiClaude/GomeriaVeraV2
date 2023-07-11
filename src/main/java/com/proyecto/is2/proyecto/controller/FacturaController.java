@@ -9,6 +9,7 @@ import com.proyecto.is2.proyecto.controller.dto.VentaDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Servicio;
+import com.proyecto.is2.proyecto.model.TipoProducto;
 import com.proyecto.is2.proyecto.model.Cliente;
 import com.proyecto.is2.proyecto.model.Compra;
 import com.proyecto.is2.proyecto.model.CompraDetalle;
@@ -515,6 +516,7 @@ public class FacturaController {
                     //System.out.println("RECEPCIONADO");          
                     //CompraDetalle compraDetalle = compraDetalleService.obtenerInstancia(compra.getIdCompra());
                     Producto pr;
+                    TipoProducto tpr;
                     for (CompraDetalle compraDetalle : detalleCompra) {
                         pr = compraDetalle.getProducto();
 
@@ -527,9 +529,10 @@ public class FacturaController {
 
                         float cantidadFloat = compraDetalle.getCantidad();
                         int cantidadInt = Math.round(cantidadFloat);
+                        tpr = pr.getTipoProducto();
                         pr.setCantidad(pr.getCantidad() + cantidadInt);
                         pr.setPrecioCompra(Math.round(compraDetalle.getPrecio()));
-                        pr.setPrecio(Math.round(compraDetalle.getPrecio()));//agregar aca el precio ponderado
+                        pr.setPrecio(Math.round(compraDetalle.getPrecio()  + (compraDetalle.getPrecio()*tpr.getGanancia())));//agregar aca el precio ponderado
                         productoService.guardar(pr);
                         
                     }

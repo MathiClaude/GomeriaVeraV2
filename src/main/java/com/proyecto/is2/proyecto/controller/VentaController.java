@@ -231,10 +231,9 @@ public class VentaController {
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         List<Venta> ventas = ventaRepository.findAll();
 
-        if(asignarRol) {
-            model.addAttribute("roles", rolService.listar());
-            model.addAttribute("listVentas",ventas);
-        }
+        model.addAttribute("listVentas",ventas);
+
+        
         model.addAttribute("permisoVer", crear);
         model.addAttribute("permisoAsignarRol", asignarRol);
 

@@ -467,7 +467,7 @@ public class ReporteCajaController {
         model.addAttribute("tRCaja","");
         model.addAttribute("tRUsuario","");        
         model.addAttribute("tRCajaUser","");
-        model.addAttribute("tRFecha","Reporte de stock por fecha");
+        model.addAttribute("tRFecha","Reporte por rango de fecha");
         model.addAttribute("tRFechaCaja","");
         model.addAttribute("tRFechaUser","");
         model.addAttribute("tRepAll","");

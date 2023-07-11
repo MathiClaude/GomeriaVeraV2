@@ -86,7 +86,7 @@ layout:decorate="~{/layout/basic}">
                   <table id="myTable" class="table table-sm table-bordered table-hover">
                     <thead style="background-color: #0a4275;">
                       <tr class="text-center">
-                        <th>Fecha de Compra</th><!---->
+                        <th>Fecha Pedido</th><!---->
                         <th>Pedido realizado por</th><!---->
                         <th>Proveedor</th><!---->
                         <!--th>Precio</th-->
@@ -136,7 +136,7 @@ layout:decorate="~{/layout/basic}">
                   <table id="myTable2" class="table table-sm table-bordered table-hover">
                     <thead style="background-color: #0a4275;">
                       <tr class="text-center">
-                        <th>Fecha de Compra</th><!---->
+                        <th>Fecha Pedido</th><!---->
                         <th>Realizado por</th><!---->
                         <th>Recepcionado por</th><!---->
                         <th>Proveedor</th><!---->
@@ -189,7 +189,7 @@ layout:decorate="~{/layout/basic}">
                   <table id="myTable3" class="table table-sm table-bordered table-hover">
                     <thead style="background-color: #0a4275;">
                       <tr class="text-center">
-                        <th>Fecha Compra</th><!---->
+                        <th>Fecha Pedido</th><!---->
                         <th>Fecha Recepción</th><!---->
                         <th>Realizado por</th><!---->
                         <th>Recepcionado por</th><!---->
@@ -242,13 +242,16 @@ layout:decorate="~{/layout/basic}">
                   <table id="myTable4" class="table table-sm table-bordered table-hover">
                     <thead style="background-color: #0a4275;">
                       <tr class="text-center">
-                        <th>Fecha de Compra</th><!---->
+                        <th>Fecha Pedido</th><!---->
+                        <th>Realizado por</th><!---->
+                        <th>Fecha Anulación</th><!---->
+                        <th>Anulado por</th><!---->
+
                         <th>Proveedor</th><!---->
+                        <th>Motivo de anulación</th><!---->
                         <!--th>Precio</th-->
                         <!--th>Cantidad</th-->
-                        <th>Monto</th><!---->
-                        <th>Monto Total</th><!---->
-                        <th>Entrega</th><!---->
+                        <th>Estado</th><!---->
                         <th>Acción</th><!---->
                       </tr><!---->
                     </thead><!---->
@@ -257,6 +260,8 @@ layout:decorate="~{/layout/basic}">
                         <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
                       </tr><!---->
                       <tr class="text-center" th:each="compra: ${listCr}">
+                        <td th:text="${compra.fechaCompra}">Cod</td>
+                        <td th:text="${compra.fechaCompra}">Cod</td>
                         <td th:text="${compra.fechaCompra}">Cod</td>
                         <td th:text="${compra.proveedor.nombre}">Name</td>
                         <!--td th:text="${producto.precio}">90.000</td-->
@@ -268,7 +273,7 @@ layout:decorate="~{/layout/basic}">
                           
                             <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
                             class="btn btn-sm btn-outline-primary"><!---->
-                            <i class="fa-solid fa-pen-to-square"></i><!---->
+                            <i class="bi bi-exclamation-circle-fill"></i><!---->
                             </a>
                             <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
                               <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">

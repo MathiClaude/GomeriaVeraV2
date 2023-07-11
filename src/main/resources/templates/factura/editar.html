@@ -1,112 +1,272 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/basic}">
-<head>
-  <style>
-    .custom-table {
-      background-color: #000000; /* Cambia el color aquí */
-    }
-  </style>
-</head>
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{/layout/basic}">
 <body>
-<div layout:fragment="content">
-  <h1 class="text-center mb-6" style="font-family:Trebuchet MS" ><b style= "color:#21618C">Gestionar Pedido</b></h1> <!--titulo-->
-
-  <form id="form-pedido-update" method="POST" th:action="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" th:object="${compra}">
-    <!--th:block th:include="fragment/error-message.html"></th:block-->
-
-    <fieldset>
-      <legend>Información del Pedido</legend>
-      <div class="mb-3">
-        <label class="form-label"><strong>Id Pedido:</strong> <em>[[${compra.idCompra}]]</em></label>
-      </div>
-      <div class="mb-3">
-        <label class="form-label"><strong>Monto del Pedido: </strong> <em id="montoCompraFormatted"></em></label>
-        <input type="hidden" name="montoCompra" th:value="${compra.montoCompra}" />
-      </div>
-      
-      <script>
-        var montoCompra = document.querySelector("[name='montoCompra']").value;
-        var montoCompraFormatted = Number(montoCompra).toLocaleString();
-        document.getElementById("montoCompraFormatted").textContent = montoCompraFormatted;
-      </script>
-
-      <div class="mb-3"> <!-- margen button -->
-        <label for="inputCantidad" class="form-label"><strong>Fecha del Pedido: </strong>  <em>[[${compra.fechaCompra}]]</em></label>
-        <!--input type="hidden" class="form-control" id="inputCantidad" name="fechaCompra" th:value="${compra.fechaCompra}"-->
-      </div>
-      <!--div class="mb-3">
-        <label for="inputPrecio" class="form-label">Precio</label>
-        <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
-      </div-->
-
-
-      <div>
-        <label for="inputSelectEstado" class="form-label">Estado del Pedido:</label>
-        <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado"  th:value="${compra.estado}">
-          <option th:each="compra : ${compra}" th:value="${compra.estado}" th:text="${compra.estado}"></option>
-          <option style="background-color: yellow;" value="PENDIENTE">PENDIENTE</option>
-          <option style="background-color: blue; color: white;" value="PARCIALMENTE ENTREGADO">PARCIALMENTE ENTREGADO</option>
-          <option style="background-color: red; color: white;" value="ANULADO">ANULADO</option>
-          <option style="background-color: green; color: white;" value="RECEPCIONADO">RECEPCIONADO</option>
-        </select>  
-      </div>
-      <br>
-      <fieldset class="border p-3 mb-3">
-        <legend>Documentos</legend>
-        <!--  Bootstrap table-->
-        <div class="table-responsive">
-          <table id="documentTable" class="table">
-              <thead>
-              <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Nro. Documento</th>
-                  <th scope="col">Tipo Documento</th>
-                  <th scope="col">Monto</th>
-                  <th scope="col"></th>
-              </tr>
-              </thead>
-              <tbody></tbody>
-          </table>
-        </div>
-
-        <!-- Add rows button-->
-        <a class="btn btn-primary rounded-0 btn-block" id="insertDocRow" href="#">Agregar Documento</a>
-        <script th:src="@{/js/factura.js}"></script>
-    </fieldset>
-
-      <br>
-    </fieldset>
-
-    <div class="row">
-      <div class="col-sm-6">
-        <a th:href="@{/gestionarFacturas}" class="btn btn-outline-secondary w-100">
-          Atrás
-        </a>
-      </div>
-      <div class="col-sm-6">
-        <button type="button" class="btn btn-warning w-100" onclick="validarEstadoPedido()">Guardar Cambios</button>
-        <!--button type="button" class="btn btn-success"  onclick="guardarDatosPedido()">Guardar Cambios</button-->
-      </div>
+  <div layout:fragment="content">
+    <div class="d-flex align-items-center justify-content-start">
+      <img th:src="@{/img/smartphone.png}" class="left wp-image-4532" style="width: 60px; height: 60px;" /> 
+      <h1 class="text-center mb-6" style="font-family: Trebuchet MS; margin: 0 10px;">
+        <b style="color: #21618C;">Actualización del pedido</b>
+      </h1>
     </div>
-    </form>
-  <script th:src="@{/js/compra.js}" th:inline="javascript"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
-
-   
-
-    <script th:inline="javascript">
-        let doc, tipo, monto;
-        let contador = 1;
-        /*[# th:each="item : ${compra.facturas}"]*/
+    <hr>
+    
+    <form id="form-pedido-update" method="POST" th:action="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" th:object="${compra}">
+      <!--th:block th:include="fragment/error-message.html"></th:block-->
+      <fieldset>
+        <br> <!--separador-->
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-sm-6" > 
+              <div class ="card">                           
+                <div class="card-body">        
+                    <div class="row mb-4">                            
+                      <div class="col">
+                        <div class="form-outline">
+                          <label for="inputUsuario" class="form-label">Nombre del usuario<span style="color:red">*</span></label>
+                          <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Introduzca el nombre de usuario" autofocus required>        
+                          
+                        </div>      
+                      </div>
+                    </div>
+                    
+                    
+                    
+                    <div class="row mb-4">                            
+                      <div class="col">
+                        <div class="form-outline">
+                          <label for="inputUsuario" class="form-label">Correo<span style="color:red">*</span></label>
+                          <input type="text" class="form-control" id="inputCorreo" name="email" placeholder="Introduzca el correo electrónico" autofocus required>             
+                          
+                        </div>                                            
+                      </div>
+                    </div>
+                    <div class="row mb-4">
+                      <div class="col">
+                        <div class="form-outline">
+                          <label for="inputContrasenha" class="form-label">Contraseña<span style="color:red">*</span></label>
+                          <input type="password" class="form-control" id="inputContrasenha" name="password" placeholder="Introduzca la Contraseña" required pattern=".{8,}" title="Debe ingresar una contraseña de al menos 8 caracteres">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    
+                    <div class="row mb-4">                            
+                      <div class="col">
+                        <div class="form-outline">
+                          <label for="inputContrasenha" class="form-label">Repetir Contraseña<span style="color:red">*</span></label>
+                          <input type="password" class="form-control" id="inputRepetirContrasenha" name="passwordConfirm" placeholder="Repetir la Contraseña" required>          
+                        </div>          
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>    <!-- termina el card-->
+                <br>
+                
+                
+              </div>
+              <!--nuevo card-->
+              <div class="col-sm-4">
+                <div class="card">
+                  <div class="card-body">
+                    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+                    <div class="d-flex justify-content-center align-items-center">
+                      <lord-icon
+                      src="https://cdn.lordicon.com/oncyjozz.json"
+                      trigger="hover"
+                      colors="outline:#121331,primary:#646e78"
+                      style="width:60px;height:60px">
+                    </lord-icon>
+                  </div>
+                  <!--Configuración adicional-->
+                  <p style="color: #21618C; text-align: center;"><strong>Configuraciones</strong></p>
+                  <hr>
+                  <div class="row mb-4">
+                    <div class="col">
+                      <div th:if="${permisoAsignarRol}" class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupSelect01">Rol</label>
+                        <select class="form-select" aria-label="Default select example" id="inputGroupSelect01" name="idRol" required>
+                          <option style="" value="">Seleccione Rol</option>
+                          <option th:each="elemento : ${roles}" th:value="${elemento.idRol}" th:text="${elemento.toString()}"></option>
+                        </select>       
+                      </div>                                            
+                    </div>
+                  </div>
+                  
+                  <div class="row mb-4">                            
+                    <div class="col">
+                      <div    class="input-group mb-3">
+                        <label for="inputSelectEstado" class="form-label">Estado</label>
+                        <div class="input-group">
+                          <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado" onclick="validarEstadoUsuario(this.value)" disabled>
+                            <option style="background-color: #F9E79F; font-weight: bold;" value="ACTIVO">ACTIVO</option>
+                            <option style="background-color: #AED6F1; font-weight: bold;" value="INACTIVO">INACTIVO</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-sm-4">
+                      <div class="row">
+                        <div class="col">
+                          <a href="javascript:void(0);" class="btn btn-secondary w-100" onclick="confirmarRegreso()">
+                            Atrás
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="row">
+                        <div class="col">
+                          <button type="submit" class="btn btn-info text-white">
+                            <i class="bi bi-save2" id="download-button"> Guardar Usuario</i>
+                          </button>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+                
+              </div><!--termina card-->
+            </div>
+            
+            
+          </fieldset>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <fieldset>
+            <legend>Información del Pedido</legend>
+            <div class="mb-3">
+              <label class="form-label"><strong>Id Pedido:</strong> <em>[[${compra.idCompra}]]</em></label>
+            </div>
+            <div class="mb-3">
+              <label class="form-label"><strong>Monto del Pedido: </strong> <em id="montoCompraFormatted"></em></label>
+              <input type="hidden" name="montoCompra" th:value="${compra.montoCompra}" />
+            </div>
+            
+            <script>
+              var montoCompra = document.querySelector("[name='montoCompra']").value;
+              var montoCompraFormatted = Number(montoCompra).toLocaleString();
+              document.getElementById("montoCompraFormatted").textContent = montoCompraFormatted;
+            </script>
+            
+            <div class="mb-3"> <!-- margen button -->
+              <label for="inputCantidad" class="form-label"><strong>Fecha del Pedido: </strong>  <em>[[${compra.fechaCompra}]]</em></label>
+              <!--input type="hidden" class="form-control" id="inputCantidad" name="fechaCompra" th:value="${compra.fechaCompra}"-->
+            </div>
+            <!--div class="mb-3">
+              <label for="inputPrecio" class="form-label">Precio</label>
+              <input type="text" class="form-control" id="inputPrecio" name="precio" placeholder="Introduzca nuevo precio">
+            </div-->
+            
+            
+            <div>
+              <label for="inputSelectEstado" class="form-label">Estado del Pedido:</label>
+              <select class="form-select" aria-label="Default select example" id="inputSelectEstado" name="estado"  th:value="${compra.estado}">
+                <option th:each="compra : ${compra}" th:value="${compra.estado}" th:text="${compra.estado}"></option>
+                <option style="background-color: yellow;" value="PENDIENTE">PENDIENTE</option>
+                <option style="background-color: blue; color: white;" value="PARCIALMENTE ENTREGADO">PARCIALMENTE ENTREGADO</option>
+                <option style="background-color: red; color: white;" value="ANULADO">ANULADO</option>
+                <option style="background-color: green; color: white;" value="RECEPCIONADO">RECEPCIONADO</option>
+              </select>  
+            </div>
+            <br>
+            <fieldset class="border p-3 mb-3">
+              <legend>Documentos</legend>
+              <!--  Bootstrap table-->
+              <div class="table-responsive">
+                <table id="documentTable" class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Nro. Documento</th>
+                      <th scope="col">Tipo Documento</th>
+                      <th scope="col">Monto</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              
+              <!-- Add rows button-->
+              <a class="btn btn-primary rounded-0 btn-block" id="insertDocRow" href="#">Agregar Documento</a>
+              <script th:src="@{/js/factura.js}"></script>
+            </fieldset>
+            
+            <br>
+          </fieldset>
+          
+          <div class="row">
+            <div class="col-sm-6">
+              <a th:href="@{/gestionarFacturas}" class="btn btn-outline-secondary w-100">
+                Atrás
+              </a>
+            </div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-warning w-100" onclick="validarEstadoPedido()">Guardar Cambios</button>
+              <!--button type="button" class="btn btn-success"  onclick="guardarDatosPedido()">Guardar Cambios</button-->
+            </div>
+          </div>
+        </form>
+        <script th:src="@{/js/compra.js}" th:inline="javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+        
+        
+        
+        <script th:inline="javascript">
+          let doc, tipo, monto;
+          let contador = 1;
+          /*[# th:each="item : ${compra.facturas}"]*/
           addCellValuesInvoice([[${item.nroDocumento}]], [[${item.tipo}]], [[${item.monto}]], contador);
           contador++;
-        /*[/]*/
-        counter = contador;
-    </script>
-   
-</div>
-
-</body>
-</html>
+          /*[/]*/
+          counter = contador;
+        </script>
+        
+      </div>
+      
+    </body>
+    </html>

@@ -142,7 +142,7 @@ public class TipoDocumentoController {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("user", tipoDocumento);
+        model.addAttribute("tipoDocumento", tipoDocumento);
 
         // validar si puede cambiar de rol
         /*if(asignarRol) {

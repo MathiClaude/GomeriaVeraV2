@@ -12,40 +12,28 @@ layout:decorate="~{/layout/basic}">
       <fieldset>
         <legend>Información del Cliente</legend>
         <div class="mb-3"> <!-- margen button -->
-          <!--label class="form-label">Nombre del Cliente: [[${cliente.name}]]</label-->
-          <!--input type="hidden" name="name" th:value="${cliente.name}" />
+          <label class="form-label">Nombre del Cliente: [[${cliente.name}]]</label>
+          <input type="hidden" name="name" th:value="${cliente.name}" />
           <input type="hidden" name="lastName" th:value="${cliente.lastName}" />
           <input type="hidden" name="ruc" th:value="${cliente.email}" />
-          <input type="hidden" name="razonSocial" th:value="${cliente.telephone}" /-->
+          <input type="hidden" name="razonSocial" th:value="${cliente.telephone}" />
         </div>
         <div class="mb-3"> <!-- margen button -->
           <label for="inputTelefono" class="form-label">Nombre</label>
-          <input type="text" class="form-control" id="inputNombre" name="name" th:value="${cliente.name}" required>
+          <input type="text" class="form-control" id="inputNombre" name="name" th:value="${cliente.name}">
         </div>
         <div class="mb-3"> <!-- margen button -->
           <label for="inputApellido" class="form-label">Apellido</label>
-          <input type="text" class="form-control" id="inputApellido" name="lastName" th:value="${cliente.lastName}" required>
+          <input type="text" class="form-control" id="inputApellido" name="lastName" th:value="${cliente.lastName}">
         </div>
         <div class="mb-3"> <!-- margen button -->
           <label for="inputCorreo" class="form-label">Correo electrónico</label>
-          <input type="text" id="inputCorreo" name="email" class="form-control" placeholder="Introduzca nuevo email" th:value="${cliente.email}" required>
+          <input type="text" id="inputCorreo" name="email" class="form-control" placeholder="Introduzca nuevo email" th:value="${cliente.email}">
         </div>
         <div class="mb-3"> <!-- margen button -->
             <label for="inputTelefono" class="form-label">Teléfono</label>
-            <input type="text" id="inputTelefono" name="telephone" class="form-control" placeholder="Introduzca nuevo teléfono" th:value="${cliente.telephone}" required>
-        </div>
-        <div class="mb-3">
-          <label for="nroDoc" class="form-label">Nro. Documento</label>
-          <input type="text" class="form-control" id="nroDoc" name="documentNumber" placeholder="Introduzca documento" th:value="${cliente.documentNumber}" required>
-       </div>
-       <div class="mb-3">
-        <label for="inputDocumentType" class="form-label">Tipo de Documento</label>
-        <select class="form-select" id="inputDocumentType" name="documentType" autofocus required>
-          <option th:each="tipoDocumento : ${tipoDocu}" th:value="${tipoDocumento.idTipoDocumento}" th:text="${tipoDocumento.nombre}"></option>
-          <option th:each="tipoDocumento : ${cliente}" th:value="${tipoDocumento.tipoDocumento.idTipoDocumento}" th:text="${tipoDocumento.tipoDocumento.nombre}"></option>
-        </select>
-       </div>
-       <br>
+            <input type="text" id="inputTelefono" name="telephone" class="form-control" placeholder="Introduzca nuevo teléfono" th:value="${cliente.telephone}">
+          </div>
       </fieldset>
       
       <div class="row">

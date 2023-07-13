@@ -90,18 +90,22 @@ layout:decorate="~{/layout/basic}">
                         <th>Pedido realizado por</th><!---->
                         <th>Proveedor</th><!---->
                         <!--th>Precio</th-->
-                        <th>Cantidad Solicitada</th>
-                       
+                        <th>Cantidad Solicitada</th>                       
                         <th>Monto a pagar</th><!---->
-                        <th>Estado</th><!---->
                         <th>Acción</th><!---->
                       </tr><!---->
                     </thead><!---->
                     <tbody><!---->
-                      <tr th:if="${#lists.isEmpty(listCr)}"><!---->
-                        <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
+                      <tr th:if="${#lists.isEmpty(listPend)}"><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+                        <td class="text-center fw-bold">No se encontraron compras</td><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+
                       </tr><!---->
-                      <tr class="text-center" th:each="compra: ${listCr}">
+                      <tr class="text-center" th:each="compra: ${listPend}">
                         <td th:text="${compra.fechaCompra}">Cod</td>
                         <td th:text="${compra.proveedor.nombre}">Name</td>
                         <td th:text="${compra.proveedor.nombre}">Name</td>
@@ -109,18 +113,12 @@ layout:decorate="~{/layout/basic}">
                         <!--td th:text="${producto.cantidad}">90</td-->
                         <td th:text="${compra.montoCompra}">90</td><!---->
                         <td th:text="${compra.montoTotal}">type</td>
-                        <td th:text="${compra.estado}">-</td>
                         <td><!---->
                           
                             <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
                             class="btn btn-sm btn-outline-primary"><!---->
                             <i class="fa-solid fa-pen-to-square"></i><!---->
                             </a>
-                            <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
-                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                                <i class="fa-sharp fa-solid fa-trash"></i>
-                              </button>
-                            </a-->
                           
                         </td>
                       </tr>
@@ -140,40 +138,40 @@ layout:decorate="~{/layout/basic}">
                         <th>Realizado por</th><!---->
                         <th>Recepcionado por</th><!---->
                         <th>Proveedor</th><!---->
-                        <!--th>Precio</th-->
                         <th>Cant. Solicitada</th>
                         <th>Cant. Recibida</th>
                         <th>Monto a pagar</th><!---->
-                        <th>Estado</th><!---->
                         <th>Acción</th><!---->
                       </tr><!---->
                     </thead><!---->
                     <tbody><!---->
-                      <tr th:if="${#lists.isEmpty(listCr)}"><!---->
-                        <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
+                      <tr th:if="${#lists.isEmpty(listParc)}"><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold">No se encontraron compras</td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+
                       </tr><!---->
-                      <tr class="text-center" th:each="compra: ${listCr}">
-                        <td th:text="${compra.fechaCompra}">Cod</td>
-                        <td th:text="${compra.fechaCompra}">Cod</td>
-                        <td th:text="${compra.fechaCompra}">Cod</td>
-                        <td th:text="${compra.fechaCompra}">Cod</td>
-                        <td th:text="${compra.proveedor.nombre}">Name</td>
-                        <!--td th:text="${producto.precio}">90.000</td-->
-                        <!--td th:text="${producto.cantidad}">90</td-->
-                        <td th:text="${compra.montoCompra}">90</td><!---->
-                        <td th:text="${compra.montoTotal}">type</td>
-                        <td th:text="${compra.estado}">-</td>
+                      <tr class="text-center" th:each="compra: ${listParc}">
+                        <td th:text="${compra.fechaCompra}"></td>
+                        <td th:text="${compra.fechaCompra}"></td>
+                        
+                        <td th:text="${compra.fechaCompra}"></td>
+                        <td th:text="${compra.proveedor.nombre}"></td>
+
+                        <td th:text="${compra.fechaCompra}"></td>
+                        <td th:text="${compra.montoCompra}"></td><!---->
+                        <td th:text="${compra.montoTotal}"></td>
                         <td><!---->
                           
                             <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
                             class="btn btn-sm btn-outline-primary"><!---->
                             <i class="fa-solid fa-pen-to-square"></i><!---->
-                            </a>
-                            <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
-                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                                <i class="fa-sharp fa-solid fa-trash"></i>
-                              </button>
-                            </a-->
+                            </a>                            
                           
                         </td>
                       </tr>
@@ -194,18 +192,24 @@ layout:decorate="~{/layout/basic}">
                         <th>Realizado por</th><!---->
                         <th>Recepcionado por</th><!---->
                         <th>Proveedor</th><!---->
-                        <!--th>Precio</th-->
                         <th>Cant. Recibida</th>
                         <th>Monto Pagado</th><!---->
-                        <th>Estado</th><!---->
                         <th>Acción</th><!---->
                       </tr><!---->
                     </thead><!---->
                     <tbody><!---->
-                      <tr th:if="${#lists.isEmpty(listCr)}"><!---->
-                        <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
+                      <tr th:if="${#lists.isEmpty(listRecep)}"><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold">No se encontraron compras</td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+                        <td class="text-center fw-bold"></td><!---->
+
                       </tr><!---->
-                      <tr class="text-center" th:each="compra: ${listCr}">
+                      <tr class="text-center" th:each="compra: ${listRecep}">
                         <td th:text="${compra.fechaCompra}">Cod</td>
                         <td th:text="${compra.fechaCompra}">Cod</td>
                         <td th:text="${compra.proveedor.nombre}">Name</td>
@@ -215,18 +219,13 @@ layout:decorate="~{/layout/basic}">
                         <!--td th:text="${producto.cantidad}">90</td-->
                         <td th:text="${compra.montoCompra}">90</td><!---->
                         <td th:text="${compra.montoTotal}">type</td>
-                        <td th:text="${compra.estado}">-</td>
                         <td><!---->
                           
-                            <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
+                            <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/pedidoFinal/{id}(id=${compra.idCompra})}" 
                             class="btn btn-sm btn-outline-primary"><!---->
                             <i class="fa-solid fa-pen-to-square"></i><!---->
                             </a>
-                            <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
-                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                                <i class="fa-sharp fa-solid fa-trash"></i>
-                              </button>
-                            </a-->
+                            
                           
                         </td>
                       </tr>
@@ -246,40 +245,35 @@ layout:decorate="~{/layout/basic}">
                         <th>Realizado por</th><!---->
                         <th>Fecha Anulación</th><!---->
                         <th>Anulado por</th><!---->
-
-                        <th>Proveedor</th><!---->
                         <th>Motivo de anulación</th><!---->
-                        <!--th>Precio</th-->
-                        <!--th>Cantidad</th-->
-                        <th>Estado</th><!---->
                         <th>Acción</th><!---->
                       </tr><!---->
                     </thead><!---->
                     <tbody><!---->
-                      <tr th:if="${#lists.isEmpty(listCr)}"><!---->
-                        <td class="text-center fw-bold" colspan="10">No se encontraron compras</td><!---->
+                      <tr th:if="${#lists.isEmpty(listAnul)}"><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+                        <td class="text-center fw-bold" >No se encontraron compras</td><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+                        <td class="text-center fw-bold" ></td><!---->
+
                       </tr><!---->
-                      <tr class="text-center" th:each="compra: ${listCr}">
+                      <tr class="text-center" th:each="compra: ${listAnul}">
                         <td th:text="${compra.fechaCompra}">Cod</td>
                         <td th:text="${compra.fechaCompra}">Cod</td>
                         <td th:text="${compra.fechaCompra}">Cod</td>
-                        <td th:text="${compra.proveedor.nombre}">Name</td>
                         <!--td th:text="${producto.precio}">90.000</td-->
                         <!--td th:text="${producto.cantidad}">90</td-->
                         <td th:text="${compra.montoCompra}">90</td><!---->
                         <td th:text="${compra.montoTotal}">type</td>
-                        <td th:text="${compra.estado}">-</td>
                         <td><!---->
                           
-                            <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/{id}(id=${compra.idCompra})}" 
+                            <a th:if="${permisoActualizar eq true}" th:href="@{/gestionarFacturas/pedidoNull/{id}(id=${compra.idCompra})}" 
                             class="btn btn-sm btn-outline-primary"><!---->
                             <i class="bi bi-exclamation-circle-fill"></i><!---->
                             </a>
-                            <!--a th:if="${permisoEliminar eq true}" th:href="@{/gestionarFacturas/{id}/delete(id=${compra.idCompra})}">
-                              <button type="button" id="btnEliminar" class="btn btn-sm btn-outline-danger">
-                                <i class="fa-sharp fa-solid fa-trash"></i>
-                              </button>
-                            </a-->
+                            
                           
                         </td>
                       </tr>
@@ -292,8 +286,10 @@ layout:decorate="~{/layout/basic}">
             </div>    <!-- termina el card-->
             <br>
           </div>
-          <!--div class="row d-flex justify-content-center align-items-center">
-            <div class="col-sm-4">
+          <br>
+          <hr>
+          <div class="row d-flex justify-content-left align-items-left">
+            <div class="col-sm-2">
               <div class="row">
                 <div class="col">
                   <a href="javascript:void(0);" class="btn btn-secondary w-100" onclick="confirmarRegreso()">
@@ -302,17 +298,6 @@ layout:decorate="~{/layout/basic}">
                 </div>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="row">
-                <div class="col">
-                  <button type="submit" class="btn btn-info text-white">
-                    <i class="bi bi-save2" id="download-button"> Modificar Rol</i>
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            </!div-->
           </div>
           
           

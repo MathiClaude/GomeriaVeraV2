@@ -32,6 +32,9 @@ public class Producto {
     @Column(name = "precioCompra")
     private Integer precioCompra;
 
+    @Column(name = "promedioPrecioCompra")
+    private Integer promedioPrecioCompra;
+
     @Column(name = "tmpPrecio")
     private Integer tmpPrecio;
 

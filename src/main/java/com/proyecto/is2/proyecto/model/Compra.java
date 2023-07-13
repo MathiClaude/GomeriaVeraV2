@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +37,14 @@ public class Compra {
     @Column(name = "estado")
     private String estado;
 
+    @Column(name = "motivoAnulacion")
+    private String motivoAnulacion;
+    
+    @Column(name = "usuarioIdAnulacion")
+    private String usuarioIdAnulacion;
+
+    @Column(name = "usuarioIdRecepcion")
+    private String usuarioIdRecepcion;
 
     public Compra() {
 
@@ -53,13 +63,15 @@ public class Compra {
 
     
     /* Relacion con usuario */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "proveedor_id", referencedColumnName = "idProveedor")
+    @JsonBackReference
     private Proveedor proveedor;
 
     /* Relacion con cliente */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "usuario_id", referencedColumnName = "idUsuario")
+    @JsonBackReference
     private Usuario usuario;
 
     /* Relacion con detalles */

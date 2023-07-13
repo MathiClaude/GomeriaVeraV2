@@ -51,38 +51,67 @@ layout:decorate="~{/layout/basic}">
                   </div>
                 </div>
                 
-                <div id="contenido1" class="contenido" style="display: none;">
+                
+                <div id="documentosParciales" class="contenido" style="display: none;">
+                  <h5> Remisiones</h5>
+                  <hr>
+                  <div class="form-outline" id="addRemisiones">
+                    <div class="input-group mb-3" > 
+                      <span class="input-group-text" id="basic-addon1">Nota de Remisión Nro.:</span>
+                      <input type="text" class="form-control" placeholder="Ej: 001-001-0000001" aria-label="remision" id="nroRemision">
+                      <button class="btn btn-info" style="color: white;" onclick="agregarDetalleRemisiones(event)">Agregar Documento</button>
+                    </div>
+                  </div> 
                   <table class="table table-sm table-bordered table-hover">
                     <thead style="background-color: #0a4275;">
                       <tr class="text-center">
-                        <th>#</th>
-
                         <th>Nro. Documento</th>
                         <th>Tipo de Documento</th>
-                        <th>Monto Pagado</th>
                         <th><i class="bi bi-list"></i></th>
 
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tablaRemisiones">
+                     
+                    </tbody>
+                    
+                  </table>
+                    <hr>
+                    <br>
+                </div>
+                
+                <div id="documentosFinalizado" class="contenido" style="display: none;">
+                  <h5> Facturas</h5> 
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Factura Nro.:</span>
+                    <input type="text" class="form-control" placeholder="Ej: 001-001-0000001" aria-label="remision" aria-describedby="basic-addon1" id="nroFactura">
+                    <button class="btn btn-info" style="color: white;" onclick="agregarDetalleFacturas(event)">Agregar Documento</button> 
+                  </div> 
+                  <table class="table table-sm table-bordered table-hover">
+                    <thead style="background-color: #0a4275;">
+                      <tr class="text-center">
+                        <th>Nro. Documento</th>
+                        <th>Tipo de Documento</th>
+                        <th><i class="bi bi-list"></i></th>
+
+                      </tr>
+                    </thead>
+                    <tbody id="tablaFacturas">
                      
                     </tbody>
                     <hr>
-                     <!--para agregar los documentos-->
-                     <a class="btn btn-info" id="insertDocRow" href="#" style="color: white;">Agregar Documento</a>
-
                      <br>
                      <br>
                   </table>
                 </div>
-                
+
                 <div id="contenido2" class="contenido" style="display: none;">
                   <hr>
                   <div class="row mb-4">                            
                     <div class="col">
                         <div class="form-outline">
-                            <label for="inputUsuario" class="form-label">Motivo de anulación<span style="color:red">*</span></label>
-                            <input type="text" class="form-control" id="inputUsuario" name="user" placeholder="Describa el motivo de anulación del pedido." autofocus required>        
+                            <label for="motivoAnulacion" class="form-label">Motivo de anulación<span style="color:red">*</span></label>
+                            <input type="text" class="form-control" id="motivoAnulacion" name="user" placeholder="Describa el motivo de anulación del pedido." required>        
                             
                         </div>      
                     </div>
@@ -122,7 +151,7 @@ layout:decorate="~{/layout/basic}">
                 </div>
                 <div class="col">
                   <div class="form-outline">
-                    <label class="form-label"><strong><i class="bi bi-person-video3"></i> Realizado por: </strong>[[${compra.fechaCompra}]]</label> 
+                    <label class="form-label"><strong><i class="bi bi-person-video3"></i> Realizado por: </strong>[[${compra.usuario.username}]]</label> 
                     
                   </div>
                 </div> 
@@ -131,7 +160,7 @@ layout:decorate="~{/layout/basic}">
               <div class="row mb-4">                            
                 <div class="col">
                   <div class="form-outline">
-                    <label class="form-label"><strong><i class="bi bi-person"></i> Proveedor: </strong>[[${compra.fechaCompra}]]</label> 
+                    <label class="form-label"><strong><i class="bi bi-person"></i> Proveedor: </strong>[[${compra.proveedor.nombre}]]</label> 
                   </div>
                 </div>
                 <div class="col">
@@ -151,7 +180,7 @@ layout:decorate="~{/layout/basic}">
                 </div>
                 <div class="col">
                   <div class="form-outline">
-                    <label class="form-label"><strong><i class="bi bi-exclamation-octagon"></i> Estado Actual del Pedido: </strong>[[${compra.montoCompra} + ' Gs.']]</label> 
+                    <label class="form-label"><strong><i class="bi bi-exclamation-octagon"></i> Estado Actual del Pedido: </strong>[[${compra.estado}]]</label> 
                     
                   </div>
                 </div>
@@ -173,8 +202,8 @@ layout:decorate="~{/layout/basic}">
                 <div class="col-sm-6">
                   <div class="row">
                     <div class="col">
-                      <button type="submit" class="btn btn-info text-white">
-                        <i class="bi bi-save2" id="download-button"> Guardar Usuario</i>
+                      <button class="btn btn-info text-white" onclick="guardarEstado()">
+                        <i class="bi bi-save2" id="download-button"> Guardar Actualización</i>
                       </button>
                       
                     </div>
@@ -190,32 +219,27 @@ layout:decorate="~{/layout/basic}">
         
       </fieldset>
       <div>
-        <script>
-          function validarEstadoCompra(valor) {
-            var contenido1 = document.getElementById("contenido1");
-            var contenido2 = document.getElementById("contenido2");
-        
-            if (valor === "RECEPCIONADO" || valor === "PARCIALMENTE RECEPCIONADO") {
-              contenido1.style.display = "block";
-              contenido2.style.display = "none";
-            } else if (valor === "ANULADO") {
-              contenido1.style.display = "none";
-              contenido2.style.display = "block";
-            } else {
-              contenido1.style.display = "none";
-              contenido2.style.display = "none";
-            }
-          }
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>   
+        <script th:src="@{/js/validarEstadosPedidos.js}"></script> 
         <script th:src="@{/js/factura.js}"></script>
         <script th:inline="javascript">
           let doc, tipo, monto;
-          let contador = 1;
-          /*[# th:each="item : ${compra.facturas}"]*/
-          addCellValuesInvoice([[${item.nroDocumento}]], [[${item.tipo}]], [[${item.monto}]], contador);
-          contador++;
-          /*[/]*/
-          counter = contador;
+          const ID_PEDIDO = /*[[${id_compra}]]*/ null;
+          const ESTADO_ACTUAL = /*[[${compra.estado}]]*/ null;
+          const LISTA_DOCS = /*[[${compra.facturas}]]*/ null;
+
+          LISTA_DOCS.forEach((elemento,i)=>{
+              if(elemento.tipo === "REMISION"){
+                LISTA_REMISIONES = [ ...LISTA_REMISIONES ,{"id":elemento.idFactura,"nroRemision":elemento.nroDocumento,"tipoDocumento":"REMISION","fecha":elemento.fecha} ]
+              }else{
+                LISTA_FACTURAS = [ ...LISTA_FACTURAS ,{"id":elemento.idFactura,"nroFactura":elemento.nroDocumento,"tipoDocumento":"FACTURA","fecha":elemento.fecha} ]
+              }
+          });
+          actualizarTablaRemisiones(LISTA_REMISIONES);
+          actualizarTablaFacturas(LISTA_FACTURAS);
+
+          
+
         </script>
       </div>
       

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -19,8 +20,6 @@ public class Factura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFactura;
 
-    @Column(name = "monto")
-    private String monto;
 
     @Column(name = "fecha")
     private String fecha;
@@ -33,6 +32,9 @@ public class Factura {
 
     @Column(name = "esActual")
     private String esActual;
+
+    @Column(name = "monto")
+    private String monto;
 
     @Column(name = "montoTotal")
     private BigDecimal montoTotal;
@@ -54,12 +56,14 @@ public class Factura {
     /* RELACIONES DE BASE DE DATOS */
 
     /* Relacion con compra */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "compra_id", referencedColumnName = "idCompra")
+    @JsonBackReference
     private Compra compra;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "proveedor_id", referencedColumnName = "idProveedor")
+    @JsonBackReference
     private Proveedor proveedor;
     /* Relacion con usuario */
     /*@ManyToOne

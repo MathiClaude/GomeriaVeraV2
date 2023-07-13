@@ -136,6 +136,30 @@ function validarProvyProd(){
 }
 
 
+async function obtenerNCProveedor(){
+	var idProveedor = document.getElementById("InputProveedor").value;
+	formData.append("idProveedor", proveedor.value );
+
+	console.log(formData)
+	//enviamos la cabecera
+	let resp = await fetch('http://localhost:8080/realizarCompra/notaCredito/'+idProveedor,{
+		method:'GET',
+		//body: formData,
+	})
+}
+
+async function obtenerNC(){
+	var idProveedor = document.getElementById("InputProveedor").value;
+	formData.append("idProveedor", proveedor.value );
+
+	console.log(formData)
+	//enviamos la cabecera
+	let resp = await fetch('http://localhost:8080/realizarCompra/notaCredito/'+idProveedor,{
+		method:'GET',
+		//body: formData,
+	})
+}
+
 async function guardarDatosCompra(){
 	//Obtenemos la cabecera
 	/*private String montoVenta;

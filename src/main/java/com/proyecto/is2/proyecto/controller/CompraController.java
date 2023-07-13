@@ -289,7 +289,7 @@ public class CompraController {
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         Compra compra;
         Proveedor proveedor = proveedorRepository.findByIdProveedor(Long.parseLong(id));
-        List<Factura> listaFactura = facturaRepository.findByDocumentosDisponibles("PENDIENTE", proveedor, "Nota de Credito");
+        List<Factura> listaFactura = facturaRepository.findByEstadoAndProveedorAndTipo("PENDIENTE", proveedor, "Nota de Credito");
         // validar el id
        /* try {
             Long idCompra = Long.parseLong(id);
@@ -313,7 +313,24 @@ public class CompraController {
         }
     }
 
-     @GetMapping("/{id}")
+    @PostMapping("/notaCredito/{id}")
+    public String formNotaCredito(@PathVariable String id, Model model) {
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        Compra compra;
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(Long.parseLong(id));
+        List<Factura> listaFactura = facturaRepository.findByEstadoAndProveedorAndTipo("PENDIENTE", proveedor, "Nota de Credito");
+
+        model.addAttribute("NotaList", listaFactura);
+
+        if(eliminar) {
+            return FORM_EDIT;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+    @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);

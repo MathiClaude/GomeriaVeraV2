@@ -80,10 +80,10 @@
                   Agregar NC
                 </button>
                 <div id="divNC" style="display: none;">
-                  <select  id="ncSelectId" class="form-select" aria-label="Default select example" name="ncList">
-                    <option value="1">NC 1</option>
-                    <option value="2">NC 2</option>
+                  <select  id="ncSelectId" class="form-select" aria-label="Default select example" name="ncList" onclick="obtenerNCProveedor()">
+                    <option th:each="documento : ${NotaList}" th:text="${documento.tipo} + '-' {documento.monto}" th:value="${documento.idFactura}"></option>
                   </select>
+                  <script th:src="@{/js/compra.js}" th:inline="javascript"></script>
                 </div>
                 
 

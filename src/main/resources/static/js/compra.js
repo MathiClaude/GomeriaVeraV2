@@ -133,30 +133,33 @@ function validarProvyProd(){
 	}else{
 		document.getElementById("divNC").style.display = "block";
 	}
+	obtenerNCProveedor();
 	return mostrarNC;
 }
 
 
 async function obtenerNCProveedor(){
 	var idProveedor = document.getElementById("InputProveedor").value;
+	var formData = new FormData();
 	formData.append("idProveedor", proveedor.value );
 
 	console.log(formData)
 	//enviamos la cabecera
-	let resp = await fetch('http://localhost:8080/realizarCompra/notaCredito/'+idProveedor,{
+	let resp = await fetch('http://localhost:8080/realizarCompra/notaCredito/{id}(id='+idProveedor+')',{
 		method:'GET',
-		//body: formData,
+		body: formData,
 	})
 }
 
 async function obtenerNC(){
-	var idProveedor = document.getElementById("InputProveedor").value;
+	var idProveedor = document.getElementById("ncSelectId").value;
 	formData.append("idProveedor", proveedor.value );
+	console.log(idProveedor)
 
 	console.log(formData)
 	//enviamos la cabecera
 	let resp = await fetch('http://localhost:8080/realizarCompra/notaCredito/'+idProveedor,{
-		method:'GET',
+		method:'POST',
 		//body: formData,
 	})
 }

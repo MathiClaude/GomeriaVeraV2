@@ -288,6 +288,7 @@ public class CompraController {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         Compra compra;
+        System.out.println("Entra hasta aca");
         Proveedor proveedor = proveedorRepository.findByIdProveedor(Long.parseLong(id));
         List<Factura> listaFactura = facturaRepository.findByEstadoAndProveedorAndTipo("PENDIENTE", proveedor, "Nota de Credito");
         // validar el id

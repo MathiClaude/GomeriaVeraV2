@@ -118,6 +118,7 @@ function validarPedido(){
 
 function validarProvyProd(){
 	var prov = document.getElementById("InputProveedor").value;
+
 	alert(prov);
 	
 	if( prov == "" ){
@@ -130,9 +131,9 @@ function validarProvyProd(){
 				})
 			}	
 	}else{
-		confirmarCompra();
+		document.getElementById("divNC").style.display = "block";
 	}
-
+	return mostrarNC;
 }
 
 

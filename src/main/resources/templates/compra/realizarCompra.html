@@ -75,10 +75,18 @@
                 <button type="button" class="btn btn-success" onclick="validarPedido()">
                   Finalizar Pedido
                 </button> 
-                 <br>
+                <br>
                 <button type="button" class="btn btn-outline-primary" onclick="validarProvyProd()">
                   Agregar NC
                 </button>
+                <div id="divNC" style="display: none;">
+                  <select  id="ncSelectId" class="form-select" aria-label="Default select example" name="ncList">
+                    <option value="1">NC 1</option>
+                    <option value="2">NC 2</option>
+                  </select>
+                </div>
+                
+
 
               </div>
             </div> 
@@ -359,6 +367,6 @@
               });
             </script>
         </div> 
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
   </body> 
 </html>

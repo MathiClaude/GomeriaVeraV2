@@ -42,6 +42,8 @@ public class Factura {
     @Column(name = "montoTotal")
     private BigDecimal montoTotal;
 
+    @Column(name = "idPedido")
+    private Long idPedido;
 
     public Factura() {
 

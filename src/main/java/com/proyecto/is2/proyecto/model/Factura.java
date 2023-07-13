@@ -36,6 +36,9 @@ public class Factura {
     @Column(name = "monto")
     private String monto;
 
+    @Column(name = "estado")
+    private String estado;
+
     @Column(name = "montoTotal")
     private BigDecimal montoTotal;
 

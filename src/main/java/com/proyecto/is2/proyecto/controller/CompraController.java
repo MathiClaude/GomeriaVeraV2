@@ -6,9 +6,11 @@ import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
 import com.proyecto.is2.proyecto.model.Compra;
 import com.proyecto.is2.proyecto.model.CompraDetalle;
+import com.proyecto.is2.proyecto.model.Factura;
 import com.proyecto.is2.proyecto.repository.AperturaCajaRepository;
 import com.proyecto.is2.proyecto.repository.CajaRepository;
 import com.proyecto.is2.proyecto.repository.ClienteRepository;
+import com.proyecto.is2.proyecto.repository.FacturaRepository;
 import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
 import com.proyecto.is2.proyecto.repository.ProveedorRepository;
@@ -94,6 +96,9 @@ public class CompraController {
 
      @Autowired
     ClienteRepository clienteRepository;
+
+    @Autowired
+    FacturaRepository facturaRepository;
 
     @Autowired
     ProductoRepository productoRepository;
@@ -278,7 +283,37 @@ public class CompraController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/notaCredito/{id}")
+    public String formNotaDeCredito(@PathVariable String id, Model model) {
+        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
+        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
+        Compra compra;
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(Long.parseLong(id));
+        List<Factura> listaFactura = facturaRepository.findByDocumentosDisponibles("PENDIENTE", proveedor, "Nota de Credito");
+        // validar el id
+       /* try {
+            Long idCompra = Long.parseLong(id);
+            compra = compraService.existeCompra(idCompra);
+        } catch(Exception e) {
+            return RD_FORM_VIEW;
+        }*/
+
+        model.addAttribute("NotaList", listaFactura);
+
+        // validar si puede cambiar de rol
+        /*if(asignarRol) {
+            model.addAttribute("roles", rolService.listar());
+        }
+        model.addAttribute("permisoAsignarRol", asignarRol);*/
+
+        if(eliminar) {
+            return FORM_EDIT;
+        } else {
+            return FALTA_PERMISO_VIEW;
+        }
+    }
+
+     @GetMapping("/{id}")
     public String formEditar(@PathVariable String id, Model model) {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);

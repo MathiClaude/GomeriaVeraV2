@@ -116,6 +116,26 @@ function validarPedido(){
 
 }
 
+function validarProvyProd(){
+	var prov = document.getElementById("InputProveedor").value;
+	alert(prov);
+	
+	if( prov == "" ){
+		var prod = document.getElementById("totalProdsCompras").value;
+		alert(prod);
+			if (validarMonto(prod) == 0) {
+				Swal.fire({
+					icon: 'Error',
+					text: 'Debe seleccionar Proveedor y/o Producto!',
+				})
+			}	
+	}else{
+		confirmarCompra();
+	}
+
+}
+
+
 async function guardarDatosCompra(){
 	//Obtenemos la cabecera
 	/*private String montoVenta;
@@ -180,6 +200,8 @@ function validarPago(monto){
 	}
 
 }
+
+
 
 function validarEstadoPedido(){
 	//console.log("ESTRAAAAAAA")

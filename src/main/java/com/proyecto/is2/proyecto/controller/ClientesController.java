@@ -1,6 +1,7 @@
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.ClienteDTO;
 import com.proyecto.is2.proyecto.model.Cliente;
+import com.proyecto.is2.proyecto.model.TipoDocumento;
 import com.proyecto.is2.proyecto.services.RolServiceImp;
 import com.proyecto.is2.proyecto.services.TipoDocumentoService;
 import com.proyecto.is2.proyecto.services.TipoDocumentoServiceImp;
@@ -151,7 +152,7 @@ public class ClientesController {
             return RD_FORM_VIEW;
         }
 
-        model.addAttribute("user", cliente);
+        model.addAttribute("cliente", cliente);
 
         // validar si puede cambiar de rol
         if(asignarRol) {
@@ -177,6 +178,7 @@ public class ClientesController {
                                    BindingResult result, RedirectAttributes attributes) {
         this.operacion = "actualizar-";
         Cliente cliente;
+        TipoDocumento td;
 
         if (result.hasErrors()) {
 //            studentDTO.setId(id);
@@ -187,7 +189,12 @@ public class ClientesController {
             cliente = clienteService.existeCliente(id);
             if(cliente != null) {
                 clienteService.convertirDTO(cliente, objetoDTO);
-
+               /* System.out.println("TD Actual: ");
+                System.out.println(cliente.getTipoDocumento().getNombre());
+                System.out.println("TD nuevo: ");
+                System.out.println(objetoDTO.getDocumentType());*/
+                td = tipoDocumentoService.existeTipoDocumento(objetoDTO.getDocumentType());
+                cliente.setTipoDocumento(td);
                 attributes.addFlashAttribute("message", "¡Usuario actualizado correctamente!");
                 clienteService.guardar(cliente);
                 return RD_FORM_VIEW;

@@ -140,15 +140,24 @@ function validarProvyProd(){
 
 async function obtenerNCProveedor(){
 	var idProveedor = document.getElementById("InputProveedor").value;
-	var formData = new FormData();
-	formData.append("idProveedor", proveedor.value );
+  	var url = "http://localhost:8080/realizarCompra/" + idProveedor + "/notaCredito";
 
-	console.log(formData)
-	//enviamos la cabecera
-	let resp = await fetch('http://localhost:8080/realizarCompra/notaCredito/{id}(id='+idProveedor+')',{
-		method:'GET',
-		body: formData,
-	})
+  try {
+    let response = await fetch(url);
+    let facturaList = await response.json();
+
+    var selectElement = document.getElementById("ncSelectId");
+    selectElement.innerHTML = ""; // Limpiar opciones existentes
+
+    facturaList.forEach(function (factura) {
+      var option = document.createElement("option");
+      option.value = factura.idFactura;
+      option.text = factura.tipo + "-" + factura.monto;
+      selectElement.appendChild(option);
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function obtenerNC(){

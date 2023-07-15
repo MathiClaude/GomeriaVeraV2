@@ -282,37 +282,28 @@ public class CompraController {
             return RD_FALTA_PERMISO_VIEW;
         }
     }
+    ///{id}/delete
+    @GetMapping("/{id}/notaCredito")
+    @ResponseBody
+    public List<Factura> formNotaDeCredito(@PathVariable String id) {
+        Proveedor proveedor = proveedorRepository.findByIdProveedor(Long.parseLong(id));
+        List<Factura> listaFactura = facturaRepository.findByEstadoAndProveedorAndTipo("PENDIENTE", proveedor, "Nota de Credito");
+    
+        return listaFactura;
+    }
 
-    @GetMapping("/notaCredito/{id}")
-    public String formNotaDeCredito(@PathVariable String id, Model model) {
+    /*public void formNotaDeCredito(@PathVariable String id, Model model) {
         boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
         boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
         Compra compra;
         System.out.println("Entra hasta aca");
         Proveedor proveedor = proveedorRepository.findByIdProveedor(Long.parseLong(id));
         List<Factura> listaFactura = facturaRepository.findByEstadoAndProveedorAndTipo("PENDIENTE", proveedor, "Nota de Credito");
-        // validar el id
-       /* try {
-            Long idCompra = Long.parseLong(id);
-            compra = compraService.existeCompra(idCompra);
-        } catch(Exception e) {
-            return RD_FORM_VIEW;
-        }*/
 
         model.addAttribute("NotaList", listaFactura);
 
-        // validar si puede cambiar de rol
-        /*if(asignarRol) {
-            model.addAttribute("roles", rolService.listar());
-        }
-        model.addAttribute("permisoAsignarRol", asignarRol);*/
-
-        if(eliminar) {
-            return FORM_EDIT;
-        } else {
-            return FALTA_PERMISO_VIEW;
-        }
-    }
+        return ;
+    }/* */
 
     @PostMapping("/notaCredito/{id}")
     public String formNotaCredito(@PathVariable String id, Model model) {

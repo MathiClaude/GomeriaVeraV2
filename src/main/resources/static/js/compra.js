@@ -31,6 +31,7 @@ function actualizarCompra(){
 	TABLA.innerHTML = "";
 	let totalProds = 0;
 	let totalIva = 0;
+
 	for(let elemento of listaProductosCompra){
 		let totalMonto = elemento.cantidad * elemento.precio
 		let sumaIva = totalMonto*elemento.impuesto/100
@@ -64,11 +65,13 @@ function actualizarCompra(){
 		totalProds+=totalMonto;
 		totalIva+=sumaIva;
 	}
+
+	
 	TOTAL_PRODS.value = totalProds;
 	TOTAL_PRODS2.value = totalProds;
 	TOTAL_IVA.value = totalIva;
 	
-}
+	}
 
 function modificarCantidadesPrd(id,op){
 	const campo = document.getElementById(id);
@@ -107,7 +110,7 @@ function validarPedido(){
 	//alert(totalPagar)
 	if(validarMonto(totalPagar) == 0 ){	
 		Swal.fire({
-			icon: 'Error',
+			icon: 'error',
 			text: 'Pedido no valido!',
 		})
 	}else{
@@ -118,15 +121,15 @@ function validarPedido(){
 
 function validarProvyProd(){
 	var prov = document.getElementById("InputProveedor").value;
-
+	var prod = document.getElementById("totalProdsCompras").value;
 	alert(prov);
+	alert(prod);
 	
 	if( prov == "" ){
-		var prod = document.getElementById("totalProdsCompras").value;
-		alert(prod);
+
 			if (validarMonto(prod) == 0) {
 				Swal.fire({
-					icon: 'Error',
+					icon: 'error',
 					text: 'Debe seleccionar Proveedor y/o Producto!',
 				})
 			}	
@@ -141,6 +144,8 @@ function validarProvyProd(){
 async function obtenerNCProveedor(){
 	var idProveedor = document.getElementById("InputProveedor").value;
   	var url = "http://localhost:8080/realizarCompra/" + idProveedor + "/notaCredito";
+	var montoTotalPedido = document.getElementById("totalProdsCompras").value;
+	
 
   try {
     let response = await fetch(url);
@@ -150,15 +155,56 @@ async function obtenerNCProveedor(){
     selectElement.innerHTML = ""; // Limpiar opciones existentes
 
     facturaList.forEach(function (factura) {
-      var option = document.createElement("option");
-      option.value = factura.idFactura;
-      option.text = factura.tipo + "-" + factura.monto;
-      selectElement.appendChild(option);
+	if (factura.monto < montoTotalPedido){
+		var option = document.createElement("option");
+		option.value = factura.idFactura;
+		option.text = factura.tipo + "-" + factura.monto;
+		selectElement.appendChild(option);
+	}
     });
+
+	if(selectElement.options.length === 0){
+			
+		//alert('no hay no existe')
+		Swal.fire({
+			icon: 'warning',
+			text: 'No hay Notas de Creditos disponibles para el monto total del Pedido ',
+		})
+
+		document.getElementById("divNC").style.display = "none";
+	}
+
   } catch (error) {
     console.error(error);
   }
 }
+
+async function ValidarMontoNC(selectElement) {
+	//se llama nuevamente a esta funcion para que traiga el monto original, ya que, si ya me calculó el 
+	//monto total y al final quiero usar otra NC, realiza la validación con el monto total que ya tiene 
+	//el descuento de la NC anterior y no con el monto original
+	actualizarCompra();
+
+	var montoTotalPedidoElement = document.getElementById("totalProdsCompras");
+	var montoTotalPedido = parseFloat(montoTotalPedidoElement.value);
+	var montoSeleccionado = parseFloat(selectElement.options[selectElement.selectedIndex].text.split("-")[1]);
+	
+	alert(montoSeleccionado)
+
+	if (montoSeleccionado > montoTotalPedido) {
+	  alert("El monto seleccionado no puede ser mayor que el monto total del pedido.");
+	  obtenerNCProveedor();
+	} else {
+	  var nuevoMontoTotal = montoTotalPedido - montoSeleccionado;
+  
+	  montoTotalPedidoElement.value = nuevoMontoTotal;
+  
+	  alert(nuevoMontoTotal); 
+  
+
+	}
+  }
+
 
 async function obtenerNC(){
 	var idProveedor = document.getElementById("ncSelectId").value;

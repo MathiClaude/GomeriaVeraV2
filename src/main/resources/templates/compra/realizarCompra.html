@@ -70,7 +70,7 @@
             <div class="col-4">
               <div class="form-outline">
                 <label for="inputNombre" class="form-label">Monto total del Pedido:</label>
-                <input type="text" id="totalProdsCompras" disabled/>
+                <input type="text" id="totalProdsCompras" disabled  />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button type="button" class="btn btn-success" onclick="validarPedido()">
                   Finalizar Pedido
@@ -80,8 +80,9 @@
                   Agregar NC
                 </button>
                 <div id="divNC" style="display: none;">
-                  <select id="ncSelectId" class="form-select"  aria-label="Default select example" name="ncList" onchange="obtenerNCProveedor()"></select>
-
+                  <select id="ncSelectId" class="form-select"  aria-label="Default select example" name="ncList" onchange="ValidarMontoNC(this)" >
+                    <option value="" disabled selected>Selecciona una opción</option>
+                  </select>
                   <!--select  id="ncSelectId" class="form-select" aria-label="Default select example" name="ncList" onclick="obtenerNCProveedor()">
                     <option th:each="documento : ${NotaList}" th:text="${documento.tipo + '-' + documento.monto}" th:value="${documento.idFactura}"></option>
                   </select-->

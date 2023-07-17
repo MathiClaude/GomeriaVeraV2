@@ -1,6 +1,7 @@
 package com.proyecto.is2.proyecto.controller;
 import com.proyecto.is2.proyecto.controller.dto.UsuarioDTO;
 import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
+import com.proyecto.is2.proyecto.controller.dto.TimbradoDTO;
 import com.proyecto.is2.proyecto.controller.dto.CompraDTO;
 import com.proyecto.is2.proyecto.model.Rol;
 import com.proyecto.is2.proyecto.model.Usuario;
@@ -15,6 +16,7 @@ import com.proyecto.is2.proyecto.repository.OperacionRepository;
 import com.proyecto.is2.proyecto.repository.ProductoRepository;
 import com.proyecto.is2.proyecto.repository.ProveedorRepository;
 import com.proyecto.is2.proyecto.model.Servicio;
+import com.proyecto.is2.proyecto.model.Timbrado;
 import com.proyecto.is2.proyecto.model.Proveedor;
 import com.proyecto.is2.proyecto.model.AperturaCaja;
 import com.proyecto.is2.proyecto.model.Caja;
@@ -35,6 +37,8 @@ import com.proyecto.is2.proyecto.repository.CajaRepository;
 
 
 import com.proyecto.is2.proyecto.services.CompraServiceImp;
+import com.proyecto.is2.proyecto.services.FacturaService;
+import com.proyecto.is2.proyecto.services.FacturaServiceImp;
 import com.proyecto.is2.proyecto.services.OperacionServiceImp;
 import com.proyecto.is2.proyecto.services.ServicioServiceImp;
 import com.proyecto.is2.proyecto.services.UsuarioServiceImp;
@@ -90,6 +94,9 @@ public class CompraController {
 
      @Autowired
      private AperturaCajaServiceImp aperturaCajaService; // llamada a los servicios de cliente
+
+     @Autowired
+     private FacturaServiceImp facturaService; // llamada a los servicios de factura
 
     @Autowired
     private OperacionServiceImp operacionMov;
@@ -292,34 +299,23 @@ public class CompraController {
         return listaFactura;
     }
 
-    /*public void formNotaDeCredito(@PathVariable String id, Model model) {
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        Compra compra;
-        System.out.println("Entra hasta aca");
-        Proveedor proveedor = proveedorRepository.findByIdProveedor(Long.parseLong(id));
-        List<Factura> listaFactura = facturaRepository.findByEstadoAndProveedorAndTipo("PENDIENTE", proveedor, "Nota de Credito");
 
-        model.addAttribute("NotaList", listaFactura);
+    @PostMapping("/{id}/notaCredito")
+    public void formNotaCredito(@PathVariable String id, Model model) {
+         Factura factura;
+        //if (result.hasErrors()) {
+          //  return RD_FORM_VIEW;
+        //}
+            factura = facturaService.obtenerInstancia(Long.parseLong(id));
+            if(factura != null) {
+                factura.setEstado("COBRADO");
 
-        return ;
-    }/* */
 
-    @PostMapping("/notaCredito/{id}")
-    public String formNotaCredito(@PathVariable String id, Model model) {
-        boolean eliminar = usuarioService.tienePermiso("eliminar-" + VIEW);
-        boolean asignarRol = usuarioService.tienePermiso("asignar-rol-" + VIEW);
-        Compra compra;
-        Proveedor proveedor = proveedorRepository.findByIdProveedor(Long.parseLong(id));
-        List<Factura> listaFactura = facturaRepository.findByEstadoAndProveedorAndTipo("PENDIENTE", proveedor, "Nota de Credito");
-
-        model.addAttribute("NotaList", listaFactura);
-
-        if(eliminar) {
-            return FORM_EDIT;
-        } else {
-            return FALTA_PERMISO_VIEW;
-        }
+                //attributes.addFlashAttribute("message", " Nota de Credito utilizada correctamente!");
+                facturaService.guardar(factura);
+               // return RD_FORM_VIEW;
+            }
+            //return RD_FALTA_PERMISO_VIEW;
     }
 
     @GetMapping("/{id}")

@@ -247,11 +247,13 @@ async function guardarDatosCompra(){
 		listaEnviar +=`${a.cantidad};${a.idProducto};${a.precio}|`
 	}
 
-
+	let  totalPagar = document.getElementById("totalProdsCompras").value;
+	alert(totalPagar)
 	const formData = new FormData();
 	formData.append("idProveedor", proveedor.value );
 	formData.append("montoCompra", totalVenta);
-	formData.append("totalCompra", totalVenta);
+	formData.append("totalCompra", totalPagar);
+	//formData.append("totalCompra", totalVenta);
 	formData.append("compraDetalle", listaEnviar);
 
 	console.log(formData)
